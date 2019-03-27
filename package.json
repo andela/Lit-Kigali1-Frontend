@@ -1,0 +1,41 @@
+{
+  "name": "lit-kigali1-frontend",
+  "version": "1.0.0",
+  "description": "Authors Haven Front End",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela/Lit-Kigali1-Frontend.git"
+  },
+  "keywords": [
+    "authors_haven",
+    "react",
+    "redux",
+    "front_end"
+  ],
+  "author": "LIT KIGALI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela/Lit-Kigali1-Frontend/issues"
+  },
+  "homepage": "https://github.com/andela/Lit-Kigali1-Frontend#readme",
+  "dependencies": {
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "react-hot-loader": "^4.8.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
+  }
+}
