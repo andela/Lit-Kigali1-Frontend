@@ -1,13 +1,12 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store/index";
+import App from "./components/App.jsx";
 
-const title = "Welcome to Authors Haven";
-
-ReactDOM.render(
-  <React.Fragment>
-    <h1>{title}</h1>
-  </React.Fragment>,
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById("root")
 );
-
-module.hot.accept();
