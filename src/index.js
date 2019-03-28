@@ -1,13 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import App from "./components/App";
 
-const title = "Welcome to Authors Haven";
-
-ReactDOM.render(
-  <React.Fragment>
-    <h1>{title}</h1>
-  </React.Fragment>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
 module.hot.accept();
