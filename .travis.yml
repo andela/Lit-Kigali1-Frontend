@@ -13,4 +13,3 @@ branches:
 install:
   - npm install
   branch: develop
-  
