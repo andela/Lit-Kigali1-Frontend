@@ -1,6 +1,5 @@
 node_modules
-<<<<<<< HEAD
-=======
 
-./package-lock.json
->>>>>>> feat(travis) update travis
+
+cepackage-lock.json
+
