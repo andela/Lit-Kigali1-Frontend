@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
+<<<<<<< HEAD
 import HomeComponent from "../components/Home";
 import LoginComponent from "../components/Login";
+=======
+import HomeComponent from "../views";
+import LoginComponent from "../views/Login";
+>>>>>>> chore(router): add router to the app [Finishes #163519094]
 
 class Routes extends Component {
   render() {
