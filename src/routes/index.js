@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import HomeComponent from "../views";
-import LoginComponent from "../views/Login";
+import HomeComponent from '../views';
+import LoginComponent from '../views/Login';
 
 class Routes extends Component {
   render() {
