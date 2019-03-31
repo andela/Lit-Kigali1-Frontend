@@ -12,4 +12,3 @@ branches:
     - develop
 install:
   - npm install
-  branch: develop
