@@ -7,6 +7,11 @@ module.exports = {
 =======
     testEnvironment: 'node',
     moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
+<<<<<<< HEAD
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)x?$',
   };
+>>>>>>> feat(travis) update travisCI
+=======
+    testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)x?$'
+  }
 >>>>>>> feat(travis) update travisCI
