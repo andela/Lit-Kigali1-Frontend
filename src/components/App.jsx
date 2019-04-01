@@ -1,11 +1,9 @@
-import React, { Component } from "react";
-import "./App.scss";
+import React from "react";
+import TestRedux from "./TestRedux/TestRedux";
 
 const App = () => (
   <div>
-    <h1 className="app-name">Author's Haven</h1>
-    <h2 className="team-name">LIT Kigali</h2>
+    <TestRedux />
   </div>
 );
-
 export default App;
