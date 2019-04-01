@@ -4,7 +4,7 @@
   "description": "Authors Haven Front End",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "build": "webpack --mode production"
   },
@@ -35,6 +35,7 @@
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "node-sass": "^4.11.0",
+    "jest-cli": "^24.5.0",
     "react-hot-loader": "^4.8.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
@@ -44,5 +45,10 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js?$": "babel-jest"
+    }
   }
 }
