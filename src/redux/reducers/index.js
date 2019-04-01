@@ -1,6 +1,7 @@
-import { ADD_ARTICLE } from "../actions-types";
+import { ADD_ARTICLE } from '../actions-types';
+
 const initialState = {
-  articles: []
+  articles: [],
 };
 const rootReducer = (state = initialState, action) => {
   if (action.type === ADD_ARTICLE) {
