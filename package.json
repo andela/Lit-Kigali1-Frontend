@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/andela/Lit-Kigali1-Frontend#readme",
   "dependencies": {
+    "coveralls": "^3.0.3",
     "react": "^16.8.5",
     "react-dom": "^16.8.5"
   },
