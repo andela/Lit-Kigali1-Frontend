@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store/index";
-import App from "./components/App.jsx";
+import App from "./components/App";
 
 render(
   <Provider store={store}>
@@ -10,3 +10,5 @@ render(
   </Provider>,
   document.getElementById("root")
 );
+
+module.hot.accept();
