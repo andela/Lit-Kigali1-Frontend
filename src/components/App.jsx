@@ -1,20 +1,32 @@
-import React, { Component } from "react";
-import "./App.scss";
-import Routes from "../routes";
+import React, { Component } from 'react';
+import './App.scss';
+import Routes from '../routes';
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      appName: '',
+      teamName: ''
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      appName: "Author's haven",
+      teamName: 'Lit Kigali'
+    });
+  }
   render() {
     return (
       <div>
-        <h1 className="app-name">Author's Haven</h1>
-        <h2 className="team-name">LIT Kigali</h2>
+        <h1 className="app-name">{this.state.appName}</h1>
+        <h2 className="team-name">{this.state.teamName}</h2>
         <Routes />
       </div>
     );
   }
 }
-// const App = () => (
-
-// );
 
 export default App;
