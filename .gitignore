@@ -3,3 +3,4 @@ package-lock.json
 coverage
 yarn.lock
 src/__tests__/__snapshots__
+src/components/__tests__/__snapshots__
