@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "npm run test -- --watch",
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "lint": "node_modules/.bin/eslint .",
+    "lint:fix": "prettier-eslint --write '**/*.js'",
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development --open",
     "build": "webpack --mode production"
   },
   "repository": {
@@ -27,23 +29,33 @@
   "homepage": "https://github.com/andela/Lit-Kigali1-Frontend#readme",
   "dependencies": {
     "coveralls": "^3.0.3",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "react": "^16.8.5",
-    "react-dom": "^16.8.5"
+    "react-dom": "^16.8.5",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
     "node-sass": "^4.11.0",
     "jest-cli": "^24.5.0",
+    "prettier-eslint-cli": "^4.7.1",
     "react-hot-loader": "^4.8.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "react-redux": "^6.0.1",
-    "redux": "^4.0.1",
-    "uuid": "^3.3.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
