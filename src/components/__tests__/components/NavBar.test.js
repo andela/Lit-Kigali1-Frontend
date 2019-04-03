@@ -16,9 +16,9 @@ describe('<NavBar />', () => {
     expect(wrapper.state().hamburger).toBeFalsy();
   });
 
-  describe('when clicking on the `hamburger button`', () => {
+  describe('when clicking on the `toggle-menu button`', () => {
     beforeEach(() => {
-      wrapper.find('.hamburger').simulate('click');
+      wrapper.find('.toggle-menu').simulate('click');
     });
     afterEach(() => {
       wrapper.setState({ hamburger: false });
@@ -29,7 +29,7 @@ describe('<NavBar />', () => {
     });
 
     test('changes the `hamburger state` to false', () => {
-      wrapper.find('.hamburger').simulate('click');
+      wrapper.find('.toggle-menu').simulate('click');
       expect(wrapper.state().hamburger).toBeFalsy();
     });
   });

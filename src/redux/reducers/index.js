@@ -1,12 +1,13 @@
 import { ADD_ARTICLE } from '../actions-types';
+import initialState from './initialState';
 
-const initialState = {
-  articles: [],
-};
 const rootReducer = (state = initialState, action) => {
-  if (action.type === ADD_ARTICLE) {
-    return { ...state, articles: [...state.articles, action.payload] };
+  switch (action.type) {
+    case ADD_ARTICLE:
+      return { ...state, articles: [...state.articles, action.payload] };
+    default:
+      return state;
   }
-  return state;
 };
+
 export default rootReducer;
