@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ResetPassword from '../../ResetPassword/ResetPassword';
+import ResetPassword from '../../ForgotPassword/ResetPassword';
 
 describe('<ResetPassword />', () => {
   let wrapper;

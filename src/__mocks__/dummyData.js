@@ -14,4 +14,7 @@ module.exports = {
     status: 'published',
     tagList: ['test', 'article'],
   },
+  articleReducerState: {
+    articles: [],
+  },
 };

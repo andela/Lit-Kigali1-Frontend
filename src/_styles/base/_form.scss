@@ -16,12 +16,19 @@ input[type='email'] {
   color: inherit;
 }
 
-input:focus {
-  outline: none;
+input {
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: rgba($color: #000000, $alpha: 0.3);
+  }
 }
 
-input::placeholder {
-  color: rgba($color: #000000, $alpha: 0.3);
+.input input[type='text'],
+.input input[type='password'],
+.input input[type='email'] {
+  background-color: transparent;
 }
 
 .input {
@@ -31,7 +38,6 @@ input::placeholder {
   align-items: center;
   color: rgba($color: #000000, $alpha: 0.8);
   font-size: 1.2rem;
-  margin-bottom: 10px;
   background-color: transparent;
   &.search {
     &:hover,
@@ -39,41 +45,34 @@ input::placeholder {
       border-bottom: 1px solid $primary;
     }
   }
-}
-.input input[type='text'],
-.input input[type='password'],
-.input input[type='email'] {
-  background-color: transparent;
-}
+  .fa {
+    margin-bottom: 0.2;
+  }
+  &.medium {
+    font-size: 1.5rem;
+  }
+  &.large {
+    font-size: 2rem;
+  }
 
-.input .fa {
-  margin-bottom: 0.2;
-}
+  &.primary {
+    color: $primary;
+    border-bottom: 1px solid $primary;
+  }
+  &.primary-border {
+    border-bottom: 1px solid $primary;
+  }
+  &.primary input::placeholder {
+    color: $primary;
+  }
 
-.input.medium {
-  font-size: 1.5rem;
-}
-.input.large {
-  font-size: 2rem;
-}
-
-.input.primary {
-  color: $primary;
-  border-bottom: 1px solid $primary;
-}
-.input.primary-border {
-  border-bottom: 1px solid $primary;
-}
-.input.primary input::placeholder {
-  color: $primary;
-}
-
-.input.white {
-  color: #fff;
-  border-bottom: 1px solid #fff;
-}
-.input.white input::placeholder {
-  color: #fff;
+  &.white {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+  }
+  &.white input::placeholder {
+    color: #fff;
+  }
 }
 
 .text-area {
@@ -87,41 +86,44 @@ input::placeholder {
   padding: 10px 20px;
   min-width: 100px;
   cursor: pointer;
-}
-a.button {
-  display: inline-block;
-  padding: 0px 20px;
-  text-align: center;
-}
-.button.primary {
-  background-color: $primary;
-  color: #fff;
-  font-size: 13px;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-}
 
-.button.primary:hover {
-  background-color: $primary-dark;
-}
+  &.primary {
+    background-color: $primary;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+  }
 
-.button.secondary {
-  border: 1px solid $primary;
-  color: $primary;
-  font-size: 13px;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  background-color: #fff;
-}
+  &.primary:hover {
+    background-color: $primary-dark;
+  }
 
-.button.secondary:hover {
-  background-color: $primary-light;
+  &.secondary {
+    border: 1px solid $primary;
+    color: $primary;
+    font-size: 13px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    background-color: #fff;
+  }
+
+  &.secondary:hover {
+    background-color: $primary-light;
+  }
+}
+a {
+  &.button {
+    display: inline-block;
+    padding: 0px 20px;
+    text-align: center;
+  }
 }
 
 .to-center {
@@ -145,7 +147,6 @@ a.button {
   max-width: 100vw !important ;
   margin: 0 15px;
   .input {
-    margin-bottom: 30px;
     font-size: 1rem;
   }
   .button #form-link {
@@ -290,4 +291,15 @@ a.button {
       }
     }
   }
+}
+
+.form-errors,
+.form-error {
+  color: $red;
+  line-height: 1rem;
+  min-height: 1.5rem;
+  padding: 0.5rem 0;
+}
+.form-errors {
+  text-align: center;
 }

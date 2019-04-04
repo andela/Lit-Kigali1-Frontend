@@ -1,13 +1,13 @@
-import { ADD_ARTICLE } from '../actions-types';
-import initialState from './initialState';
+import { combineReducers } from 'redux';
 
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_ARTICLE:
-      return { ...state, articles: [...state.articles, action.payload] };
-    default:
-      return state;
-  }
-};
+import forgotPasswordReducer from './forgotPasswordReducer';
+import articleReducer from './articleReducer';
+import userReducer from './userReducer';
 
-export default rootReducer;
+const reducer = combineReducers({
+  user: userReducer,
+  articles: articleReducer,
+  forgotPassword: forgotPasswordReducer,
+});
+
+export default reducer;
