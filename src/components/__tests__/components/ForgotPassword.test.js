@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import renderer from 'react-test-renderer';
 import { ForgotPassword } from '../../ForgotPassword/ForgotPassword';
 
 let wrapper;
@@ -10,13 +11,12 @@ const props = {
 };
 
 describe('<ForgotPassword />', () => {
-  beforeAll(() => {
-    wrapper = shallow(<ForgotPassword {...props} />);
-  });
   test('should render the <ForgotPassword />', () => {
-    expect(wrapper).toMatchSnapshot();
+    const renderedValue = renderer.create(<ForgotPassword {...props} />).toJSON();
+    expect(renderedValue).toMatchSnapshot();
   });
   test('should render default state', () => {
+    wrapper = shallow(<ForgotPassword {...props} />);
     expect(wrapper.state()).toEqual({
       validEmail: true,
       emailError: 'Email is not valid',

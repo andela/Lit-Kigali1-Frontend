@@ -1,12 +1,12 @@
 sudo: false
 language: node_js
 node_js:
-  - "10.15.1"
+  - '10.15.1'
 cache:
   directories:
     - node_modules
 script:
-  - npm test
+  - npm test -- -u
 branches:
   only:
     - develop

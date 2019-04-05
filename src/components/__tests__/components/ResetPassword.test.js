@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import renderer from 'react-test-renderer';
 import { ResetPassword } from '../../ForgotPassword/ResetPassword';
 
 let wrapper;
@@ -14,11 +15,9 @@ const defaultState = {
   passwordError: 'Password must have at least 6 chacters',
 };
 describe('<ResetPassword />', () => {
-  beforeAll(() => {
-    wrapper = shallow(<ResetPassword />);
-  });
   test('should render the <ResetPassword />', () => {
-    expect(wrapper).toMatchSnapshot();
+    const renderedValue = renderer.create(<ResetPassword {...props} />).toJSON();
+    expect(renderedValue).toMatchSnapshot();
   });
   test('should render default state', () => {
     wrapper = shallow(<ResetPassword {...props} />);

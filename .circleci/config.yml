@@ -23,5 +23,5 @@ jobs:
           name: coveralls
           command: |
             ./cc-test-reporter before-build
-            npm test -- --coverage
+            npm test -- -u
             ./cc-test-reporter after-build --exit-code $?
