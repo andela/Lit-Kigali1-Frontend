@@ -45,40 +45,48 @@
   box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.2);
   display: none;
   transition-duration: 0.5s;
+  &::after {
+    content: ' ';
+    position: absolute;
+    right: 17px;
+    top: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 11px solid #fff;
+  }
+  li {
+    color: $primary;
+    background-color: #fff;
+    display: block;
+    float: left;
+    padding: 10px 20px;
+    min-width: 150px;
+    position: relative;
+    text-decoration: none;
+    transition-duration: 0.5s;
+    font-size: 14px;
+    a {
+      color: $primary;
+      a:link {
+        color: $primary;
+      }
+    }
+    button {
+      color: $primary;
+      font-size: inherit;
+      padding: 0;
+    }
+    &.separator {
+      height: 1px;
+      background-color: #b3b3b3;
+      padding: 0;
+    }
+  }
 }
-.dropdown::after {
-  content: ' ';
-  position: absolute;
-  right: 17px;
-  top: -10px;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 11px solid #fff;
-}
-.dropdown li {
-  color: $primary;
-  background-color: #fff;
-  display: block;
-  float: left;
-  padding: 10px 20px;
-  min-width: 150px;
-  position: relative;
-  text-decoration: none;
-  transition-duration: 0.5s;
-  font-size: 14px;
-}
-.dropdown li a,
-.dropdown li a:link {
-  color: $primary;
-}
-.dropdown li.separator {
-  height: 1px;
-  background-color: #b3b3b3;
-  padding: 0;
-}
-.dropdown li:hover {
+
+.dropdown li .dropdown li:hover {
   background-color: $primary-light;
 }
 

@@ -86,7 +86,6 @@ input {
   padding: 10px 20px;
   min-width: 100px;
   cursor: pointer;
-
   &.primary {
     background-color: $primary;
     color: #fff;
@@ -116,6 +115,14 @@ input {
 
   &.secondary:hover {
     background-color: $primary-light;
+  }
+
+  &.transparent {
+    background-color: transparent;
+  }
+
+  &.loading {
+    color: transparent;
   }
 }
 a {

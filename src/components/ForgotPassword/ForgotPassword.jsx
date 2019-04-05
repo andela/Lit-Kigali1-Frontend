@@ -6,9 +6,9 @@ import { handleForgotPasswordForm, submitForgotPassword } from '../../redux/acti
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 
-class ForgotPassword extends Component {
-  constructor(props) {
-    super(props);
+export class ForgotPassword extends Component {
+  constructor() {
+    super();
     this.state = {
       validEmail: true,
       emailError: 'Email is not valid',
@@ -43,7 +43,7 @@ class ForgotPassword extends Component {
   }
 
   render() {
-    const { email } = this.props;
+    const { email, submitting } = this.props;
     const { emailError, validEmail } = this.state;
     return (
       <section className="main-content middle-content">
@@ -68,7 +68,9 @@ class ForgotPassword extends Component {
             </div>
 
             <Button
-              classes="primary color-white content-margin width-100"
+              classes={`primary color-white content-margin width-100 ${
+                submitting ? 'loading' : ''
+              }`}
               type="button"
               onClick={this.onSubmitButton}
             >
@@ -85,6 +87,7 @@ const mapStateToProps = state => ({
   email: state.forgotPassword.email,
   message: state.forgotPassword.message,
   errors: state.forgotPassword.errors,
+  submitting: state.forgotPassword.submitting,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -98,11 +101,13 @@ ForgotPassword.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   errors: PropTypes.array,
+  submitting: PropTypes.bool,
 };
 ForgotPassword.defaultProps = {
   email: '',
   message: '',
   errors: [],
+  submitting: false,
 };
 
 export default connect(

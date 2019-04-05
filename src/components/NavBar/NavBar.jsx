@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import Button from '../common/Button/Button';
 import logoWhite from '../../assets/images/logo-white.png';
 import userAvatar from '../../assets/images/avatar.png';
 
-class NavBar extends Component {
+export class NavBar extends Component {
   constructor() {
     super();
     this.state = {
@@ -13,8 +14,9 @@ class NavBar extends Component {
   }
 
   toggleHamburger() {
+    const { hamburger } = this.state;
     this.setState({
-      hamburger: !this.state.hamburger,
+      hamburger: !hamburger,
     });
   }
 
@@ -38,9 +40,9 @@ class NavBar extends Component {
           <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
-          <a href="#" onClick={() => console.log('signout')}>
+          <Button classes="transparent" onClick={() => console.log('signout')}>
             Sign out
-          </a>
+          </Button>
         </li>
       </ul>
     );
@@ -69,4 +71,8 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = state => ({
+  isAuth: state.user.loggedIn,
+});
+
+export default connect(mapStateToProps)(NavBar);

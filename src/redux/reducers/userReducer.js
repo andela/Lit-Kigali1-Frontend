@@ -1,6 +1,7 @@
 import { LOGIN } from '../actions-types';
 
 const initialState = {
+  loggedIn: false,
   user: {},
   articles: [],
   favorites: [],

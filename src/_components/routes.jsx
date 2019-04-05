@@ -10,11 +10,10 @@ import ForgotPasswordMessage from '../components/ForgotPassword/ForgotPasswordMe
 const Routes = () => (
   <div>
     <Route exact path="/" component={Home} />
-    <Route exact path="/" component={ForgotPassword} />
     <Route exact path="/login" component={Login} />
-    <Route exact path="/users/:userId/reset/:resetCode" component={ResetPassword} />
-    <Route exact path="/reset-password" component={ResetPassword} />
+    <Route exact path="/forgot-password" component={ForgotPassword} />
     <Route exact path="/forgot-password-message" component={ForgotPasswordMessage} />
+    <Route exact path="/users/:userId/reset/:resetCode" component={ResetPassword} />
   </div>
 );
 

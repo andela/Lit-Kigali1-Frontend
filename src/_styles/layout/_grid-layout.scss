@@ -289,6 +289,10 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 65px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 
 .width-100 {

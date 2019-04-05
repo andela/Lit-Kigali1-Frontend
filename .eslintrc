@@ -6,6 +6,8 @@
   "extends": "airbnb",
   "plugins": ["jest", "react", "jsx-a11y"],
   "rules": {
+    "import/no-named-as-default": 0,
+    "class-methods-use-this": 0,
     "react/forbid-prop-types": 0,
     "react/jsx-filename-extension": [
       1,
