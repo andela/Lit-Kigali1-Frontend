@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { handleForgotPasswordForm, submitResetPassword } from '../../redux/actions';
+import {
+  handleForgotPasswordForm,
+  submitResetPassword,
+} from '../../redux/actions/forgotPasswordActions';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 
@@ -10,28 +13,30 @@ export class ResetPassword extends Component {
     super();
     this.state = {
       validPassword: true,
-      passwordError: 'Password must have at least 6 chacters',
+      passwordError: 'Password must have at least 6 characters',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmitButton = this.onSubmitButton.bind(this);
     this.renderErrors = this.renderErrors.bind(this);
   }
 
-  onSubmitButton(e) {
+  onSubmitButton() {
     const {
       onSubmit,
       newPassword,
       confirmNewpassword,
       match: { params },
+      history,
     } = this.props;
     this.setState({ validPassword: true });
     if (newPassword.length < 5 || confirmNewpassword.length < 5) {
       this.setState({
         validPassword: false,
-        passwordError: 'Password must have at least 6 chacters',
+        passwordError: 'Password must have at least 6 characters',
       });
       return;
     }
+
     if (newPassword !== confirmNewpassword) {
       this.setState({
         validPassword: false,
@@ -39,9 +44,12 @@ export class ResetPassword extends Component {
       });
       return;
     }
-    onSubmit({ ...params, newPassword, confirmNewpassword });
+    onSubmit({ ...params, newPassword, confirmNewpassword }).then((res) => {
+      if (res.status === 200) {
+        history.push('/login');
+      }
+    });
     this.setState({ validPassword: true });
-    e.preventDefault();
   }
 
   handleInputChange(e) {
@@ -111,19 +119,23 @@ export class ResetPassword extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  newPassword: state.forgotPassword.newPassword,
-  confirmNewpassword: state.forgotPassword.confirmNewpassword,
-  email: state.forgotPassword.email,
-  message: state.forgotPassword.message,
-  errors: state.forgotPassword.errors,
-  submitting: state.forgotPassword.submitting,
+export const mapStateToProps = ({
+  forgotPassword: {
+    newPassword, confirmNewpassword, email, message, errors, submitting,
+  },
+}) => ({
+  newPassword,
+  confirmNewpassword,
+  email,
+  message,
+  errors,
+  submitting,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+export const mapDispatchToProps = dispatch => ({
   onInputChange: ({ field, value }) => dispatch(handleForgotPasswordForm({ field, value })),
   onSubmit: (payload) => {
-    dispatch(submitResetPassword({ ...payload, ownProps }));
+    dispatch(submitResetPassword(payload));
   },
 });
 
@@ -136,6 +148,7 @@ ResetPassword.propTypes = {
   errors: PropTypes.array,
   match: PropTypes.any,
   submitting: PropTypes.bool,
+  history: PropTypes.any.isRequired,
 };
 ResetPassword.defaultProps = {
   newPassword: '',

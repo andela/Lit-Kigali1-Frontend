@@ -117,6 +117,12 @@ input {
     background-color: $primary-light;
   }
 
+  &.width-auto {
+    min-width: auto;
+  }
+  &.padding-auto {
+    padding: auto;
+  }
   &.transparent {
     background-color: transparent;
   }

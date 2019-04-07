@@ -9,14 +9,27 @@ export class NavBar extends Component {
   constructor() {
     super();
     this.state = {
-      hamburger: false,
+      showMenu: false,
     };
+    this.showMenu = this.showMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
   }
 
-  toggleHamburger() {
-    const { hamburger } = this.state;
-    this.setState({
-      hamburger: !hamburger,
+  showMenu() {
+    const { showMenu } = this.state;
+    this.setState(
+      {
+        showMenu: !showMenu,
+      },
+      () => {
+        document.addEventListener('click', this.closeMenu);
+      },
+    );
+  }
+
+  closeMenu() {
+    this.setState({ showMenu: false }, () => {
+      document.removeEventListener('click', this.closeMenu);
     });
   }
 
@@ -40,15 +53,14 @@ export class NavBar extends Component {
           <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
-          <Button classes="transparent" onClick={() => console.log('signout')}>
-            Sign out
-          </Button>
+          <Button classes="transparent signout-btn">Sign out</Button>
         </li>
       </ul>
     );
   }
 
   render() {
+    const { showMenu } = this.state;
     return (
       <nav className="top-navbar container">
         <div className="col-3-mob">
@@ -57,14 +69,16 @@ export class NavBar extends Component {
           </Link>
         </div>
         <div className="col-9-mob content-right color-white">
-          <button onClick={() => this.toggleHamburger()} className="toggle-menu is-tablet">
-            <div className="hamburger" />
-            <div className="hamburger-nav">{this.renderLinks()}</div>
-          </button>
-          <button className="nav-button navbar-dropdown is-desktop color-white">
-            <img src={userAvatar} className="top-navbar__avatar" alt="User logo" />
+          <div className="toggle-menu is-tablet">
+            <button className={`hamburger ${showMenu ? 'active' : ''}`} onClick={this.showMenu} />
+            <div className={`hamburger-nav ${showMenu ? 'active' : ''}`}>{this.renderLinks()}</div>
+          </div>
+          <div className="nav-button navbar-dropdown is-desktop color-white">
+            <Button onClick={this.showMenu} classes="transparent">
+              <img src={userAvatar} className="top-navbar__avatar" alt="User logo" />
+            </Button>
             {this.renderLinks('dropdown')}
-          </button>
+          </div>
         </div>
       </nav>
     );

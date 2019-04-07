@@ -1,11 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ForgotPasswordMessage from '../../ForgotPassword/ForgotPasswordMessage';
+import { ForgotPasswordMessage } from '../../ForgotPassword/ForgotPasswordMessage';
 
+let wrapper;
+
+const props = {
+  message: 'Message',
+};
 describe('<ForgotPasswordMessage />', () => {
-  let wrapper;
-  test('Should render the <ForgotPasswordMessage />', () => {
-    wrapper = shallow(<ForgotPasswordMessage />);
+  test('should render the <ForgotPasswordMessage />', () => {
+    wrapper = shallow(<ForgotPasswordMessage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

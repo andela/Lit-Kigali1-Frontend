@@ -1,4 +1,4 @@
-import { LOGIN } from '../actions-types';
+import { LOGIN } from '../actions-types/userTypes';
 
 const initialState = {
   loggedIn: false,

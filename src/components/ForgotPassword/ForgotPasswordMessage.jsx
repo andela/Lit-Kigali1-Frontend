@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const ForgotPasswordMessage = ({ message }) => (
+export const ForgotPasswordMessage = ({ message }) => (
   <section className="main-content content-margin">
     <div className="container align-center">
       <p className="color-primary title-2 align-center">{message}</p>
@@ -10,15 +10,15 @@ const ForgotPasswordMessage = ({ message }) => (
   </section>
 );
 
-const mapStateToProps = state => ({
-  message: state.forgotPassword.successMessage,
+const mapStateToProps = ({ forgotPassword }) => ({
+  message: forgotPassword.successMessage,
 });
 
 ForgotPasswordMessage.propTypes = {
   message: PropTypes.string,
 };
 ForgotPasswordMessage.defaultProps = {
-  message: '',
+  message: 'Forgot Password',
 };
 
 export default connect(mapStateToProps)(ForgotPasswordMessage);

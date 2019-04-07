@@ -1,5 +1,5 @@
 import reducer from '../../../redux/reducers/userReducer';
-import { LOGIN } from '../../../redux/actions-types';
+import { LOGIN } from '../../../redux/actions-types/userTypes';
 import { signupUser } from '../../../__mocks__/dummyData';
 import store from '../../../redux/store';
 

@@ -13,24 +13,34 @@ describe('<NavBar />', () => {
   });
 
   test('should render the NavBar', () => {
-    expect(wrapper.state().hamburger).toBeFalsy();
+    expect(wrapper.state().showMenu).toBeFalsy();
   });
 
-  describe('when clicking on the `toggle-menu button`', () => {
+  describe('when clicking on the `hamburger button`', () => {
     beforeEach(() => {
-      wrapper.find('.toggle-menu').simulate('click');
+      wrapper.find('.hamburger').simulate('click');
     });
     afterEach(() => {
-      wrapper.setState({ hamburger: false });
+      wrapper.setState({ showMenu: false });
     });
 
-    test('changes the `hamburger state` to true', () => {
-      expect(wrapper.state().hamburger).toBeTruthy();
+    test('changes the `showMenu state` to true', () => {
+      expect(wrapper.state().showMenu).toBeTruthy();
     });
 
-    test('changes the `hamburger state` to false', () => {
-      wrapper.find('.toggle-menu').simulate('click');
-      expect(wrapper.state().hamburger).toBeFalsy();
+    test('changes the `showMenu state` to false', () => {
+      wrapper.find('.hamburger').simulate('click');
+      expect(wrapper.state().showMenu).toBeFalsy();
+    });
+
+    test('changes the `showMenu state` to false by calling `showMenu` function', () => {
+      wrapper.instance().showMenu();
+      expect(wrapper.state().showMenu).toBeFalsy();
+    });
+
+    test('changes the `showMenu state` to false by calling `closeMenu` function', () => {
+      wrapper.instance().closeMenu();
+      expect(wrapper.state().closeMenu).toBeFalsy();
     });
   });
 });

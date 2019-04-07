@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmail } from 'validator';
-import { handleForgotPasswordForm, submitForgotPassword } from '../../redux/actions';
+import {
+  handleForgotPasswordForm,
+  submitForgotPassword,
+} from '../../redux/actions/forgotPasswordActions';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 
@@ -18,15 +21,18 @@ export class ForgotPassword extends Component {
     this.renderErrors = this.renderErrors.bind(this);
   }
 
-  onSubmitButton(e) {
-    const { onSubmit, email } = this.props;
+  onSubmitButton() {
+    const { onSubmit, email, history } = this.props;
     this.setState({ validEmail: true });
-    if (isEmail(email)) {
-      onSubmit({ email });
-    } else {
+    if (!isEmail(email)) {
       this.setState({ validEmail: false });
+      return;
     }
-    e.preventDefault();
+    onSubmit({ email }).then((res) => {
+      if (res.status === 201) {
+        history.push('/forgot-password-message');
+      }
+    });
   }
 
   handleInputChange(e) {
@@ -83,16 +89,20 @@ export class ForgotPassword extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  email: state.forgotPassword.email,
-  message: state.forgotPassword.message,
-  errors: state.forgotPassword.errors,
-  submitting: state.forgotPassword.submitting,
+export const mapStateToProps = ({
+  forgotPassword: {
+    email, message, errors, submitting,
+  },
+}) => ({
+  email,
+  message,
+  errors,
+  submitting,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+export const mapDispatchToProps = dispatch => ({
   onInputChange: ({ field, value }) => dispatch(handleForgotPasswordForm({ field, value })),
-  onSubmit: ({ email }) => dispatch(submitForgotPassword({ email, ownProps })),
+  onSubmit: ({ email }) => dispatch(submitForgotPassword({ email })),
 });
 
 ForgotPassword.propTypes = {
@@ -102,7 +112,9 @@ ForgotPassword.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   errors: PropTypes.array,
   submitting: PropTypes.bool,
+  history: PropTypes.any.isRequired,
 };
+
 ForgotPassword.defaultProps = {
   email: '',
   message: '',

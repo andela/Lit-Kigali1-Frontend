@@ -1,14 +1,23 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import { ForgotPassword } from '../../ForgotPassword/ForgotPassword';
+import configureMockStore from 'redux-mock-store';
+import {
+  ForgotPassword,
+  mapStateToProps,
+  mapDispatchToProps,
+} from '../../ForgotPassword/ForgotPassword';
 
 let wrapper;
+let store;
 const mockFn = jest.fn();
+
 const props = {
-  onSubmit: mockFn,
+  onSubmit: jest.fn().mockImplementation(() => Promise.resolve({ status: 201 })),
   onInputChange: mockFn,
+  history: { push: mockFn },
 };
+const mockStore = configureMockStore();
 
 describe('<ForgotPassword />', () => {
   test('should render the <ForgotPassword />', () => {
@@ -23,29 +32,81 @@ describe('<ForgotPassword />', () => {
     });
   });
 
+  test('should render default state', () => {
+    wrapper = shallow(<ForgotPassword {...props} />);
+    expect(wrapper.state()).toEqual({
+      validEmail: true,
+      emailError: 'Email is not valid',
+    });
+  });
+
+  test('should call `handleInpurChange` function', () => {
+    const event = { target: { value: 'email@email.com' } };
+    wrapper.find('.input>Input').simulate('change', event);
+    expect(props.onInputChange).toHaveBeenCalled();
+  });
+
+  test('should add `loading` class to submit button', () => {
+    wrapper.setProps({ submitting: true });
+    expect(wrapper.find('Button').hasClass('loading'));
+  });
+
   describe('when clicking on submit button', () => {
     beforeEach(() => {
-      wrapper = mount(<ForgotPassword {...props} />);
+      store = mockStore({});
+      wrapper = mount(<ForgotPassword store={store} {...props} />);
     });
-    test('should call onSubmitFunction', () => {
+    test('should call onSubmitFunction with wrong email', () => {
       wrapper.find('.button').simulate('click');
       expect(wrapper.state()).toEqual({
         validEmail: false,
         emailError: 'Email is not valid',
       });
     });
-  });
 
-  describe('when typing into the email input', () => {
-    beforeEach(() => {
-      wrapper = mount(<ForgotPassword {...props} />);
-      wrapper.find('.input>Input').simulate('change', { value: 'oesukam@gmail.com' });
-    });
-    test('should update the email prop', () => {
+    test('should call onSubmitFunction correct email', () => {
+      wrapper.setProps({ email: 'email@email.com' });
+      wrapper.find('.button').simulate('click');
+      expect(props.onSubmit).toHaveBeenCalled();
       expect(wrapper.state()).toEqual({
         validEmail: true,
         emailError: 'Email is not valid',
       });
+    });
+  });
+
+  describe('reducers', () => {
+    test('should call onInputChange action', () => {
+      const initialState = {
+        forgotPassword: {
+          email: 'email@email.com',
+          message: 'message',
+          errors: [],
+          submitting: false,
+        },
+      };
+      const state = mapStateToProps(initialState);
+      expect(state).toEqual(initialState.forgotPassword);
+    });
+  });
+
+  describe('actions creators', () => {
+    test('should call onInputChange action', () => {
+      const dispatch = jest.fn();
+      const payload = { field: 'email', value: 'email@email.com' };
+      const expectedActions = {
+        type: 'FORGOT_PASSWORD_FORM',
+        payload,
+      };
+      mapDispatchToProps(dispatch).onInputChange(payload);
+      expect(dispatch.mock.calls[0][0]).toEqual(expectedActions);
+    });
+
+    test('should call onSubmit action', () => {
+      const dispatch = jest.fn();
+      const payload = { email: 'email@email.com' };
+      mapDispatchToProps(dispatch).onSubmit(payload);
+      expect(dispatch.mock.calls[0][0]).toBeDefined();
     });
   });
 });

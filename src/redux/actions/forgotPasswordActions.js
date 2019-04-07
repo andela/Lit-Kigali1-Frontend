@@ -4,8 +4,7 @@ import {
   FORGOT_PASSWORD_FAILURE,
   SUBMIT_FORGOT_PASSWORD_FORM,
 } from '../actions-types/forgotPasswordTypes';
-import {} from '../reducers';
-import axios from '../../helpers/axios';
+import fetchAPI from '../../helpers/fetchAPI';
 
 export const handleForgotPasswordForm = ({ field, value }) => ({
   type: FORGOT_PASSWORD_FORM,
@@ -20,41 +19,36 @@ export const submitForgotPasswordForm = payload => ({
 export const submitForgotPasswordSuccess = payload => ({ type: FORGOT_PASSWORD_SUCCESS, payload });
 export const submitForgotPasswordFailure = payload => ({ type: FORGOT_PASSWORD_FAILURE, payload });
 
-export const submitForgotPassword = ({ email, ownProps }) => (dispatch) => {
+export const submitForgotPassword = ({ email }) => (dispatch) => {
   dispatch(submitForgotPasswordForm({ submitting: true }));
-  return axios
-    .post('/users/forget', { user: { email } })
-    .then((res) => {
-      if (res.data.status === 201) {
-        dispatch(submitForgotPasswordSuccess(res.data));
-        if (ownProps) {
-          ownProps.history.push('/forgot-password-message');
-        }
-        return;
-      }
-      dispatch(submitForgotPasswordFailure(res.data));
+  return fetchAPI('/users/forget', { method: 'POST', body: { user: { email } } })
+    .then((data) => {
+      dispatch(submitForgotPasswordSuccess(data));
+      return data;
     })
     .catch((err) => {
-      dispatch(submitForgotPasswordFailure(err.response.data));
+      dispatch(submitForgotPasswordFailure({ message: err.message }));
+      return err;
     });
 };
+
 export const submitResetPassword = ({
   userId,
   resetCode,
   newPassword,
   confirmNewpassword,
-  ownProps,
 }) => (dispatch) => {
   dispatch(submitForgotPasswordForm({ submitting: true }));
-  return axios
-    .put(`/users/${userId}/reset/${resetCode}`, { newPassword, confirmNewpassword })
-    .then((res) => {
-      if (res.data.status === 200) {
-        dispatch(submitForgotPasswordSuccess(res.data));
-        ownProps.history.push('/login');
-      } else {
-        dispatch(submitForgotPasswordFailure(res.data));
-      }
+  return fetchAPI(`/users/${userId}/reset/${resetCode}`, {
+    method: 'PUT',
+    body: { newPassword, confirmNewpassword },
+  })
+    .then((data) => {
+      dispatch(submitForgotPasswordSuccess(data));
+      return data;
     })
-    .catch(err => dispatch(submitForgotPasswordFailure({ message: err.message })));
+    .catch((err) => {
+      dispatch(submitForgotPasswordFailure({ message: err.message }));
+      return err;
+    });
 };

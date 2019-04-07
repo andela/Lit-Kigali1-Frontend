@@ -4,7 +4,8 @@ import {
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILURE,
   FORGOT_PASSWORD_FORM,
-} from '../../../redux/actions-types';
+  SUBMIT_FORGOT_PASSWORD_FORM,
+} from '../../../redux/actions-types/forgotPasswordTypes';
 import store from '../../../redux/store';
 
 describe('forgotPasswordReducer', () => {
@@ -53,5 +54,16 @@ describe('forgotPasswordReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({ ...payload, errors: [], submitting: false });
+  });
+
+  it('should handle SUBMIT_FORGOT_PASSWORD_FORM', () => {
+    const payload = {
+      submitting: false,
+    };
+    const expectedState = {
+      type: SUBMIT_FORGOT_PASSWORD_FORM,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual(payload);
   });
 });

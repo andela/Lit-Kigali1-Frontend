@@ -10,5 +10,3 @@ render(
   </Provider>,
   document.getElementById('root'),
 );
-
-module.hot.accept();

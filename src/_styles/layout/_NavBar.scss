@@ -31,6 +31,10 @@
 }
 .navbar-dropdown {
   display: block;
+  button {
+    min-width: auto;
+    padding: 10px;
+  }
 }
 .navbar-dropdown:focus .dropdown,
 .navbar-dropdown:focus-within .dropdown {
@@ -136,14 +140,10 @@
 .hamburger::after {
   top: 13px;
 }
-.toggle-menu:focus .hamburger,
-.toggle-menu:focus-within .hamburger,
 .hamburger.active {
   background-color: rgba(0, 0, 0, 0);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
-.toggle-menu:focus .hamburger::before,
-.toggle-menu:focus-within .hamburger::before,
 .hamburger.active::before {
   top: 0;
   transform: rotate(45deg);
@@ -152,8 +152,6 @@
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
 }
-.toggle-menu:focus .hamburger::after,
-.toggle-menu:focus-within .hamburger::after,
 .hamburger.active:after {
   top: 0;
   transform: rotate(135deg);
@@ -188,12 +186,18 @@
   font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
-}
-.hamburger-nav li:hover {
-  background-color: #fff;
-}
-.hamburger-nav li:hover a {
-  color: $primary;
+  &:hover {
+    background-color: #fff;
+    a {
+      color: $primary;
+    }
+  }
+  button {
+    color: inherit;
+    font-size: inherit;
+    padding: 0;
+    min-width: auto;
+  }
 }
 .hamburger-nav li a,
 .hamburger-nav li a:link {
@@ -208,7 +212,7 @@
   background-color: $primary-light;
 }
 
-.toggle-menu:focus .hamburger-nav {
+.hamburger-nav.active {
   transform: translateX(-130px, 0, 0);
   animation-timing-function: 1s ease-in;
   width: 200px;

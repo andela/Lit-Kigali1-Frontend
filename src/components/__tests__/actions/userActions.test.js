@@ -1,6 +1,6 @@
 import * as userActions from '../../../redux/actions/userActions';
 import { signupUser } from '../../../__mocks__/dummyData';
-import { LOGIN } from '../../../redux/actions-types';
+import { LOGIN } from '../../../redux/actions-types/userTypes';
 
 describe('userActions', () => {
   test("should update user's data", () => {
