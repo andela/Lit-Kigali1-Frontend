@@ -5,10 +5,13 @@ node_js:
 cache:
   directories:
     - node_modules
-script:
-  - npm test -- -u
+
 branches:
   only:
     - develop
 install:
   - npm install
+script:
+  - npm test -- -u
+after_success:
+  - npm run coveralls
