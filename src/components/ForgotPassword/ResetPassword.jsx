@@ -9,18 +9,12 @@ import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 
 export class ResetPassword extends Component {
-  constructor() {
-    super();
-    this.state = {
-      validPassword: true,
-      passwordError: 'Password must have at least 6 characters',
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.onSubmitButton = this.onSubmitButton.bind(this);
-    this.renderErrors = this.renderErrors.bind(this);
-  }
+  state = {
+    validPassword: true,
+    passwordError: 'Password must have at least 6 characters',
+  };
 
-  onSubmitButton() {
+  onSubmitButton = () => {
     const {
       onSubmit,
       newPassword,
@@ -50,22 +44,22 @@ export class ResetPassword extends Component {
       }
     });
     this.setState({ validPassword: true });
-  }
+  };
 
-  handleInputChange(e) {
+  handleInputChange = (e) => {
     this.setState({ validPassword: true });
     const { onInputChange } = this.props;
     onInputChange({ field: e.target.name, value: e.target.value });
-  }
+  };
 
-  renderErrors() {
+  renderErrors = () => {
     let { errors } = this.props;
     const { message } = this.props;
     const { passwordError, validPassword } = this.state;
     if (!validPassword) return <span>{passwordError}</span>;
     errors = [message, ...errors];
     return errors.map(err => <span key={err}>{err.message || err}</span>);
-  }
+  };
 
   render() {
     const { newPassword, confirmNewpassword, submitting } = this.props;

@@ -10,18 +10,12 @@ import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 
 export class ForgotPassword extends Component {
-  constructor() {
-    super();
-    this.state = {
-      validEmail: true,
-      emailError: 'Email is not valid',
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.onSubmitButton = this.onSubmitButton.bind(this);
-    this.renderErrors = this.renderErrors.bind(this);
-  }
+  state = {
+    validEmail: true,
+    emailError: 'Email is not valid',
+  };
 
-  onSubmitButton() {
+  onSubmitButton = () => {
     const { onSubmit, email, history } = this.props;
     this.setState({ validEmail: true });
     if (!isEmail(email)) {
@@ -33,20 +27,20 @@ export class ForgotPassword extends Component {
         history.push('/forgot-password-message');
       }
     });
-  }
+  };
 
-  handleInputChange(e) {
+  handleInputChange = (e) => {
     this.setState({ validEmail: true });
     const { onInputChange } = this.props;
     onInputChange({ field: e.target.name, value: e.target.value });
-  }
+  };
 
-  renderErrors() {
+  renderErrors = () => {
     let { errors } = this.props;
     const { message } = this.props;
     errors = [message, ...errors];
     return errors.map(err => <span key={err}>{err.message || err}</span>);
-  }
+  };
 
   render() {
     const { email, submitting } = this.props;
