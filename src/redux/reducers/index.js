@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import forgotPasswordReducer from './forgotPasswordReducer';
 import userReducer from './userReducer';
-import signUp from './signUpReducer';
+import signUp from './signupReducer';
 
 const reducer = combineReducers({
   user: userReducer,

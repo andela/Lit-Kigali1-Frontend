@@ -27,7 +27,7 @@ export const submitSignUp = ({
       if (res.data.status === 201) {
         dispatch(submitSignUpSuccess(res.data));
         if (ownProps) {
-          ownProps.history.push('/sign-up-message');
+          ownProps.history.push('/login');
         }
         return;
       }

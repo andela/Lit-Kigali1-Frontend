@@ -91,7 +91,9 @@ class SignUp extends Component {
               />
             </div>
             <Button
-              classes={`primary color-white content-margin width-100 ${submitting}`}
+              classes={`primary color-white content-margin width-100 ${
+                submitting ? 'loading' : ''
+              }`}
               type="button"
               onClick={this.onSubmitButton}
             >
