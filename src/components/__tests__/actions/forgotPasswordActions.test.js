@@ -96,6 +96,12 @@ describe('forgotPassword', () => {
           },
         },
       ];
+      nock(API_URL)
+        .post('/users/forget')
+        .reply(201, {
+          status: 201,
+          message: 'Password reset link sent sucessfully. Please check your email!',
+        });
       return store.dispatch(submitForgotPassword(payload)).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
