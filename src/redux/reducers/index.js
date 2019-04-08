@@ -1,11 +1,17 @@
 import { combineReducers } from 'redux';
 
-import forgotPasswordReducer from './forgotPasswordReducer';
-import userReducer from './userReducer';
+import forgotPassword from './forgotPasswordReducer';
+import articles from './articleReducer';
+import user from './userReducer';
+import currentUser from './currentUserReducer';
+import login from './loginReducer';
 
 const reducer = combineReducers({
-  user: userReducer,
-  forgotPassword: forgotPasswordReducer,
+  user,
+  articles,
+  forgotPassword,
+  currentUser,
+  login,
 });
 
 export default reducer;
