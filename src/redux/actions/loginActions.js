@@ -1,4 +1,4 @@
-import axios from '../../helpers/axios';
+import axios from 'axios';
 import {
   LOGIN_FAILURE,
   HANDLE_LOGIN_INPUT,
