@@ -36,7 +36,7 @@ class LoginComponent extends Component {
   handleError() {
     const { error } = this.props;
     if (error) {
-      return error.data;
+      return error.message;
     }
     return '';
   }
@@ -49,7 +49,7 @@ class LoginComponent extends Component {
           <div className="color-primary to-center">
             <h2>LOG IN</h2>
           </div>
-          <span className="form-errors">{this.handleError()}</span>
+          <div className="form-errors">{this.handleError()}</div>
           <div className="input primary">
             <i className="fa fa-user" />
             <Input name="username" type="text" value={username} classes="bg-primary-light" placeholder="Username / Email" onChange={this.handleInput}/>
