@@ -24,6 +24,7 @@ describe('<ForgotPassword />', () => {
     const renderedValue = renderer.create(<ForgotPassword {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();
   });
+
   test('should render default state', () => {
     wrapper = shallow(<ForgotPassword {...props} />);
     expect(wrapper.state()).toEqual({
@@ -56,6 +57,7 @@ describe('<ForgotPassword />', () => {
       store = mockStore({});
       wrapper = mount(<ForgotPassword store={store} {...props} />);
     });
+
     test('should call onSubmitFunction with wrong email', () => {
       wrapper.find('.button').simulate('click');
       expect(wrapper.state()).toEqual({

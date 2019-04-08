@@ -30,11 +30,13 @@ const defaultState = {
   validPassword: true,
   passwordError: 'Password must have at least 6 characters',
 };
+
 describe('<ResetPassword />', () => {
   test('should render the <ResetPassword />', () => {
     const renderedValue = renderer.create(<ResetPassword {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();
   });
+
   test('should render default state', () => {
     wrapper = shallow(<ResetPassword {...props} />);
     expect(wrapper.state()).toEqual(defaultState);
@@ -44,6 +46,7 @@ describe('<ResetPassword />', () => {
     beforeEach(() => {
       wrapper = mount(<ResetPassword {...props} />);
     });
+
     test('should call onSubmitFunction', () => {
       wrapper.find('Button').simulate('click');
       expect(wrapper.state()).toEqual({ ...defaultState, validPassword: false });
@@ -55,18 +58,22 @@ describe('<ResetPassword />', () => {
       wrapper = mount(<ResetPassword {...props} />);
       wrapper.find('Input[name="newPassword"]').simulate('change', { target: { value: '12345' } });
     });
+
     test('should update the newPassword prop', () => {
       expect(wrapper.state()).toEqual(defaultState);
     });
+
     test('should update the newPassword prop', () => {
       expect(wrapper.state()).toEqual(defaultState);
     });
   });
+
   describe('when typing into the confirmNewpassword input', () => {
     beforeEach(() => {
       wrapper = mount(<ResetPassword {...props} />);
       wrapper.find('Input[name="confirmNewpassword"]').simulate('change', { value: '12345' });
     });
+
     test('should update the confirmNewpassword prop', () => {
       expect(wrapper.state()).toEqual(defaultState);
     });
@@ -77,6 +84,7 @@ describe('<ResetPassword />', () => {
       store = mockStore({});
       wrapper = mount(<ResetPassword store={store} {...props} />);
     });
+
     test('should call onSubmitFunction with wrong email', () => {
       wrapper.find('.button').simulate('click');
       expect(wrapper.state()).toEqual({ ...defaultState, validPassword: false });
