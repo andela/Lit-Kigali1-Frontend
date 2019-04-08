@@ -28,7 +28,7 @@ describe('forgotPassword', () => {
       store = mockStore({});
     });
 
-    test('should dispatch FORGOT_PASSWORD_SUCCESS action', () => {
+    test('should dispatch `FORGOT_PASSWORD_SUCCESS` action', () => {
       const payload = { field: 'newPassword', value: '123456' };
       const expectedPayload = {
         type: FORGOT_PASSWORD_FORM,
@@ -41,7 +41,7 @@ describe('forgotPassword', () => {
       expect(actions).toEqual([expectedPayload]);
     });
 
-    test('should dispatch FORGOT_PASSWORD_SUCCESS action', () => {
+    test('should dispatch `FORGOT_PASSWORD_SUCCESS` action', () => {
       const payload = { message: 'SUCCESS' };
       const expectedPayload = {
         type: FORGOT_PASSWORD_SUCCESS,
@@ -54,7 +54,7 @@ describe('forgotPassword', () => {
       expect(actions).toEqual([expectedPayload]);
     });
 
-    test('should dispatch FORGOT_PASSWORD_FAILURE action', () => {
+    test('should dispatch `FORGOT_PASSWORD_FAILURE` action', () => {
       const payload = { message: 'FAILURE' };
       const expectedPayload = {
         type: FORGOT_PASSWORD_FAILURE,
@@ -76,7 +76,7 @@ describe('forgotPassword', () => {
       nock.cleanAll();
     });
 
-    test('should dispatch submitForgotPassword action - FAILURE', () => {
+    test('should dispatch `submitForgotPassword` action - FAILURE', () => {
       expect.assertions(2);
       const payload = { email: { email: 'olivier@email.com' } };
       return store.dispatch(submitForgotPassword(payload)).then(() => {
@@ -86,7 +86,7 @@ describe('forgotPassword', () => {
       });
     });
 
-    test('should dispatch submitForgotPassword action - SUCCESS', () => {
+    test('should dispatch `submitForgotPassword` action - SUCCESS', () => {
       expect.assertions(1);
       const payload = { email: 'olivier@email.com' };
       const expectedActions = [
@@ -111,7 +111,7 @@ describe('forgotPassword', () => {
       });
     });
 
-    test('should dispatch submitResetPassword action - FAILURE', () => {
+    test('should dispatch `submitResetPassword` action - FAILURE', () => {
       expect.assertions(1);
       const payload = {
         userId: 'b2d3f3d8-5893-47df-b715-6f10f451bf92',
@@ -132,7 +132,7 @@ describe('forgotPassword', () => {
       });
     });
 
-    test('should dispatch submitResetPassword action - SUCCESS', () => {
+    test('should dispatch `submitResetPassword` action - SUCCESS', () => {
       expect.assertions(2);
       const payload = {
         userId: 'b2d3f3d8-5893-47df-b715-6f10f451bf92',

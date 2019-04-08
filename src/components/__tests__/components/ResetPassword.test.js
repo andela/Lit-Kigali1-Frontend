@@ -36,38 +36,38 @@ describe('<ResetPassword />', () => {
     expect(renderedValue).toMatchSnapshot();
   });
 
-  test('should render default state', () => {
+  test('should render default `state`', () => {
     wrapper = shallow(<ResetPassword {...props} />);
     expect(wrapper.state()).toEqual(defaultState);
   });
 
-  describe('when clicking on submit button', () => {
+  describe('when clicking on `submit button`', () => {
     beforeEach(() => {
       wrapper = mount(<ResetPassword {...props} />);
     });
 
-    test('should call onSubmitFunction', () => {
+    test('should call `onSubmitFunction`', () => {
       wrapper.find('Button').simulate('click');
       expect(wrapper.state()).toEqual({ ...defaultState, validPassword: false });
     });
   });
 
-  describe('when typing into the newPassword input', () => {
+  describe('when typing into the `newPassword` input', () => {
     beforeAll(() => {
       wrapper = mount(<ResetPassword {...props} />);
       wrapper.find('Input[name="newPassword"]').simulate('change', { target: { value: '12345' } });
     });
 
-    test('should update the newPassword prop', () => {
+    test('should update the `newPassword` prop', () => {
       expect(wrapper.state()).toEqual(defaultState);
     });
 
-    test('should update the newPassword prop', () => {
+    test('should update the `newPassword` prop', () => {
       expect(wrapper.state()).toEqual(defaultState);
     });
   });
 
-  describe('when typing into the confirmNewpassword input', () => {
+  describe('when typing into the `confirmNewpassword` input', () => {
     beforeEach(() => {
       wrapper = mount(<ResetPassword {...props} />);
       wrapper.find('Input[name="confirmNewpassword"]').simulate('change', { value: '12345' });
