@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { NavBar } from '../../components/NavBar/NavBar';
+import { NavBar, mapStateToProps } from '../../NavBar/NavBar';
 
 describe('<NavBar />', () => {
   let wrapper;
@@ -41,6 +41,18 @@ describe('<NavBar />', () => {
     test('changes the `showMenu state` to false by calling `closeMenu` function', () => {
       wrapper.instance().closeMenu();
       expect(wrapper.state().closeMenu).toBeFalsy();
+    });
+  });
+
+  describe('reducers', () => {
+    test('should return `mapStateToProps`', () => {
+      const initialState = {
+        currentUser: {
+          isLoggedIn: false,
+        },
+      };
+      const state = mapStateToProps(initialState);
+      expect(state).toEqual(initialState.currentUser);
     });
   });
 });

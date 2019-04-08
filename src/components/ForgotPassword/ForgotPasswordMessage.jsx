@@ -10,13 +10,14 @@ export const ForgotPasswordMessage = ({ message }) => (
   </section>
 );
 
-const mapStateToProps = ({ forgotPassword }) => ({
+export const mapStateToProps = ({ forgotPassword }) => ({
   message: forgotPassword.successMessage,
 });
 
 ForgotPasswordMessage.propTypes = {
   message: PropTypes.string,
 };
+
 ForgotPasswordMessage.defaultProps = {
   message: 'Forgot Password',
 };

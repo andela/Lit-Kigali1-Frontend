@@ -78,8 +78,8 @@ export class NavBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuth: state.user.loggedIn,
+export const mapStateToProps = ({ currentUser: { isLoggedIn } }) => ({
+  isLoggedIn,
 });
 
 export default connect(mapStateToProps)(NavBar);

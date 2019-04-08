@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ForgotPasswordMessage } from '../../components/ForgotPassword/ForgotPasswordMessage';
+import { ForgotPasswordMessage, mapStateToProps } from '../../ForgotPassword/ForgotPasswordMessage';
 
 let wrapper;
 
@@ -11,5 +11,17 @@ describe('<ForgotPasswordMessage />', () => {
   test('should render the <ForgotPasswordMessage />', () => {
     wrapper = shallow(<ForgotPasswordMessage {...props} />);
     expect(wrapper).toMatchSnapshot();
+  });
+
+  describe('reducers', () => {
+    test('should return `mapStateToProps`', () => {
+      const initialState = {
+        forgotPassword: {
+          successMessage: 'message',
+        },
+      };
+      const state = mapStateToProps(initialState);
+      expect(state).toEqual({ message: 'message' });
+    });
   });
 });
