@@ -1,3 +1,6 @@
-import { LOGIN } from '../actions-types';
+import { SET_PROFILE } from '../actions-types/userTypes';
 
-export const login = payload => ({ type: LOGIN, payload });
+export const setUserProfile = payload => ({
+  type: SET_PROFILE,
+  payload,
+});

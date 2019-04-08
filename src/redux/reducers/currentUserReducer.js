@@ -1,6 +1,7 @@
-import { SET_PROFILE } from '../actions-types';
+import { SET_CURRENT_USER } from '../actions-types';
 
 const initialState = {
+  isLoggedIn: false,
   profile: {},
   articles: [],
   favorites: [],
@@ -8,11 +9,8 @@ const initialState = {
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_PROFILE:
-      return {
-        ...state,
-        profile: payload,
-      };
+    case SET_CURRENT_USER:
+      return { ...state, profile: payload, isLoggedIn: true };
     default:
       return { ...state };
   }
