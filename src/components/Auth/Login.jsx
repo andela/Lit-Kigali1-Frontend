@@ -36,7 +36,7 @@ class LoginComponent extends Component {
   handleError() {
     const { error } = this.props;
     if (error) {
-      return error.message;
+      return error.data;
     }
     return '';
   }

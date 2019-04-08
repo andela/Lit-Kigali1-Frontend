@@ -15,7 +15,7 @@ export const clearLogin = () => ({
 
 export const loginUser = data => (dispatch) => {
   axios
-    .post('/users/login', { user: { ...data } })
+    .post('http://localhost:3000/api/v1/users/login', { user: { ...data } })
     .then((res) => {
       if (res.status === 200) {
         dispatch(setUserProfile(res.data.user));

@@ -18,7 +18,7 @@ const userReducer = (state = initialState, { type, payload }) => {
     case CLEAR_LOGIN:
       return { ...initialState };
     case LOGIN_FAILURE:
-      return { ...state, isLoggedIn: false, error: { ...state.error, ...payload.response.data } };
+      return { ...state, isLoggedIn: false, error: { ...state.error, ...payload.response } };
     case HANDLE_LOGIN_INPUT:
       return { ...state, credentials: { ...state.credentials, [payload.field]: payload.value } };
     case INPUT_VALIDATION_FAILURE:
