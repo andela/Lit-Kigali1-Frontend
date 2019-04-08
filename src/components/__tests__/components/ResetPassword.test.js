@@ -25,7 +25,6 @@ const props = {
   },
 };
 const mockStore = configureMockStore();
-
 const defaultState = {
   validPassword: true,
   passwordError: 'Password must have at least 6 characters',

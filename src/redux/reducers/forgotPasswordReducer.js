@@ -33,7 +33,11 @@ const forgotPasswordReducer = (state = initialState, { type, payload }) => {
         message: '',
       };
     case FORGOT_PASSWORD_SUCCESS:
-      return { ...state, successMessage: payload.message, submitting: false };
+      return {
+        ...state,
+        successMessage: payload.message,
+        submitting: false,
+      };
     case FORGOT_PASSWORD_FAILURE:
       return {
         ...state,

@@ -27,6 +27,7 @@ describe('forgotPassword', () => {
     beforeEach(() => {
       store = mockStore({});
     });
+
     test('should dispatch FORGOT_PASSWORD_SUCCESS action', () => {
       const payload = { field: 'newPassword', value: '123456' };
       const expectedPayload = {
@@ -39,6 +40,7 @@ describe('forgotPassword', () => {
       const actions = store.getActions();
       expect(actions).toEqual([expectedPayload]);
     });
+
     test('should dispatch FORGOT_PASSWORD_SUCCESS action', () => {
       const payload = { message: 'SUCCESS' };
       const expectedPayload = {
@@ -73,6 +75,7 @@ describe('forgotPassword', () => {
     afterEach(() => {
       nock.cleanAll();
     });
+
     test('should dispatch submitForgotPassword action - FAILURE', () => {
       expect.assertions(2);
       const payload = { email: { email: 'olivier@email.com' } };
