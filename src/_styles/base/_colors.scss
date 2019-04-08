@@ -1,0 +1,33 @@
+@import 'variables';
+
+.bg-primary {
+  background-color: $primary;
+}
+.bg-primary-light {
+  background-color: $primary-light;
+}
+.bg-white {
+  background-color: white;
+}
+
+.color-primary {
+  color: $primary;
+}
+.color-primary-light {
+  color: $primary;
+}
+.color-red {
+  color: $red;
+}
+.color-green {
+  color: $green;
+}
+.color-yellow {
+  color: $yellow;
+}
+.color-white {
+  color: white;
+}
+.color-gray {
+  color: rgba($color: #000000, $alpha: 0.3);
+}

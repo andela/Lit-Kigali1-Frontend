@@ -1,26 +1,14 @@
-import React, { Component } from 'react';
-import Routes from '../_components/routes';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './Routes';
 import './App.scss';
+import NavBar from './NavBar/NavBar';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      appName: "Author's haven",
-      teamName: 'Lit Kigali',
-    };
-  }
-
-  render() {
-    const { appName, teamName } = this.state;
-    return (
-      <div>
-        <h1 className="app-name">{appName}</h1>
-        <h2 className="team-name">{teamName}</h2>
-        <Routes />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <Router>
+    <NavBar />
+    <Routes />
+  </Router>
+);
 
 export default App;

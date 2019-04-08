@@ -1,0 +1,70 @@
+@import '../base/variables';
+
+.to-center {
+  text-align: center;
+}
+.icon-group {
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  img {
+    width: 40px;
+  }
+}
+.login-form {
+  line-height: 2.5rem;
+  padding: 50px;
+  border-radius: 10px;
+  width: 450px;
+  max-width: 100vw;
+  .input {
+    margin-bottom: 30px;
+    font-size: 1rem;
+  }
+  a {
+    color: $primary;
+  }
+  a:hover {
+    color: #2785d8;
+  }
+  #form-link {
+    span,
+    a {
+      padding: 5px;
+    }
+  }
+  button {
+    width: 100%;
+  }
+  #forget-psswd {
+    margin-top: -20px;
+  }
+}
+#card {
+  height: 528px;
+  width: 457px;
+  transition: transform 1s ease-in-out;
+  -webkit-transition: transform 1s ease-in-out;
+  -moz-transition: transform 1s ease-in-out;
+  -o-transition: transform 1s ease-in-out;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  margin: 0 15px;
+  #login {
+    transform: rotateY(180deg);
+  }
+  #signup,
+  #login {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    position: absolute;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-form {
+    max-width: 91.5vw !important ;
+  }
+}

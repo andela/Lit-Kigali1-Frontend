@@ -2,4 +2,6 @@ node_modules
 package-lock.json
 coverage
 yarn.lock
-src/__tests__/__snapshots__
+src/components/__tests__/_components/__snapshots__
+src/components/__tests__/components/__snapshots__
+src/components/__tests__/components/common/__snapshots__
