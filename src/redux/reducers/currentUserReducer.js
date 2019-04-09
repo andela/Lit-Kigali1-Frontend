@@ -7,7 +7,7 @@ const initialState = {
   favorites: [],
 };
 
-const userReducer = (state = initialState, { type, payload }) => {
+const currentUserReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_CURRENT_USER:
       return { ...state, profile: payload, isLoggedIn: true };
@@ -16,4 +16,4 @@ const userReducer = (state = initialState, { type, payload }) => {
   }
 };
 
-export default userReducer;
+export default currentUserReducer;

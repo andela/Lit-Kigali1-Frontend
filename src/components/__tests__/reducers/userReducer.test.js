@@ -1,5 +1,5 @@
 import reducer from '../../../redux/reducers/userReducer';
-import { LOGIN } from '../../../redux/actions-types/userTypes';
+import { SET_PROFILE } from '../../../redux/actions-types/userTypes';
 import { signupUser } from '../../../__mocks__/dummyData';
 import store from '../../../redux/store';
 
@@ -9,12 +9,17 @@ describe('reducerReducer', () => {
   });
 
   it("should handle user' login", () => {
-    const expectedState = {
-      type: LOGIN,
+    const action = {
+      type: SET_PROFILE,
       payload: signupUser,
     };
-    expect(reducer({}, expectedState)).toEqual({
-      user: signupUser,
+    const expected = {
+      profile: { ...signupUser },
+      articles: [],
+      favorites: [],
+    };
+    expect(reducer(undefined, action)).toEqual({
+      ...expected,
     });
   });
 });

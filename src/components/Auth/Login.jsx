@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import fb from '../../assets/images/facebook.png';
 import twitter from '../../assets/images/twitter.png';
 import google from '../../assets/images/google.png';
@@ -11,18 +12,23 @@ import { loginUser, inputHandler, validateCredentials } from '../../redux/action
 
 class LoginComponent extends Component {
   signin = (e) => {
-    const { username, password } = this.props.credentials;
-      this.props.validateCredentials({ username, password })
+    const {
+      credentials: { username, password },
+      validateCredentials,
+      loginUser,
+    } = this.props;
+    validateCredentials({ username, password })
       .then((res) => {
-        if(res.message === 'Ok') {
-          this.props.loginUser({ username, password });
+        if (res.message === 'Ok') {
+          loginUser({ username, password });
         }
       });
     e.preventDefault();
   };
 
   handleInput = (e) => {
-    this.props.inputHandler({ field: e.target.name, value: e.target.value });
+    const { inputHandler } = this.props;
+    inputHandler({ field: e.target.name, value: e.target.value });
   }
 
   handleError = () => {
@@ -34,7 +40,7 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { username, password } = this.props.credentials
+    const { credentials: { username, password } } = this.props;
     const { submitting } = this.props;
     return (
       <div>
@@ -45,18 +51,25 @@ class LoginComponent extends Component {
           <div className="form-errors">{this.handleError()}</div>
           <div className="input primary">
             <i className="fa fa-user" />
-            <Input name="username" type="text" value={username} classes="bg-primary-light" placeholder="Username / Email" onChange={this.handleInput}/>
+            <Input name="username" type="text" value={username} classes="bg-primary-light" placeholder="Username / Email" onChange={this.handleInput} />
           </div>
           <div className="input primary">
             <i className="fa fa-lock" />
-            <Input name="password" type="password" value={password} classes="bg-primary-light" placeholder="Password" onChange={this.handleInput}/>
+            <Input name="password" type="password" value={password} classes="bg-primary-light" placeholder="Password" onChange={this.handleInput} />
           </div>
           <div className="align-right" id="forget-psswd">
             <a href="forgot-password-reset.html">Forget Password?</a>
           </div>
-          <Button type="button" classes={`primary color-white ${
-                submitting ? 'loading' : ''
-              }`} color-white onClick={this.signin}>Log In</Button>
+          <Button
+            type="button"
+            classes={`primary color-white ${
+              submitting ? 'loading' : ''
+            }`}
+            color-white
+            onClick={this.signin}
+          >
+          Log In
+          </Button>
           <div className="icon-group">
             <div id="fb">
               <Link to="/#">
@@ -69,9 +82,9 @@ class LoginComponent extends Component {
               </Link>
             </div>
             <div id="gl">
-              <Link to="/#">
+              <a href="http://www.google.com">
                 <img src={google} alt="gl-logo" />
-              </Link>
+              </a>
             </div>
           </div>
           <div className="to-center" id="form-link">
@@ -83,9 +96,22 @@ class LoginComponent extends Component {
     );
   }
 }
-const mapStateToProps = ({ login : { error, credentials, submitting }}) => ({
+LoginComponent.propTypes = {
+  credentials: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  validateCredentials: PropTypes.func.isRequired,
+  inputHandler: PropTypes.func.isRequired,
+  submitting: PropTypes.bool,
+  error: PropTypes.array,
+};
+LoginComponent.defaultProps = {
+  error: [],
+  submitting: false,
+};
+const mapStateToProps = ({ login: { error, credentials, submitting } }) => ({
   credentials,
   error,
-  submitting
+  submitting,
 });
-export default connect(mapStateToProps, { validateCredentials, loginUser, inputHandler })(LoginComponent);
+export default connect(mapStateToProps,
+  { validateCredentials, loginUser, inputHandler })(LoginComponent);

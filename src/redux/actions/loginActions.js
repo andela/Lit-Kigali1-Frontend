@@ -5,7 +5,7 @@ import {
   INPUT_VALIDATION_FAILURE,
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
-  SUBMIT_LOGIN_FORM
+  SUBMIT_LOGIN_FORM,
 } from '../actions-types';
 
 import { setUserProfile } from '.';
@@ -15,8 +15,8 @@ export const clearLogin = () => ({
 });
 
 export const submitLoginForm = () => ({
-  type: SUBMIT_LOGIN_FORM
-})
+  type: SUBMIT_LOGIN_FORM,
+});
 
 export const loginUser = data => (dispatch) => {
   dispatch(submitLoginForm());
@@ -54,7 +54,9 @@ export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => 
   payload,
 });
 
-export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
+export const validateCredentials = ({
+  username, password,
+}) => dispatch => new Promise((resolve) => {
   if (username.length < 6 && password.length < 6) {
     const payload = {
       response: {
@@ -82,7 +84,6 @@ export const validateCredentials = ({ username, password }) => dispatch => new P
     dispatch(validationResponse(payload));
     return resolve(payload.response);
   }
-
   const payload = {
     response: {
       message: 'Ok',
