@@ -8,13 +8,13 @@ import {
   handleForgotPasswordForm,
   submitResetPassword,
   submitForgotPassword,
-} from '../../../redux/actions/forgotPasswordActions';
+} from '../../redux/actions/forgotPasswordActions';
 import {
   FORGOT_PASSWORD_FORM,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILURE,
   SUBMIT_FORGOT_PASSWORD_FORM,
-} from '../../../redux/actions-types/forgotPasswordTypes';
+} from '../../redux/actions-types/forgotPasswordTypes';
 
 const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 

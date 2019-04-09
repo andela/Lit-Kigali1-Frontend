@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
-  testRegex: '(src/components/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)x?$',
+  testRegex: '(src/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)x?$',
   coverageDirectory: 'coverage',
   collectCoverageFrom: ['src/**/*.(js|jsx)'],
   moduleNameMapper: {

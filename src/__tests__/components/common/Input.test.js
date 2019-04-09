@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Input from '../../../common/Input/Input';
+import Input from '../../../components/common/Input/Input';
 
 describe('<Input />', () => {
   test('Should render the <Input />', () => {

@@ -11,8 +11,11 @@ import { loginUser, inputHandler, validateCredentials } from '../../redux/action
 
 class LoginComponent extends Component {
   signin = (e) => {
-    const { credentials, validate, login } = this.props;
-    const { username, password } = credentials;
+    const {
+      credentials: { username, password },
+      validate,
+      login,
+    } = this.props;
     validate({ username, password }).then((res) => {
       if (res.message === 'Ok') {
         login({ username, password });
@@ -35,8 +38,9 @@ class LoginComponent extends Component {
   };
 
   render() {
-    const { credentials } = this.props;
-    const { username, password } = credentials;
+    const {
+      credentials: { username, password },
+    } = this.props;
     const { submitting } = this.props;
     return (
       <div>
@@ -90,9 +94,9 @@ class LoginComponent extends Component {
               </Link>
             </div>
             <div id="gl">
-              <Link to="/#">
+              <a href="http://www.google.com">
                 <img src={google} alt="gl-logo" />
-              </Link>
+              </a>
             </div>
           </div>
           <div className="to-center" id="form-link">
@@ -111,11 +115,11 @@ LoginComponent.propTypes = {
   validate: PropTypes.func.isRequired,
   handleInput: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
-  error: PropTypes.array,
+  error: PropTypes.object,
 };
 
 LoginComponent.defaultProps = {
-  error: [],
+  error: {},
   submitting: false,
 };
 const mapStateToProps = ({ login: { error, credentials, submitting } }) => ({

@@ -15,7 +15,7 @@ const initialState = {
   },
 };
 
-const userReducer = (state = initialState, { type, payload }) => {
+const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_LOGIN:
       return { ...initialState };
@@ -28,10 +28,10 @@ const userReducer = (state = initialState, { type, payload }) => {
     case INPUT_VALIDATION_FAILURE:
       return { ...state, error: { ...state.error, ...payload.response } };
     case INPUT_VALIDATION_SUCCESS:
-      return { ...state, error: {} };
+      return { ...state, error: undefined };
     default:
       return { ...state };
   }
 };
 
-export default userReducer;
+export default loginReducer;

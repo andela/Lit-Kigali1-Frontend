@@ -49,19 +49,21 @@ export const inputHandler = ({ field, value }) => ({
   },
 });
 
-export const inputFail = (payload, type = INPUT_VALIDATION_FAILURE) => ({
+export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => ({
   type,
   payload,
 });
 
-export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
+export const validateCredentials = ({
+  username, password,
+}) => dispatch => new Promise((resolve) => {
   if (username.length < 6 && password.length < 6) {
     const payload = {
       response: {
         message: 'Password and username must be at least 6 characters',
       },
     };
-    dispatch(inputFail(payload));
+    dispatch(validationResponse(payload));
     return resolve(payload.response);
   }
   if (username.length < 6) {
@@ -70,7 +72,7 @@ export const validateCredentials = ({ username, password }) => dispatch => new P
         message: 'Username must be at least 6 characters',
       },
     };
-    dispatch(inputFail(payload));
+    dispatch(validationResponse(payload));
     return resolve(payload.response);
   }
   if (password.length < 6) {
@@ -79,15 +81,14 @@ export const validateCredentials = ({ username, password }) => dispatch => new P
         message: 'Password must be at least 6 characters',
       },
     };
-    dispatch(inputFail(payload));
+    dispatch(validationResponse(payload));
     return resolve(payload.response);
   }
-
   const payload = {
     response: {
       message: 'Ok',
     },
   };
-  dispatch(inputFail(payload, INPUT_VALIDATION_SUCCESS));
+  dispatch(validationResponse(payload, INPUT_VALIDATION_SUCCESS));
   return resolve(payload.response);
 });
