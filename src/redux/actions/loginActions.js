@@ -8,7 +8,7 @@ import {
   SUBMIT_LOGIN_FORM,
 } from '../actions-types';
 
-import { setUserProfile } from '.';
+import { setCurrentUserProfile } from '.';
 
 export const clearLogin = () => ({
   type: CLEAR_LOGIN,
@@ -24,7 +24,7 @@ export const loginUser = data => (dispatch) => {
     .post('http://localhost:3000/api/v1/users/login', { user: { ...data } })
     .then((res) => {
       if (res.status === 200) {
-        dispatch(setUserProfile(res.data.user));
+        dispatch(setCurrentUserProfile(res.data.user));
         dispatch(clearLogin());
         return;
       }
@@ -54,9 +54,7 @@ export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => 
   payload,
 });
 
-export const validateCredentials = ({
-  username, password,
-}) => dispatch => new Promise((resolve) => {
+export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
   if (username.length < 6 && password.length < 6) {
     const payload = {
       response: {
