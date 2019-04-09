@@ -9,38 +9,40 @@ import Button from '../common/Button/Button';
 import Input from '../common/Input/Input';
 import { loginUser, inputHandler, validateCredentials } from '../../redux/actions';
 
-
 class LoginComponent extends Component {
   signin = (e) => {
     const {
       credentials: { username, password },
-      validateCredentials,
-      loginUser,
+      validate,
+      login,
     } = this.props;
-    validateCredentials({ username, password })
-      .then((res) => {
-        if (res.message === 'Ok') {
-          loginUser({ username, password });
-        }
-      });
+    validate({ username, password }).then((res) => {
+      if (res.message === 'Ok') {
+        login({ username, password });
+      }
+    });
     e.preventDefault();
   };
 
   handleInput = (e) => {
-    const { inputHandler } = this.props;
-    inputHandler({ field: e.target.name, value: e.target.value });
-  }
+    const { handleInput } = this.props;
+    handleInput({ field: e.target.name, value: e.target.value });
+  };
 
   handleError = () => {
     const { error } = this.props;
-    if (error) {
+    if (error.message) {
       return error.message;
+    } if (error.data) {
+      return error.data.message;
     }
     return '';
-  }
+  };
 
   render() {
-    const { credentials: { username, password } } = this.props;
+    const {
+      credentials: { username, password },
+    } = this.props;
     const { submitting } = this.props;
     return (
       <div>
@@ -51,24 +53,36 @@ class LoginComponent extends Component {
           <div className="form-errors">{this.handleError()}</div>
           <div className="input primary">
             <i className="fa fa-user" />
-            <Input name="username" type="text" value={username} classes="bg-primary-light" placeholder="Username / Email" onChange={this.handleInput} />
+            <Input
+              name="username"
+              type="text"
+              value={username}
+              classes="bg-primary-light"
+              placeholder="Username / Email"
+              onChange={this.handleInput}
+            />
           </div>
           <div className="input primary">
             <i className="fa fa-lock" />
-            <Input name="password" type="password" value={password} classes="bg-primary-light" placeholder="Password" onChange={this.handleInput} />
+            <Input
+              name="password"
+              type="password"
+              value={password}
+              classes="bg-primary-light"
+              placeholder="Password"
+              onChange={this.handleInput}
+            />
           </div>
           <div className="align-right" id="forget-psswd">
             <a href="forgot-password-reset.html">Forget Password?</a>
           </div>
           <Button
             type="button"
-            classes={`primary color-white ${
-              submitting ? 'loading' : ''
-            }`}
+            classes={`primary color-white ${submitting ? 'loading' : ''}`}
             color-white
             onClick={this.signin}
           >
-          Log In
+            Log In
           </Button>
           <div className="icon-group">
             <div id="fb">
@@ -96,16 +110,18 @@ class LoginComponent extends Component {
     );
   }
 }
+
 LoginComponent.propTypes = {
   credentials: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired,
-  validateCredentials: PropTypes.func.isRequired,
-  inputHandler: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  validate: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
-  error: PropTypes.array,
+  error: PropTypes.object,
 };
+
 LoginComponent.defaultProps = {
-  error: [],
+  error: {},
   submitting: false,
 };
 const mapStateToProps = ({ login: { error, credentials, submitting } }) => ({
@@ -113,5 +129,13 @@ const mapStateToProps = ({ login: { error, credentials, submitting } }) => ({
   error,
   submitting,
 });
-export default connect(mapStateToProps,
-  { validateCredentials, loginUser, inputHandler })(LoginComponent);
+
+const mapDispatchToProps = dispatch => ({
+  handleInput: ({ field, value }) => dispatch(inputHandler({ field, value })),
+  validate: ({ username, password }) => dispatch(validateCredentials({ username, password })),
+  login: ({ username, password }) => dispatch(loginUser({ username, password })),
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoginComponent);
