@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
+import { isEmail } from 'validator';
 import { handleSignUpForm, submitSignUp } from '../../redux/actions';
 import Button from '../common/Button/Button';
 import Input from '../common/Input/Input';
@@ -9,41 +10,69 @@ import fb from '../../assets/images/facebook.png';
 import twitter from '../../assets/images/twitter.png';
 import google from '../../assets/images/google.png';
 
-class SignUp extends Component {
-  constructor() {
-    super();
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.onSubmitButton = this.onSubmitButton.bind(this);
-    this.renderErrors = this.renderErrors.bind(this);
-  }
+export class SignUp extends Component {
+  state = {
+    validEmail: true,
+    emailError: 'Email is not valid',
+    validPassword: true,
+    passwordError: 'Password must have at least 6 characters',
+    validUsername: true,
+    usernameError: 'username is not allowed to be empty',
+  };
 
-  onSubmitButton() {
+  onSubmitButton = () => {
     const {
       onSubmit, email, username, password,
     } = this.props;
-    onSubmit({ email, password, username });
-  }
+    this.setState({ validEmail: true, validPassword: true, validUsername: true });
 
-  handleInputChange(e) {
+    if (username.length < 1) {
+      this.setState({
+        validUsername: false,
+        usernameError: 'username is not allowed to be empty',
+      });
+      return;
+    }
+
+    if (!isEmail(email)) {
+      this.setState({ validEmail: false });
+      return;
+    }
+    if (password.length < 5) {
+      this.setState({
+        validPassword: false,
+        passwordError: 'Password must have at least 6 characters',
+      });
+      return;
+    }
+
+    onSubmit({ email, password, username });
+  };
+
+  handleInputChange = (e) => {
     const { onInputChange } = this.props;
     onInputChange({ field: e.target.name, value: e.target.value });
-  }
+  };
 
-  renderErrors() {
+  renderErrors = () => {
     let { errors } = this.props;
     const { message } = this.props;
     errors = [message, ...errors];
     return errors.map(err => <span key={err}>{err.message || err}</span>);
-  }
-
-  // flip() {
-  //   this.card.current.style.display = 'none';
-  // }
+  };
 
   render() {
     const {
       username, password, email, submitting,
     } = this.props;
+    const {
+      emailError,
+      validEmail,
+      validPassword,
+      passwordError,
+      validUsername,
+      usernameError,
+    } = this.state;
     return (
       <div className="main-content middle-content">
         <div id="card">
@@ -67,6 +96,7 @@ class SignUp extends Component {
                 value={username}
                 onChange={this.handleInputChange}
               />
+              {validUsername ? '' : <div className="form-error">{usernameError}</div>}
             </div>
             <div className="input primary">
               <i className="fa fa-at" />
@@ -78,6 +108,7 @@ class SignUp extends Component {
                 value={email}
                 onChange={this.handleInputChange}
               />
+              {validEmail ? '' : <div className="form-error">{emailError}</div>}
             </div>
             <div className="input primary">
               <i className="fa fa-lock" />
@@ -90,6 +121,7 @@ class SignUp extends Component {
                 onChange={this.handleInputChange}
               />
             </div>
+            {validPassword ? '' : <div className="form-error">{passwordError}</div>}
             <Button
               classes={`primary color-white content-margin width-100 ${
                 submitting ? 'loading' : ''
@@ -101,24 +133,18 @@ class SignUp extends Component {
             </Button>
             <div className="icon-group">
               <div id="fb">
-                <Link to="##">
                   <img src={fb} alt="fb-logo" />
-                </Link>
               </div>
               <div id="twbs">
-                <Link to="##">
                   <img src={twitter} alt="twbs-logo" />
-                </Link>
               </div>
               <div id="gl">
-                <Link to="##">
                   <img src={google} alt="gl-logo" />
-                </Link>
               </div>
             </div>
             <div className="to-center" id="form-link">
               <span>Already a member?</span>
-              <NavLink to="/login">Sign In</NavLink>
+              <a to="/login">Sign In</a>
             </div>
           </form>
         </div>
@@ -127,7 +153,7 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   username: state.signUp.username,
   email: state.signUp.email,
   password: state.signUp.password,
@@ -136,7 +162,7 @@ const mapStateToProps = state => ({
   submitting: state.signUp.submitting,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+export const mapDispatchToProps = (dispatch, ownProps) => ({
   onInputChange: ({ field, value }) => dispatch(handleSignUpForm({ field, value })),
   onSubmit: ({ username, email, password }) => dispatch(
     submitSignUp({

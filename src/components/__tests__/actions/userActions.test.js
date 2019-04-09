@@ -1,13 +1,13 @@
 import * as userActions from '../../../redux/actions/userActions';
 import { signupUser } from '../../../__mocks__/dummyData';
-import { LOGIN } from '../../../redux/actions-types/userTypes';
+import { SET_PROFILE } from '../../../redux/actions-types/userTypes';
 
 describe('userActions', () => {
   test("should update user's data", () => {
     const expectedAction = {
-      type: LOGIN,
+      type: SET_PROFILE,
       payload: signupUser,
     };
-    expect(userActions.login(signupUser)).toEqual(expectedAction);
+    expect(userActions.setUserProfile(signupUser)).toEqual(expectedAction);
   });
 });

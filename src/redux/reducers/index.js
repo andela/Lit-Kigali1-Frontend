@@ -1,12 +1,16 @@
 import { combineReducers } from 'redux';
 
-import forgotPasswordReducer from './forgotPasswordReducer';
-import userReducer from './userReducer';
-import signUp from './signupReducer';
+import forgotPassword from './forgotPasswordReducer';
+import articles from './articleReducer';
+import user from './userReducer';
+import currentUser from './currentUserReducer';
+import signUp from './signUpReducer';
 
 const reducer = combineReducers({
-  user: userReducer,
-  forgotPassword: forgotPasswordReducer,
+  user,
+  articles,
+  forgotPassword,
+  currentUser,
   signUp,
 });
 

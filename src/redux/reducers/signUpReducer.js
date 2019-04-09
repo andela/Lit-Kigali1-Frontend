@@ -4,7 +4,7 @@ import {
   SIGNUP_FAILURE,
   CLEAR_SIGNUP_FORM,
   SIGNUP_FORM,
-} from '../actions-types/signUptypes';
+} from '../actions-types';
 
 const initialState = {
   submitting: false,
