@@ -76,7 +76,7 @@ class LoginComponent extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Not a member?</span>
-            <Link to="/">Sign Up</Link>
+            <Link to="/#">Sign Up</Link>
           </div>
         </form>
       </div>
