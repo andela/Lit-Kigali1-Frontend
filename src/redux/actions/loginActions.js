@@ -5,7 +5,7 @@ import {
   INPUT_VALIDATION_FAILURE,
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
-  SUBMIT_LOGIN_FORM
+  SUBMIT_LOGIN_FORM,
 } from '../actions-types';
 
 import { setUserProfile } from '.';
@@ -15,8 +15,8 @@ export const clearLogin = () => ({
 });
 
 export const submitLoginForm = () => ({
-  type: SUBMIT_LOGIN_FORM
-})
+  type: SUBMIT_LOGIN_FORM,
+});
 
 export const loginUser = data => (dispatch) => {
   dispatch(submitLoginForm());
@@ -28,14 +28,12 @@ export const loginUser = data => (dispatch) => {
         dispatch(clearLogin());
         return;
       }
-      console.log('err', res.data);
       dispatch({
         type: LOGIN_FAILURE,
         payload: res.data,
       });
     })
     .catch((err) => {
-      console.log('error', err);
       dispatch({
         type: LOGIN_FAILURE,
         payload: err,
@@ -58,8 +56,6 @@ export const inputFail = (payload, type = INPUT_VALIDATION_FAILURE) => ({
 
 export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
   if (username.length < 6 && password.length < 6) {
-    console.log('lsdkdlkdlskd');
-
     const payload = {
       response: {
         message: 'Password and username must be at least 6 characters',

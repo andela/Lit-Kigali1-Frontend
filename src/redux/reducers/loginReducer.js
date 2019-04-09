@@ -20,7 +20,7 @@ const userReducer = (state = initialState, { type, payload }) => {
     case CLEAR_LOGIN:
       return { ...initialState };
     case SUBMIT_LOGIN_FORM:
-      return { ...state, submitting: true }
+      return { ...state, submitting: true };
     case LOGIN_FAILURE:
       return { ...state, error: { ...state.error, ...payload.response }, submitting: false };
     case HANDLE_LOGIN_INPUT:
