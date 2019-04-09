@@ -35,6 +35,7 @@ class LoginComponent extends Component {
 
   render() {
     const { username, password } = this.props.credentials
+    const { submitting } = this.props;
     return (
       <div>
         <form className="bg-primary-light login-form" id="signup">
@@ -53,7 +54,9 @@ class LoginComponent extends Component {
           <div className="align-right" id="forget-psswd">
             <a href="forgot-password-reset.html">Forget Password?</a>
           </div>
-          <Button type="button" classes='primary color-white' onClick={this.signin}>Log In</Button>
+          <Button type="button" classes={`primary color-white ${
+                submitting ? 'loading' : ''
+              }`} color-white onClick={this.signin}>Log In</Button>
           <div className="icon-group">
             <div id="fb">
               <Link to="/#">
@@ -80,8 +83,9 @@ class LoginComponent extends Component {
     );
   }
 }
-const mapStateToProps = ({ login : { error, credentials }}) => ({
+const mapStateToProps = ({ login : { error, credentials, submitting }}) => ({
   credentials,
-  error
+  error,
+  submitting
 });
 export default connect(mapStateToProps, { validateCredentials, loginUser, inputHandler })(LoginComponent);

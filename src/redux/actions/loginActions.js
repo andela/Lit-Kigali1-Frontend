@@ -5,6 +5,7 @@ import {
   INPUT_VALIDATION_FAILURE,
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
+  SUBMIT_LOGIN_FORM
 } from '../actions-types';
 
 import { setUserProfile } from '.';
@@ -13,7 +14,12 @@ export const clearLogin = () => ({
   type: CLEAR_LOGIN,
 });
 
+export const submitLoginForm = () => ({
+  type: SUBMIT_LOGIN_FORM
+})
+
 export const loginUser = data => (dispatch) => {
+  dispatch(submitLoginForm());
   axios
     .post('http://localhost:3000/api/v1/users/login', { user: { ...data } })
     .then((res) => {
