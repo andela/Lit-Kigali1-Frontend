@@ -10,16 +10,8 @@ import { loginUser, inputHandler, validateCredentials } from '../../redux/action
 
 
 class LoginComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.signin = this.signin.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-  }
-
-   signin(e) {
+  signin = (e) => {
     const { username, password } = this.props.credentials;
-      console.log(username, password)
       this.props.validateCredentials({ username, password })
       .then((res) => {
         if(res.message === 'Ok') {
@@ -27,13 +19,13 @@ class LoginComponent extends Component {
         }
       });
     e.preventDefault();
-  }
+  };
 
-  handleInput(e) {
+  handleInput = (e) => {
     this.props.inputHandler({ field: e.target.name, value: e.target.value });
   }
 
-  handleError() {
+  handleError = () => {
     const { error } = this.props;
     if (error) {
       return error.message;
@@ -64,17 +56,17 @@ class LoginComponent extends Component {
           <Button type="button" classes='primary color-white' onClick={this.signin}>Log In</Button>
           <div className="icon-group">
             <div id="fb">
-              <Link to="/">
+              <Link to="/#">
                 <img src={fb} alt="fb-logo" />
               </Link>
             </div>
             <div id="twbs">
-              <Link to="/">
+              <Link to="/#">
                 <img src={twitter} alt="twbs-logo" />
               </Link>
             </div>
             <div id="gl">
-              <Link to="/">
+              <Link to="/#">
                 <img src={google} alt="gl-logo" />
               </Link>
             </div>
