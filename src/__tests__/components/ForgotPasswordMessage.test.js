@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ForgotPasswordMessage } from '../../ForgotPassword/ForgotPasswordMessage';
+import { ForgotPasswordMessage } from '../../components/ForgotPassword/ForgotPasswordMessage';
 
 let wrapper;
 

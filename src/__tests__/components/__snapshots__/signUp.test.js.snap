@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SignUp /> should render the <SignUp /> 1`] = `
+<div
+  className="main-content middle-content"
+>
+  <div
+    id="card"
+  >
+    <form
+      action="articles-create.html"
+      className="bg-primary-light login-form"
+      id="signup"
+    >
+      <div
+        className="color-primary to-center"
+      >
+        <h2>
+          SIGN UP
+        </h2>
+      </div>
+      <div
+        className="form-errors"
+      >
+        <span>
+          
+        </span>
+      </div>
+      <div
+        className="input primary"
+      >
+        <i
+          className="fa fa-user"
+        />
+        <input
+          className="bg-primary-light"
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        
+      </div>
+      <div
+        className="input primary"
+      >
+        <i
+          className="fa fa-at"
+        />
+        <input
+          className="bg-primary-light"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email"
+          type="email"
+          value=""
+        />
+        
+      </div>
+      <div
+        className="input primary"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        <input
+          className="bg-primary-light"
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+      </div>
+      
+      <button
+        className="button primary color-white content-margin width-100 "
+        disabled=""
+        onClick={[Function]}
+        type="button"
+      >
+        Sign Up
+      </button>
+      <div
+        className="icon-group"
+      >
+        <div
+          id="fb"
+        >
+          <img
+            alt="fb-logo"
+            src="test-file-stub"
+          />
+        </div>
+        <div
+          id="twbs"
+        >
+          <img
+            alt="twbs-logo"
+            src="test-file-stub"
+          />
+        </div>
+        <div
+          id="gl"
+        >
+          <img
+            alt="gl-logo"
+            src="test-file-stub"
+          />
+        </div>
+      </div>
+      <div
+        className="to-center"
+        id="form-link"
+      >
+        <span>
+          Already a member?
+        </span>
+        <a
+          to="/login"
+        >
+          Sign In
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+`;

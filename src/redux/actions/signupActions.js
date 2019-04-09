@@ -6,7 +6,7 @@ import {
   CLEAR_SIGNUP_FORM,
 } from '../actions-types';
 import { setUserProfile } from './userActions';
-import axios from '../../helpers/axios';
+import fetchAPI from '../../helpers/fetchAPI';
 
 export const clearSignup = () => ({
   type: CLEAR_SIGNUP_FORM,
@@ -29,21 +29,16 @@ export const submitSignUp = ({
   username, email, password, ownProps,
 }) => (dispatch) => {
   dispatch(submitSignUpForm({ submitting: true }));
-  return axios
-    .post('/users', { user: { username, email, password } })
-    .then((res) => {
-      if (res.data.status === 201) {
-        console.log(res.data.user, 'fhfhhffhfffhffhfhfh');
-        dispatch(setUserProfile(res.data.user));
-        dispatch(clearSignup());
-        if (ownProps) {
-          ownProps.history.push('/home');
-        }
-        return;
-      }
-      dispatch(submitSignUpFailure(res.data));
+  return fetchAPI('/users', {
+    method: 'POST',
+    body: { user: { username, email, password } },
+  })
+    .then((data) => {
+      dispatch(setUserProfile(data));
+      return data;
     })
     .catch((err) => {
-      dispatch(submitSignUpFailure(err.response.data));
+      dispatch(submitSignUpFailure({ message: err.message }));
+      return err;
     });
 };

@@ -22,7 +22,7 @@ export class SignUp extends Component {
 
   onSubmitButton = () => {
     const {
-      onSubmit, email, username, password,
+      onSubmit, email, username, password,history
     } = this.props;
     this.setState({ validEmail: true, validPassword: true, validUsername: true });
 
@@ -46,7 +46,11 @@ export class SignUp extends Component {
       return;
     }
 
-    onSubmit({ email, password, username });
+    onSubmit({email, password, username }).then((res) => {
+      if (res.status === 201) {
+        history.push('/home');
+      }
+    });
   };
 
   handleInputChange = (e) => {
@@ -183,6 +187,7 @@ SignUp.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   errors: PropTypes.array,
   submitting: PropTypes.bool,
+  history: PropTypes.any.isRequired,
 };
 
 SignUp.defaultProps = {

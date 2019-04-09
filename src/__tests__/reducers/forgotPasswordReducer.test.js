@@ -1,12 +1,12 @@
-import reducer from '../../../redux/reducers/forgotPasswordReducer';
+import reducer from '../../redux/reducers/forgotPasswordReducer';
 import {
   CLEAR_FORGOT_PASSWORD_FORM,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILURE,
   FORGOT_PASSWORD_FORM,
   SUBMIT_FORGOT_PASSWORD_FORM,
-} from '../../../redux/actions-types/forgotPasswordTypes';
-import store from '../../../redux/store';
+} from '../../redux/actions-types/forgotPasswordTypes';
+import store from '../../redux/store';
 
 describe('forgotPasswordReducer', () => {
   it('should return the initial state', () => {

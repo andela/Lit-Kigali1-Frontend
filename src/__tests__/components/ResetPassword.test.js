@@ -7,7 +7,7 @@ import {
   ResetPassword,
   mapStateToProps,
   mapDispatchToProps,
-} from '../../ForgotPassword/ResetPassword';
+} from '../../components/ForgotPassword/ResetPassword';
 
 let wrapper;
 let store;

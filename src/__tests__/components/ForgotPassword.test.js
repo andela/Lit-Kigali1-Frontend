@@ -6,7 +6,7 @@ import {
   ForgotPassword,
   mapStateToProps,
   mapDispatchToProps,
-} from '../../ForgotPassword/ForgotPassword';
+} from '../../components/ForgotPassword/ForgotPassword';
 
 let wrapper;
 let store;
