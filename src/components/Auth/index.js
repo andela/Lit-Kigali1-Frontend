@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Login from './Login';
 
 class AuthComponent extends Component {
@@ -8,14 +9,19 @@ class AuthComponent extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div className="main-content middle-content">
         <div id="card">
-          <Login />
+          <Login history={history} />
         </div>
       </div>
     );
   }
 }
+
+AuthComponent.propTypes = {
+  history: PropTypes.any.isRequired,
+};
 
 export default AuthComponent;

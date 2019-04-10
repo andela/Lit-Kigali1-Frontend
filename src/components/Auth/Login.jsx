@@ -30,11 +30,14 @@ class LoginComponent extends Component {
   };
 
   handleError = () => {
-    const { error } = this.props;
+    const { error, isLoggedIn, history } = this.props;
     if (error.message) {
       return error.message;
     } if (error.data) {
       return error.data.message;
+    }
+    if (isLoggedIn) {
+      history.push('/');
     }
     return '';
   };
@@ -118,16 +121,22 @@ LoginComponent.propTypes = {
   handleInput: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   error: PropTypes.object,
+  history: PropTypes.any.isRequired,
+  isLoggedIn: PropTypes.bool,
 };
 
 LoginComponent.defaultProps = {
   error: {},
   submitting: false,
+  isLoggedIn: false,
 };
-const mapStateToProps = ({ login: { error, credentials, submitting } }) => ({
+const mapStateToProps = ({
+  login: { error, credentials, submitting }, currentUser: { isLoggedIn },
+}) => ({
   credentials,
   error,
   submitting,
+  isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
