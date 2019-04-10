@@ -17,6 +17,7 @@ const props = {
   onInputChange: mockFn,
   history: { push: mockFn },
 };
+
 const mockStore = configureMockStore();
 
 const defaultState = {
