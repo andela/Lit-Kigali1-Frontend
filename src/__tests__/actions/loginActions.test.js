@@ -1,6 +1,7 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import 'isomorphic-fetch';
 import {
   inputHandler,
   validationResponse,
@@ -17,6 +18,8 @@ import {
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
 } from '../../redux/actions-types/loginTypes';
+import { signupUser } from '../../__mocks__/dummyData';
+import { SET_CURRENT_USER } from '../../redux/actions-types';
 
 const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
@@ -145,11 +148,58 @@ describe('Login Actions', () => {
       .post('/users/login', { user: { ...data } })
       .reply(200, {
         status: 200,
-        user: {},
+        user: {
+          ...signupUser,
+        },
       });
     return loginUser(data)(store.dispatch).then(() => {
       const actions = store.getActions();
-      console.log(actions);
+      const expectedActions = [
+        { type: SUBMIT_LOGIN_FORM },
+        {
+          type: SET_CURRENT_USER,
+          payload: {
+            ...signupUser,
+          },
+        },
+        { type: CLEAR_LOGIN },
+      ];
+      expect(actions.length).toEqual(3);
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  test('should not login user', () => {
+    const data = {
+      username: 'daniel',
+      password: '1234561',
+    };
+    const reply = {
+      status: 404,
+      message: 'Email and password don\'t match',
+    };
+    nock(API_URL)
+      .post('/users/login', { user: { ...data } })
+      .reply(200, {
+        status: 404,
+        message: 'Email and password don\'t match',
+      });
+    return loginUser(data)(store.dispatch).then(() => {
+      const expectedActions = [
+        { type: SUBMIT_LOGIN_FORM },
+        {
+          type: LOGIN_FAILURE,
+          payload: {
+            response: {
+              status: 404,
+              message: 'Email and password don\'t match',
+            },
+          },
+        },
+      ];
+      const actions = store.getActions();
+      expect(actions.length).toEqual(2);
+      expect(actions).toEqual(expectedActions);
     });
   });
 });

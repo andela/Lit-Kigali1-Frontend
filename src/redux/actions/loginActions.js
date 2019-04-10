@@ -22,15 +22,8 @@ export const loginUser = data => (dispatch) => {
   dispatch(submitLoginForm());
   return fetchAPI('/users/login', { method: 'POST', body: { user: { ...data } } })
     .then((res) => {
-      if (res.status === 200) {
-        dispatch(setCurrentUserProfile(res.user));
-        dispatch(clearLogin());
-        return;
-      }
-      dispatch({
-        type: LOGIN_FAILURE,
-        payload: res,
-      });
+      dispatch(setCurrentUserProfile(res.user));
+      dispatch(clearLogin());
     })
     .catch((err) => {
       dispatch({
