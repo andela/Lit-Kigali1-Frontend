@@ -6,6 +6,7 @@ import ResetPassword from './ForgotPassword/ResetPassword';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
 import SignUp from './Auth/SignUp';
+import ConfirmedEmaiMessage from './Auth/ConfirmedEmaiMessage';
 
 const Routes = () => (
   <div>
@@ -14,6 +15,11 @@ const Routes = () => (
     <Route exact path="/signup" component={SignUp} />
     <Route exact path="/forgot-password-message" component={ForgotPasswordMessage} />
     <Route exact path="/users/:userId/reset/:resetCode" component={ResetPassword} />
+    <Route
+      exact
+      path="/users/:userId/confirm_email/:confirmationCode"
+      component={ConfirmedEmaiMessage}
+    />
   </div>
 );
 
