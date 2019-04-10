@@ -52,14 +52,12 @@ describe('Login Actions', () => {
     const action = {
       type: LOGIN_FAILURE,
       payload: {
-        response: {
-          status: 404,
-          message: 'User not found',
-        },
+        status: 404,
+        message: 'User not found',
       },
     };
     const res = loginReducer(initial, action);
-    expect(res.error).toEqual(action.payload.response);
+    expect(res.error.message).toEqual(action.payload.message);
     expect(res.submitting).toEqual(false);
   });
 

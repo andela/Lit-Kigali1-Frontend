@@ -33,7 +33,8 @@ class LoginComponent extends Component {
     const { error } = this.props;
     if (error.message) {
       return error.message;
-    } if (error.data) {
+    }
+    if (error.data) {
       return error.data.message;
     }
     return '';
@@ -42,8 +43,8 @@ class LoginComponent extends Component {
   render() {
     const {
       credentials: { username, password },
+      submitting,
     } = this.props;
-    const { submitting } = this.props;
     return (
       <div>
         <form className="bg-primary-light login-form" id="signup">
@@ -74,12 +75,11 @@ class LoginComponent extends Component {
             />
           </div>
           <div className="align-right" id="forget-psswd">
-            <a href="forgot-password-reset.html">Forget Password?</a>
+            <Link to="/forgot-password">Forgot Password?</Link>
           </div>
           <Button
             type="button"
             classes={`primary color-white ${submitting ? 'loading' : ''}`}
-            color-white
             onClick={this.signin}
           >
             Log In

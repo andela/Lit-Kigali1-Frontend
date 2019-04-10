@@ -1,18 +1,18 @@
 import { SET_CURRENT_USER } from '../actions-types';
+import initialState from '../initialState';
 
-const initialState = {
-  isLoggedIn: false,
-  profile: {},
-  articles: [],
-  favorites: [],
-};
+const { currentUser } = initialState;
 
-const currentUserReducer = (state = initialState, { type, payload }) => {
+const currentUserReducer = (state = currentUser, { type, payload }) => {
   switch (type) {
     case SET_CURRENT_USER:
-      return { ...state, profile: payload, isLoggedIn: true };
+      return {
+        ...state,
+        profile: payload,
+        isLoggedIn: true,
+      };
     default:
-      return { ...state };
+      return state;
   }
 };
 

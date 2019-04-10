@@ -1,4 +1,4 @@
-import axios from 'axios';
+import fetchAPI from '../../helpers/fetchAPI';
 import {
   LOGIN_FAILURE,
   HANDLE_LOGIN_INPUT,
@@ -18,26 +18,24 @@ export const submitLoginForm = () => ({
   type: SUBMIT_LOGIN_FORM,
 });
 
-export const loginUser = data => (dispatch) => {
+export const loginUser = user => (dispatch) => {
   dispatch(submitLoginForm());
-  axios
-    .post('http://localhost:3000/api/v1/users/login', { user: { ...data } })
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch(setCurrentUserProfile(res.data.user));
-        dispatch(clearLogin());
-        return;
-      }
-      dispatch({
-        type: LOGIN_FAILURE,
-        payload: res.data,
-      });
+
+  return fetchAPI('/users/login', {
+    method: 'POST',
+    body: { user: { ...user } },
+  })
+    .then((data) => {
+      dispatch(setCurrentUserProfile(data.user));
+      dispatch(clearLogin());
+      return data;
     })
     .catch((err) => {
       dispatch({
         type: LOGIN_FAILURE,
         payload: err,
       });
+      return err;
     });
 };
 

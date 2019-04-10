@@ -5,21 +5,13 @@ import {
   CLEAR_FORGOT_PASSWORD_FORM,
   SUBMIT_FORGOT_PASSWORD_FORM,
 } from '../actions-types/forgotPasswordTypes';
+import initialState from '../initialState';
 
-const initialState = {
-  submitting: false,
-  success: false,
-  successMessage: '',
-  email: '',
-  newPassword: '',
-  confirmNewpassword: '',
-  message: '',
-  errors: [],
-};
-const forgotPasswordReducer = (state = initialState, { type, payload }) => {
+const { forgotPassword } = initialState;
+const forgotPasswordReducer = (state = forgotPassword, { type, payload }) => {
   switch (type) {
     case CLEAR_FORGOT_PASSWORD_FORM:
-      return { ...initialState };
+      return { ...forgotPassword };
     case SUBMIT_FORGOT_PASSWORD_FORM:
       return {
         ...state,
