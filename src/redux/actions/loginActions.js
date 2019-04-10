@@ -20,7 +20,7 @@ export const submitLoginForm = () => ({
 
 export const loginUser = data => (dispatch) => {
   dispatch(submitLoginForm());
-  fetchAPI('/users/login', { method: 'POST', body: { user: { ...data } } })
+  return fetchAPI('/users/login', { method: 'POST', body: { user: { ...data } } })
     .then((res) => {
       if (res.status === 200) {
         dispatch(setCurrentUserProfile(res.user));

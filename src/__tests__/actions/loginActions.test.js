@@ -1,11 +1,13 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import nock from 'nock';
 import {
   inputHandler,
   validationResponse,
   submitLoginForm,
   clearLogin,
   validateCredentials,
+  loginUser,
 } from '../../redux/actions/loginActions';
 import {
   LOGIN_FAILURE,
@@ -16,9 +18,13 @@ import {
   SUBMIT_LOGIN_FORM,
 } from '../../redux/actions-types/loginTypes';
 
+const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
-const store = mockStore({});
+let store;
 describe('Login Actions', () => {
+  beforeEach(() => {
+    store = mockStore({});
+  });
   test('should return filed and its value', () => {
     const data1 = {
       field: 'username',
@@ -127,6 +133,23 @@ describe('Login Actions', () => {
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
       expect(res).toEqual(payload.response);
+    });
+  });
+
+  test('should login a user', () => {
+    const data = {
+      username: 'daniel',
+      password: '123456',
+    };
+    nock(API_URL)
+      .post('/users/login', { user: { ...data } })
+      .reply(200, {
+        status: 200,
+        user: {},
+      });
+    return loginUser(data)(store.dispatch).then(() => {
+      const actions = store.getActions();
+      console.log(actions);
     });
   });
 });
