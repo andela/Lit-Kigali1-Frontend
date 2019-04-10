@@ -3,9 +3,7 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';
 import {
-  clearSignup,
   handleSignUpForm,
-  submitSignUpForm,
   submitSignUpSuccess,
   submitSignUpFailure,
   submitSignUp,
@@ -99,11 +97,7 @@ describe('signUp', () => {
       const expectedActions = [
         { type: 'SIGNUP_FORM_SUBMIT', payload: { submitting: true } },
         {
-          type: 'SET_PROFILE',
-          payload: {
-            status: 201,
-            message: 'Account created sucessfully. Please check your email for confirmation',
-          },
+          type: 'SET_CURRENT_USER',
         },
       ];
       nock(API_URL)

@@ -5,8 +5,8 @@ import {
   SIGNUP_FORM_SUBMIT,
   CLEAR_SIGNUP_FORM,
 } from '../actions-types';
-import { setUserProfile } from './userActions';
 import fetchAPI from '../../helpers/fetchAPI';
+import { setCurrentUser } from './currentUserActions';
 
 export const clearSignup = () => ({
   type: CLEAR_SIGNUP_FORM,
@@ -25,17 +25,16 @@ export const submitSignUpForm = payload => ({
 export const submitSignUpSuccess = payload => ({ type: SIGNUP_SUCCESS, payload });
 export const submitSignUpFailure = payload => ({ type: SIGNUP_FAILURE, payload });
 
-export const submitSignUp = ({
-  username, email, password, ownProps,
-}) => (dispatch) => {
+export const submitSignUp = ({ username, email, password }) => (dispatch) => {
   dispatch(submitSignUpForm({ submitting: true }));
   return fetchAPI('/users', {
     method: 'POST',
     body: { user: { username, email, password } },
   })
     .then((data) => {
-      dispatch(setUserProfile(data));
-      return data;
+      dispatch(setCurrentUser(data.user));
+      console.log(data);
+      return data.user;
     })
     .catch((err) => {
       dispatch(submitSignUpFailure({ message: err.message }));

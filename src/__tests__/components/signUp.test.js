@@ -110,6 +110,7 @@ describe('when clicking on submit button', () => {
       passwordError: 'Password must have at least 6 characters',
     });
   });
+
   test('should call onSubmitFunction wrong email', () => {
     wrapper.setProps({ username: 'test', password: 'testpassword' });
     wrapper.find('.button').simulate('click');
@@ -119,6 +120,7 @@ describe('when clicking on submit button', () => {
       emailError: 'Email is not valid',
     });
   });
+
   test('should call onSubmitFunction wrong password', () => {
     wrapper.setProps({ username: 'test', email: 'test@email.com' });
     wrapper.find('.button').simulate('click');
@@ -128,6 +130,7 @@ describe('when clicking on submit button', () => {
       passwordError: 'Password must have at least 6 characters',
     });
   });
+
   test('should call onSubmitFunction success', () => {
     wrapper.setProps({ username: 'test', email: 'test@email.com', password: 'testpassword' });
     wrapper.find('.button').simulate('click');

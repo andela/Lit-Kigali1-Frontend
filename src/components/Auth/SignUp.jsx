@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavLink, Link } from 'react-router-dom';
 import { isEmail } from 'validator';
 import { handleSignUpForm, submitSignUp } from '../../redux/actions';
 import Button from '../common/Button/Button';
@@ -22,7 +21,7 @@ export class SignUp extends Component {
 
   onSubmitButton = () => {
     const {
-      onSubmit, email, username, password,history
+      onSubmit, email, username, password, history,
     } = this.props;
     this.setState({ validEmail: true, validPassword: true, validUsername: true });
 
@@ -38,6 +37,7 @@ export class SignUp extends Component {
       this.setState({ validEmail: false });
       return;
     }
+
     if (password.length < 5) {
       this.setState({
         validPassword: false,
@@ -46,7 +46,7 @@ export class SignUp extends Component {
       return;
     }
 
-    onSubmit({email, password, username }).then((res) => {
+    onSubmit({ email, password, username }).then((res) => {
       if (res.status === 201) {
         history.push('/home');
       }
@@ -137,13 +137,13 @@ export class SignUp extends Component {
             </Button>
             <div className="icon-group">
               <div id="fb">
-                  <img src={fb} alt="fb-logo" />
+                <img src={fb} alt="fb-logo" />
               </div>
               <div id="twbs">
-                  <img src={twitter} alt="twbs-logo" />
+                <img src={twitter} alt="twbs-logo" />
               </div>
               <div id="gl">
-                  <img src={google} alt="gl-logo" />
+                <img src={google} alt="gl-logo" />
               </div>
             </div>
             <div className="to-center" id="form-link">
