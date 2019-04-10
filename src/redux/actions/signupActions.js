@@ -33,7 +33,6 @@ export const submitSignUp = ({ username, email, password }) => (dispatch) => {
   })
     .then((data) => {
       dispatch(setCurrentUser(data.user));
-      console.log(data);
       return data.user;
     })
     .catch((err) => {

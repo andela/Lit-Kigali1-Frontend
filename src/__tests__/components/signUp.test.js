@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { SignUp, mapStateToProps, mapDispatchToProps } from '../../components/auth/SignUp';
+import { SignUp, mapStateToProps, mapDispatchToProps } from '../../components/Auth/SignUp';
 
 let wrapper;
 let store;
