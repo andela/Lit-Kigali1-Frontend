@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   LOGIN_FAILURE,
   HANDLE_LOGIN_INPUT,
@@ -9,6 +8,7 @@ import {
 } from '../actions-types';
 
 import { setCurrentUserProfile } from '.';
+import fetchAPI from '../../helpers/fetchAPI';
 
 export const clearLogin = () => ({
   type: CLEAR_LOGIN,
@@ -20,23 +20,24 @@ export const submitLoginForm = () => ({
 
 export const loginUser = data => (dispatch) => {
   dispatch(submitLoginForm());
-  axios
-    .post('http://localhost:3000/api/v1/users/login', { user: { ...data } })
+  fetchAPI('/users/login', { method: 'POST', body: { user: { ...data } } })
     .then((res) => {
       if (res.status === 200) {
-        dispatch(setCurrentUserProfile(res.data.user));
+        dispatch(setCurrentUserProfile(res.user));
         dispatch(clearLogin());
         return;
       }
       dispatch({
         type: LOGIN_FAILURE,
-        payload: res.data,
+        payload: res,
       });
     })
     .catch((err) => {
       dispatch({
         type: LOGIN_FAILURE,
-        payload: err,
+        payload: {
+          response: err,
+        },
       });
     });
 };

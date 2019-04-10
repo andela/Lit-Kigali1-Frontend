@@ -1,3 +1,5 @@
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import {
   inputHandler,
   validationResponse,
@@ -13,8 +15,9 @@ import {
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
 } from '../../redux/actions-types/loginTypes';
-import store from '../../redux/store';
 
+const mockStore = configureStore([thunk]);
+const store = mockStore({});
 describe('Login Actions', () => {
   test('should return filed and its value', () => {
     const data1 = {
