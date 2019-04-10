@@ -8,7 +8,6 @@ import { SignUp, mapStateToProps, mapDispatchToProps } from '../../components/Au
 let wrapper;
 let store;
 const mockFn = jest.fn();
-
 const props = {
   email: '',
   password: '',
