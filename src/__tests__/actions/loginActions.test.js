@@ -181,8 +181,7 @@ describe('Login Actions', () => {
     nock(API_URL)
       .post('/users/login', { user: { ...data } })
       .reply(200, {
-        status: 404,
-        message: 'Email and password don\'t match',
+        ...reply,
       });
     return loginUser(data)(store.dispatch).then(() => {
       const expectedActions = [
@@ -191,8 +190,7 @@ describe('Login Actions', () => {
           type: LOGIN_FAILURE,
           payload: {
             response: {
-              status: 404,
-              message: 'Email and password don\'t match',
+              ...reply,
             },
           },
         },
