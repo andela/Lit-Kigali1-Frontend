@@ -128,7 +128,7 @@ describe('Login Actions', () => {
     expect(res.error).toBeUndefined();
   });
 
-  test('should previous state when no action type provided', () => {
+  test('should return previous state when no action type is provided', () => {
     const initial = {
       submitting: false,
       credentials: {

@@ -30,7 +30,7 @@ describe('Login Actions', () => {
   beforeEach(() => {
     store = mockStore({});
   });
-  test('should return filed and its value', () => {
+  test('should return field and its value', () => {
     const data1 = {
       field: 'username',
       value: 'John',
@@ -325,7 +325,6 @@ describe('Login Actions', () => {
         });
       return store.dispatch(loginUser({ username: 'christina', password: '123456' })).then(() => {
         const actions = store.getActions();
-        console.log(actions);
         expect(actions).toEqual(expectedActions);
       });
     });
