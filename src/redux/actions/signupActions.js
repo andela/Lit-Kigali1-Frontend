@@ -33,7 +33,8 @@ export const submitSignUp = ({ username, email, password }) => (dispatch) => {
   })
     .then((data) => {
       dispatch(setCurrentUser(data.user));
-      return data.user;
+      localStorage.setItem('token', data.user.token);
+      return data;
     })
     .catch((err) => {
       dispatch(submitSignUpFailure({ message: err.message }));

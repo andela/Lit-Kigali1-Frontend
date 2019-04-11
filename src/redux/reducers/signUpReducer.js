@@ -5,17 +5,8 @@ import {
   CLEAR_SIGNUP_FORM,
   SIGNUP_FORM,
 } from '../actions-types';
+import { signUp as initialState } from '../initialState.json';
 
-const initialState = {
-  submitting: false,
-  success: false,
-  successMessage: '',
-  username: '',
-  email: '',
-  password: '',
-  message: '',
-  errors: [],
-};
 const signupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_SIGNUP_FORM:

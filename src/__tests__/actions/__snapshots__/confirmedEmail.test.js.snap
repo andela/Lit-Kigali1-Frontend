@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConfirmedEmaiMessage  /> should render the <ConfirmedEmaiMessage  /> 1`] = `
+<section
+  className="main-content content-margin"
+>
+  <div
+    className="container align-center"
+  >
+    <p
+      className="color-primary title-2 align-center"
+    >
+      
+    </p>
+  </div>
+</section>
+`;

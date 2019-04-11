@@ -149,6 +149,8 @@ describe('reducers', () => {
         password: 'test123',
         message: 'message',
         errors: [],
+        // token:
+        //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkyMWEyOTMzLWI4OTQtNGIzYi1hOGEzLTMzYzRmMzRmZjQ5NSIsInVzZXJUeXBlIjoidXNlciIsImlhdCI6MTU1NDk3NjY4Nn0.Vds2yvNxqggvkJHd2lghRn75dcSWqDEGK5efug6MOc0',
         submitting: false,
       },
     };

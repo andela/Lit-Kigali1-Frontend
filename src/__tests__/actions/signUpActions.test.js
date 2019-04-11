@@ -98,6 +98,9 @@ describe('signUp', () => {
         { type: 'SIGNUP_FORM_SUBMIT', payload: { submitting: true } },
         {
           type: 'SET_CURRENT_USER',
+          payload: {
+            token: '4777vvcvhe7e77vb',
+          },
         },
       ];
       nock(API_URL)
@@ -105,6 +108,9 @@ describe('signUp', () => {
         .reply(201, {
           status: 201,
           message: 'Account created sucessfully. Please check your email for confirmation',
+          user: {
+            token: '4777vvcvhe7e77vb',
+          },
         });
       return store.dispatch(submitSignUp(payload)).then(() => {
         const actions = store.getActions();
