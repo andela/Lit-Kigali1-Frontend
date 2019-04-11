@@ -10,7 +10,7 @@ import Input from '../common/Input/Input';
 import { loginUser, inputHandler, validateCredentials } from '../../redux/actions';
 import SocialLoginIcon from '../SocialLoginIcon';
 
-class LoginComponent extends Component {
+export class LoginComponent extends Component {
   signin = (e) => {
     const {
       credentials: { username, password },
@@ -64,6 +64,7 @@ class LoginComponent extends Component {
           <div className="input primary">
             <i className="fa fa-user" />
             <Input
+              id="username"
               name="username"
               type="text"
               value={username}
@@ -94,9 +95,27 @@ class LoginComponent extends Component {
             Log In
           </Button>
           <div className="icon-group">
-            <SocialLoginIcon id="fb" href="/#" icon={fb} alt="fb-logo" dataTest={{ div: 'fb-container', a: 'fb-a', img: 'fb-img' }} />
-            <SocialLoginIcon id="twbs" href="/#" icon={twitter} alt="twbs-logo" dataTest={{ div: 'twbs-container', a: 'twbs-a', img: 'twbs-img' }} />
-            <SocialLoginIcon id="gl" href="/#" icon={google} alt="gl-logo" dataTest={{ div: 'gl-container', a: 'gl-a', img: 'gl-img' }} />
+            <SocialLoginIcon
+              id="fb"
+              href="/#"
+              icon={fb}
+              alt="fb-logo"
+              dataTest={{ div: 'fb-container', a: 'fb-a', img: 'fb-img' }}
+            />
+            <SocialLoginIcon
+              id="twbs"
+              href="/#"
+              icon={twitter}
+              alt="twbs-logo"
+              dataTest={{ div: 'twbs-container', a: 'twbs-a', img: 'twbs-img' }}
+            />
+            <SocialLoginIcon
+              id="gl"
+              href="/#"
+              icon={google}
+              alt="gl-logo"
+              dataTest={{ div: 'gl-container', a: 'gl-a', img: 'gl-img' }}
+            />
           </div>
           <div className="to-center" id="form-link">
             <span>Not a member?</span>
@@ -109,7 +128,7 @@ class LoginComponent extends Component {
 }
 
 LoginComponent.propTypes = {
-  credentials: PropTypes.object.isRequired,
+  credentials: PropTypes.object,
   login: PropTypes.func.isRequired,
   validate: PropTypes.func.isRequired,
   handleInput: PropTypes.func.isRequired,
@@ -120,12 +139,17 @@ LoginComponent.propTypes = {
 };
 
 LoginComponent.defaultProps = {
+  credentials: {
+    username: '',
+    password: '',
+  },
   error: {},
   submitting: false,
   isLoggedIn: false,
 };
-const mapStateToProps = ({
-  login: { error, credentials, submitting }, currentUser: { isLoggedIn },
+export const mapStateToProps = ({
+  login: { error, credentials, submitting },
+  currentUser: { isLoggedIn },
 }) => ({
   credentials,
   error,
@@ -133,7 +157,7 @@ const mapStateToProps = ({
   isLoggedIn,
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   handleInput: ({ field, value }) => dispatch(inputHandler({ field, value })),
   validate: ({ username, password }) => dispatch(validateCredentials({ username, password })),
   login: ({ username, password }) => dispatch(loginUser({ username, password })),
