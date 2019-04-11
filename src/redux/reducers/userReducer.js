@@ -1,7 +1,5 @@
 import { SET_PROFILE } from '../actions-types';
-import initialState from '../initialState';
-
-const { user } = initialState;
+import { user } from '../initialState.json';
 
 const userReducer = (state = user, { type, payload }) => {
   switch (type) {

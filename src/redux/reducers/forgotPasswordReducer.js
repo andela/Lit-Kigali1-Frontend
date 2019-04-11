@@ -5,9 +5,8 @@ import {
   CLEAR_FORGOT_PASSWORD_FORM,
   SUBMIT_FORGOT_PASSWORD_FORM,
 } from '../actions-types/forgotPasswordTypes';
-import initialState from '../initialState';
+import { forgotPassword } from '../initialState.json';
 
-const { forgotPassword } = initialState;
 const forgotPasswordReducer = (state = forgotPassword, { type, payload }) => {
   switch (type) {
     case CLEAR_FORGOT_PASSWORD_FORM:

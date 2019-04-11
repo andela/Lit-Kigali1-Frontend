@@ -6,9 +6,9 @@ import {
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
 } from '../actions-types';
-import initialState from '../initialState';
+import { login } from '../initialState.json';
 
-const { login } = initialState;
+// const { login } = initialState;
 
 const loginReducer = (state = login, { type, payload }) => {
   switch (type) {

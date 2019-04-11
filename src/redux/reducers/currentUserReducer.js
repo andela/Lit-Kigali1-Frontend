@@ -1,7 +1,5 @@
 import { SET_CURRENT_USER } from '../actions-types';
-import initialState from '../initialState';
-
-const { currentUser } = initialState;
+import { currentUser } from '../initialState.json';
 
 const currentUserReducer = (state = currentUser, { type, payload }) => {
   switch (type) {
