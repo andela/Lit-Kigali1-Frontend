@@ -6,14 +6,14 @@ import {
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
 } from '../actions-types';
-import { login } from '../initialState.json';
+import { login as initialState } from '../initialState.json';
 
 // const { login } = initialState;
 
-const loginReducer = (state = login, { type, payload }) => {
+const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_LOGIN:
-      return { ...login };
+      return { ...initialState };
     case SUBMIT_LOGIN_FORM:
       return { ...state, submitting: true };
     case LOGIN_FAILURE:

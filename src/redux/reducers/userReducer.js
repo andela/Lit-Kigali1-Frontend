@@ -1,7 +1,7 @@
 import { SET_PROFILE } from '../actions-types';
-import { user } from '../initialState.json';
+import { user as initialState } from '../initialState.json';
 
-const userReducer = (state = user, { type, payload }) => {
+const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_PROFILE:
       return {
