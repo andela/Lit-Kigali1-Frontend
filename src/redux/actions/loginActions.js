@@ -1,3 +1,4 @@
+import fetchAPI from '../../helpers/fetchAPI';
 import {
   LOGIN_FAILURE,
   HANDLE_LOGIN_INPUT,
@@ -8,7 +9,6 @@ import {
 } from '../actions-types';
 
 import { setCurrentUserProfile } from '.';
-import fetchAPI from '../../helpers/fetchAPI';
 
 export const clearLogin = () => ({
   type: CLEAR_LOGIN,
@@ -18,20 +18,24 @@ export const submitLoginForm = () => ({
   type: SUBMIT_LOGIN_FORM,
 });
 
-export const loginUser = data => (dispatch) => {
+export const loginUser = user => (dispatch) => {
   dispatch(submitLoginForm());
-  return fetchAPI('/users/login', { method: 'POST', body: { user: { ...data } } })
-    .then((res) => {
-      dispatch(setCurrentUserProfile(res.user));
+
+  return fetchAPI('/users/login', {
+    method: 'POST',
+    body: { user: { ...user } },
+  })
+    .then((data) => {
+      dispatch(setCurrentUserProfile(data.user));
       dispatch(clearLogin());
+      return data;
     })
     .catch((err) => {
       dispatch({
         type: LOGIN_FAILURE,
-        payload: {
-          response: err,
-        },
+        payload: err,
       });
+      return err;
     });
 };
 

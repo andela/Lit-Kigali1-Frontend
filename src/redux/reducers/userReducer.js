@@ -1,10 +1,5 @@
 import { SET_PROFILE } from '../actions-types';
-
-const initialState = {
-  profile: {},
-  articles: [],
-  favorites: [],
-};
+import { user as initialState } from '../initialState.json';
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -14,7 +9,7 @@ const userReducer = (state = initialState, { type, payload }) => {
         profile: payload,
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 

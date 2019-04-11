@@ -6,14 +6,9 @@ import {
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
 } from '../actions-types';
+import { login as initialState } from '../initialState.json';
 
-const initialState = {
-  submitting: false,
-  credentials: {
-    username: '',
-    password: '',
-  },
-};
+// const { login } = initialState;
 
 const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -22,7 +17,7 @@ const loginReducer = (state = initialState, { type, payload }) => {
     case SUBMIT_LOGIN_FORM:
       return { ...state, submitting: true };
     case LOGIN_FAILURE:
-      return { ...state, error: { ...state.error, ...payload.response }, submitting: false };
+      return { ...state, error: { ...state.error, message: payload.message }, submitting: false };
     case HANDLE_LOGIN_INPUT:
       return { ...state, credentials: { ...state.credentials, [payload.field]: payload.value } };
     case INPUT_VALIDATION_FAILURE:
@@ -30,7 +25,7 @@ const loginReducer = (state = initialState, { type, payload }) => {
     case INPUT_VALIDATION_SUCCESS:
       return { ...state, error: undefined };
     default:
-      return { ...state };
+      return state;
   }
 };
 

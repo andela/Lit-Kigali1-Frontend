@@ -16,10 +16,15 @@ class LoginComponent extends Component {
       credentials: { username, password },
       validate,
       login,
+      history,
     } = this.props;
     validate({ username, password }).then((res) => {
       if (res.message === 'Ok') {
-        login({ username, password });
+        login({ username, password }).then((response) => {
+          if (response.status === 200) {
+            history.push('/');
+          }
+        });
       }
     });
     e.preventDefault();
@@ -34,7 +39,8 @@ class LoginComponent extends Component {
     const { error, isLoggedIn, history } = this.props;
     if (error.message) {
       return error.message;
-    } if (error.data) {
+    }
+    if (error.data) {
       return error.data.message;
     }
     if (isLoggedIn) {
@@ -46,8 +52,8 @@ class LoginComponent extends Component {
   render() {
     const {
       credentials: { username, password },
+      submitting,
     } = this.props;
-    const { submitting } = this.props;
     return (
       <div>
         <form className="bg-primary-light login-form" id="signup">
@@ -78,12 +84,11 @@ class LoginComponent extends Component {
             />
           </div>
           <div className="align-right" id="forget-psswd">
-            <Link to="/forgot-password">Forget Password?</Link>
+            <Link to="/forgot-password">Forgot Password?</Link>
           </div>
           <Button
             type="button"
             classes={`primary color-white ${submitting ? 'loading' : ''}`}
-            color-white
             onClick={this.signin}
           >
             Log In
