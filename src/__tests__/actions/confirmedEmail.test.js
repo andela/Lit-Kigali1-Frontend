@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import { ConfirmedEmailMessage } from '../../components/auth/ConfirmedEmailMessage';
+import ConfirmedEmailMessage from '../../components/auth/ConfirmedEmailMessage';
 
 let wrapper;
 const mockFn = jest.fn();
