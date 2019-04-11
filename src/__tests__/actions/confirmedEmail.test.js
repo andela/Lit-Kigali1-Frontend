@@ -1,11 +1,10 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import ConfirmedEmaiMessage from '../../components/auth/ConfirmedEmaiMessage';
+import ConfirmedEmailMessage from '../../components/auth/ConfirmedEmailMessage';
 
 let wrapper;
-let store;
 const mockFn = jest.fn();
 
 const props = {
@@ -27,16 +26,16 @@ const defaultState = {
 
 describe('<ConfirmedEmaiMessage  />', () => {
   test('should render the <ConfirmedEmaiMessage  />', () => {
-    const renderedValue = renderer.create(<ConfirmedEmaiMessage {...props} />).toJSON();
+    const renderedValue = renderer.create(<ConfirmedEmailMessage {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();
   });
 
   test('should render default state', () => {
-    wrapper = shallow(<ConfirmedEmaiMessage {...props} />);
+    wrapper = shallow(<ConfirmedEmailMessage {...props} />);
     expect(wrapper.state()).toEqual(defaultState);
   });
   test('should render default state', () => {
-    wrapper = shallow(<ConfirmedEmaiMessage {...props} />);
+    wrapper = shallow(<ConfirmedEmailMessage {...props} />);
     wrapper.setState({ message: 'email confirmed' });
     expect(wrapper.state().message).toEqual('email confirmed');
   });

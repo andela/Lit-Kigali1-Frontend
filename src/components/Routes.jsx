@@ -6,7 +6,7 @@ import ResetPassword from './ForgotPassword/ResetPassword';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
 import SignUp from './Auth/SignUp';
-import ConfirmedEmaiMessage from './Auth/ConfirmedEmaiMessage';
+import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 
 const Routes = () => (
   <div>
@@ -18,7 +18,7 @@ const Routes = () => (
     <Route
       exact
       path="/users/:userId/confirm_email/:confirmationCode"
-      component={ConfirmedEmaiMessage}
+      component={ConfirmedEmailMessage}
     />
   </div>
 );
