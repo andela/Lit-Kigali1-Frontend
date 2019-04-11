@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> should render a div 1`] = `ShallowWrapper {}`;
+
+exports[`<Login /> should render the <Login /> 1`] = `ShallowWrapper {}`;

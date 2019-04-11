@@ -8,6 +8,7 @@ import google from '../../assets/images/google.png';
 import Button from '../common/Button/Button';
 import Input from '../common/Input/Input';
 import { loginUser, inputHandler, validateCredentials } from '../../redux/actions';
+import SocialLoginIcon from '../SocialLoginIcon';
 
 class LoginComponent extends Component {
   signin = (e) => {
@@ -77,7 +78,7 @@ class LoginComponent extends Component {
             />
           </div>
           <div className="align-right" id="forget-psswd">
-            <a href="forgot-password-reset.html">Forget Password?</a>
+            <Link to="/forgot-password">Forget Password?</Link>
           </div>
           <Button
             type="button"
@@ -88,21 +89,9 @@ class LoginComponent extends Component {
             Log In
           </Button>
           <div className="icon-group">
-            <div id="fb">
-              <Link to="/#">
-                <img src={fb} alt="fb-logo" />
-              </Link>
-            </div>
-            <div id="twbs">
-              <Link to="/#">
-                <img src={twitter} alt="twbs-logo" />
-              </Link>
-            </div>
-            <div id="gl">
-              <a href="http://www.google.com">
-                <img src={google} alt="gl-logo" />
-              </a>
-            </div>
+            <SocialLoginIcon id="fb" href="/#" icon={fb} alt="fb-logo" dataTest={{ div: 'fb-container', a: 'fb-a', img: 'fb-img' }} />
+            <SocialLoginIcon id="twbs" href="/#" icon={twitter} alt="twbs-logo" dataTest={{ div: 'twbs-container', a: 'twbs-a', img: 'twbs-img' }} />
+            <SocialLoginIcon id="gl" href="/#" icon={google} alt="gl-logo" dataTest={{ div: 'gl-container', a: 'gl-a', img: 'gl-img' }} />
           </div>
           <div className="to-center" id="form-link">
             <span>Not a member?</span>
