@@ -15,10 +15,15 @@ class LoginComponent extends Component {
       credentials: { username, password },
       validate,
       login,
+      history,
     } = this.props;
     validate({ username, password }).then((res) => {
       if (res.message === 'Ok') {
-        login({ username, password });
+        login({ username, password }).then((response) => {
+          if (response.status === 200) {
+            history.push('/');
+          }
+        });
       }
     });
     e.preventDefault();
@@ -118,6 +123,7 @@ LoginComponent.propTypes = {
   handleInput: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   error: PropTypes.object,
+  history: PropTypes.any.isRequired,
 };
 
 LoginComponent.defaultProps = {

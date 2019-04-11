@@ -28,12 +28,14 @@ export const loginUser = user => (dispatch) => {
     .then((data) => {
       dispatch(setCurrentUserProfile(data.user));
       dispatch(clearLogin());
+      return data;
     })
     .catch((err) => {
       dispatch({
         type: LOGIN_FAILURE,
         payload: err,
       });
+      return err;
     });
 };
 
