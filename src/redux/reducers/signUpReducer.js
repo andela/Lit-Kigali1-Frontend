@@ -10,7 +10,7 @@ import { signUp as initialState } from '../initialState.json';
 const signupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_SIGNUP_FORM:
-      return { ...initialState };
+      return initialState;
     case SIGNUP_FORM_SUBMIT:
       return {
         ...state,
@@ -24,7 +24,11 @@ const signupReducer = (state = initialState, { type, payload }) => {
         message: '',
       };
     case SIGNUP_SUCCESS:
-      return { ...state, successMessage: payload.message, submitting: false };
+      return { 
+        ...state, 
+        successMessage: payload.message, 
+        submitting: false 
+      };
     case SIGNUP_FAILURE:
       return {
         ...state,

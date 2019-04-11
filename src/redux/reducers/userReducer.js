@@ -17,7 +17,7 @@ const userReducer = (state = initialState, { type, payload }) => {
         profile: payload
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 
