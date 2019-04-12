@@ -66,6 +66,16 @@ describe('<Login />', () => {
       wrapper.find('.button').simulate('click');
       expect(props.validate).toHaveBeenCalled();
     });
+    test('should call not login user', () => {
+      const validate = jest.fn().mockImplementation(() => Promise.resolve({ message: 'Password incorrect' }));
+      wrapper = mount(
+        <Router>
+          <Login store={store} {...props} validate={validate} />
+        </Router>,
+      );
+      wrapper.find('.button').simulate('click');
+      expect(props.validate).toHaveBeenCalled();
+    });
   });
 
   describe('actions creators', () => {

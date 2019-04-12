@@ -16,15 +16,10 @@ export class LoginComponent extends Component {
       credentials: { username, password },
       validate,
       login,
-      history,
     } = this.props;
     validate({ username, password }).then((res) => {
       if (res.message === 'Ok') {
-        login({ username, password }).then((response) => {
-          if (response.status === 200) {
-            history.push('/');
-          }
-        });
+        login({ username, password });
       }
     });
     e.preventDefault();
