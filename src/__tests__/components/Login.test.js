@@ -128,5 +128,13 @@ describe('<Login />', () => {
       expect(errorContainer.length).toEqual(1);
       expect(errorContainer.text()).toEqual(error.message);
     });
+    test('should call handleError and return error message', () => {
+      const isLoggedIn = true;
+      const dataTestValue = 'form-errors';
+      const component = shallow(<Login {...props} isLoggedIn={isLoggedIn} />);
+      const errorContainer = component.find(`[data-test='${dataTestValue}']`);
+      expect(errorContainer.length).toEqual(1);
+      expect(errorContainer.text()).toEqual('');
+    });
   });
 });
