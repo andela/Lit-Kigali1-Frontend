@@ -8,5 +8,9 @@
 @import 'layout/grid-layout';
 @import 'layout/NavBar';
 
+/* Cards */
+@import 'cards/ArticleCard';
+
 /* Pages */
 @import 'pages/Login';
+@import 'pages/Profile';

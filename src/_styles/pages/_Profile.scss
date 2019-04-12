@@ -1,0 +1,225 @@
+@import '../base/variables';
+
+.profile-view {
+  width: 80%;
+  border: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+  border-radius: 5px;
+  padding: 0 auto;
+  margin: 0 auto;
+}
+
+.profile-cover {
+  height: 193px;
+  width: 100%;
+  border-radius: 5px 5px 0px 0px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+
+.profile-avatar-wrapper {
+  position: absolute;
+  bottom: -70px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profile-avatar-wrapper > p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 20px;
+  margin-bottom: -10px;
+}
+.profile-avatar {
+  width: 100px;
+  display: inline-block;
+  border: 1px solid $input-border-color;
+  border-radius: 50%;
+  box-sizing: border-box;
+  margin-bottom: -15px;
+}
+.profile-avatar.edit {
+  margin-bottom: 19px;
+}
+.profile-avatar-wrapper > label {
+  position: absolute;
+  left: 80.49%;
+  top: 12.5%;
+  bottom: 12.5%;
+}
+.profile-meta {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-left: 150px;
+  width: 500px;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.profile-meta > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-meta__text {
+  color: $primary;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.profile-meta__button {
+  margin-right: 10px;
+}
+
+.profile-bio {
+  position: relative;
+  width: 95%;
+  padding-top: 50px;
+  margin: 0 auto;
+}
+
+.profile-bio {
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.bio-header {
+  color: $primary;
+  margin-bottom: 5px;
+  font-family: Roboto-Regular;
+  font-size: bolder;
+}
+
+.bio-text {
+  font-family: Roboto-Light;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  font-size: 14px;
+  text-align: justify;
+  color: #696969;
+  padding-top: 15px;
+}
+
+.article-card.profile {
+  height: 12vh;
+}
+
+.fa-cog {
+  color: rgb(250, 249, 249);
+}
+.hide {
+  display: none;
+}
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  border: 0px solid $input-border-color;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+  bottom: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+.profile-form .small-input {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 100%;
+}
+.profile-form .single-input {
+  width: 90%;
+  height: auto;
+  border: 1px solid $input-border-color;
+  margin: 0 auto;
+  border-radius: 3px;
+  margin: 5px 20px;
+}
+.profile-form .large-input {
+  width: 94%;
+  height: 193px;
+  border: 1px solid $input-border-color;
+  margin-top: 40px;
+  margin: 20px;
+  border-radius: 5px;
+}
+[type='date'] {
+  color: $input-border-color;
+  padding: 0 0.3em;
+}
+.profile-form .single-input input[type='date'] {
+  width: 100%;
+  border: 0px solid $input-border-color;
+  font-size: 16px;
+  height: 30px;
+  position: relative;
+  margin: 0 auto;
+  border-radius: 3px;
+}
+
+.profile-form .single-input select {
+  width: 100%;
+  border: 0px solid $input-border-color;
+  font-size: 16px;
+  height: 30px;
+  position: relative;
+  margin: 0 auto;
+  border-radius: 3px;
+  color: #c4c4c4;
+}
+textarea::placeholder {
+  color: rgba($color: #000000, $alpha: 0.3);
+}
+
+@media screen and (max-width: 960px) {
+  .profile-view {
+    width: 100%;
+  }
+  .profile-avatar-wrapper {
+    bottom: -60px;
+  }
+  .profile-avatar {
+    width: 70px;
+    height: 70px;
+    bottom: -35px;
+  }
+  .profile-meta {
+    padding-left: 100px;
+  }
+  .bio-text {
+    bottom: -60px;
+  }
+  .profile-form .small-input {
+    flex-direction: column;
+  }
+  .profile-form .large-input {
+    width: 90%;
+  }
+  .profile-form {
+    width: 100%;
+  }
+  .article-card.profile {
+    height: auto;
+  }
+}
+@media screen and (max-width: 768px) {
+  .profile-meta__button {
+    position: absolute;
+    top: 230px;
+    right: 5%;
+  }
+}

@@ -15,9 +15,12 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|jpeg|gif)$/,
         include: path.join(__dirname, 'src', 'assets'),
-        use: 'file-loader',
+        loader: 'url-loader',
+        options: {
+          limit: 8192, // in bytes
+        },
       },
     ],
   },

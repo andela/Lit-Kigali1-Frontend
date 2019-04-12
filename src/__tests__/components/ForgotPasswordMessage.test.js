@@ -1,6 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ForgotPasswordMessage, mapStateToProps } from '../../ForgotPassword/ForgotPasswordMessage';
+import {
+  ForgotPasswordMessage,
+  mapStateToProps,
+} from '../../components/ForgotPassword/ForgotPasswordMessage';
 
 let wrapper;
 
