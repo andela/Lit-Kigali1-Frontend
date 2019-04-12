@@ -117,4 +117,16 @@ describe('<Login />', () => {
       expect(state).toEqual(expectedState);
     });
   });
+  describe('reducers', () => {
+    test('should call handleError action', () => {
+      const error = {
+        message: 'Password must be at least 6 characters',
+      };
+      const dataTestValue = 'form-errors';
+      const component = shallow(<Login {...props} error={error} />);
+      const errorContainer = component.find(`[data-test='${dataTestValue}']`);
+      expect(errorContainer.length).toEqual(1);
+      expect(errorContainer.text()).toEqual(error.message);
+    });
+  });
 });

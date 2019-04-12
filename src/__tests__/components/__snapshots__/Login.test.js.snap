@@ -15,6 +15,7 @@ exports[`<Login /> should render the <Login /> 1`] = `
     </div>
     <div
       className="form-errors"
+      data-test="form-errors"
     >
       
     </div>

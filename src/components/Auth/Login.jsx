@@ -40,9 +40,6 @@ export class LoginComponent extends Component {
     if (error.message) {
       return error.message;
     }
-    if (error.data) {
-      return error.data.message;
-    }
     if (isLoggedIn) {
       history.push('/');
     }
@@ -60,7 +57,7 @@ export class LoginComponent extends Component {
           <div className="color-primary to-center">
             <h2>LOG IN</h2>
           </div>
-          <div className="form-errors">{this.handleError()}</div>
+          <div className="form-errors" data-test="form-errors">{this.handleError()}</div>
           <div className="input primary">
             <i className="fa fa-user" />
             <Input
