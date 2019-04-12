@@ -117,8 +117,8 @@ describe('<Login />', () => {
       expect(state).toEqual(expectedState);
     });
   });
-  describe('reducers', () => {
-    test('should call handleError action', () => {
+  describe('handleError function', () => {
+    test('should call handleError and return error message', () => {
       const error = {
         message: 'Password must be at least 6 characters',
       };
