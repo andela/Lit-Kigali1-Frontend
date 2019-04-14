@@ -20,13 +20,6 @@
     "articles": [],
     "favorites": []
   },
-  "login": {
-    "submitting": false,
-    "credentials": {
-      "username": "",
-      "password": ""
-    }
-  },
   "signUp": {
     "submitting": false,
     "success": false,

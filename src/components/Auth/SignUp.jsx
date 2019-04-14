@@ -38,7 +38,7 @@ export class SignUp extends Component {
       return;
     }
 
-    if (password.length < 5) {
+    if (password.length < 6) {
       this.setState({
         validPassword: false,
         passwordError: 'Password must have at least 6 characters',

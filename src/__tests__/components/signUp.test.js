@@ -62,6 +62,12 @@ describe('when clicking on submit button', () => {
       validUsername: false,
     });
   });
+  test('should set submitting to true', () => {
+    wrapper = mount(<SignUp {...props} />);
+    wrapper.setProps({ submitting: true });
+    expect(wrapper.props().submitting).toBeTruthy();
+    expect(wrapper.find('Button').hasClass('loading'));
+  });
 });
 
 describe('when typing into the username input', () => {
