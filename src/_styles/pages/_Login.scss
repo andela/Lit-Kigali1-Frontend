@@ -39,6 +39,16 @@
   #forget-psswd {
     margin-top: -20px;
   }
+  .errors {
+    color: red;
+    font-size: 12px;
+    padding-right:50px;
+    position: absolute;
+    right:0;
+    @media screen and (max-width: 768px) {
+     margin-top: 25px;
+    }
+}
 }
 #card {
   height: 528px;

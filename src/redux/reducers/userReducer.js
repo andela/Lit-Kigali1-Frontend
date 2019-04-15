@@ -1,15 +1,13 @@
-import { LOGIN } from '../actions-types/userTypes';
+import { SET_PROFILE } from '../actions-types';
+import { user as initialState } from '../initialState.json';
 
-const initialState = {
-  loggedIn: false,
-  user: {},
-  articles: [],
-  favorites: [],
-};
-const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOGIN:
-      return { ...state, user: action.payload };
+const userReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
+    case SET_PROFILE:
+      return {
+        ...state,
+        profile: payload,
+      };
     default:
       return state;
   }
