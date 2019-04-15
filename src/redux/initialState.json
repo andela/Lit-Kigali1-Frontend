@@ -29,5 +29,12 @@
     "password": "",
     "message": "",
     "errors": []
+  },
+  "login": {
+    "submitting": false,
+    "credentials": {
+      "username": "",
+      "password": ""
+    }
   }
 }

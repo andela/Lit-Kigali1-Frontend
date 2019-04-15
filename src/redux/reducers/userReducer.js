@@ -1,20 +1,12 @@
-import { 
-  SET_PROFILE,
-} from '../actions-types';
-
-const initialState = {
-  profile: {},
-  articles: [],
-  favorites: [],
-};
-
+import { SET_PROFILE } from '../actions-types';
+import { user as initialState } from '../initialState.json';
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_PROFILE:
       return {
         ...state,
-        profile: payload
+        profile: payload,
       };
     default:
       return state;
@@ -22,4 +14,3 @@ const userReducer = (state = initialState, { type, payload }) => {
 };
 
 export default userReducer;
-
