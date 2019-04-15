@@ -6,7 +6,7 @@ import {
   CLEAR_SIGNUP_FORM,
 } from '../actions-types';
 import fetchAPI from '../../helpers/fetchAPI';
-import { setCurrentUserProfile } from './currentUserActions';
+import { setCurrentUser } from './currentUserActions';
 
 export const clearSignup = () => ({
   type: CLEAR_SIGNUP_FORM,
@@ -32,7 +32,7 @@ export const submitSignUp = ({ username, email, password }) => (dispatch) => {
     body: { user: { username, email, password } },
   })
     .then((data) => {
-      dispatch(setCurrentUserProfile(data.user));
+      dispatch(setCurrentUser(data.user));
       dispatch(clearSignup());
       localStorage.setItem('token', data.user.token);
       return data;

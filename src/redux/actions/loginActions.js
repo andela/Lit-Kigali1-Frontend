@@ -8,7 +8,7 @@ import {
   SUBMIT_LOGIN_FORM,
 } from '../actions-types';
 
-import { setCurrentUserProfile } from '.';
+import { setCurrentUser } from './currentUserActions';
 
 export const clearLogin = () => ({
   type: CLEAR_LOGIN,
@@ -26,7 +26,7 @@ export const loginUser = user => (dispatch) => {
     body: { user: { ...user } },
   })
     .then((data) => {
-      dispatch(setCurrentUserProfile(data.user));
+      dispatch(setCurrentUser(data.user));
       dispatch(clearLogin());
       localStorage.setItem('token', data.user.token);
       return data;

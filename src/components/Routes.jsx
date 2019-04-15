@@ -8,6 +8,7 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
 import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
+import ProfileView from './Profile/ProfileView';
 
 const Routes = () => (
   <div>
@@ -21,6 +22,7 @@ const Routes = () => (
       path="/users/:userId/confirm_email/:confirmationCode"
       component={ConfirmedEmailMessage}
     />
+    <Route exact path="/profiles/:username" component={ProfileView} />
   </div>
 );
 

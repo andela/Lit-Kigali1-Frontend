@@ -67,7 +67,9 @@ describe('<Login />', () => {
       expect(props.validate).toHaveBeenCalled();
     });
     test('should call not login user', () => {
-      const validate = jest.fn().mockImplementation(() => Promise.resolve({ message: 'Password incorrect' }));
+      const validate = jest
+        .fn()
+        .mockImplementation(() => Promise.resolve({ message: 'Password incorrect' }));
       wrapper = mount(
         <Router>
           <Login store={store} {...props} validate={validate} />
