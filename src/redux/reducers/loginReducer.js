@@ -17,11 +17,30 @@ const loginReducer = (state = initialState, { type, payload }) => {
     case SUBMIT_LOGIN_FORM:
       return { ...state, submitting: true };
     case LOGIN_FAILURE:
-      return { ...state, error: { ...state.error, message: payload.message }, submitting: false };
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          message: payload.message,
+        },
+        submitting: false,
+      };
     case HANDLE_LOGIN_INPUT:
-      return { ...state, credentials: { ...state.credentials, [payload.field]: payload.value } };
+      return {
+        ...state,
+        credentials: {
+          ...state.credentials,
+          [payload.field]: payload.value,
+        },
+      };
     case INPUT_VALIDATION_FAILURE:
-      return { ...state, error: { ...state.error, ...payload.response } };
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          ...payload.response,
+        },
+      };
     case INPUT_VALIDATION_SUCCESS:
       return { ...state, error: undefined };
     default:

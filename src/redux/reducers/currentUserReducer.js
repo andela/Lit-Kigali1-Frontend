@@ -6,7 +6,7 @@ import {
 } from '../actions-types/currentUserTypes';
 import { currentUser as initialState } from '../initialState.json';
 
-const userReducer = (state = initialState, { type, payload }) => {
+const currentUserReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_USER_ACTION_FAILURE:
       return {
@@ -28,21 +28,14 @@ const userReducer = (state = initialState, { type, payload }) => {
         profile: payload,
         isLoggedIn: true,
       };
-<<<<<<< HEAD
-=======
     case SET_CURRENT_USER_FOLLOWING:
       return {
         ...state,
         following: payload,
       };
->>>>>>> feat: implement follow a user feature
     default:
       return state;
   }
 };
 
-<<<<<<< HEAD
 export default currentUserReducer;
-=======
-export default userReducer;
->>>>>>> feat: implement follow a user feature
