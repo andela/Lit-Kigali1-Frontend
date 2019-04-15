@@ -81,14 +81,14 @@ describe('Login Actions', () => {
     expect(res.type).toEqual(SUBMIT_LOGIN_FORM);
   });
 
-  test('should return validation failure for password and email', () => {
+  test('should return usernameRequired', () => {
     const credentials = {
-      username: 'ton',
-      password: '123',
+      username: '',
+      password: '',
     };
     const payload = {
       response: {
-        message: 'Password and username must be at least 6 characters',
+        usernameRequired: 'required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -96,14 +96,14 @@ describe('Login Actions', () => {
     });
   });
 
-  test('should return validation failure for password', () => {
+  test('should return usernameRequired', () => {
     const credentials = {
-      username: 'daniel',
+      username: '',
       password: '123',
     };
     const payload = {
       response: {
-        message: 'Password must be at least 6 characters',
+        usernameRequired: 'required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -111,14 +111,14 @@ describe('Login Actions', () => {
     });
   });
 
-  test('should return validation failure for username', () => {
+  test('should return passwordRequired', () => {
     const credentials = {
       username: 'dan',
-      password: '123456',
+      password: '',
     };
     const payload = {
       response: {
-        message: 'Username must be at least 6 characters',
+        passwordRequired: 'required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -223,51 +223,13 @@ describe('Login Actions', () => {
           type: INPUT_VALIDATION_FAILURE,
           payload: {
             response: {
-              message: 'Password and username must be at least 6 characters',
+              message: 'Username and password don\'t match',
             },
           },
         },
       ];
       return store
         .dispatch(validateCredentials({ username: 'chris', password: 'chris' }))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedAction);
-        });
-    });
-
-    test('Validation - should return username validation response', () => {
-      expect.assertions(1);
-      const expectedAction = [
-        {
-          type: INPUT_VALIDATION_FAILURE,
-          payload: {
-            response: {
-              message: 'Username must be at least 6 characters',
-            },
-          },
-        },
-      ];
-      return store
-        .dispatch(validateCredentials({ username: 'chris', password: 'christian' }))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedAction);
-        });
-    });
-
-    test('Validation - should return password validation response', () => {
-      expect.assertions(1);
-      const expectedAction = [
-        {
-          type: INPUT_VALIDATION_FAILURE,
-          payload: {
-            response: {
-              message: 'Password must be at least 6 characters',
-            },
-          },
-        },
-      ];
-      return store
-        .dispatch(validateCredentials({ username: 'christian', password: 'chris' }))
         .then(() => {
           expect(store.getActions()).toEqual(expectedAction);
         });

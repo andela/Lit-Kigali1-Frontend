@@ -45,6 +45,7 @@ export class LoginComponent extends Component {
     const {
       credentials: { username, password },
       submitting,
+      error: { passwordRequired, usernameRequired },
     } = this.props;
     return (
       <div>
@@ -64,6 +65,7 @@ export class LoginComponent extends Component {
               placeholder="Username / Email"
               onChange={this.handleInput}
             />
+            <div className="errors">{usernameRequired}</div>
           </div>
           <div className="input primary">
             <i className="fa fa-lock" />
@@ -75,6 +77,7 @@ export class LoginComponent extends Component {
               placeholder="Password"
               onChange={this.handleInput}
             />
+            <div className="errors">{passwordRequired}</div>
           </div>
           <div className="align-right" id="forget-psswd">
             <Link to="/forgot-password">Forgot Password?</Link>

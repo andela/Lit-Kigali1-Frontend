@@ -33,6 +33,9 @@ exports[`<Login /> should render the <Login /> 1`] = `
         type="text"
         value=""
       />
+      <div
+        className="errors"
+      />
     </div>
     <div
       className="input primary"
@@ -47,6 +50,9 @@ exports[`<Login /> should render the <Login /> 1`] = `
         placeholder="Password"
         type="password"
         value=""
+      />
+      <div
+        className="errors"
       />
     </div>
     <div

@@ -56,28 +56,33 @@ export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => 
 export const validateCredentials = ({
   username, password,
 }) => dispatch => new Promise((resolve) => {
-  if (username.length < 6 && password.length < 6) {
+  if (username.length === 0) {
     const payload = {
       response: {
-        message: 'Password and username must be at least 6 characters',
+        usernameRequired: 'required',
+        message: undefined,
       },
     };
     dispatch(validationResponse(payload));
     return resolve(payload.response);
   }
-  if (username.length < 6) {
+  if (password.length === 0) {
     const payload = {
       response: {
-        message: 'Username must be at least 6 characters',
+        passwordRequired: 'required',
+        usernameRequired: undefined,
+        message: undefined,
       },
     };
     dispatch(validationResponse(payload));
     return resolve(payload.response);
   }
-  if (password.length < 6) {
+  if (username.length < 6 || password.length < 6) {
     const payload = {
       response: {
-        message: 'Password must be at least 6 characters',
+        message: 'Username and password don\'t match',
+        passwordRequired: undefined,
+        usernameRequired: undefined,
       },
     };
     dispatch(validationResponse(payload));
@@ -86,6 +91,8 @@ export const validateCredentials = ({
   const payload = {
     response: {
       message: 'Ok',
+      passwordRequired: undefined,
+      usernameRequired: undefined,
     },
   };
   dispatch(validationResponse(payload, INPUT_VALIDATION_SUCCESS));
