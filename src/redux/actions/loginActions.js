@@ -28,6 +28,7 @@ export const loginUser = user => (dispatch) => {
     .then((data) => {
       dispatch(setCurrentUserProfile(data.user));
       dispatch(clearLogin());
+      localStorage.setItem('token', data.user.token);
       return data;
     })
     .catch((err) => {
