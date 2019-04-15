@@ -22,6 +22,18 @@ module.exports = {
           limit: 8192, // in bytes
         },
       },
+      {
+        test: /\.svg$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true,
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {

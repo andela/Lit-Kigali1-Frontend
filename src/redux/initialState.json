@@ -40,5 +40,15 @@
       "username": "",
       "password": ""
     }
+  },
+  "article": {
+    "loading": true,
+    "submitting": false,
+    "article": {
+      "title": "",
+      "body": "",
+      "tagList": []
+    },
+    "articles": []
   }
 }

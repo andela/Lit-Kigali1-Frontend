@@ -9,6 +9,7 @@ import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
 import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
+import ArticleCreate from './Article/ArticleCreate';
 
 const Routes = () => (
   <div>
@@ -23,6 +24,7 @@ const Routes = () => (
       component={ConfirmedEmailMessage}
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
+    <Route exact path="/articles/create" component={ArticleCreate} />
   </div>
 );
 
