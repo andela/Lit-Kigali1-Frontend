@@ -5,7 +5,7 @@ import Home from './Home/Home';
 import ResetPassword from './ForgotPassword/ResetPassword';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
-import SignUp from './Auth/SignUp';
+import SignUp from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 
 const Routes = () => (

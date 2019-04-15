@@ -12,11 +12,11 @@ import google from '../../assets/images/google.png';
 export class SignUp extends Component {
   state = {
     validEmail: true,
-    emailError: 'Email is not valid',
+    emailError: 'Invalid email',
     validPassword: true,
-    passwordError: 'Password must have at least 6 characters',
+    passwordError: 'Minimum 6 characters',
     validUsername: true,
-    usernameError: 'username is not allowed to be empty',
+    usernameError: 'Required',
   };
 
   onSubmitButton = () => {
@@ -28,20 +28,36 @@ export class SignUp extends Component {
     if (username.length < 1) {
       this.setState({
         validUsername: false,
-        usernameError: 'username is not allowed to be empty',
+        usernameError: 'Required',
+      });
+      return;
+    }
+    if (email.length < 1) {
+      this.setState({
+        validEmail: false,
+        emailError: 'Required',
+      });
+      return;
+    }
+    if (!isEmail(email)) {
+      this.setState({
+        validEmail: false,
+        emailError: 'Invalid email',
       });
       return;
     }
 
-    if (!isEmail(email)) {
-      this.setState({ validEmail: false });
+    if (password.length < 1) {
+      this.setState({
+        validPassword: false,
+        passwordError: 'Required',
+      });
       return;
     }
-
     if (password.length < 6) {
       this.setState({
         validPassword: false,
-        passwordError: 'Password must have at least 6 characters',
+        passwordError: 'Minimum 6 characters',
       });
       return;
     }
@@ -78,80 +94,73 @@ export class SignUp extends Component {
       usernameError,
     } = this.state;
     return (
-      <div className="main-content middle-content">
-        <div id="card">
-          <form
-            className="bg-primary-light login-form"
-            id="signup"
-            action="articles-create.html"
-            ref={this.card}
+      <div>
+        <form className="bg-primary-light login-form" id="signup">
+          <div className="color-primary to-center">
+            <h2>SIGN UP</h2>
+          </div>
+          <div className="form-errors" data-test="form-errors">
+            {this.renderErrors()}
+          </div>
+          <div className="input primary">
+            <i className="fa fa-user" />
+            <Input
+              name="username"
+              type="text"
+              placeholder="Username"
+              classes="bg-primary-light"
+              value={username}
+              onChange={this.handleInputChange}
+            />
+            {validUsername ? '' : <div className="errors">{usernameError}</div>}
+          </div>
+          <div className="input primary">
+            <i className="fa fa-at" />
+            <Input
+              name="email"
+              type="email"
+              placeholder="Email"
+              classes="bg-primary-light"
+              value={email}
+              onChange={this.handleInputChange}
+            />
+            {validEmail ? '' : <div className="errors">{emailError}</div>}
+          </div>
+          <div className="input primary">
+            <i className="fa fa-lock" />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Password"
+              classes="bg-primary-light"
+              value={password}
+              onChange={this.handleInputChange}
+            />
+            {validPassword ? '' : <div className="errors">{passwordError}</div>}
+          </div>
+          <Button
+            classes={`primary color-white ${submitting ? 'loading' : ''}`}
+            type="button"
+            onClick={this.onSubmitButton}
           >
-            <div className="color-primary to-center">
-              <h2>SIGN UP</h2>
+            Sign Up
+          </Button>
+          <div className="icon-group">
+            <div id="fb">
+              <img src={fb} alt="fb-logo" />
             </div>
-            <div className="form-errors">{this.renderErrors()}</div>
-            <div className="input primary">
-              <i className="fa fa-user" />
-              <Input
-                name="username"
-                type="text"
-                placeholder="Username"
-                classes="bg-primary-light"
-                value={username}
-                onChange={this.handleInputChange}
-              />
-              {validUsername ? '' : <div className="form-error">{usernameError}</div>}
+            <div id="twbs">
+              <img src={twitter} alt="twbs-logo" />
             </div>
-            <div className="input primary">
-              <i className="fa fa-at" />
-              <Input
-                name="email"
-                type="email"
-                placeholder="Email"
-                classes="bg-primary-light"
-                value={email}
-                onChange={this.handleInputChange}
-              />
-              {validEmail ? '' : <div className="form-error">{emailError}</div>}
+            <div id="gl">
+              <img src={google} alt="gl-logo" />
             </div>
-            <div className="input primary">
-              <i className="fa fa-lock" />
-              <Input
-                name="password"
-                type="password"
-                placeholder="Password"
-                classes="bg-primary-light"
-                value={password}
-                onChange={this.handleInputChange}
-              />
-            </div>
-            {validPassword ? '' : <div className="form-error">{passwordError}</div>}
-            <Button
-              classes={`primary color-white content-margin width-100 ${
-                submitting ? 'loading' : ''
-              }`}
-              type="button"
-              onClick={this.onSubmitButton}
-            >
-              Sign Up
-            </Button>
-            <div className="icon-group">
-              <div id="fb">
-                <img src={fb} alt="fb-logo" />
-              </div>
-              <div id="twbs">
-                <img src={twitter} alt="twbs-logo" />
-              </div>
-              <div id="gl">
-                <img src={google} alt="gl-logo" />
-              </div>
-            </div>
-            <div className="to-center" id="form-link">
-              <span>Already a member?</span>
-              <a to="/login">Sign In</a>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div className="to-center" id="form-link">
+            <span>Already a member?</span>
+            <a to="/login">Sign In</a>
+          </div>
+        </form>
       </div>
     );
   }

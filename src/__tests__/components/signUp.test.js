@@ -21,11 +21,11 @@ const mockStore = configureMockStore();
 
 const defaultState = {
   validUsername: true,
-  usernameError: 'username is not allowed to be empty',
+  usernameError: 'Required',
   validEmail: true,
-  emailError: 'Email is not valid',
+  emailError: 'Invalid email',
   validPassword: true,
-  passwordError: 'Password must have at least 6 characters',
+  passwordError: 'Minimum 6 characters',
 };
 
 describe('<SignUp />', () => {
@@ -113,7 +113,7 @@ describe('when clicking on submit button', () => {
     expect(wrapper.state()).toEqual({
       ...defaultState,
       validUsername: false,
-      passwordError: 'Password must have at least 6 characters',
+      passwordError: 'Minimum 6 characters',
     });
   });
 
@@ -123,7 +123,27 @@ describe('when clicking on submit button', () => {
     expect(wrapper.state()).toEqual({
       ...defaultState,
       validEmail: false,
-      emailError: 'Email is not valid',
+      emailError: 'Required',
+    });
+  });
+
+  test('should call onSubmitFunction wrong email', () => {
+    wrapper.setProps({ username: 'test', password: 'testpassword', email: 'invalid@email' });
+    wrapper.find('.button').simulate('click');
+    expect(wrapper.state()).toEqual({
+      ...defaultState,
+      validEmail: false,
+      emailError: 'Invalid email',
+    });
+  });
+
+  test('should call onSubmitFunction wrong password', () => {
+    wrapper.setProps({ username: 'test', email: 'test@email.com', password: '12345' });
+    wrapper.find('.button').simulate('click');
+    expect(wrapper.state()).toEqual({
+      ...defaultState,
+      validPassword: false,
+      passwordError: 'Minimum 6 characters',
     });
   });
 
@@ -133,7 +153,7 @@ describe('when clicking on submit button', () => {
     expect(wrapper.state()).toEqual({
       ...defaultState,
       validPassword: false,
-      passwordError: 'Password must have at least 6 characters',
+      passwordError: 'Required',
     });
   });
 

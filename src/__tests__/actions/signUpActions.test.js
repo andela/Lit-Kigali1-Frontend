@@ -102,6 +102,9 @@ describe('signUp', () => {
             token: '4777vvcvhe7e77vb',
           },
         },
+        {
+          type: 'CLEAR_SIGNUP_FORM',
+        },
       ];
       nock(API_URL)
         .post('/users')

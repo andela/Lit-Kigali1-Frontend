@@ -33,6 +33,7 @@ export const submitSignUp = ({ username, email, password }) => (dispatch) => {
   })
     .then((data) => {
       dispatch(setCurrentUser(data.user));
+      dispatch(clearSignup());
       localStorage.setItem('token', data.user.token);
       return data;
     })
