@@ -1,0 +1,121 @@
+.article-text {
+  min-height: 650px;
+  outline: none;
+  border: 0;
+  resize: none;
+  overflow: hidden;
+  font-size: 0.8rem;
+}
+.article-actions {
+  position: fixed;
+  left: 15vw;
+  height: 650px;
+  top: 30vh;
+  margin-left: 15px;
+  width: 50px;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.article-icon {
+  font-family: Roboto-Medium;
+  padding: 5px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.article-icon.margin-top {
+  margin-top: 30px;
+}
+.article-icon .fa {
+  font-size: 20px;
+}
+.save-article-btn {
+  position: relative;
+}
+.save-article-btn:active .options,
+.save-article-btn:hover .options {
+  display: block;
+  height: auto;
+}
+.save-article-btn .options {
+  position: absolute;
+  display: none;
+  right: 0;
+  height: 0;
+  bottom: 100%;
+  transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.save-article-btn .options ul {
+  list-style: none;
+  text-decoration: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+.save-article-btn .options ul li {
+  display: block;
+  padding: 10px 20px;
+  background-color: $primary-light;
+  white-space: nowrap;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.save-article-btn .options ul li:hover a {
+  color: $primary;
+}
+@media screen and (max-width: 768px) {
+  .article-actions {
+    left: 10vw;
+  }
+}
+#tags {
+  float: left;
+  border: 1px solid #ccc;
+  font-family: Arial;
+  margin-left: 13vw;
+}
+#tags {
+  span {
+    cursor: pointer;
+    display: block;
+    float: left;
+    border-radius: 5px;
+    color: grey;
+    background: #e8eaf6;
+    padding: 5px;
+    padding-right: 25px;
+    margin: 4px;
+  }
+  span:hover {
+    opacity: 0.7;
+  }
+  span:after {
+    position: absolute;
+    content: '×';
+    padding: 2px 5px;
+    margin-left: 3px;
+    font-size: 11px;
+  }
+  input {
+    background: #fff;
+    border: 0;
+    margin: 4px;
+    width: auto;
+  }
+}
