@@ -49,11 +49,13 @@ export class LoginComponent extends Component {
     } = this.props;
     return (
       <div>
-        <form className="bg-primary-light login-form" id="signup">
+        <form className="bg-primary-light login-form" id="login">
           <div className="color-primary to-center">
             <h2>LOG IN</h2>
           </div>
-          <div className="form-errors" data-test="form-errors">{this.handleError()}</div>
+          <div className="form-errors" data-test="form-errors">
+            {this.handleError()}
+          </div>
           <div className="input primary">
             <i className="fa fa-user" />
             <Input

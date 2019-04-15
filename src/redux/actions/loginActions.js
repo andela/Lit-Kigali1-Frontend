@@ -53,9 +53,7 @@ export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => 
   payload,
 });
 
-export const validateCredentials = ({
-  username, password,
-}) => dispatch => new Promise((resolve) => {
+export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
   if (username.length === 0) {
     const payload = {
       response: {
@@ -80,7 +78,7 @@ export const validateCredentials = ({
   if (username.length < 6 || password.length < 6) {
     const payload = {
       response: {
-        message: 'Username and password don\'t match',
+        message: "Username and password don't match",
         passwordRequired: undefined,
         usernameRequired: undefined,
       },

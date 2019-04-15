@@ -1,23 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Login /> should render the <Login /> 1`] = `
+exports[`<SignUp /> should render the <SignUp /> 1`] = `
 <div>
   <form
     className="bg-primary-light login-form"
-    id="login"
+    id="signup"
   >
     <div
       className="color-primary to-center"
     >
       <h2>
-        LOG IN
+        SIGN UP
       </h2>
     </div>
     <div
       className="form-errors"
       data-test="form-errors"
     >
-      
+      <span>
+        
+      </span>
     </div>
     <div
       className="input primary"
@@ -29,13 +31,27 @@ exports[`<Login /> should render the <Login /> 1`] = `
         className="bg-primary-light"
         name="username"
         onChange={[Function]}
-        placeholder="Username / Email"
+        placeholder="Username"
         type="text"
         value=""
       />
-      <div
-        className="errors"
+      
+    </div>
+    <div
+      className="input primary"
+    >
+      <i
+        className="fa fa-at"
       />
+      <input
+        className="bg-primary-light"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email"
+        type="email"
+        value=""
+      />
+      
     </div>
     <div
       className="input primary"
@@ -51,20 +67,7 @@ exports[`<Login /> should render the <Login /> 1`] = `
         type="password"
         value=""
       />
-      <div
-        className="errors"
-      />
-    </div>
-    <div
-      className="align-right"
-      id="forget-psswd"
-    >
-      <a
-        href="/forgot-password"
-        onClick={[Function]}
-      >
-        Forgot Password?
-      </a>
+      
     </div>
     <button
       className="button primary color-white "
@@ -72,55 +75,34 @@ exports[`<Login /> should render the <Login /> 1`] = `
       onClick={[Function]}
       type="button"
     >
-      Log In
+      Sign Up
     </button>
     <div
       className="icon-group"
     >
       <div
-        data-test="fb-container"
         id="fb"
       >
-        <a
-          data-test="fb-a"
-          href="/#"
-        >
-          <img
-            alt="fb-logo"
-            data-test="fb-img"
-            src="test-file-stub"
-          />
-        </a>
+        <img
+          alt="fb-logo"
+          src="test-file-stub"
+        />
       </div>
       <div
-        data-test="twbs-container"
         id="twbs"
       >
-        <a
-          data-test="twbs-a"
-          href="/#"
-        >
-          <img
-            alt="twbs-logo"
-            data-test="twbs-img"
-            src="test-file-stub"
-          />
-        </a>
+        <img
+          alt="twbs-logo"
+          src="test-file-stub"
+        />
       </div>
       <div
-        data-test="gl-container"
         id="gl"
       >
-        <a
-          data-test="gl-a"
-          href="/#"
-        >
-          <img
-            alt="gl-logo"
-            data-test="gl-img"
-            src="test-file-stub"
-          />
-        </a>
+        <img
+          alt="gl-logo"
+          src="test-file-stub"
+        />
       </div>
     </div>
     <div
@@ -128,13 +110,12 @@ exports[`<Login /> should render the <Login /> 1`] = `
       id="form-link"
     >
       <span>
-        Not a member?
+        Already a member?
       </span>
       <a
-        href="/"
-        onClick={[Function]}
+        to="/login"
       >
-        Sign Up
+        Sign In
       </a>
     </div>
   </form>

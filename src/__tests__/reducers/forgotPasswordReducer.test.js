@@ -47,7 +47,7 @@ describe('forgotPasswordReducer', () => {
 
   it('should handle FORGOT_PASSWORD_FAILURE', () => {
     const payload = {
-      message: 'Password reset link sent successfully. Please check your email.',
+      message: 'No user found with that email address.',
     };
     const expectedState = {
       type: FORGOT_PASSWORD_FAILURE,

@@ -41,6 +41,13 @@ describe('<ResetPassword />', () => {
     expect(wrapper.state()).toEqual(defaultState);
   });
 
+  test('should set submitting to true', () => {
+    wrapper = mount(<ResetPassword {...props} />);
+    wrapper.setProps({ submitting: true });
+    expect(wrapper.props().submitting).toBeTruthy();
+    expect(wrapper.find('Button').hasClass('loading'));
+  });
+
   describe('when clicking on submit button', () => {
     beforeEach(() => {
       wrapper = mount(<ResetPassword {...props} />);
