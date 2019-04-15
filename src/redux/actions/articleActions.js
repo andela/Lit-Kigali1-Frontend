@@ -73,7 +73,7 @@ export const fetchArticle = slug => (dispatch) => {
   dispatch(fetchingArticle(true));
   return fetchAPI(`/articles/${slug}`)
     .then((data) => {
-      dispatch(fetchingArticleSuccess(data.article));
+      dispatch(submitArticleFormSuccess(data));
       return data;
     })
     .catch((err) => {
@@ -81,23 +81,6 @@ export const fetchArticle = slug => (dispatch) => {
       return err;
     });
 };
-
-export const fetchingArticle = payload => ({
-  type: articleTypes.FETCHING_ARTICLE,
-  payload,
-});
-
-/* Fetching article actions and thunk */
-
-export const fetchingArticleSuccess = payload => ({
-  type: articleTypes.FETCHING_ARTICLE_SUCCESS,
-  payload,
-});
-
-export const fetchingArticleFailure = payload => ({
-  type: articleTypes.FETCHING_ARTICLE_FAILURE,
-  payload,
-});
 
 export const setLikes = payload => ({
   type: articleTypes.SET_LIKES,
@@ -121,20 +104,6 @@ export const fetchDislikes = articleSlug => dispatch => fetchAPI(`/articles/${ar
   })
   .catch(err => err);
 
-export const fetchArticle = slug => (dispatch) => {
-  dispatch(fetchingArticle(true));
-  return fetchAPI(`/articles/${slug}`)
-    .then((data) => {
-      dispatch(fetchingArticleSuccess(data.article));
-      dispatch(fetchLikes(data.article.slug));
-      dispatch(fetchDislikes(data.article.slug));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(fetchingArticleFailure(err.message));
-      return err;
-    });
-};
 
 export const fetchingAllArticleSuccess = payload => ({
   type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,

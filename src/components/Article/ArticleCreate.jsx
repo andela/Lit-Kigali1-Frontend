@@ -305,6 +305,7 @@ export class ArticleCreate extends Component {
                   plugins={this.plugins}
                   onChange={this.onBodyChange}
                   blockRendererFn={mediaBlockRenderer}
+                  ref={this.setEditor}
                 />
               </div>
             </div>

@@ -15,7 +15,6 @@ import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
 import ProfileEdit from './Profile/ProfileEdit';
 import ArticleCreate from './Article/ArticleCreate';
-import Articles from './Article/Articles';
 import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 
 const Routes = () => (
@@ -32,7 +31,6 @@ const Routes = () => (
     />
     <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/profiles/:username" component={ProfileView} />
-    <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/articles/:articleSlug" component={Article} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
     <Route exact path="/articles" component={Articles} />
