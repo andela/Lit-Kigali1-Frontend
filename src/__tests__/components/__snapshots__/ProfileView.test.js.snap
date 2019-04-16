@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProfileView /> should render the <ResetPassword /> 1`] = `<div />`;
