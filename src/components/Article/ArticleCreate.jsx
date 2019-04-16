@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Editor, EditorState } from 'draft-js';
+import { EditorState, RichUtils } from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 import BoldButton from '../../assets/images/format-bold.svg';
@@ -11,11 +12,20 @@ import LinkButton from '../../assets/images/format-link.svg';
 import ImageButton from '../../assets/images/format-image.svg';
 import VideoButton from '../../assets/images/format-video.svg';
 import { clearArticleForm, onArticleFormInput } from '../../redux/actions/articleActions';
+import createHighlightPlugin from '../../helpers/editorPlugins';
+
 
 export class ArticleCreate extends Component {
-  state = {
-    editorState: EditorState.createEmpty(),
-  };
+  constructor() {
+    super();
+    this.state = {
+      editorState: EditorState.createEmpty(),
+    };
+    const highlightPlugin = createHighlightPlugin();
+    this.plugins = [
+      highlightPlugin,
+    ];
+  }
 
   componentDidMount() {
     this.focusEditor = () => {
@@ -26,9 +36,33 @@ export class ArticleCreate extends Component {
   }
 
   onBodyChange = (editorState) => {
-    console.log(editorState);
     this.setState({ editorState });
   };
+
+  handleKeyCommand = (command) => {
+    const { editorState } = this.state;
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onBodyChange(newState);
+      return 'handled';
+    }
+    return 'not-handled';
+  }
+
+  handleItalic = () => {
+    const { editorState } = this.state;
+    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
+  }
+
+  handleBold = () => {
+    const { editorState } = this.state;
+    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+  }
+
+  handleUnderline = () => {
+    const { editorState } = this.state;
+    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
+  }
 
   render() {
     const { onInputChange, article } = this.props;
@@ -52,13 +86,13 @@ export class ArticleCreate extends Component {
           <div className="row">
             <div className="col-2-mob">
               <div className="article-actions">
-                <Button classes="transparent">
+                <Button classes="transparent" onClick={this.handleBold}>
                   <BoldButton className="logo" width={30} height={30} />
                 </Button>
-                <Button classes="transparent">
+                <Button classes="transparent" onClick={this.handleItalic}>
                   <ItalicButton className="logo" width={30} height={30} />
                 </Button>
-                <Button classes="transparent">
+                <Button classes="transparent" onClick={this.handleUnderline}>
                   <UnderlinedButton className="logo" width={30} height={30} />
                 </Button>
                 <Button classes="transparent">
@@ -83,9 +117,10 @@ export class ArticleCreate extends Component {
                 <Editor
                   className="article-text"
                   name="body"
-                  ref={this.setEditor}
                   editorState={editorState}
                   onChange={this.onBodyChange}
+                  handleKeyCommand={this.handleKeyCommand}
+                  plugins={this.plugins}
                 />
               </div>
             </div>
@@ -109,10 +144,10 @@ export class ArticleCreate extends Component {
                 <div className="options">
                   <ul>
                     <li>
-                      <a href="#">Save as Draft</a>
+                      <a href="/#">Save as Draft</a>
                     </li>
                     <li>
-                      <a href="#">Publish</a>
+                      <a href="/#">Publish</a>
                     </li>
                   </ul>
                 </div>
@@ -142,16 +177,11 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 ArticleCreate.propTypes = {
-  loading: PropTypes.bool,
-  submitting: PropTypes.bool,
   article: PropTypes.object,
   onInputChange: PropTypes.func.isRequired,
-  onClearForm: PropTypes.func.isRequired,
 };
 
 ArticleCreate.defaultProps = {
-  loading: true,
-  submitting: false,
   article: {},
 };
 

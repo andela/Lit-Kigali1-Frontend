@@ -33,6 +33,7 @@
     "axios": "^0.18.0",
     "coveralls": "^3.0.3",
     "draft-js": "^0.10.5",
+    "draft-js-plugins-editor": "^2.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
