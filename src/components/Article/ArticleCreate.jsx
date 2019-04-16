@@ -26,7 +26,7 @@ export class ArticleCreate extends Component {
   }
 
   onBodyChange = (editorState) => {
-    console.log(editorState.getCurrentContent().ContentState);
+    console.log(editorState);
     this.setState({ editorState });
   };
 
@@ -109,10 +109,10 @@ export class ArticleCreate extends Component {
                 <div className="options">
                   <ul>
                     <li>
-                      <a href="">Save as Draft</a>
+                      <a href="#">Save as Draft</a>
                     </li>
                     <li>
-                      <a href="">Publish</a>
+                      <a href="#">Publish</a>
                     </li>
                   </ul>
                 </div>
