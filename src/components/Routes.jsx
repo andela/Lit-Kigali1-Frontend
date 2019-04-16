@@ -9,6 +9,7 @@ import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
 import ArticleCreate from './Article/ArticleCreate';
+import Article from './Article/Article';
 
 const Routes = () => (
   <div>
@@ -24,6 +25,7 @@ const Routes = () => (
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles/create" component={ArticleCreate} />
+    <Route exact path="/articles/:articleSlug" component={Article} />
   </div>
 );
 
