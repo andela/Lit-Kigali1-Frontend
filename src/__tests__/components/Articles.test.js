@@ -1,44 +1,45 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
+import { Articles, mapStateToProps, mapDispatchToProps } from '../../components/Article/Articles';
 import { articleData } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
 const props = {
   loading: true,
-  article: articleData,
+  articles: [articleData],
   currentUser: {
     username: 'username',
   },
-  getArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  getArticles: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   match: {
     params: {
       articleSlug: 'article-slug',
     },
   },
+  history: { push: jest.fn() },
 };
 
-describe('<Article />', () => {
+describe('<Articles />', () => {
   beforeEach(() => {
-    wrapper = mount(<Article {...props} />);
+    wrapper = mount(<Articles {...props} />);
   });
   test('should render the <Article />', () => {
-    const renderedValue = renderer.create(<Article {...props} />).toJSON();
+    const renderedValue = renderer.create(<Articles {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();
   });
 
-  test('should render <Article /> with tags', () => {
-    wrapper = mount(<Article {...props} />);
-    expect(wrapper.props().article.tagList).toBeDefined();
+  test('should render <Article /> with articles', () => {
+    wrapper = mount(<Articles {...props} />);
+    expect(wrapper.props().articles).toBeDefined();
   });
 
   describe('reducers', () => {
     test('should initialize the component state', () => {
       const state = mapStateToProps(initialState);
       expect(state).toHaveProperty('loading');
-      expect(state).toHaveProperty('article');
+      expect(state).toHaveProperty('articles');
       expect(state).toHaveProperty('submitting');
       expect(state).toHaveProperty('currentUser');
     });
@@ -46,9 +47,8 @@ describe('<Article />', () => {
 
   describe('actions creators', () => {
     test('should call getArticle action', () => {
-      const articleSlug = 'article-slug';
       const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).getArticle(articleSlug);
+      mapDispatchToProps(dispatch).getArticles();
       expect(dispatch).toHaveBeenCalled();
     });
   });
