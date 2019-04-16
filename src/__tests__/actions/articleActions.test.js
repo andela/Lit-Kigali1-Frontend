@@ -10,7 +10,6 @@ const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
 let store;
 jest.setTimeout(30000);
-
 describe('articleActions', () => {
   describe('actions creators', () => {
     test('should dispatch `CLEAR_ARTICLE_FORM`', () => {

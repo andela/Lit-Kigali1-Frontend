@@ -29,7 +29,7 @@ export const submitArticle = ({ article }) => (dispatch) => {
   dispatch(submitArticleForm({ submitting: true }));
   return fetchAPI('/articles', { method: 'POST', body: { article } })
     .then((data) => {
-      dispatch(submitArticleFormSuccess(data));
+      dispatch(submitArticleFormSuccess(data.article));
       return data;
     })
     .catch((err) => {
