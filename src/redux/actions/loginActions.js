@@ -53,11 +53,22 @@ export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => 
   payload,
 });
 
-export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
+export const validateCredentials = (
+  { username, password },
+) => dispatch => new Promise((resolve) => {
+  if (username.length === 0 && password.length === 0) {
+    const payload = {
+      response: {
+        message: 'All fields are required',
+      },
+    };
+    dispatch(validationResponse(payload));
+    return resolve(payload.response);
+  }
   if (username.length === 0) {
     const payload = {
       response: {
-        usernameRequired: 'required',
+        usernameRequired: 'Required',
         message: undefined,
       },
     };
@@ -67,7 +78,7 @@ export const validateCredentials = ({ username, password }) => dispatch => new P
   if (password.length === 0) {
     const payload = {
       response: {
-        passwordRequired: 'required',
+        passwordRequired: 'Required',
         usernameRequired: undefined,
         message: undefined,
       },

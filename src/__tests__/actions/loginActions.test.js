@@ -88,7 +88,7 @@ describe('Login Actions', () => {
     };
     const payload = {
       response: {
-        usernameRequired: 'required',
+        message: 'All fields are required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -103,7 +103,7 @@ describe('Login Actions', () => {
     };
     const payload = {
       response: {
-        usernameRequired: 'required',
+        usernameRequired: 'Required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -118,7 +118,7 @@ describe('Login Actions', () => {
     };
     const payload = {
       response: {
-        passwordRequired: 'required',
+        passwordRequired: 'Required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
