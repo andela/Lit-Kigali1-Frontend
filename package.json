@@ -36,6 +36,7 @@
     "draft-js": "^0.10.5",
     "html-to-react": "^1.3.4",
     "moment": "^2.24.0",
+    "draft-js-plugins-editor": "^2.1.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.4.2",
     "react": "^16.8.5",
