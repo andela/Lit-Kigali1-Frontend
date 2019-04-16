@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import Home from './Home/Home';
-import Login from './Auth';
 import ResetPassword from './ForgotPassword/ResetPassword';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
@@ -10,6 +9,7 @@ import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
 import ArticleCreate from './Article/ArticleCreate';
+import Article from './Article/Article';
 
 const Routes = () => (
   <div>
@@ -25,6 +25,7 @@ const Routes = () => (
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles/create" component={ArticleCreate} />
+    <Route exact path="/articles/:articleSlug" component={Article} />
   </div>
 );
 

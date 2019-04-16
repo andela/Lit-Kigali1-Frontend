@@ -151,7 +151,6 @@ describe('currentUserActions', () => {
 
     test('should dispatch onFollow action - SUCCESS', () => {
       expect.assertions(2);
-      expect.assertions(2);
       const payload = { username: 'username', method: 'POST' };
       nock(API_URL)
         .post(`/profiles/${payload.username}/follow`)
