@@ -53,7 +53,11 @@ ArticleCard.propTypes = {
 ArticleCard.defaultProps = {
   classes: '',
   url: '',
+<<<<<<< HEAD
   history: {},
+=======
+  history: '',
+>>>>>>> feat: complete view all articles
 };
 
 export default ArticleCard;
