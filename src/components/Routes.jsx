@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
 import ResetPassword from './ForgotPassword/ResetPassword';
@@ -10,9 +10,10 @@ import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
 import ArticleCreate from './Article/ArticleCreate';
 import Article from './Article/Article';
+import Articles from './Article/Articles';
 
 const Routes = () => (
-  <div>
+  <Switch>
     <Route exact path="/" component={Home} />
     <Route exact path="/forgot-password" component={ForgotPassword} />
     <Route exact path="/auth" component={Auth} />
@@ -26,7 +27,8 @@ const Routes = () => (
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/articles/:articleSlug" component={Article} />
-  </div>
+    <Route exact path="/articles" component={Articles} />
+  </Switch>
 );
 
 export default Routes;

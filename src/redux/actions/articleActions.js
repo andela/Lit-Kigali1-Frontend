@@ -67,3 +67,26 @@ export const fetchArticle = slug => (dispatch) => {
       return err;
     });
 };
+
+export const fetchingAllArticleSuccess = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const fetchingAllArticleFailure = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_FAILURE,
+  payload,
+});
+
+export const fetchArticles = () => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI('/articles')
+    .then((data) => {
+      dispatch(fetchingAllArticleSuccess(data.articles));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingAllArticleFailure(err.message));
+      return err;
+    });
+};

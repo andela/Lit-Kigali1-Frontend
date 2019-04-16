@@ -191,5 +191,51 @@ describe('articleActions', () => {
         expect(res.article).toEqual(expectedActions[1].payload);
       });
     });
+
+    test('should dispatch fetchArticles action - FAILED', () => {
+      expect.assertions(3);
+      nock(API_URL)
+        .get('/articles')
+        .reply(401, { status: 401, message: 'Unauthorized access' });
+      const expectedActions = [
+        {
+          type: articleTypes.FETCHING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: articleTypes.FETCHING_ALL_ARTICLE_FAILURE,
+          payload: 'Unauthorized access',
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticles()).then((res) => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+        expect(res.status).toBe(401);
+        expect(res.message).toBe(expectedActions[1].payload);
+      });
+    });
+
+    test('should dispatch fetchArticles action - SUCCESS', () => {
+      expect.assertions(3);
+      nock(API_URL)
+        .get('/articles')
+        .reply(200, { status: 200, articles: [articleData] });
+      const expectedActions = [
+        {
+          type: articleTypes.FETCHING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
+          payload: [articleData],
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticles()).then((res) => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+        expect(res.status).toBe(200);
+        expect(res.articles).toEqual(expectedActions[1].payload);
+      });
+    });
   });
 });

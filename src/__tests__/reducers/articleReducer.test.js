@@ -93,4 +93,31 @@ describe('currentUserReducer', () => {
       message: payload,
     });
   });
+
+  it('should handle `FETCHING_ALL_ARTICLE_SUCCESS`', () => {
+    const payload = [articleData];
+    const expectedState = {
+      type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      articles: payload,
+      loading: false,
+      success: true,
+    });
+  });
+
+  it('should handle `FETCHING_ALL_ARTICLE_FAILURE`', () => {
+    const payload = 'FAILURE';
+    const expectedState = {
+      type: articleTypes.FETCHING_ALL_ARTICLE_FAILURE,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      articles: [],
+      loading: false,
+      success: false,
+      message: payload,
+    });
+  });
 });
