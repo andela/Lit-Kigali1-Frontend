@@ -9,6 +9,8 @@ import {
   SET_CURRENT_USER_FOLLOWING,
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
+  SET_CURRENT_USER_DELETING_ARTICLE,
+  DELETE_CURRENT_USER_ARTICLE,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED } from '../../redux/actions-types/userTypes';
 
@@ -189,6 +191,65 @@ describe('currentUserActions', () => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.message).toBe(expectedActions.payload);
+      });
+    });
+
+    test('should dispatch onUserDeleteArticle action - FAILED', () => {
+      expect.assertions(1);
+      const payload = { articleSlug: 'article-slug', index: 0 };
+      nock(API_URL)
+        .delete(`/articles/${payload.articleSlug}`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      const expectedActions = [
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: SET_USER_ACTION_FAILURE,
+          payload: 'Article not found',
+        },
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: false,
+        },
+      ];
+      return store.dispatch(currentUserActions.onUserDeleteArticle(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch onUserDeleteArticle action - SUCCESS', () => {
+      expect.assertions(1);
+      const payload = {
+        articleSlug: 'article-slug',
+        index: 0,
+        message: 'Article deleted successfully',
+      };
+      nock(API_URL)
+        .delete(`/articles/${payload.articleSlug}`)
+        .reply(200, {
+          status: 200,
+          message: 'Article deleted successfully',
+        });
+      const expectedActions = [
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: DELETE_CURRENT_USER_ARTICLE,
+          payload,
+        },
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: false,
+        },
+      ];
+      return store.dispatch(currentUserActions.onUserDeleteArticle(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
       });
     });
   });
