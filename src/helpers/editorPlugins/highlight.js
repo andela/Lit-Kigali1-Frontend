@@ -1,22 +1,24 @@
 import { RichUtils } from 'draft-js';
 
-export default () => ({
+const createHighlightPlugin = () => ({
   customStyleMap: {
     HIGHLIGHT: {
-      background: '#0000000d',
+      background: '#ffff00',
     },
   },
   keyBindingFn: (e) => {
     if (e.metaKey && e.key === 'h') {
       return 'highlight';
     }
-    return '';
+    return undefined;
   },
   handleKeyCommand: (command, editorState, { setEditorState }) => {
     if (command === 'highlight') {
       setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
       return true;
     }
-    return '';
+    return undefined;
   },
 });
+
+export default createHighlightPlugin;

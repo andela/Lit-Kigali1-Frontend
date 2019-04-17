@@ -113,7 +113,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
         Already a member?
       </span>
       <a
-        to="/login"
+        href="#login"
       >
         Sign In
       </a>

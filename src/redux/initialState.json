@@ -44,11 +44,11 @@
   "article": {
     "loading": true,
     "submitting": false,
-    "article": {
+    "singleArticle": {
       "title": "",
       "body": "",
       "tagList": []
     },
-    "articles": []
+    "articlesList": []
   }
 }

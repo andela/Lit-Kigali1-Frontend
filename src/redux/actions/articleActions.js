@@ -6,7 +6,7 @@ export const clearArticleForm = () => ({
 });
 
 export const onArticleFormInput = payload => ({
-  type: articleTypes.CLEAR_ARTICLE_FORM,
+  type: articleTypes.SET_ARTICLE_FORM_INPUT,
   payload,
 });
 
@@ -37,3 +37,13 @@ export const submitArticle = ({ article }) => (dispatch) => {
       return err;
     });
 };
+
+export const addTag = payload => ({
+  type: articleTypes.SUBMIT_ARTICLE_TAG,
+  payload,
+});
+
+export const removeTag = payload => ({
+  type: articleTypes.REMOVE_ARTICLE_TAG,
+  payload,
+});

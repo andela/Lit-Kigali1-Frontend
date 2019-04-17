@@ -46,10 +46,11 @@ export class LoginComponent extends Component {
       credentials: { username, password },
       submitting,
       error: { passwordRequired, usernameRequired },
+      flipBack,
     } = this.props;
     return (
       <div>
-        <form className="bg-primary-light login-form" id="signup">
+        <form className="bg-primary-light login-form" id="login">
           <div className="color-primary to-center">
             <h2>LOG IN</h2>
           </div>
@@ -116,7 +117,7 @@ export class LoginComponent extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Not a member?</span>
-            <Link to="/#">Sign Up</Link>
+            <a href="#signup" onClick={flipBack}>Sign Up</a>
           </div>
         </form>
       </div>
@@ -133,6 +134,7 @@ LoginComponent.propTypes = {
   error: PropTypes.object,
   history: PropTypes.any.isRequired,
   isLoggedIn: PropTypes.bool,
+  flipBack: PropTypes.func.isRequired,
 };
 
 LoginComponent.defaultProps = {
