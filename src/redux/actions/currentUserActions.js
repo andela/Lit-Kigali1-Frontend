@@ -4,6 +4,9 @@ import {
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
   HANDLE_PROFILE_INPUT,
+  UPDATE_PROFILE_FAILURE,
+  UPDATE_PROFILE_SUCCESS,
+  SUBMIT_PROFILE_FORM,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -43,6 +46,23 @@ export const profileInputHandler = ({ field, value }) => ({
   },
 });
 
+export const profileUpdateSuccess = ({ message, user }) => ({
+  type: UPDATE_PROFILE_SUCCESS,
+  payload: {
+    message,
+    user,
+  },
+});
+
+export const profileUpdateFailure = ({ message }) => ({
+  type: UPDATE_PROFILE_FAILURE,
+  payload: {
+    message,
+  },
+});
+
+export const submitProfileForm = () => ({ type: SUBMIT_PROFILE_FORM });
+
 export const onFollow = ({ username, method }) => (dispatch) => {
   dispatch(setUserFollowing(true));
   return fetchAPI(`/profiles/${username}/follow`, { method })
@@ -56,5 +76,29 @@ export const onFollow = ({ username, method }) => (dispatch) => {
       dispatch(onUserActionFailure(message));
       dispatch(setUserFollowing(false));
       return message;
+    });
+};
+
+export const updateProfile = ({
+  firstName, lastName, birthDate, bio, image,
+}) => (dispatch) => {
+  dispatch(submitProfileForm());
+  return fetchAPI('/user', {
+    method: 'PUT',
+    body: {
+      user: {
+        firstName,
+        lastName,
+        birthDate,
+        bio,
+        image,
+      },
+    },
+  })
+    .then(({ message, user }) => {
+      dispatch(profileUpdateSuccess({ message, user }));
+    })
+    .catch(({ message }) => {
+      dispatch(profileUpdateFailure({ message }));
     });
 };
