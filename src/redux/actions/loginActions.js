@@ -6,9 +6,13 @@ import {
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
+  SOCIAL_AUTH_SUBMIT,
+  SOCIAL_AUTH_SUCCESS,
 } from '../actions-types';
 
 import { setCurrentUser } from './currentUserActions';
+
+const API_URL = 'http://localhost:3000/api/v1';
 
 export const clearLogin = () => ({
   type: CLEAR_LOGIN,
@@ -18,9 +22,12 @@ export const submitLoginForm = () => ({
   type: SUBMIT_LOGIN_FORM,
 });
 
+export const socialAuthLogin = () => ({
+  type: SOCIAL_AUTH_SUBMIT,
+});
+
 export const loginUser = user => (dispatch) => {
   dispatch(submitLoginForm());
-
   return fetchAPI('/users/login', {
     method: 'POST',
     body: { user: { ...user } },
@@ -96,3 +103,8 @@ export const validateCredentials = ({ username, password }) => dispatch => new P
   dispatch(validationResponse(payload, INPUT_VALIDATION_SUCCESS));
   return resolve(payload.response);
 });
+
+export const socialAuth = provider => (dispatch) => {
+  dispatch(socialAuthLogin(SOCIAL_AUTH_SUCCESS));
+  return window.open(`${API_URL}/users/${provider}`);
+};

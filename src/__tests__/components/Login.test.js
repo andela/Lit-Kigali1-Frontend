@@ -18,6 +18,8 @@ const props = {
   handleInput: mockFn,
   validate: jest.fn().mockImplementation(() => Promise.resolve({ message: 'Ok' })),
   history: { push: mockFn },
+  socialAuth: mockFn,
+  flipBack: mockFn,
 };
 
 const mockStore = configureMockStore();
@@ -77,6 +79,79 @@ describe('<Login />', () => {
       );
       wrapper.find('.button').simulate('click');
       expect(props.validate).toHaveBeenCalled();
+    });
+  });
+
+  describe('Clicking submit button', () => {
+    beforeEach(() => {
+      store = mockStore({});
+      wrapper = mount(
+        <Router>
+          <Login store={store} {...props} />
+        </Router>,
+      );
+    });
+
+    test('should call submit function', () => {
+      wrapper.setProps({
+        credentials: {
+          username: 'christian',
+          password: '123456',
+        },
+      });
+      wrapper.find('.button').simulate('click');
+      expect(props.validate).toHaveBeenCalled();
+    });
+
+    test('should call submit function', () => {
+      wrapper.find('#flipBack').simulate('click');
+      expect(props.flipBack).toHaveBeenCalled();
+    });
+
+    test('should call socialAuth action', () => {
+      const dispatch = jest.fn();
+      const payload = { provider: 'test' };
+      mapDispatchToProps(dispatch).socialAuth(payload);
+      expect(dispatch.mock.calls[0][0]).toBeDefined();
+    });
+  });
+
+  describe('socialLogin', () => {
+    test('should trigger click event', () => {
+      const wrapper = mount(
+        <Router>
+          <Login store={store} {...props} />
+        </Router>,
+      );
+      wrapper
+        .find('SocialLoginIcon')
+        .at(0)
+        .simulate('click');
+      expect(props.socialAuth).toHaveBeenCalled();
+    });
+    test('should trigger click event', () => {
+      const wrapper = mount(
+        <Router>
+          <Login store={store} {...props} />
+        </Router>,
+      );
+      wrapper
+        .find('SocialLoginIcon')
+        .at(1)
+        .simulate('click');
+      expect(props.socialAuth).toHaveBeenCalled();
+    });
+    test('should trigger click event', () => {
+      const wrapper = mount(
+        <Router>
+          <Login store={store} {...props} />
+        </Router>,
+      );
+      wrapper
+        .find('SocialLoginIcon')
+        .at(2)
+        .simulate('click');
+      expect(props.socialAuth).toHaveBeenCalled();
     });
   });
 

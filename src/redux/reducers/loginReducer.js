@@ -5,6 +5,8 @@ import {
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
+  SOCIAL_AUTH_SUBMIT,
+  SOCIAL_AUTH_SUCCESS,
 } from '../actions-types';
 import { login as initialState } from '../initialState.json';
 
@@ -43,6 +45,16 @@ const loginReducer = (state = initialState, { type, payload }) => {
       };
     case INPUT_VALIDATION_SUCCESS:
       return { ...state, error: undefined };
+    case SOCIAL_AUTH_SUBMIT:
+      return {
+        ...initialState,
+        submitting: true,
+      };
+    case SOCIAL_AUTH_SUCCESS:
+      return {
+        ...initialState,
+        submitting: false,
+      };
     default:
       return state;
   }
