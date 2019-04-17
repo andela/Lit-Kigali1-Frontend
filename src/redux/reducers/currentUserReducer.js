@@ -1,4 +1,11 @@
 import * as types from '../actions-types/currentUserTypes';
+import {
+  SET_CURRENT_USER,
+  SET_CURRENT_USER_FOLLOWING,
+  SET_USER_ACTION_SUCCESS,
+  SET_USER_ACTION_FAILURE,
+  HANDLE_PROFILE_INPUT,
+} from '../actions-types/currentUserTypes';
 import { currentUser as initialState } from '../initialState.json';
 
 const currentUserReducer = (state = initialState, { type, payload }) => {
@@ -34,6 +41,7 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         deletingArticle: payload,
       };
     case types.DELETE_CURRENT_USER_ARTICLE:
+    case HANDLE_PROFILE_INPUT:
       return {
         ...state,
         profile: {
@@ -51,6 +59,8 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         nextPath: payload,
+          [payload.field]: payload.value,
+        },
       };
     default:
       return state;

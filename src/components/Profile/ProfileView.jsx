@@ -20,6 +20,17 @@ export class ProfileView extends Component {
     getUserProfile(username);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const {
+      match: { params },
+    } = this.props;
+    if (params.username !== nextProps.match.params.username) {
+      const { getUserProfile } = this.props;
+      getUserProfile(nextProps.match.params.username);
+    }
+    return true;
+  }
+
   renderArticles = () => {
     const { profile } = this.props;
     return profile.articles.map(article => <ArticleCard key={article.slug} article={article} />);
