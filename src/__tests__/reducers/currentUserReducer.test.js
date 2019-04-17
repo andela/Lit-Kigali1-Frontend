@@ -4,9 +4,12 @@ import {
   SET_CURRENT_USER_FOLLOWING,
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
+  SET_CURRENT_USER_DELETING_ARTICLE,
+  DELETE_CURRENT_USER_ARTICLE,
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
+import { currentUser as initialState } from '../../redux/initialState.json';
 
 describe('currentUserReducer', () => {
   it('should return the initial `state`', () => {
@@ -55,6 +58,35 @@ describe('currentUserReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       following: true,
+    });
+  });
+
+  it('should handle `SET_CURRENT_USER_DELETING_ARTICLE`', () => {
+    const expectedState = {
+      type: SET_CURRENT_USER_DELETING_ARTICLE,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      deletingArticle: true,
+    });
+  });
+
+  it('should handle `DELETE_CURRENT_USER_ARTICLE`', () => {
+    const expectedState = {
+      type: DELETE_CURRENT_USER_ARTICLE,
+      payload: { articleSlug: 'article-slug', index: 0, message: 'Deleteted successfully' },
+    };
+    expect(
+      reducer(
+        {
+          ...initialState,
+          profile: { articles: [{ slug: 'article-slug' }] },
+        },
+        expectedState,
+      ),
+    ).toEqual({
+      ...initialState,
+      message: expectedState.payload.message,
     });
   });
 });

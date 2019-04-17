@@ -11,6 +11,7 @@ import ProfileView from './Profile/ProfileView';
 import ArticleCreate from './Article/ArticleCreate';
 import Article from './Article/Article';
 import Articles from './Article/Articles';
+import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 
 const Routes = () => (
   <Switch>
@@ -28,6 +29,7 @@ const Routes = () => (
     <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/articles/:articleSlug" component={Article} />
     <Route exact path="/articles" component={Articles} />
+    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
   </Switch>
 );
 

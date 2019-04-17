@@ -18,9 +18,13 @@
     "errors": []
   },
   "currentUser": {
+    "message": "",
     "following": false,
+    "deletingArticle": false,
     "isLoggedIn": false,
-    "profile": {},
+    "profile": {
+      "articles": []
+    },
     "articles": [],
     "favorites": []
   },
