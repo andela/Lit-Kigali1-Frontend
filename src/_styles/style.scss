@@ -11,7 +11,14 @@
 /* Cards */
 @import 'cards/ArticleCard';
 
+/* Components */
+@import 'components/FiveStars';
+@import 'components/Toast';
+
 /* Pages */
 @import 'pages/Login';
 @import 'pages/Profile';
 @import 'pages/ArticleCreate';
+@import 'pages/Article';
+@import 'pages/Articles';
+@import 'pages/ArticlesCurrentUser';

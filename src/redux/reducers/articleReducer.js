@@ -22,7 +22,9 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         message: payload.message,
+        errors: [],
         submitting: false,
+        success: true,
       };
     case articleTypes.SUBMIT_ARTICLE_FORM_FAILURE:
       return {
@@ -30,6 +32,42 @@ const articleReducer = (state = initialState, { type, payload }) => {
         message: payload.message,
         errors: payload.errors || [],
         submitting: false,
+        success: false,
+      };
+    case articleTypes.FETCHING_ARTICLE:
+      return {
+        ...state,
+        loading: payload,
+      };
+    case articleTypes.FETCHING_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        article: payload,
+        loading: false,
+        success: true,
+      };
+    case articleTypes.FETCHING_ARTICLE_FAILURE:
+      return {
+        ...state,
+        article: {},
+        loading: false,
+        success: false,
+        message: payload,
+      };
+    case articleTypes.FETCHING_ALL_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        articles: payload,
+        loading: false,
+        success: true,
+      };
+    case articleTypes.FETCHING_ALL_ARTICLE_FAILURE:
+      return {
+        ...state,
+        articles: [],
+        loading: false,
+        success: false,
+        message: payload,
       };
     case articleTypes.SUBMIT_ARTICLE_TAG:
       return {

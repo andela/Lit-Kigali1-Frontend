@@ -29,7 +29,7 @@ export const submitArticle = ({ article }) => (dispatch) => {
   dispatch(submitArticleForm({ submitting: true }));
   return fetchAPI('/articles', { method: 'POST', body: { article } })
     .then((data) => {
-      dispatch(submitArticleFormSuccess(data));
+      dispatch(submitArticleFormSuccess(data.article));
       return data;
     })
     .catch((err) => {
@@ -47,3 +47,55 @@ export const removeTag = payload => ({
   type: articleTypes.REMOVE_ARTICLE_TAG,
   payload,
 });
+export const fetchingArticle = payload => ({
+  type: articleTypes.FETCHING_ARTICLE,
+  payload,
+});
+
+/* Fetching article actions and thunk */
+
+export const fetchingArticleSuccess = payload => ({
+  type: articleTypes.FETCHING_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const fetchingArticleFailure = payload => ({
+  type: articleTypes.FETCHING_ARTICLE_FAILURE,
+  payload,
+});
+
+export const fetchArticle = slug => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI(`/articles/${slug}`)
+    .then((data) => {
+      dispatch(fetchingArticleSuccess(data.article));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingArticleFailure(err.message));
+      return err;
+    });
+};
+
+export const fetchingAllArticleSuccess = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const fetchingAllArticleFailure = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_FAILURE,
+  payload,
+});
+
+export const fetchArticles = () => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI('/articles')
+    .then((data) => {
+      dispatch(fetchingAllArticleSuccess(data.articles));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingAllArticleFailure(err.message));
+      return err;
+    });
+};
