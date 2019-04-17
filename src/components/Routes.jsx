@@ -13,6 +13,7 @@ import Article from './Article/Article';
 import Ratings from './Rating/Ratings';
 import ArticleCreate from './Article/ArticleCreate';
 import Articles from './Article/Articles';
+import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 
 const Routes = () => (
   <Switch>
@@ -32,6 +33,7 @@ const Routes = () => (
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
     <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/articles" component={Articles} />
+    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
   </Switch>
 );
 
