@@ -85,7 +85,7 @@ export class ProfileView extends Component {
           <div className="profile-view">
             <div className="profile-cover" style={{ backgroundImage: `url("${defaultCover}")` }}>
               <div className="profile-avatar-wrapper">
-                <img src={userAvatar} className="profile-avatar" alt="" />
+                <img src={profile.image || userAvatar} className="profile-avatar" alt="" />
                 <p>
                   {profile.firstName}
                   {' '}

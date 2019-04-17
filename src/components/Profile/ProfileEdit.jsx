@@ -1,16 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-datepicker';
+import Dropzone from 'react-dropzone';
+import request from 'superagent';
 import userAvatar from '../../assets/images/avatar.png';
 import defaultCover from '../../assets/images/cover.jpg';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 import { fetchUserProfile, profileInputHandler } from '../../redux/actions';
+import Config from '../../config/config';
+import 'react-datepicker/dist/react-datepicker.css';
+
+const CLOUDINARY_UPLOAD_PRESET = Config.upload_preset;
+const CLOUDINARY_UPLOAD_URL = Config.upload_url;
 
 export class ProfileEdit extends Component {
+  onImageDrop = (files) => {
+    // console.log(this.props);
+    const { handleInput } = this.props;
+    const file = files[0];
+    const upload = request
+      .post(CLOUDINARY_UPLOAD_URL)
+      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+      .field('file', file);
+
+    upload.end((err, response) => {
+      if (err) {
+        console.error(err);
+      }
+
+      if (response.body.secure_url !== '') {
+        handleInput({ field: 'image', value: response.body.secure_url });
+      }
+    });
+  };
+
   handleInput = (e) => {
     const { handleInput } = this.props;
     handleInput({ field: e.target.name, value: e.target.value });
+  };
+
+  handleDate = (date) => {
+    const { handleInput } = this.props;
+    handleInput({ field: 'birthDate', value: date });
   };
 
   render() {
@@ -25,7 +58,19 @@ export class ProfileEdit extends Component {
               <div className="profile-avatar-wrapper">
                 <label htmlFor="file" style={{ color: 'rgb(248, 248, 248)' }}>
                   <i className="fa fa-pencil fa-lg" />
-                  <input type="file" className="hide" name="file" id="file" accept="image/*" />
+                  <Dropzone onDrop={this.onImageDrop} accept="image/*" multiple={false}>
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps()}>
+                        <input
+                          {...getInputProps()}
+                          name="file"
+                          id="file"
+                          className="hide"
+                          type="file"
+                        />
+                      </div>
+                    )}
+                  </Dropzone>
                 </label>
                 <img
                   src={currentUser.profile.image || userAvatar}
@@ -69,13 +114,15 @@ export class ProfileEdit extends Component {
                   </select>
                 </div>
                 <div className="single-input">
-                  <Input
-                    name="birthDate"
-                    type="text"
-                    onFocus="(this.type='date')"
-                    onBlur="(this.type='text')"
-                    placeholder="Birth Date"
-                    onChange={this.handleInput}
+                  <DatePicker
+                    nanme="birthDate"
+                    selected={currentUser.profile.birthDate}
+                    onChange={this.handleDate}
+                    placeholderText="Birth Date"
+                    peekNextMonth
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode="select"
                   />
                 </div>
               </div>
