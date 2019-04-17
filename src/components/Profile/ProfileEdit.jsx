@@ -8,7 +8,7 @@ import userAvatar from '../../assets/images/avatar.png';
 import defaultCover from '../../assets/images/cover.jpg';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
-import { fetchUserProfile, profileInputHandler } from '../../redux/actions';
+import { fetchUserProfile, profileInputHandler, updateProfile } from '../../redux/actions';
 import Config from '../../config/config';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -46,6 +46,37 @@ export class ProfileEdit extends Component {
     handleInput({ field: 'birthDate', value: date });
   };
 
+  save = (e) => {
+    const {
+      currentUser: {
+        profile: {
+          firstName, lastName, birthDate, bio, gender, image, username,
+        },
+      },
+      saveData,
+    } = this.props;
+    saveData({
+      firstName,
+      lastName,
+      birthDate,
+      bio,
+      gender,
+      image,
+      username,
+    });
+    e.preventDefault();
+  };
+
+  handleError = () => {
+    const {
+      currentUser: { message },
+    } = this.props;
+    if (message) {
+      return message;
+    }
+    return '';
+  };
+
   render() {
     const { getUserProfile, currentUser } = this.props;
     getUserProfile(currentUser.profile.username);
@@ -80,6 +111,9 @@ export class ProfileEdit extends Component {
               </div>
             </div>
             <div className="profile-form">
+              <div className="form-errors" data-test="form-errors">
+                {this.handleError()}
+              </div>
               <div className="small-input">
                 <div className="single-input">
                   <Input
@@ -137,7 +171,13 @@ export class ProfileEdit extends Component {
                 />
               </div>
               <div className="col-12 content-right">
-                <Button classes="primary">SAVE</Button>
+                <Button
+                  type="button"
+                  classes={`primary ${currentUser.loading ? 'loading' : ''}`}
+                  onClick={this.save}
+                >
+                  SAVE
+                </Button>
               </div>
             </div>
           </div>
@@ -151,6 +191,7 @@ ProfileEdit.propTypes = {
   currentUser: PropTypes.object.isRequired,
   getUserProfile: PropTypes.func.isRequired,
   handleInput: PropTypes.func.isRequired,
+  saveData: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = ({ currentUser }) => ({ currentUser });
@@ -158,6 +199,19 @@ export const mapStateToProps = ({ currentUser }) => ({ currentUser });
 export const mapDispatchToProps = dispatch => ({
   getUserProfile: username => dispatch(fetchUserProfile(username)),
   handleInput: ({ field, value }) => dispatch(profileInputHandler({ field, value })),
+  saveData: ({
+    firstName, lastName, gender, birthDate, bio, image, username,
+  }) => dispatch(
+    updateProfile({
+      firstName,
+      lastName,
+      gender,
+      birthDate,
+      bio,
+      image,
+      username,
+    }),
+  ),
 });
 
 export default connect(
