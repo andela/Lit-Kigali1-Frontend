@@ -26,7 +26,6 @@ export class ArticleCreate extends Component {
   }
 
   onBodyChange = (editorState) => {
-    console.log(editorState.getCurrentContent().ContentState);
     this.setState({ editorState });
   };
 
