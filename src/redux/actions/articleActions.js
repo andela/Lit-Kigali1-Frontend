@@ -90,3 +90,12 @@ export const fetchArticles = () => (dispatch) => {
       return err;
     });
 };
+export const addTag = payload => ({
+  type: articleTypes.SUBMIT_ARTICLE_TAG,
+  payload,
+});
+
+export const removeTag = payload => ({
+  type: articleTypes.REMOVE_ARTICLE_TAG,
+  payload,
+});

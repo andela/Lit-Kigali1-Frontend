@@ -48,12 +48,11 @@
   "article": {
     "loading": true,
     "submitting": false,
-    "success": true,
-    "article": {
+    "singleArticle": {
       "title": "",
       "body": "",
       "tagList": []
     },
-    "articles": []
+    "articlesList": []
   }
 }

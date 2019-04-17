@@ -1,3 +1,4 @@
+@import '../base/variables';
 .article-text {
   min-height: 650px;
   outline: none;
@@ -5,6 +6,10 @@
   resize: none;
   overflow: hidden;
   font-size: 0.8rem;
+}
+.article-link {
+  text-decoration: underline;
+  color: $primary;
 }
 .article-actions {
   position: fixed;
@@ -118,4 +123,7 @@
     margin: 4px;
     width: auto;
   }
+}
+.article-image {
+  width: 50%;
 }

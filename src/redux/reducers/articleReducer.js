@@ -11,7 +11,10 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SET_ARTICLE_FORM_INPUT:
       return {
         ...state,
-        [payload.field]: payload.value,
+        singleArticle: {
+          ...state.singleArticle,
+          [payload.field]: payload.value,
+        },
         errors: [],
         message: '',
       };
@@ -65,6 +68,23 @@ const articleReducer = (state = initialState, { type, payload }) => {
         loading: false,
         success: false,
         message: payload,
+      };
+    case articleTypes.SUBMIT_ARTICLE_TAG:
+      return {
+        ...state,
+        singleArticle: {
+          ...state.singleArticle,
+          tagList: [...state.singleArticle.tagList, payload.tag],
+        },
+      };
+    case articleTypes.REMOVE_ARTICLE_TAG:
+      state.singleArticle.tagList.splice(payload.index, 1);
+      return {
+        ...state,
+        singleArticle: {
+          ...state.singleArticle,
+          tagList: [...state.singleArticle.tagList],
+        },
       };
     default:
       return state;

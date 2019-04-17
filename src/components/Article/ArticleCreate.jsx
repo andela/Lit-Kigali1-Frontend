@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { EditorState, RichUtils } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
+import { EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 import BoldButton from '../../assets/images/format-bold.svg';
@@ -11,19 +11,30 @@ import UnderlinedButton from '../../assets/images/format-underlined.svg';
 import LinkButton from '../../assets/images/format-link.svg';
 import ImageButton from '../../assets/images/format-image.svg';
 import VideoButton from '../../assets/images/format-video.svg';
-import { clearArticleForm, onArticleFormInput } from '../../redux/actions/articleActions';
-import createHighlightPlugin from '../../helpers/editorPlugins';
+import {
+  clearArticleForm,
+  onArticleFormInput,
+  addTag,
+  removeTag,
+} from '../../redux/actions/articleActions';
+import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
+import addLinkPlugin from '../../helpers/editorPlugins/addLink';
+import addImagePlugin from '../../helpers/editorPlugins/addImage';
+import Tag from '../Tag/Tag';
+import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 
-
+const highlightPlugin = createHighlightPlugin();
 export class ArticleCreate extends Component {
   constructor() {
     super();
     this.state = {
       editorState: EditorState.createEmpty(),
+      tag: '',
     };
-    const highlightPlugin = createHighlightPlugin();
     this.plugins = [
       highlightPlugin,
+      addLinkPlugin,
+      addImagePlugin,
     ];
   }
 
@@ -64,9 +75,75 @@ export class ArticleCreate extends Component {
     this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
   }
 
-  render() {
-    const { onInputChange, article } = this.props;
+  handleTag = (e) => {
+    this.setState({ tag: e.target.value });
+  }
+
+  handleTagSubmit = (e) => {
+    const { onTagFormSubmit } = this.props;
+    const { tag } = this.state;
+    if (tag.length === 0) {
+      e.preventDefault();
+      return;
+    }
+    onTagFormSubmit({ tag });
+    this.setState({ tag: '' });
+    e.preventDefault();
+  }
+
+  displayTag = () => {
+    const { singleArticle: { tagList }, onTagRemove } = this.props;
+    return tagList.map(
+      (tag, index) => <Tag key={index} onClick={() => onTagRemove({ index })}>{tag}</Tag>,
+    );
+  }
+
+  addLink = () => {
     const { editorState } = this.state;
+    const selectedText = editorState.getSelection();
+    const link = window.prompt('Enter a link...');
+
+    if (!link) {
+      this.onBodyChange(RichUtils.toggleLink(editorState, selectedText, null));
+      return 'handled';
+    }
+    const content = editorState.getCurrentContent();
+    const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: link });
+    const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    this.onBodyChange(RichUtils.toggleLink(newEditorState, selectedText, entityKey));
+    return 'handled';
+  }
+
+  addImage= () => {
+    const { editorState } = this.state;
+    const urlValue = window.prompt('Paste Image Link');
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'image',
+      'IMMUTABLE',
+      { src: urlValue },
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      { currentContent: contentStateWithEntity },
+      'create-entity',
+    );
+    this.setState(
+      {
+        editorState: AtomicBlockUtils.insertAtomicBlock(
+          newEditorState,
+          entityKey,
+          ' ',
+        ),
+      },
+    );
+  }
+
+  render() {
+    const { onInputChange, singleArticle } = this.props;
+    const { editorState, tag } = this.state;
     return (
       <section className="main-content">
         <div className="container content-margin">
@@ -76,8 +153,9 @@ export class ArticleCreate extends Component {
               <div className="input primary-border">
                 <Input
                   type="text"
+                  name="title"
                   onChange={onInputChange}
-                  value={article.title}
+                  value={singleArticle.title}
                   placeholder="Enter Title Here"
                 />
               </div>
@@ -95,10 +173,10 @@ export class ArticleCreate extends Component {
                 <Button classes="transparent" onClick={this.handleUnderline}>
                   <UnderlinedButton className="logo" width={30} height={30} />
                 </Button>
-                <Button classes="transparent">
+                <Button classes="transparent" onClick={this.addLink}>
                   <LinkButton className="logo" width={30} height={30} />
                 </Button>
-                <Button classes="transparent">
+                <Button classes="transparent" onClick={this.addImage}>
                   <ImageButton className="logo" width={30} height={30} />
                 </Button>
                 <Button classes="transparent">
@@ -118,9 +196,10 @@ export class ArticleCreate extends Component {
                   className="article-text"
                   name="body"
                   editorState={editorState}
-                  onChange={this.onBodyChange}
                   handleKeyCommand={this.handleKeyCommand}
                   plugins={this.plugins}
+                  onChange={this.onBodyChange}
+                  blockRendererFn={mediaBlockRenderer}
                 />
               </div>
             </div>
@@ -128,30 +207,34 @@ export class ArticleCreate extends Component {
           <div className="row">
             <div className="col-6 content-left">
               <div id="tags">
-                <span className="tag">laborum</span>
-                <span className="tag">lorem</span>
-                <input
-                  onChange={() => console.log('ooo')}
-                  type="text"
-                  value=""
-                  placeholder="Add a tag"
-                />
+                {this.displayTag()}
+                <form onSubmit={this.handleTagSubmit} className="width-100">
+                  <input
+                    type="text"
+                    name="tag"
+                    onChange={this.handleTag}
+                    value={tag}
+                    placeholder="Add a tag"
+                  />
+                </form>
               </div>
             </div>
             <div className="col-6 content-right">
-              <Button classes="primary save-article-btn">
-                Save
-                <div className="options">
-                  <ul>
-                    <li>
-                      <a href="/#">Save as Draft</a>
-                    </li>
-                    <li>
-                      <a href="/#">Publish</a>
-                    </li>
-                  </ul>
-                </div>
-              </Button>
+              <div>
+                <Button classes="primary save-article-btn">
+                  Save
+                  <div className="options">
+                    <ul>
+                      <li>
+                        <a href="/#">Save as Draft</a>
+                      </li>
+                      <li>
+                        <a href="/#">Publish</a>
+                      </li>
+                    </ul>
+                  </div>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -160,8 +243,8 @@ export class ArticleCreate extends Component {
   }
 }
 
-export const mapStateToProps = ({ article: { loading, article, submitting } }) => ({
-  article,
+export const mapStateToProps = ({ article: { loading, singleArticle, submitting } }) => ({
+  singleArticle,
   loading,
   submitting,
 });
@@ -174,15 +257,19 @@ export const mapDispatchToProps = dispatch => ({
     }),
   ),
   onClearForm: () => dispatch(clearArticleForm()),
+  onTagFormSubmit: (tag) => { dispatch(addTag(tag)); },
+  onTagRemove: (index) => { dispatch(removeTag(index)); },
 });
 
 ArticleCreate.propTypes = {
-  article: PropTypes.object,
+  singleArticle: PropTypes.object,
   onInputChange: PropTypes.func.isRequired,
+  onTagFormSubmit: PropTypes.func.isRequired,
+  onTagRemove: PropTypes.func.isRequired,
 };
 
 ArticleCreate.defaultProps = {
-  article: {},
+  singleArticle: {},
 };
 
 export default connect(

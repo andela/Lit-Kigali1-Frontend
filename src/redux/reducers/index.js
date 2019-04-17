@@ -7,6 +7,7 @@ import signUp from './signUpReducer';
 import login from './loginReducer';
 import article from './articleReducer';
 
+
 const reducer = combineReducers({
   user,
   forgotPassword,
