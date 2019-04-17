@@ -102,7 +102,7 @@ export class SignUp extends Component {
     } = this.state;
     return (
       <div>
-        <form className="bg-primary-light login-form" id="signup">
+        <form className="bg-primary-light login-form" id="login">
           <div className="color-primary to-center">
             <h2>SIGN UP</h2>
           </div>

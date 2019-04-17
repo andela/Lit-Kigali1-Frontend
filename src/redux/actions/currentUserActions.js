@@ -3,6 +3,7 @@ import {
   SET_CURRENT_USER_FOLLOWING,
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
+  HANDLE_PROFILE_INPUT,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -32,6 +33,14 @@ export const fetchCurrentUser = token => dispatch => fetchAPI('/user', { token }
 export const setUserFollowing = payload => ({
   type: SET_CURRENT_USER_FOLLOWING,
   payload,
+});
+
+export const profileInputHandler = ({ field, value }) => ({
+  type: HANDLE_PROFILE_INPUT,
+  payload: {
+    value,
+    field,
+  },
 });
 
 export const onFollow = ({ username, method }) => (dispatch) => {
