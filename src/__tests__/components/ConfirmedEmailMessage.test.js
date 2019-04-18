@@ -1,13 +1,26 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import renderer from 'react-test-renderer';
+<<<<<<< HEAD
+=======
+import configureStore from 'redux-mock-store'; // ES6 modules
+import thunk from 'redux-thunk';
+>>>>>>> feat(auth): increases tests
 import nock from 'nock';
 import 'isomorphic-fetch';
 import ConfirmedEmailMessage from '../../components/Auth/ConfirmedEmailMessage';
 
 let wrapper;
 const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
+<<<<<<< HEAD
 const mockFn = jest.fn();
+=======
+
+const mockStore = configureStore([thunk]);
+let store;
+const mockFn = jest.fn();
+
+>>>>>>> feat(auth): increases tests
 const props = {
   onSubmit: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   onInputChange: mockFn,
@@ -51,11 +64,17 @@ describe('<ConfirmedEmaiMessage  />', () => {
     beforeEach(() => {
       wrapper = mount(<ConfirmedEmailMessage {...props} />);
     });
+<<<<<<< HEAD
 
     afterEach(() => {
       nock.cleanAll();
     });
 
+=======
+    afterEach(() => {
+      nock.cleanAll();
+    });
+>>>>>>> feat(auth): increases tests
     test('should render fetch confirm email status - FAILURE', () => {
       const { params } = props.match;
       nock(API_URL)
