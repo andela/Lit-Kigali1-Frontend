@@ -1,4 +1,4 @@
-import configureStore from 'redux-mock-store'; // ES6 modules
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';

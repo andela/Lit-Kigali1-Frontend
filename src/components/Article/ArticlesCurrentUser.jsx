@@ -12,9 +12,9 @@ export class ArticlesCurrentUser extends Component {
     articleStatus: 'unpublished',
     modalActive: false,
     showToast: false,
-    articleIndex: 0,
     deleteStatus: 'success',
     deleteMessage: '',
+    article: '',
   };
 
   renderDate = date => `Published On: ${moment(date).format('LLLL')}`;
@@ -26,17 +26,24 @@ export class ArticlesCurrentUser extends Component {
 
   openModal = (e) => {
     const { index } = e.target.dataset;
-    this.setState({ articleIndex: index, modalActive: true, showToast: false });
+    const {
+      currentUser: { articles },
+    } = this.props;
+    this.setState({
+      article: articles[index],
+      modalActive: true,
+      showToast: false,
+    });
   };
 
   closeModal = () => {
     this.setState({ modalActive: false });
   };
 
-  onDeleteArticle = (e) => {
-    const { slug, index } = e.target.dataset;
+  onDeleteArticle = () => {
+    const { article } = this.state;
     const { deleteArticle } = this.props;
-    deleteArticle({ articleSlug: slug, index })
+    deleteArticle({ articleSlug: article.slug })
       .then((message) => {
         this.setState({
           modalActive: false,
@@ -56,13 +63,9 @@ export class ArticlesCurrentUser extends Component {
   };
 
   renderModal = () => {
-    const { modalActive, articleIndex } = this.state;
-    const {
-      currentUser: { articles },
-      deletingArticle,
-    } = this.props;
-    const article = articles[articleIndex || 0];
-    if (!modalActive) return <div />;
+    const { modalActive, article } = this.state;
+    const { deletingArticle } = this.props;
+    if (!modalActive || !article) return '';
     return (
       <div className="my-article-modal active">
         <div className="my-article-modal__wrap">
@@ -71,14 +74,13 @@ export class ArticlesCurrentUser extends Component {
           <div className="my-article-modal__actions">
             <Button
               data-slug={article.slug}
-              data-index={articleIndex}
               data-name="yes-btn"
-              className={`primary ${deletingArticle ? 'loading' : ''}`}
+              classes={`primary ${deletingArticle ? 'loading' : ''}`}
               onClick={this.onDeleteArticle}
             >
               Yes
             </Button>
-            <Button data-name="no-btn" className="button primary" onClick={this.closeModal}>
+            <Button data-name="no-btn" classes="primary" onClick={this.closeModal}>
               No
             </Button>
           </div>

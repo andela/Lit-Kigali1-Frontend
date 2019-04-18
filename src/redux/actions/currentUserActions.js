@@ -62,11 +62,11 @@ export const deleteCurrentUserArticle = payload => ({
   payload,
 });
 
-export const onUserDeleteArticle = ({ articleSlug, index }) => (dispatch) => {
+export const onUserDeleteArticle = ({ articleSlug }) => (dispatch) => {
   dispatch(setUserDeletingArticle(true));
   return fetchAPI(`/articles/${articleSlug}`, { method: 'DELETE' })
     .then(({ message }) => {
-      dispatch(deleteCurrentUserArticle({ articleSlug, index, message }));
+      dispatch(deleteCurrentUserArticle({ articleSlug, message }));
       dispatch(setUserDeletingArticle(false));
       return message;
     })
