@@ -4,11 +4,9 @@ import { shallow } from 'enzyme';
 import Auth from '../../components/Auth';
 
 describe('<Auth />', () => {
-  const mockFn = jest.fn();
-
   const props = {
     history: '',
-    flip: mockFn,
+    onFlip: jest.fn(),
   };
   const mockStore = configureMockStore();
   const store = mockStore({});
@@ -21,7 +19,13 @@ describe('<Auth />', () => {
 
   test('should render default state', () => {
     wrapper = shallow(<Auth store={store} {...props} />);
-    wrapper.setState({ flip: false });
-    expect(wrapper.state().flip).toEqual(false);
+    wrapper.setState({ onFlip: false });
+    expect(wrapper.state().onFlip).toEqual(false);
+  });
+
+  test('should render default state', () => {
+    wrapper = shallow(<Auth store={store} {...props} />);
+    wrapper.instance().flip({ target: { id: 'flip-login' }, preventDefault: jest.fn() });
+    expect(wrapper.state().flip).toEqual('flip-login');
   });
 });

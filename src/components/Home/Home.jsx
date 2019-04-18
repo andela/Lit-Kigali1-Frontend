@@ -8,7 +8,6 @@ import { fetchCurrentUser } from '../../redux/actions/currentUserActions';
 export class Home extends Component {
   componentWillMount() {
     const parsed = queryString.parse(this.props.location.search);
-    console.log(this.props.location.search);
     const { getCurrentUser } = this.props;
 
     if (parsed.token) {

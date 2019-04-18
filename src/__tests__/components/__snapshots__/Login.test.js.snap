@@ -120,7 +120,7 @@ exports[`<Login /> should render the <Login /> 1`] = `
       </span>
       <a
         href="#signup"
-        id="flipBack"
+        id="flip-login"
         onClick={[MockFunction]}
       >
         Sign Up

@@ -92,7 +92,7 @@ export class SignUp extends Component {
 
   render() {
     const {
-      username, password, email, submitting, flip,
+      username, password, email, submitting, onFlip,
     } = this.props;
     const {
       emailError,
@@ -185,7 +185,7 @@ export class SignUp extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Already a member?</span>
-            <a href="#login" id="flip" onClick={flip}>
+            <a href="#login" id="flip-signup" onClick={onFlip}>
               Sign In
             </a>
           </div>
@@ -228,7 +228,7 @@ SignUp.propTypes = {
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
   socialAuth: PropTypes.func,
-  flip: PropTypes.func,
+  onFlip: PropTypes.func,
 };
 
 SignUp.defaultProps = {

@@ -16,7 +16,7 @@ const props = {
   onInputChange: mockFn,
   history: { push: mockFn },
   socialAuth: mockFn,
-  flip: mockFn,
+  onFlip: mockFn,
 };
 
 const mockStore = configureMockStore();
@@ -205,8 +205,8 @@ describe('actions creators', () => {
   });
 
   test('should call submit function', () => {
-    wrapper.find('#flip').simulate('click');
-    expect(props.flip).toHaveBeenCalled();
+    wrapper.find('#flip-signup').simulate('click');
+    expect(props.onFlip).toHaveBeenCalled();
   });
 
   test('should call socialAuth action', () => {

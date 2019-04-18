@@ -19,7 +19,7 @@ const props = {
   validate: jest.fn().mockImplementation(() => Promise.resolve({ message: 'Ok' })),
   history: { push: mockFn },
   socialAuth: mockFn,
-  flipBack: mockFn,
+  onFlip: mockFn,
 };
 
 const mockStore = configureMockStore();
@@ -104,8 +104,8 @@ describe('<Login />', () => {
     });
 
     test('should call submit function', () => {
-      wrapper.find('#flipBack').simulate('click');
-      expect(props.flipBack).toHaveBeenCalled();
+      wrapper.find('#flip-login').simulate('click');
+      expect(props.onFlip).toHaveBeenCalled();
     });
 
     test('should call socialAuth action', () => {
