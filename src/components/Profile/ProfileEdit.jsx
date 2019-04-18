@@ -8,6 +8,7 @@ import userAvatar from '../../assets/images/avatar.png';
 import defaultCover from '../../assets/images/cover.jpg';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
+import Toast from '../common/Toast/Toast';
 import { fetchUserProfile, profileInputHandler, updateProfile } from '../../redux/actions';
 import Config from '../../config/config';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -16,6 +17,12 @@ const CLOUDINARY_UPLOAD_PRESET = Config.upload_preset;
 const CLOUDINARY_UPLOAD_URL = Config.upload_url;
 
 export class ProfileEdit extends Component {
+  state = {
+    showToast: false,
+    status: 'success',
+    message: '',
+  };
+
   onImageDrop = (files) => {
     const { handleInput } = this.props;
     const file = files[0];
@@ -26,7 +33,11 @@ export class ProfileEdit extends Component {
 
     upload.end((err, response) => {
       if (err) {
-        console.error(err);
+        this.setState({
+          showToast: true,
+          status: 'error',
+          message: 'Something Went Wrong',
+        });
       }
 
       if (response.body.secure_url !== '') {
@@ -62,27 +73,34 @@ export class ProfileEdit extends Component {
       gender,
       image,
       username,
+    }).then(({ status }) => {
+      if (status === 200) {
+        this.setState({
+          showToast: true,
+          status: 'success',
+          message: 'Updated Successfully',
+        });
+      } else {
+        this.setState({
+          showToast: true,
+          status: 'error',
+          message: 'Profile Edit Failed',
+        });
+      }
     });
     e.preventDefault();
-  };
-
-  handleMessage = () => {
-    const {
-      currentUser: { message },
-    } = this.props;
-    if (message) {
-      return message;
-    }
-    return '';
   };
 
   render() {
     const { getUserProfile, currentUser } = this.props;
     getUserProfile(currentUser.profile.username);
 
+    const { showToast, status, message } = this.state;
+
     return (
       <section className="main-content content-margin">
         <div className="container">
+          <Toast show={showToast} type={status} message={message} />
           <div className="profile-view">
             <div className="profile-cover" style={{ backgroundImage: `url("${defaultCover}")` }}>
               <div className="profile-avatar-wrapper">
@@ -110,9 +128,6 @@ export class ProfileEdit extends Component {
               </div>
             </div>
             <div className="profile-form">
-              <div className="form-errors" data-test="form-errors">
-                {this.handleMessage()}
-              </div>
               <div className="small-input">
                 <div className="single-input">
                   <Input

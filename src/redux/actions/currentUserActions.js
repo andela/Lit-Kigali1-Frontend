@@ -1,3 +1,4 @@
+import { OutgoingMessage } from 'http';
 import {
   SET_CURRENT_USER,
   SET_CURRENT_USER_FOLLOWING,
@@ -95,10 +96,12 @@ export const updateProfile = ({
       },
     },
   })
-    .then(({ message, user }) => {
-      dispatch(profileUpdateSuccess({ message, user }));
+    .then(({ status, message, user }) => {
+      dispatch(profileUpdateSuccess({ user }));
+      return { status, message };
     })
-    .catch(({ message }) => {
-      dispatch(profileUpdateFailure({ message }));
+    .catch(({ status, message }) => {
+      dispatch(profileUpdateFailure());
+      return { status, message };
     });
 };
