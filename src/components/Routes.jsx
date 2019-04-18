@@ -9,6 +9,7 @@ import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
 import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
+import ErrorPage from './common/ErrorPage/ErrorPage';
 
 const Routes = () => (
   <div>
@@ -23,6 +24,7 @@ const Routes = () => (
       component={ConfirmedEmailMessage}
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
+    <Route path="*" component={ErrorPage} />
   </div>
 );
 

@@ -10,13 +10,17 @@ export class ConfirmedEmailMessage extends Component {
   };
 
   componentDidMount() {
+    this.fetchConfirmEmail();
+  }
+
+  fetchConfirmEmail = () => {
     const {
       match: {
         params: { userId, confirmationCode },
       },
     } = this.props;
 
-    fetchAPI(`/users/${userId}/confirm_email/${confirmationCode}`, {
+    return fetchAPI(`/users/${userId}/confirm_email/${confirmationCode}`, {
       method: 'GET',
     })
       .then(({ message }) => {
@@ -25,7 +29,7 @@ export class ConfirmedEmailMessage extends Component {
       .catch(({ message }) => {
         this.setState({ message, error: true });
       });
-  }
+  };
 
   render() {
     const { message } = this.state;
