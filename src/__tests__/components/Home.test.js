@@ -14,6 +14,7 @@ describe('<Home />', () => {
     const wrapper = shallow(<Home {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
+  
   describe('actions creators', () => {
     test('should call getCurrentUser action', () => {
       const dispatch = jest.fn();
