@@ -17,7 +17,6 @@ const CLOUDINARY_UPLOAD_URL = Config.upload_url;
 
 export class ProfileEdit extends Component {
   onImageDrop = (files) => {
-    // console.log(this.props);
     const { handleInput } = this.props;
     const file = files[0];
     const upload = request
@@ -67,7 +66,7 @@ export class ProfileEdit extends Component {
     e.preventDefault();
   };
 
-  handleError = () => {
+  handleMessage = () => {
     const {
       currentUser: { message },
     } = this.props;
@@ -106,13 +105,13 @@ export class ProfileEdit extends Component {
                 <img
                   src={currentUser.profile.image || userAvatar}
                   className="profile-avatar edit"
-                  alt=""
+                  alt="Profile"
                 />
               </div>
             </div>
             <div className="profile-form">
               <div className="form-errors" data-test="form-errors">
-                {this.handleError()}
+                {this.handleMessage()}
               </div>
               <div className="small-input">
                 <div className="single-input">
