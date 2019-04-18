@@ -68,14 +68,14 @@ describe('<ArticlesCurrentUser />', () => {
           <ArticlesCurrentUser {...newProps} />
         </Router>,
       );
-      wrapper.find('ArticlesCurrentUser').setState({ modalActive: true });
+      wrapper.find('ArticlesCurrentUser').setState({ modalActive: true, article: articleData });
       wrapper.update();
       wrapper.find('Button[data-name="yes-btn"]').simulate('click');
       expect(wrapper.find('ArticlesCurrentUser').state().modalActive).toBe(true);
     });
 
     test('should call onDeleteArticle', () => {
-      wrapper.find('ArticlesCurrentUser').setState({ modalActive: true });
+      wrapper.find('ArticlesCurrentUser').setState({ modalActive: true, article: articleData });
       wrapper.update();
       wrapper.find('Button[data-name="yes-btn"]').simulate('click');
       expect(wrapper.find('ArticlesCurrentUser').state().modalActive).toBe(true);
@@ -98,7 +98,7 @@ describe('<ArticlesCurrentUser />', () => {
 
   describe('when clicking on `No` from delete modal', () => {
     test('should call clodeModal', () => {
-      wrapper.find('ArticlesCurrentUser').setState({ modalActive: true });
+      wrapper.find('ArticlesCurrentUser').setState({ modalActive: true, article: articleData });
       wrapper.update();
       wrapper.find('Button[data-name="no-btn"]').simulate('click');
       expect(wrapper.find('ArticlesCurrentUser').state().modalActive).toBeFalsy();
