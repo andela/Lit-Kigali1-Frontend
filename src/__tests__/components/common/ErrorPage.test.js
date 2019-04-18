@@ -14,9 +14,6 @@ describe('<ErrorPage />', () => {
     wrapper = shallow(<ErrorPage />);
     expect(wrapper).toMatchSnapshot();
   });
-  // it('should have onClick as prop', () => {
-  //   expect(wrapper.props().onClick).toBeDefined();
-  // });
 
   describe('when clicking on navigate button', () => {
     beforeEach(() => {

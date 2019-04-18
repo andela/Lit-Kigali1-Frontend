@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: $primary-light;
   .error-block {
     max-width: 80%;
     max-height: 80%;
@@ -38,6 +39,7 @@
       .error-title {
         font-size: 4rem;
         color: $primary;
+        text-align: center;
         margin-top: 0;
         font-family: 'Roboto-BlackItalic';
       }
@@ -67,7 +69,6 @@
         }
         .error-title {
           font-size: 1.5rem;
-          text-align: center;
         }
         .error-text {
           font-size: 1rem;
