@@ -24,10 +24,10 @@ const signupReducer = (state = initialState, { type, payload }) => {
         message: '',
       };
     case SIGNUP_SUCCESS:
-      return { 
-        ...state, 
-        successMessage: payload.message, 
-        submitting: false 
+      return {
+        ...state,
+        successMessage: payload.message,
+        submitting: false,
       };
     case SIGNUP_FAILURE:
       return {

@@ -1,0 +1,118 @@
+@import '../base/variables';
+
+.my-articles-tab {
+  padding: 10px 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.my-articles-tab span {
+  margin-right: 30px;
+  cursor: pointer;
+}
+.my-articles-tab span.active,
+.my-articles-tab span:hover {
+  color: $primary;
+}
+
+.my-articles {
+  margin: 20px 0;
+}
+
+.my-article {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.my-article__title {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  font-size: 1.3rem;
+  a {
+    cursor: pointer;
+    flex: 1;
+  }
+}
+.my-article-delete {
+  cursor: pointer;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  width: auto;
+  min-width: auto;
+  text-align: right;
+  &:hover {
+    color: $red;
+  }
+}
+
+.my-article-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  &.active {
+    display: flex;
+  }
+}
+.my-article-modal__wrap {
+  padding: 10px;
+  min-width: 400px;
+  min-height: 100px;
+  max-width: 80%;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.my-article-modal__title {
+  font-size: 1.3rem;
+  text-align: center;
+  padding: 10px;
+}
+.my-article-modal__content {
+  font-size: 1rem;
+}
+.my-article-modal__actions {
+  font-size: 1.3rem;
+  display: flex;
+}
+.my-article-modal__actions .button {
+  flex: 1;
+  margin: 10px;
+}
+.my-article-delete:focus + .my-article-modal,
+.my-article-delete:focus-within + .my-article-modal {
+  display: flex;
+}
+
+.my-article__text {
+  padding: 5px 80px 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: Roboto-Light;
+  margin: 0;
+  font-size: 1rem;
+}
+.my-article__meta {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 0.6rem;
+}
+
+@media screen and (max-width: 768px) {
+  .my-article__text {
+    padding-right: 50px;
+    height: 5rem;
+  }
+}

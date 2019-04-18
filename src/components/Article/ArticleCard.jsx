@@ -53,7 +53,7 @@ ArticleCard.propTypes = {
 ArticleCard.defaultProps = {
   classes: '',
   url: '',
-  history: '',
+  history: {},
 };
 
 export default ArticleCard;

@@ -223,7 +223,7 @@ describe('Login Actions', () => {
           type: INPUT_VALIDATION_FAILURE,
           payload: {
             response: {
-              message: 'Username and password don\'t match',
+              message: "Username and password don't match",
             },
           },
         },
