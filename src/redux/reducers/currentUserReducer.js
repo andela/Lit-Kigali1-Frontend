@@ -77,13 +77,11 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
           ...state.profile,
           ...payload.user,
         },
-        message: payload.message,
         loading: false,
       };
     case UPDATE_PROFILE_FAILURE:
       return {
         ...state,
-        message: 'Failed To Edit Your Profile',
         loading: false,
       };
     default:

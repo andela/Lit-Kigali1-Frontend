@@ -10,7 +10,7 @@ class Toast extends Component {
     this.setState({ active: props.show });
     setTimeout(() => {
       this.setState({ active: false });
-    }, 6000);
+    }, 5000);
     return true;
   }
 
