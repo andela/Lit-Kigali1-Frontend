@@ -61,6 +61,7 @@ export class NavBar extends Component {
 
   render() {
     const { showMenu } = this.state;
+    const { image } = this.props;
     return (
       <nav className="top-navbar container">
         <div className="col-3-mob">
@@ -75,7 +76,7 @@ export class NavBar extends Component {
           </div>
           <div className="nav-button navbar-dropdown is-desktop color-white">
             <Button onClick={this.showMenu} classes="transparent">
-              <img src={userAvatar} className="top-navbar__avatar" alt="User logo" />
+              <img src={image || userAvatar} className="top-navbar__avatar" alt="User logo" />
             </Button>
             {this.renderLinks('dropdown')}
           </div>
@@ -87,20 +88,23 @@ export class NavBar extends Component {
 
 NavBar.propTypes = {
   username: propTypes.string,
+  image: propTypes.string,
 };
 
 NavBar.defaultProps = {
   username: undefined,
+  image: undefined,
 };
 
 export const mapStateToProps = ({
   currentUser: {
     isLoggedIn,
-    profile: { username },
+    profile: { username, image },
   },
 }) => ({
   isLoggedIn,
   username,
+  image,
 });
 
 export default connect(mapStateToProps)(NavBar);
