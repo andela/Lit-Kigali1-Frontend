@@ -1,12 +1,11 @@
 import reducer from '../../redux/reducers/articleReducer';
 import * as articleTypes from '../../redux/actions-types/articleTypes';
 import { articleData, draftjsBody, jsonFormat } from '../../__mocks__/dummyData';
-
-import { article as initialState } from '../../redux/initialState';
+import store from '../../redux/store';
 
 describe('articleReducer', () => {
   it('should return the initial `state`', () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
+    expect(reducer(undefined, {})).toEqual(store.getState().article);
   });
 
   it('should handle `CLEAR_ARTICLE_FORM`', () => {
@@ -106,15 +105,13 @@ describe('articleReducer', () => {
   });
 
   it('should handle `FETCHING_ALL_ARTICLE_SUCCESS`', () => {
-    const articles = [articleData];
+    const payload = [articleData];
     const expectedState = {
       type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
-      payload: {
-        articles,
-      },
+      payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      articlesList: articles,
+      articles: payload,
       loading: false,
       success: true,
     });

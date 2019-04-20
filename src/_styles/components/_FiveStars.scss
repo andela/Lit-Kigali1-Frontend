@@ -1,26 +1,22 @@
-@mixin rate-button {
-  float: right;
-  width: 30px;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 21px;
-  color: #ccc;
-  background: transparent;
-  &:before {
-    content: '★ ';
-  }
-  &.selected {
-    color: #e2c14a;
-    ~ button {
-      color: #e2c14a;
-    }
-  }
-}
 .rate {
   float: left;
   button {
-    @include rate-button;
+    float: right;
+    width: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 21px;
+    color: #ccc;
+    &:before {
+      content: '★ ';
+    }
+    &.selected {
+      color: #e2c14a;
+      ~ button {
+        color: #e2c14a;
+      }
+    }
     &:hover {
       color: #c49a03 !important;
       ~ button {

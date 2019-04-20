@@ -45,7 +45,7 @@
 }
 .article-date {
   margin: 20px 0;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: rgba(0, 0, 0, 0.3);
 }
 .article-side-actions {
@@ -79,6 +79,9 @@
     }
     &.margin-top {
       margin-top: 1.5rem;
+  .article-icon {
+    &.rated {
+      color: #e2c14a;
     }
   }
   button {
@@ -115,6 +118,7 @@
   }
 }
 .article-share {
+  margin: 10px 0;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -124,10 +128,6 @@
   padding-right: 20px;
   button {
     background-color: transparent;
-    font-size: 1rem;
-    i {
-      color: #717171;
-    }
   }
 }
 .tagged {
@@ -174,7 +174,7 @@
       }
     }
     button:nth-child(4) {
-      margin-top: -2px;
+      margin-top: -5px;
       margin-right: 10px;
     }
     button:nth-child(5) {
