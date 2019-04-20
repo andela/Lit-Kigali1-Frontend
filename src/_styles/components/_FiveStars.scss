@@ -1,0 +1,27 @@
+.rate {
+  float: left;
+  button {
+    float: right;
+    width: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 21px;
+    color: #ccc;
+    &:before {
+      content: '★ ';
+    }
+    &.selected {
+      color: #e2c14a;
+      ~ button {
+        color: #e2c14a;
+      }
+    }
+    &:hover {
+      color: #c49a03 !important;
+      ~ button {
+        color: #c49a03;
+      }
+    }
+  }
+}

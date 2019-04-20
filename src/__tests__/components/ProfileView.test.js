@@ -23,6 +23,7 @@ const props = {
   },
   getUserProfile: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   onFollowUser: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  history: { push: jest.fn() },
 };
 describe('<ProfileView />', () => {
   beforeEach(() => {

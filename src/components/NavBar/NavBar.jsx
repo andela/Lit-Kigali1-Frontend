@@ -37,7 +37,7 @@ export class NavBar extends Component {
         <Link to="/articles">Articles</Link>
       </li>
       <li>
-        <Link to="/profile/:username/articles">My Articles</Link>
+        <Link to="/my-articles">My Articles</Link>
       </li>
       <li className="separator" />
       <li>

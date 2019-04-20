@@ -3,14 +3,17 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
-import { signupUser } from '../../__mocks__/dummyData';
+import { signupUser, articleData } from '../../__mocks__/dummyData';
 import {
   SET_CURRENT_USER,
   SET_CURRENT_USER_FOLLOWING,
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
+  SET_CURRENT_USER_DELETING_ARTICLE,
+  DELETE_CURRENT_USER_ARTICLE,
+  SET_RATING_ARTICLE,
 } from '../../redux/actions-types/currentUserTypes';
-import { SET_USER_FOLLOWED } from '../../redux/actions-types/userTypes';
+import { SET_USER_FOLLOWED, SET_ARTICLE_RATE } from '../../redux/actions-types';
 
 const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
@@ -151,7 +154,6 @@ describe('currentUserActions', () => {
 
     test('should dispatch onFollow action - SUCCESS', () => {
       expect.assertions(2);
-      expect.assertions(2);
       const payload = { username: 'username', method: 'POST' };
       nock(API_URL)
         .post(`/profiles/${payload.username}/follow`)
@@ -190,6 +192,126 @@ describe('currentUserActions', () => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.message).toBe(expectedActions.payload);
+      });
+    });
+
+    test('should dispatch onUserDeleteArticle action - FAILED', () => {
+      expect.assertions(1);
+      const payload = { articleSlug: 'article-slug', index: 0 };
+      nock(API_URL)
+        .delete(`/articles/${payload.articleSlug}`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      const expectedActions = [
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: SET_USER_ACTION_FAILURE,
+          payload: 'Article not found',
+        },
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: false,
+        },
+      ];
+      return store.dispatch(currentUserActions.onUserDeleteArticle(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch onUserDeleteArticle action - SUCCESS', () => {
+      expect.assertions(1);
+      const payload = {
+        articleSlug: 'article-slug',
+        message: 'Article deleted successfully',
+      };
+      nock(API_URL)
+        .delete(`/articles/${payload.articleSlug}`)
+        .reply(200, {
+          status: 200,
+          message: 'Article deleted successfully',
+        });
+      const expectedActions = [
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: DELETE_CURRENT_USER_ARTICLE,
+          payload,
+        },
+        {
+          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          payload: false,
+        },
+      ];
+      return store.dispatch(currentUserActions.onUserDeleteArticle(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch onUserRateArticle action - FAILED', () => {
+      expect.assertions(1);
+      const payload = { articleSlug: 'article-slug', index: 0 };
+      nock(API_URL)
+        .post(`/articles/${payload.articleSlug}/rating`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      const expectedActions = [
+        {
+          type: SET_RATING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: SET_USER_ACTION_FAILURE,
+          payload: 'Article not found',
+        },
+        {
+          type: SET_RATING_ARTICLE,
+          payload: false,
+        },
+      ];
+      return store.dispatch(currentUserActions.onUserRateArticle(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch onUserRateArticle action - SUCCESS', () => {
+      expect.assertions(1);
+      const payload = {
+        rated: 0,
+        rating: 4,
+      };
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSlug}/rating`)
+        .reply(200, {
+          status: 200,
+          message: 'Rated successfully',
+          averageRate: 4,
+          rate: { rating: 0 },
+        });
+
+      const expectedActions = [
+        {
+          type: SET_RATING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: SET_ARTICLE_RATE,
+          payload,
+        },
+        {
+          type: SET_RATING_ARTICLE,
+          payload: false,
+        },
+      ];
+      return store.dispatch(currentUserActions.onUserRateArticle({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
       });
     });
   });

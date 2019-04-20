@@ -18,9 +18,13 @@
     "errors": []
   },
   "currentUser": {
+    "message": "",
     "following": false,
+    "deletingArticle": false,
     "isLoggedIn": false,
-    "profile": {},
+    "profile": {
+      "articles": []
+    },
     "articles": [],
     "favorites": []
   },
@@ -41,5 +45,16 @@
       "username": "",
       "password": ""
     }
+  },
+  "article": {
+    "loading": true,
+    "submitting": false,
+    "success": true,
+    "article": {
+      "title": "",
+      "body": "",
+      "tagList": []
+    },
+    "articles": []
   }
 }
