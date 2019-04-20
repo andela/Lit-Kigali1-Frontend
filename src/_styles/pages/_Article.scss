@@ -79,6 +79,9 @@
     }
     &.margin-top {
       margin-top: 1.5rem;
+  .article-icon {
+    &.rated {
+      color: #e2c14a;
     }
   }
   button {
@@ -168,6 +171,12 @@
     }
     * {
       margin-right: 10px;
+    }
+    .article-icon {
+      margin-top: 0;
+    }
+    * {
+      margin-right: 20px;
       display: inline-flex;
       align-items: center;
       i {
