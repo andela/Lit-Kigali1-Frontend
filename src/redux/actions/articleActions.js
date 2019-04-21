@@ -34,7 +34,7 @@ export const submitArticle = ({ article }) => (dispatch) => {
     },
   })
     .then((data) => {
-      dispatch(submitArticleFormSuccess(data.article));
+      dispatch(submitArticleFormSuccess(data));
       return data;
     })
     .catch((err) => {

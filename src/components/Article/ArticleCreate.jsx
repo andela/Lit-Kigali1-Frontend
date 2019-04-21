@@ -167,8 +167,16 @@ export class ArticleCreate extends Component {
   }
 
   render() {
-    const { onInputChange, createArticle } = this.props;
+    const {
+      onInputChange,
+      createArticle,
+      message,
+      history,
+    } = this.props;
     const { editorState, tag } = this.state;
+    if (message === 'Article created successfully') {
+      history.push(`${createArticle.slug}`);
+    }
     return (
       <section className="main-content">
         <div className="container content-margin">
@@ -264,10 +272,18 @@ export class ArticleCreate extends Component {
   }
 }
 
-export const mapStateToProps = ({ article: { loading, createArticle, submitting } }) => ({
+export const mapStateToProps = ({
+  article: {
+    loading,
+    createArticle,
+    submitting,
+    message,
+  },
+}) => ({
   createArticle,
   loading,
   submitting,
+  message,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -291,10 +307,13 @@ ArticleCreate.propTypes = {
   onTagRemove: PropTypes.func.isRequired,
   onUpdateEditorState: PropTypes.func.isRequired,
   postArticle: PropTypes.func.isRequired,
+  history: PropTypes.any.isRequired,
+  message: PropTypes.string,
 };
 
 ArticleCreate.defaultProps = {
   createArticle: {},
+  message: '',
 };
 
 export default connect(

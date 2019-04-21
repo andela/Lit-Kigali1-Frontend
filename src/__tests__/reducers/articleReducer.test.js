@@ -32,13 +32,21 @@ describe('currentUserReducer', () => {
   });
 
   it('should handle `SUBMIT_ARTICLE_FORM_SUCCESS`', () => {
-    const payload = { message: 'SUCCESS' };
+    const payload = {
+      message: 'SUCCESS',
+      article: {
+        slug: 'hello-world',
+      },
+    };
     const expectedState = {
       type: articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS,
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      ...payload,
+      createArticle: {
+        slug: 'hello-world',
+      },
+      message: 'SUCCESS',
       errors: [],
       submitting: false,
       success: true,
