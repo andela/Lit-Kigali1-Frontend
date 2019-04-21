@@ -8,7 +8,7 @@ import initialState from '../../redux/initialState.json';
 let wrapper;
 const props = {
   loading: true,
-  article: articleData,
+  singleArticle: articleData,
   currentUser: {
     username: 'username',
   },
@@ -31,14 +31,14 @@ describe('<Article />', () => {
 
   test('should render <Article /> with tags', () => {
     wrapper = mount(<Article {...props} />);
-    expect(wrapper.props().article.tagList).toBeDefined();
+    expect(wrapper.props().singleArticle.tagList).toBeDefined();
   });
 
   describe('reducers', () => {
     test('should initialize the component state', () => {
       const state = mapStateToProps(initialState);
       expect(state).toHaveProperty('loading');
-      expect(state).toHaveProperty('article');
+      expect(state).toHaveProperty('singleArticle');
       expect(state).toHaveProperty('submitting');
       expect(state).toHaveProperty('currentUser');
     });

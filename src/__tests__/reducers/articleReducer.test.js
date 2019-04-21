@@ -25,7 +25,9 @@ describe('currentUserReducer', () => {
     expect(reducer({}, expectedState)).toEqual({
       errors: [],
       message: '',
-      [payload.field]: payload.value,
+      createArticle: {
+        [payload.field]: payload.value,
+      },
     });
   });
 
@@ -74,7 +76,7 @@ describe('currentUserReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      article: payload,
+      singleArticle: payload,
       loading: false,
       success: true,
     });
@@ -87,7 +89,7 @@ describe('currentUserReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      article: {},
+      singleArticle: {},
       loading: false,
       success: false,
       message: payload,
@@ -118,6 +120,99 @@ describe('currentUserReducer', () => {
       loading: false,
       success: false,
       message: payload,
+    });
+  });
+
+  it('should handle `SUBMIT_ARTICLE_TAG`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.SUBMIT_ARTICLE_TAG,
+      payload: {
+        tag: 'headset',
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [expectedState.payload.tag],
+      },
+      articlesList: [],
+    });
+  });
+
+  it('should handle `SUBMIT_ARTICLE_TAG`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: ['headset'],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.REMOVE_ARTICLE_TAG,
+      payload: {
+        index: 0,
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    });
+  });
+  it('should handle `SET_ARTICLE_EDITOR`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_EDITOR,
+      payload: {
+        blocks: [],
+        entityMap: {},
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: expectedState.payload,
+        tagList: [],
+      },
+      articlesList: [],
     });
   });
 });

@@ -15,6 +15,7 @@ const props = {
   onSubmit: jest.fn().mockImplementation(() => Promise.resolve({ status: 201 })),
   onInputChange: mockFn,
   history: { push: mockFn },
+  flip: mockFn,
 };
 
 const mockStore = configureMockStore();

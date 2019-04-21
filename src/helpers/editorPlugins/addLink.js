@@ -1,10 +1,9 @@
-import React from 'react';
 import {
   RichUtils,
   KeyBindingUtil,
-  EditorState,
 } from 'draft-js';
-import PropTypes from 'prop-types';
+import getLink from '../getLink';
+import Link from '../../components/Link/Link';
 
 export const linkStrategy = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
@@ -14,27 +13,6 @@ export const linkStrategy = (contentBlock, callback, contentState) => {
         && contentState.getEntity(entityKey).getType() === 'LINK'
     );
   }, callback);
-};
-
-export const Link = (props) => {
-  const { contentState, entityKey, children } = props;
-  const { url } = contentState.getEntity(entityKey).getData();
-  return (
-    <a
-      className="article-link"
-      href={url}
-      rel="noopener noreferrer"
-      target="_blank"
-      aria-label={url}
-    >
-      {children}
-    </a>
-  );
-};
-Link.propTypes = {
-  contentState: PropTypes.any.isRequired,
-  entityKey: PropTypes.any.isRequired,
-  children: PropTypes.any.isRequired,
 };
 
 const addLinkPlugin = {
@@ -54,22 +32,7 @@ const addLinkPlugin = {
     if (command !== 'add-link') {
       return 'not-handled';
     }
-    const link = window.prompt('Enter a link...');
-    const selectedText = editorState.getSelection();
-    if (!link) {
-      setEditorState(RichUtils.toggleLink(editorState, selectedText, null));
-      return 'handled';
-    }
-    const content = editorState.getCurrentContent();
-    const contentWithEntity = content.createEntity('LINK', 'MUTABLE', {
-      url: link,
-    });
-    const newEditorState = EditorState.push(
-      editorState,
-      contentWithEntity,
-      'create-entity',
-    );
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    const { newEditorState, selectedText, entityKey } = getLink(editorState);
     setEditorState(RichUtils.toggleLink(newEditorState, selectedText, entityKey));
     return 'handled';
   },

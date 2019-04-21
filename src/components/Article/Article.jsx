@@ -18,21 +18,21 @@ export class Article extends Component {
 
   renderBody = () => {
     const {
-      article: { body },
+      singleArticle: { body },
     } = this.props;
     return new HtmlToReact().parse(body);
   };
 
   renderDate = () => {
     const {
-      article: { createdAt },
+      singleArticle: { createdAt },
     } = this.props;
     return `Published On: ${moment(createdAt).format('LLLL')}`;
   };
 
   renderTags = () => {
     const {
-      article: { tagList },
+      singleArticle: { tagList },
     } = this.props;
     return (
       <div className="row">
@@ -48,18 +48,18 @@ export class Article extends Component {
   };
 
   render() {
-    const { article } = this.props;
+    const { singleArticle } = this.props;
     return (
       <section className="main-content">
         <div className="container content-margin">
           <br />
-          <h1 className="article-view-title">{article.title}</h1>
+          <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
             <div className="col-12">
               <div
                 className="article-image"
                 style={{
-                  backgroundImage: `url("${article.cover}")`,
+                  backgroundImage: `url("${singleArticle.cover}")`,
                 }}
               />
             </div>
@@ -69,9 +69,9 @@ export class Article extends Component {
 
               <div className="row">
                 <div className="article-side-actions">
-                  <span>{article.readingTime}</span>
+                  <span>{singleArticle.readingTime}</span>
                   <span className="article-icon hover-primary margin-top">
-                    {article.rating}
+                    {singleArticle.rating}
                     <i className="fa fa-star-o ml-5" />
                   </span>
                   <button className="article-icon hover-primary margin-top">
@@ -132,7 +132,7 @@ export class Article extends Component {
                   <a href="#modal-report" className="hover-primary">
                     <i className="fa fa-file" />
                     {' '}
-Report
+                    Report
                   </a>
                 </div>
               </div>
@@ -140,7 +140,7 @@ Report
             {this.renderTags()}
           </div>
         </div>
-        <a className="go-top-btn" href="#">
+        <a className="go-top-btn" href="/#">
           <i className="fa fa-angle-up" />
         </a>
       </section>
@@ -149,11 +149,11 @@ Report
 }
 
 export const mapStateToProps = ({
-  article: { loading, article, submitting },
+  article: { loading, singleArticle, submitting },
   currentUser: { profile },
 }) => ({
   loading,
-  article,
+  singleArticle,
   submitting,
   currentUser: profile,
 });
@@ -163,14 +163,14 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 Article.propTypes = {
-  article: PropTypes.object,
+  singleArticle: PropTypes.object,
   match: PropTypes.any.isRequired,
   getArticle: PropTypes.func.isRequired,
   currentUser: PropTypes.object,
 };
 
 Article.defaultProps = {
-  article: {},
+  singleArticle: {},
   currentUser: {},
 };
 

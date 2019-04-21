@@ -48,7 +48,13 @@
   "article": {
     "loading": true,
     "submitting": false,
+    "success": true,
     "singleArticle": {
+      "title": "",
+      "body": "",
+      "tagList": []
+    },
+    "createArticle": {
       "title": "",
       "body": "",
       "tagList": []

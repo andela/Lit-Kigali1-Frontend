@@ -90,10 +90,12 @@
   }
 }
 #tags {
-  float: left;
   border: 1px solid #ccc;
   font-family: Arial;
-  margin-left: 13vw;
+  margin-left: 13.3vw;
+  @media screen and (max-width: 768px) {
+    margin-left: 15vw;
+    }
 }
 #tags {
   span {
@@ -124,6 +126,22 @@
     width: auto;
   }
 }
-.article-image {
-  width: 50%;
+.article-img {
+  width: 100%;
+  &:hover {
+    border-style: solid;
+    border-radius: 15px;
+    border-color: $primary;
+    border-width: 1px;
+
+  }
+}
+.text-area {
+  figure {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+  min-height: 450px;
 }

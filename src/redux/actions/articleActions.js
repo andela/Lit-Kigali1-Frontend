@@ -27,7 +27,12 @@ export const submitArticleFormFailure = payload => ({
 
 export const submitArticle = ({ article }) => (dispatch) => {
   dispatch(submitArticleForm({ submitting: true }));
-  return fetchAPI('/articles', { method: 'POST', body: { article } })
+  return fetchAPI('/articles', {
+    method: 'POST',
+    body: {
+      article,
+    },
+  })
     .then((data) => {
       dispatch(submitArticleFormSuccess(data.article));
       return data;
@@ -97,5 +102,8 @@ export const addTag = payload => ({
 
 export const removeTag = payload => ({
   type: articleTypes.REMOVE_ARTICLE_TAG,
+});
+export const updateEditorState = payload => ({
+  type: articleTypes.SET_ARTICLE_EDITOR,
   payload,
 });
