@@ -133,14 +133,17 @@ describe('articleActions', () => {
         },
         {
           type: articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS,
-          payload: articleData,
+          payload: {
+            article: articleData,
+            status: 200,
+          },
         },
       ];
       return store.dispatch(articleActions.submitArticle(payload)).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(200);
-        expect(res.article).toEqual(expectedActions[1].payload);
+        expect(res.article).toEqual(expectedActions[1].payload.article);
       });
     });
 

@@ -22,6 +22,10 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         message: payload.message,
+        createArticle: {
+          ...state.createArticle,
+          slug: payload.article.slug,
+        },
         errors: [],
         submitting: false,
         success: true,
