@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import Editor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
+import {
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils,
+  convertToRaw,
+} from 'draft-js';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 import BoldButton from '../../assets/images/format-bold.svg';
@@ -16,12 +21,18 @@ import {
   onArticleFormInput,
   addTag,
   removeTag,
+  updateEditorState,
+  submitArticle,
 } from '../../redux/actions/articleActions';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
-import addImagePlugin from '../../helpers/editorPlugins/addImage';
 import Tag from '../Tag/Tag';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
+import getImage from '../../helpers/getImage';
+import upLoadFile from '../../helpers/upLoadFile';
+import getLink from '../../helpers/getLink';
+import getVideo from '../../helpers/getVideo';
+import getDescription from '../../helpers/getDescription';
 
 const highlightPlugin = createHighlightPlugin();
 export class ArticleCreate extends Component {
@@ -30,12 +41,14 @@ export class ArticleCreate extends Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       tag: '',
+      status: 'published',
     };
     this.plugins = [
       highlightPlugin,
       addLinkPlugin,
-      addImagePlugin,
     ];
+    this.uploadImageButton = React.createRef();
+    this.uploadVideoButton = React.createRef();
   }
 
   componentDidMount() {
@@ -47,7 +60,10 @@ export class ArticleCreate extends Component {
   }
 
   onBodyChange = (editorState) => {
+    const { onUpdateEditorState } = this.props;
     this.setState({ editorState });
+    const rawEditorContent = convertToRaw(editorState.getCurrentContent());
+    onUpdateEditorState(rawEditorContent);
   };
 
   handleKeyCommand = (command) => {
@@ -92,7 +108,7 @@ export class ArticleCreate extends Component {
   }
 
   displayTag = () => {
-    const { singleArticle: { tagList }, onTagRemove } = this.props;
+    const { createArticle: { tagList }, onTagRemove } = this.props;
     return tagList.map(
       (tag, index) => <Tag key={index} onClick={() => onTagRemove({ index })}>{tag}</Tag>,
     );
@@ -100,49 +116,58 @@ export class ArticleCreate extends Component {
 
   addLink = () => {
     const { editorState } = this.state;
-    const selectedText = editorState.getSelection();
-    const link = window.prompt('Enter a link...');
-
-    if (!link) {
-      this.onBodyChange(RichUtils.toggleLink(editorState, selectedText, null));
-      return 'handled';
-    }
-    const content = editorState.getCurrentContent();
-    const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: link });
-    const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    const { newEditorState, selectedText, entityKey } = getLink(editorState);
     this.onBodyChange(RichUtils.toggleLink(newEditorState, selectedText, entityKey));
     return 'handled';
   }
 
-  addImage= () => {
-    const { editorState } = this.state;
-    const urlValue = window.prompt('Paste Image Link');
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
-      'image',
-      'IMMUTABLE',
-      { src: urlValue },
-    );
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(
-      editorState,
-      { currentContent: contentStateWithEntity },
-      'create-entity',
-    );
-    this.setState(
-      {
-        editorState: AtomicBlockUtils.insertAtomicBlock(
-          newEditorState,
-          entityKey,
-          ' ',
-        ),
-      },
-    );
+  addImage = (e) => {
+    upLoadFile(e.target.files[0]).then((url) => {
+      const { editorState } = this.state;
+      const { newEditorState, entityKey } = getImage(editorState, url);
+      this.setState(
+        {
+          editorState: AtomicBlockUtils.insertAtomicBlock(
+            newEditorState,
+            entityKey,
+            ' ',
+          ),
+        },
+      );
+    });
+  }
+
+  addVideo = (e) => {
+    upLoadFile(e.target.files[0]).then((url) => {
+      const { editorState } = this.state;
+      const { newEditorState, entityKey } = getVideo(editorState, url);
+      this.setState(
+        {
+          editorState: AtomicBlockUtils.insertAtomicBlock(
+            newEditorState,
+            entityKey,
+            ' ',
+          ),
+        },
+      );
+    });
+  }
+
+  publish = () => {
+    const { createArticle, postArticle } = this.props;
+    const { status } = this.state;
+    const description = getDescription(createArticle.body.blocks);
+    const article = {
+      ...createArticle,
+      body: JSON.stringify(createArticle.body),
+      description,
+      status,
+    };
+    postArticle(article);
   }
 
   render() {
-    const { onInputChange, singleArticle } = this.props;
+    const { onInputChange, createArticle } = this.props;
     const { editorState, tag } = this.state;
     return (
       <section className="main-content">
@@ -155,7 +180,7 @@ export class ArticleCreate extends Component {
                   type="text"
                   name="title"
                   onChange={onInputChange}
-                  value={singleArticle.title}
+                  value={createArticle.title}
                   placeholder="Enter Title Here"
                 />
               </div>
@@ -165,29 +190,25 @@ export class ArticleCreate extends Component {
             <div className="col-2-mob">
               <div className="article-actions">
                 <Button classes="transparent" onClick={this.handleBold}>
-                  <BoldButton className="logo" width={30} height={30} />
+                  <BoldButton className="logo" width={25} height={25} />
                 </Button>
                 <Button classes="transparent" onClick={this.handleItalic}>
-                  <ItalicButton className="logo" width={30} height={30} />
+                  <ItalicButton className="logo" width={25} height={25} />
                 </Button>
                 <Button classes="transparent" onClick={this.handleUnderline}>
-                  <UnderlinedButton className="logo" width={30} height={30} />
+                  <UnderlinedButton className="logo" width={25} height={25} />
                 </Button>
                 <Button classes="transparent" onClick={this.addLink}>
-                  <LinkButton className="logo" width={30} height={30} />
+                  <LinkButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={this.addImage}>
-                  <ImageButton className="logo" width={30} height={30} />
+                <Button classes="transparent" onClick={() => this.uploadImageButton.current.click()}>
+                  <input type="file" ref={this.uploadImageButton} hidden onChange={this.addImage} name="image" />
+                  <ImageButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent">
-                  <VideoButton className="logo" width={30} height={30} />
+                <Button classes="transparent" onClick={() => this.uploadVideoButton.current.click()}>
+                  <input type="file" ref={this.uploadVideoButton} hidden onChange={this.addVideo} name="video" />
+                  <VideoButton className="logo" width={25} height={25} />
                 </Button>
-                {/* <img src="../images/format-bold.svg" className="article-icon margin-top" />
-                <img src="../images/format-italic.svg" className="article-icon" />
-                <img src="../images/format-underlined.svg" className="article-icon" />
-                <img src="../images/format-link.svg" className="article-icon margin-top" />
-                <img src="../images/format-image.svg" className="article-icon" />
-                <img src="../images/format-video.svg" className="article-icon" /> */}
               </div>
             </div>
             <div className="col-10-mob">
@@ -205,7 +226,7 @@ export class ArticleCreate extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-6 content-left">
+            <div className="col-10 content-left">
               <div id="tags">
                 {this.displayTag()}
                 <form onSubmit={this.handleTagSubmit} className="width-100">
@@ -214,22 +235,22 @@ export class ArticleCreate extends Component {
                     name="tag"
                     onChange={this.handleTag}
                     value={tag}
-                    placeholder="Add a tag"
+                    placeholder="Add a tag..."
                   />
                 </form>
               </div>
             </div>
-            <div className="col-6 content-right">
+            <div className="col-2 content-right">
               <div>
                 <Button classes="primary save-article-btn">
                   Save
                   <div className="options">
                     <ul>
                       <li>
-                        <a href="/#">Save as Draft</a>
+                        <a href="#/draft" onClick={() => { this.setState({ status: 'unpublished' }); this.publish(); }}>Save as Draft</a>
                       </li>
                       <li>
-                        <a href="/#">Publish</a>
+                        <a href="#/publish" onClick={() => { this.setState({ status: 'published' }); this.publish(); }}>Publish</a>
                       </li>
                     </ul>
                   </div>
@@ -243,8 +264,8 @@ export class ArticleCreate extends Component {
   }
 }
 
-export const mapStateToProps = ({ article: { loading, singleArticle, submitting } }) => ({
-  singleArticle,
+export const mapStateToProps = ({ article: { loading, createArticle, submitting } }) => ({
+  createArticle,
   loading,
   submitting,
 });
@@ -259,17 +280,21 @@ export const mapDispatchToProps = dispatch => ({
   onClearForm: () => dispatch(clearArticleForm()),
   onTagFormSubmit: (tag) => { dispatch(addTag(tag)); },
   onTagRemove: (index) => { dispatch(removeTag(index)); },
+  onUpdateEditorState: (newState) => { dispatch(updateEditorState(newState)); },
+  postArticle: (article) => { dispatch(submitArticle({ article })); },
 });
 
 ArticleCreate.propTypes = {
-  singleArticle: PropTypes.object,
+  createArticle: PropTypes.object,
   onInputChange: PropTypes.func.isRequired,
   onTagFormSubmit: PropTypes.func.isRequired,
   onTagRemove: PropTypes.func.isRequired,
+  onUpdateEditorState: PropTypes.func.isRequired,
+  postArticle: PropTypes.func.isRequired,
 };
 
 ArticleCreate.defaultProps = {
-  singleArticle: {},
+  createArticle: {},
 };
 
 export default connect(

@@ -1,20 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Image from '../../components/Image/Image';
+import Video from '../../components/Video/Video';
 
-const Image = (props) => {
-  const { src, className } = props;
-  if (src) {
-    return <img src={src} alt="" className={className} />;
-  }
-  return null;
-};
 
-Image.propTypes = {
-  src: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-};
-
-const Media = (props) => {
+export const Media = (props) => {
   const entity = props.contentState.getEntity(props.block.getEntityAt(0));
   const { src } = entity.getData();
   const type = entity.getType();
@@ -22,9 +11,14 @@ const Media = (props) => {
   let media;
 
   if (type === 'image') {
-    media = <Image src={src} className="article-image" />;
+    media = <Image src={src} classes="article-img" />;
+    return media;
   }
 
+  if (type === 'video') {
+    media = <Video src={src} classes="article-video" />;
+    return media;
+  }
   return media;
 };
 
@@ -33,9 +27,6 @@ export const mediaBlockRenderer = (block) => {
     return {
       component: Media,
       editable: false,
-      props: {
-        foo: 'bar',
-      },
     };
   }
   return null;

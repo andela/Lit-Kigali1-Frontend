@@ -11,8 +11,8 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SET_ARTICLE_FORM_INPUT:
       return {
         ...state,
-        singleArticle: {
-          ...state.singleArticle,
+        createArticle: {
+          ...state.createArticle,
           [payload.field]: payload.value,
         },
         errors: [],
@@ -42,14 +42,14 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.FETCHING_ARTICLE_SUCCESS:
       return {
         ...state,
-        article: payload,
+        singleArticle: payload,
         loading: false,
         success: true,
       };
     case articleTypes.FETCHING_ARTICLE_FAILURE:
       return {
         ...state,
-        article: {},
+        singleArticle: {},
         loading: false,
         success: false,
         message: payload,
@@ -72,18 +72,26 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SUBMIT_ARTICLE_TAG:
       return {
         ...state,
-        singleArticle: {
-          ...state.singleArticle,
-          tagList: [...state.singleArticle.tagList, payload.tag],
+        createArticle: {
+          ...state.createArticle,
+          tagList: [...state.createArticle.tagList, payload.tag],
         },
       };
     case articleTypes.REMOVE_ARTICLE_TAG:
-      state.singleArticle.tagList.splice(payload.index, 1);
+      state.createArticle.tagList.splice(payload.index, 1);
       return {
         ...state,
-        singleArticle: {
-          ...state.singleArticle,
-          tagList: [...state.singleArticle.tagList],
+        createArticle: {
+          ...state.createArticle,
+          tagList: [...state.createArticle.tagList],
+        },
+      };
+    case articleTypes.SET_ARTICLE_EDITOR:
+      return {
+        ...state,
+        createArticle: {
+          ...state.createArticle,
+          body: payload,
         },
       };
     default:

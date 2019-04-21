@@ -114,6 +114,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       </span>
       <a
         href="#login"
+        onClick={[MockFunction]}
       >
         Sign In
       </a>
