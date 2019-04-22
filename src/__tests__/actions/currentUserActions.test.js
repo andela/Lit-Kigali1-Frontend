@@ -12,6 +12,9 @@ import {
   SET_CURRENT_USER_DELETING_ARTICLE,
   DELETE_CURRENT_USER_ARTICLE,
   SET_RATING_ARTICLE,
+  SUBMIT_PROFILE_FORM,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED, SET_ARTICLE_RATE } from '../../redux/actions-types';
 
