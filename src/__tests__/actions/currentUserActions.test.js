@@ -9,6 +9,9 @@ import {
   SET_CURRENT_USER_FOLLOWING,
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
+  SUBMIT_PROFILE_FORM,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED } from '../../redux/actions-types/userTypes';
 
@@ -150,7 +153,6 @@ describe('currentUserActions', () => {
     });
 
     test('should dispatch onFollow action - SUCCESS', () => {
-      expect.assertions(2);
       expect.assertions(2);
       const payload = { username: 'username', method: 'POST' };
       nock(API_URL)

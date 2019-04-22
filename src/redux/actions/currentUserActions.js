@@ -95,12 +95,12 @@ export const updateProfile = ({
       },
     },
   })
-    .then(({ status, message, user }) => {
-      dispatch(profileUpdateSuccess({ user }));
-      return { status, message };
+    .then((data) => {
+      dispatch(profileUpdateSuccess(data));
+      return data;
     })
-    .catch(({ status, message }) => {
-      dispatch(profileUpdateFailure());
-      return { status, message };
+    .catch(({ message }) => {
+      dispatch(profileUpdateFailure({ message }));
+      return message;
     });
 };
