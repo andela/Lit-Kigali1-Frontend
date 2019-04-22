@@ -30,6 +30,7 @@ const Routes = () => (
     <Route exact path="/articles/:articleSlug" component={Article} />
     <Route exact path="/articles" component={Articles} />
     <Route exact path="/my-articles" component={ArticlesCurrentUser} />
+    <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
   </Switch>
 );
 

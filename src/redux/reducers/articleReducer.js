@@ -98,6 +98,16 @@ const articleReducer = (state = initialState, { type, payload }) => {
           body: payload,
         },
       };
+    case articleTypes.SET_EDIT_ARTICLE:
+      return {
+        ...state,
+        createArticle: {
+          ...state.createArticle,
+          body: JSON.parse(payload.body),
+          title: payload.title,
+          tagList: payload.tagList,
+        },
+      };
     default:
       return state;
   }

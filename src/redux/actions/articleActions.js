@@ -107,3 +107,38 @@ export const updateEditorState = payload => ({
   type: articleTypes.SET_ARTICLE_EDITOR,
   payload,
 });
+
+export const setEditArticle = payload => ({
+  type: articleTypes.SET_EDIT_ARTICLE,
+  payload,
+});
+
+export const fetchAndUpdateArticle = slug => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI(`/articles/${slug}`)
+    .then((data) => {
+      dispatch(setEditArticle(data.article));
+      return data.article;
+    })
+    .catch((err) => {
+      dispatch(fetchingArticleFailure(err.message));
+      return err;
+    });
+};
+
+export const updateArticle = (slug, article) => (dispatch) => {
+  dispatch(submitArticleForm({ submitting: true }));
+  return fetchAPI(`/articles/${slug}`, {
+    method: 'PUT',
+    body: {
+      article,
+    },
+  }).then((data) => {
+    console.log(data);
+    dispatch(submitArticleFormSuccess(data));
+    return data.article;
+  }).catch((err) => {
+    dispatch(submitArticleFormFailure(err.message));
+    return err;
+  });
+};

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Image = (props) => {
   const { src, classes } = props;
 
-  return <img src={src} alt="" classes={classes} />;
+  return <img src={src} alt="" className={classes} />;
 };
 
 Image.propTypes = {

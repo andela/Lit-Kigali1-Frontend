@@ -1,6 +1,6 @@
 import reducer from '../../redux/reducers/articleReducer';
 import * as articleTypes from '../../redux/actions-types/articleTypes';
-import { articleData } from '../../__mocks__/dummyData';
+import { articleData, draftjsBody, jsonFormat } from '../../__mocks__/dummyData';
 
 import store from '../../redux/store';
 
@@ -219,6 +219,38 @@ describe('currentUserReducer', () => {
         title: '',
         body: expectedState.payload,
         tagList: [],
+      },
+      articlesList: [],
+    });
+  });
+  it('should handle `SET_EDIT_ARTICLE`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.SET_EDIT_ARTICLE,
+      payload: {
+        body: jsonFormat,
+        title: articleData.title,
+        tagList: articleData.tagList,
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: articleData.title,
+        body: draftjsBody[0],
+        tagList: articleData.tagList,
       },
       articlesList: [],
     });
