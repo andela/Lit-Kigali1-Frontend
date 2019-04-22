@@ -11,6 +11,7 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         loading: false,
       };
     case types.SET_USER_ACTION_SUCCESS:
+      console.log(payload);
       return {
         ...state,
         message: payload,
