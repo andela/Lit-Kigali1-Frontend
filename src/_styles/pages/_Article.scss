@@ -82,6 +82,12 @@
   .article-icon {
     &.rated {
       color: #e2c14a;
+      a {
+        color: #e2c14a;
+      }
+    }
+    &.margin-top {
+      margin-top: 1.5rem;
     }
   }
   button {
@@ -172,11 +178,11 @@
     * {
       margin-right: 10px;
     }
-    .article-icon {
+    .article-icon-right {
       margin-top: 0;
     }
     * {
-      margin-right: 20px;
+      margin-right: 10px;
       display: inline-flex;
       align-items: center;
       i {

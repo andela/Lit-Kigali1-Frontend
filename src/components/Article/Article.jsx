@@ -131,8 +131,6 @@ export class Article extends Component {
                   <p>Rate this article</p>
                   <div className="rate">
                     <button
-                      htmlFor="star5"
-                      title="text"
                       className={article.rated === 5 ? 'selected' : ''}
                       data-value="5"
                       onClick={this.onSelectedRating}
@@ -145,8 +143,6 @@ export class Article extends Component {
                     />
 
                     <button
-                      htmlFor="star3"
-                      title="text"
                       className={article.rated === 3 ? 'selected' : ''}
                       data-value="3"
                       onClick={this.onSelectedRating}
@@ -167,9 +163,8 @@ export class Article extends Component {
                 </div>
                 <div className="items-center">
                   <a href="#modal-report" className="hover-primary">
-                    <i className="fa fa-file" />
-                    {' '}
-Report
+                    <i className="fa fa-file mr-5" />
+                    Report
                   </a>
                 </div>
               </div>
@@ -212,7 +207,6 @@ Article.propTypes = {
 
 Article.defaultProps = {
   article: {},
-  currentUser: {},
 };
 
 export default connect(
