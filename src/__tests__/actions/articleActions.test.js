@@ -441,6 +441,51 @@ describe('articleActions', () => {
         expect(res.message).toEqual('article not found');
         expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
         expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_FAILURE);
+    test('should dispatch fetchArticles action - FAILURE', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/rating`)
+        .reply(404, { status: 404 });
+      const expectedActions = [
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: true,
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: false,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch fetchArticles action - SUCCESS', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/rating`)
+        .reply(200, { status: 200, article: {}, ratings: [] });
+      const expectedActions = [
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: true,
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS,
+          payload: { status: 200, ratings: [], article: {} },
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: false,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
       });
     });
   });
