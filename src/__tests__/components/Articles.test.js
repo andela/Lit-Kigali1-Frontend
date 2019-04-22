@@ -19,6 +19,9 @@ const props = {
     },
   },
   history: { push: jest.fn() },
+  location: {
+    search: '?page=1',
+  },
 };
 
 describe('<Articles />', () => {
@@ -48,7 +51,7 @@ describe('<Articles />', () => {
   describe('actions creators', () => {
     test('should call getArticle action', () => {
       const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).getArticles();
+      mapDispatchToProps(dispatch).getArticles(1);
       expect(dispatch).toHaveBeenCalled();
     });
   });

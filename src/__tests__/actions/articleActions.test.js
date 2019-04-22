@@ -10,6 +10,7 @@ const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
 let store;
 jest.setTimeout(30000);
+
 describe('articleActions', () => {
   describe('actions creators', () => {
     test('should dispatch `CLEAR_ARTICLE_FORM`', () => {
@@ -187,7 +188,7 @@ describe('articleActions', () => {
     test('should dispatch fetchArticles action - FAILED', () => {
       expect.assertions(3);
       nock(API_URL)
-        .get('/articles')
+        .get('/articles?page=1')
         .reply(401, { status: 401, message: 'Unauthorized access' });
       const expectedActions = [
         {
@@ -199,7 +200,7 @@ describe('articleActions', () => {
           payload: 'Unauthorized access',
         },
       ];
-      return store.dispatch(articleActions.fetchArticles()).then((res) => {
+      return store.dispatch(articleActions.fetchArticles(1)).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(401);
@@ -208,73 +209,11 @@ describe('articleActions', () => {
     });
 
     test('should dispatch fetchArticles action - SUCCESS', () => {
-      expect.assertions(3);
       nock(API_URL)
-        .get('/articles')
+        .get('/articles?page=1')
         .reply(200, { status: 200, articles: [articleData] });
-      const expectedActions = [
-        {
-          type: articleTypes.FETCHING_ARTICLE,
-          payload: true,
-        },
-        {
-          type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
-          payload: [articleData],
-        },
-      ];
-      return store.dispatch(articleActions.fetchArticles()).then((res) => {
-        const actions = store.getActions();
-        expect(actions).toEqual(expectedActions);
+      return store.dispatch(articleActions.fetchArticles(1)).then((res) => {
         expect(res.status).toBe(200);
-        expect(res.articles).toEqual(expectedActions[1].payload);
-      });
-    });
-
-    test('should dispatch fetchArticles action - FAILURE', () => {
-      expect.assertions(1);
-      const articleSlug = 'article-slug';
-      nock(API_URL)
-        .get(`/articles/${articleSlug}/rating`)
-        .reply(404, { status: 404 });
-      const expectedActions = [
-        {
-          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
-          payload: true,
-        },
-        {
-          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
-          payload: false,
-        },
-      ];
-      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
-        const actions = store.getActions();
-        expect(actions).toEqual(expectedActions);
-      });
-    });
-
-    test('should dispatch fetchArticles action - SUCCESS', () => {
-      expect.assertions(1);
-      const articleSlug = 'article-slug';
-      nock(API_URL)
-        .get(`/articles/${articleSlug}/rating`)
-        .reply(200, { status: 200, article: {}, ratings: [] });
-      const expectedActions = [
-        {
-          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
-          payload: true,
-        },
-        {
-          type: articleTypes.SET_ARTICLE_RATINGS,
-          payload: { status: 200, ratings: [], article: {} },
-        },
-        {
-          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
-          payload: false,
-        },
-      ];
-      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
-        const actions = store.getActions();
-        expect(actions).toEqual(expectedActions);
       });
     });
   });

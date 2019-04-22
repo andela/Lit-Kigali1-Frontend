@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import { PropTypes } from 'prop-types';
 import { fetchArticles } from '../../redux/actions/articleActions';
 import ArticleCard from './ArticleCard';
+import Pagination from '../../components/common/Pagination';
 
 export class Articles extends Component {
   componentDidMount() {
     const { getArticles } = this.props;
-    getArticles();
+    const parsed = queryString.parse(this.props.location.search);
+    getArticles({ page: parsed.page });
   }
 
-  renderArticles = () => {
-    const { articles, history } = this.props;
-    return articles.map(article => (
-      <ArticleCard
-        history={history}
-        url={`/articles/${article.slug}`}
-        key={article.slug}
-        article={article}
-      />
-    ));
-  };
-
   render() {
+    const {
+      articles, history, page, pages,
+    } = this.props;
     return (
       <section className="main-content">
         <div className="container">
@@ -50,24 +44,15 @@ export class Articles extends Component {
               </form>
 
               <h3>ARTICLES</h3>
-              {this.renderArticles()}
-              <div className="pagination">
-                <span>First</span>
-                <span>
-                  <i className="fa fa-angle-left" />
-                </span>
-                <ul className="pages">
-                  <li className="page current">1</li>
-                  <li className="page">2</li>
-                  <li className="page">3</li>
-                  <li className="page">4</li>
-                  <li className="page">5</li>
-                </ul>
-                <span>
-                  <i className="fa fa-angle-right" />
-                </span>
-                <span>Last</span>
-              </div>
+              {articles.map(article => (
+                <ArticleCard
+                  history={history}
+                  url={`/articles/${article.slug}`}
+                  key={article.slug}
+                  article={article}
+                />
+              ))}
+              <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
             </div>
           </div>
         </div>
@@ -80,17 +65,21 @@ export class Articles extends Component {
 }
 
 export const mapStateToProps = ({
-  article: { loading, articles, submitting },
+  article: {
+    loading, articles, submitting, page, pages,
+  },
   currentUser: { profile },
 }) => ({
   loading,
   articles,
+  page,
+  pages,
   submitting,
   currentUser: profile,
 });
 
 export const mapDispatchToProps = dispatch => ({
-  getArticles: () => dispatch(fetchArticles()),
+  getArticles: payload => dispatch(fetchArticles(payload)),
 });
 
 Articles.propTypes = {
