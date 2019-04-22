@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';
 import * as currentUserActions from '../../redux/actions/currentUserActions';
-import { signupUser, articleData } from '../../__mocks__/dummyData';
+import { signupUser } from '../../__mocks__/dummyData';
 import {
   SET_CURRENT_USER,
   SET_CURRENT_USER_FOLLOWING,
