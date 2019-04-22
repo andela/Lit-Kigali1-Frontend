@@ -7,6 +7,7 @@ import {
   RichUtils,
   AtomicBlockUtils,
   convertToRaw,
+  convertFromRaw,
 } from 'draft-js';
 import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
@@ -23,6 +24,8 @@ import {
   removeTag,
   updateEditorState,
   submitArticle,
+  fetchAndUpdateArticle,
+  updateArticle,
 } from '../../redux/actions/articleActions';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
@@ -41,9 +44,9 @@ export class ArticleCreate extends Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       tag: '',
-      status: 'published',
       isModel: false,
       link: '',
+      isEdit: false,
     };
     this.plugins = [
       highlightPlugin,
@@ -54,11 +57,22 @@ export class ArticleCreate extends Component {
   }
 
   componentDidMount() {
-    this.focusEditor = () => {
-      if (this.editor) {
-        this.editor.focus();
-      }
-    };
+    const {
+      match: {
+        params: { articleSlug },
+      },
+      getArticle,
+    } = this.props;
+    if (articleSlug) {
+      getArticle(articleSlug);
+      this.setState({ isEdit: true });
+      setTimeout(() => {
+        const { createArticle: { body } } = this.props;
+        const newEditorState = convertFromRaw(body);
+        const editors = EditorState.createWithContent(newEditorState);
+        this.setState({ editorState: editors });
+      }, 1000);
+    }
   }
 
   onBodyChange = (editorState) => {
@@ -157,9 +171,8 @@ export class ArticleCreate extends Component {
     });
   }
 
-  publish = () => {
+  publish = (status) => {
     const { createArticle, postArticle } = this.props;
-    const { status } = this.state;
     const description = getDescription(createArticle.body.blocks);
     const article = {
       ...createArticle,
@@ -168,6 +181,23 @@ export class ArticleCreate extends Component {
       status,
     };
     postArticle(article);
+  }
+
+  edit = () => {
+    const {
+      onUpdateArticle,
+      createArticle,
+      match: {
+        params: { articleSlug },
+      },
+    } = this.props;
+    const description = getDescription(createArticle.body.blocks);
+    const article = {
+      ...createArticle,
+      body: JSON.stringify(createArticle.body),
+      description,
+    };
+    onUpdateArticle(articleSlug, article);
   }
 
   openModel = () => (
@@ -187,9 +217,14 @@ export class ArticleCreate extends Component {
       message,
       history,
     } = this.props;
-    const { editorState, tag, isModel } = this.state;
-    if (message === 'Article created successfully') {
-      history.push(`${createArticle.slug}`);
+    const {
+      editorState,
+      tag,
+      isModel,
+      isEdit,
+    } = this.state;
+    if (message === 'Article created successfully' || message === 'Article updated successfully') {
+      history.push(`../../articles/${createArticle.slug}`);
     }
     return (
       <section className="main-content">
@@ -265,19 +300,23 @@ export class ArticleCreate extends Component {
             </div>
             <div className="col-2 content-right">
               <div>
-                <Button classes="primary save-article-btn">
-                  Save
-                  <div className="options">
-                    <ul>
-                      <li>
-                        <a href="#/draft" onClick={() => { this.setState({ status: 'unpublished' }); this.publish(); }}>Save as Draft</a>
-                      </li>
-                      <li>
-                        <a href="#/publish" onClick={() => { this.setState({ status: 'published' }); this.publish(); }}>Publish</a>
-                      </li>
-                    </ul>
-                  </div>
-                </Button>
+                { isEdit ? <Button classes="primary save-article-btn" onClick={this.edit}>Save</Button>
+                  : (
+                    <Button classes="primary save-article-btn">
+                      Save
+                      <div className="options">
+                        <ul>
+                          <li>
+                            <a href="#/draft" onClick={() => { this.publish('unpublished'); }}>Save as Draft</a>
+                          </li>
+                          <li>
+                            <a href="#/publish" onClick={() => { this.publish('published'); }}>Publish</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </Button>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -313,6 +352,8 @@ export const mapDispatchToProps = dispatch => ({
   onTagRemove: (index) => { dispatch(removeTag(index)); },
   onUpdateEditorState: (newState) => { dispatch(updateEditorState(newState)); },
   postArticle: (article) => { dispatch(submitArticle({ article })); },
+  getArticle: (slug) => { dispatch(fetchAndUpdateArticle(slug)); },
+  onUpdateArticle: (slug, article) => { dispatch(updateArticle(slug, article)); },
 });
 
 ArticleCreate.propTypes = {
@@ -324,11 +365,15 @@ ArticleCreate.propTypes = {
   postArticle: PropTypes.func.isRequired,
   history: PropTypes.any.isRequired,
   message: PropTypes.string,
+  match: PropTypes.any,
+  getArticle: PropTypes.func.isRequired,
+  onUpdateArticle: PropTypes.func.isRequired,
 };
 
 ArticleCreate.defaultProps = {
   createArticle: {},
   message: '',
+  match: {},
 };
 
 export default connect(
