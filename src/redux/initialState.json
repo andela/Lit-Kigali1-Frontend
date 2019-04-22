@@ -23,7 +23,8 @@
     "deletingArticle": false,
     "isLoggedIn": false,
     "profile": {
-      "articles": []
+      "username": "",
+      "articles": ""
     },
     "articles": [],
     "favorites": []
