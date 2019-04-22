@@ -1,8 +1,7 @@
 import { EditorState } from 'draft-js';
 
-const getLink = (editorState) => {
+const getLink = (editorState, link) => {
   const selectedText = editorState.getSelection();
-  const link = window.prompt('Enter a link...');
   if (!link) {
     return {
       newEditorState: editorState,

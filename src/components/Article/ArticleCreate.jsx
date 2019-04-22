@@ -42,6 +42,8 @@ export class ArticleCreate extends Component {
       editorState: EditorState.createEmpty(),
       tag: '',
       status: 'published',
+      isModel: false,
+      link: '',
     };
     this.plugins = [
       highlightPlugin,
@@ -114,10 +116,12 @@ export class ArticleCreate extends Component {
     );
   }
 
-  addLink = () => {
-    const { editorState } = this.state;
-    const { newEditorState, selectedText, entityKey } = getLink(editorState);
+  addLink = (e) => {
+    const { editorState, link } = this.state;
+    const { newEditorState, selectedText, entityKey } = getLink(editorState, link);
     this.onBodyChange(RichUtils.toggleLink(newEditorState, selectedText, entityKey));
+    this.setState({ isModel: false });
+    e.preventDefault();
     return 'handled';
   }
 
@@ -166,6 +170,16 @@ export class ArticleCreate extends Component {
     postArticle(article);
   }
 
+  openModel = () => (
+    <div className="my-article-modal active">
+      <div className="create-article-wrap">
+        <form onSubmit={this.addLink}>
+          <input type="text" placeholder="paste a link" className="bg-primary-light" name="url" onChange={e => this.setState({ link: e.target.value })} />
+        </form>
+      </div>
+    </div>
+  );
+
   render() {
     const {
       onInputChange,
@@ -173,12 +187,13 @@ export class ArticleCreate extends Component {
       message,
       history,
     } = this.props;
-    const { editorState, tag } = this.state;
+    const { editorState, tag, isModel } = this.state;
     if (message === 'Article created successfully') {
       history.push(`${createArticle.slug}`);
     }
     return (
       <section className="main-content">
+        { isModel ? this.openModel() : ''}
         <div className="container content-margin">
           <div className="row">
             <div className="col-2-mob" />
@@ -206,7 +221,7 @@ export class ArticleCreate extends Component {
                 <Button classes="transparent" onClick={this.handleUnderline}>
                   <UnderlinedButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={this.addLink}>
+                <Button classes="transparent" onClick={() => this.setState({ isModel: !isModel })}>
                   <LinkButton className="logo" width={25} height={25} />
                 </Button>
                 <Button classes="transparent" onClick={() => this.uploadImageButton.current.click()}>
