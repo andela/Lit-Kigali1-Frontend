@@ -13,11 +13,13 @@ const props = {
     username: 'username',
   },
   getArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  rateArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   match: {
     params: {
       articleSlug: 'article-slug',
     },
   },
+  history: { push: jest.fn() },
 };
 
 describe('<Article />', () => {
@@ -32,6 +34,58 @@ describe('<Article />', () => {
   test('should render <Article /> with tags', () => {
     wrapper = mount(<Article {...props} />);
     expect(wrapper.props().article.tagList).toBeDefined();
+  });
+
+  describe('should render different ratings', () => {
+    test('should render <Article /> rated equals to 1', () => {
+      props.article.rated = 1;
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().article.rated).toBe(1);
+    });
+
+    test('should render <Article /> rated equals to 2', () => {
+      props.article.rated = 2;
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().article.rated).toBe(2);
+    });
+
+    test('should render <Article /> rated equals to 3', () => {
+      props.article.rated = 3;
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().article.rated).toBe(3);
+    });
+
+    test('should render <Article /> rated equals to 4', () => {
+      props.article.rated = 4;
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().article.rated).toBe(4);
+    });
+
+    test('should render <Article /> rated equals to 5', () => {
+      props.article.rated = 5;
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().article.rated).toBe(5);
+    });
+  });
+
+  describe('when clicking on rateArticle', () => {
+    beforeEach(() => {
+      wrapper = mount(<Article {...props} />);
+    });
+    test('should call onSelectedRating method instance', () => {
+      wrapper.find('button[data-value="5"]').simulate('click');
+      expect(props.rateArticle).toHaveBeenCalled();
+    });
+  });
+
+  describe("when clicking article's rates", () => {
+    beforeEach(() => {
+      wrapper = mount(<Article {...props} />);
+    });
+    test('should call onSelectedRating method instance', () => {
+      wrapper.find('span[data-name="rate-btn"]').simulate('click');
+      expect(props.history.push).toHaveBeenCalled();
+    });
   });
 
   describe('reducers', () => {
@@ -49,6 +103,13 @@ describe('<Article />', () => {
       const articleSlug = 'article-slug';
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).getArticle(articleSlug);
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call rateArticle action', () => {
+      const articleSlug = 'article-slug';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
       expect(dispatch).toHaveBeenCalled();
     });
   });

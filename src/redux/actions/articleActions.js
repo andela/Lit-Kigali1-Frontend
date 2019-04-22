@@ -95,3 +95,27 @@ export const setArticleRate = payload => ({
   type: articleTypes.SET_ARTICLE_RATE,
   payload,
 });
+
+export const setRatingLoading = payload => ({
+  type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+  payload,
+});
+
+export const setRatings = payload => ({
+  type: articleTypes.SET_ARTICLE_RATINGS,
+  payload,
+});
+
+export const fetchArticleRatings = ({ articleSlug }) => (dispatch) => {
+  dispatch(setRatingLoading(true));
+  return fetchAPI(`/articles/${articleSlug}/rating`, { method: 'GET' })
+    .then((data) => {
+      dispatch(setRatings(data));
+      dispatch(setRatingLoading(false));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(setRatingLoading(false));
+      return err;
+    });
+};

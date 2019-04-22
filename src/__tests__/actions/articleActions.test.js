@@ -10,14 +10,7 @@ const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
 let store;
 jest.setTimeout(30000);
-// export const CLEAR_ARTICLE_FORM = 'CLEAR_ARTICLE_FORM';
-// export const SET_ARTICLE_FORM_INPUT = 'SET_ARTICLE_FORM_INPUT';
-// export const SUBMIT_ARTICLE_FORM = 'SUBMIT_ARTICLE_FORM';
-// export const SUBMIT_ARTICLE_FORM_SUCCESS = 'SUBMIT_ARTICLE_FORM_SUCCESS';
-// export const SUBMIT_ARTICLE_FORM_FAILURE = 'SUBMIT_ARTICLE_FORM_FAILURE';
-// export const FETCHING_ARTICLE = 'FETCHING_ARTICLE';
-// export const FETCHING_ARTICLE_SUCCESS = 'FETCHING_ARTICLE_SUCCESS';
-// export const FETCHING_ARTICLE_FAILURE = 'FETCHING_ARTICLE_FAILURE';
+
 describe('articleActions', () => {
   describe('actions creators', () => {
     test('should dispatch `CLEAR_ARTICLE_FORM`', () => {
@@ -235,6 +228,54 @@ describe('articleActions', () => {
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(200);
         expect(res.articles).toEqual(expectedActions[1].payload);
+      });
+    });
+
+    test('should dispatch fetchArticles action - FAILURE', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/rating`)
+        .reply(404, { status: 404 });
+      const expectedActions = [
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: true,
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: false,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch fetchArticles action - SUCCESS', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/rating`)
+        .reply(200, { status: 200, article: {}, ratings: [] });
+      const expectedActions = [
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: true,
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS,
+          payload: { status: 200, ratings: [], article: {} },
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: false,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
       });
     });
   });

@@ -130,4 +130,25 @@ describe('currentUserReducer', () => {
       article: articleData,
     });
   });
+
+  it('should handle `SET_ARTICLE_RATINGS_LOADING`', () => {
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      loadingRatings: true,
+    });
+  });
+
+  it('should handle `SET_ARTICLE_RATINGS`', () => {
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_RATINGS,
+      payload: { ratings: [], article: {} },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      ratings: [],
+      article: {},
+    });
+  });
 });

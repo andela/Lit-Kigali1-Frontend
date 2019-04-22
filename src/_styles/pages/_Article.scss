@@ -63,9 +63,16 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  .article-icon {
+  .article-icon-right {
+    font-size: 1.3rem;
     &.rated {
       color: #e2c14a;
+      a {
+        color: #e2c14a;
+      }
+    }
+    &.margin-top {
+      margin-top: 1.5rem;
     }
   }
   button {
@@ -113,6 +120,7 @@
   padding-right: 20px;
   button {
     background-color: transparent;
+    font-size: 1rem;
   }
 }
 .tagged {
@@ -133,6 +141,7 @@
 @media screen and (max-width: $tablet-width) {
   .article-side-actions {
     position: static;
+    display: flex;
     flex-direction: row;
     align-content: center;
     height: auto;
@@ -143,12 +152,13 @@
     span {
       white-space: nowrap;
       margin-right: 30px;
+      margin-top: 20px;
     }
-    .article-icon {
+    .article-icon-right {
       margin-top: 0;
     }
     * {
-      margin-right: 20px;
+      margin-right: 10px;
       display: inline-flex;
       align-items: center;
       i {
@@ -156,7 +166,7 @@
       }
     }
     button:nth-child(4) {
-      margin-top: -5px;
+      margin-top: -2px;
       margin-right: 10px;
     }
     button:nth-child(5) {

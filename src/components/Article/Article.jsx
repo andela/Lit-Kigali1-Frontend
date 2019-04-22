@@ -58,6 +58,12 @@ export class Article extends Component {
     );
   };
 
+  navigateToRatings = (e) => {
+    const { url } = e.target.dataset;
+    const { history } = this.props;
+    history.push(url);
+  };
+
   render() {
     const { article } = this.props;
     return (
@@ -82,21 +88,28 @@ export class Article extends Component {
                 <div className="article-side-actions">
                   <span>{article.readingTime}</span>
                   <span
-                    className={`article-icon hover-primary margin-top ${
+                    data-name="rate-btn"
+                    className={`article-icon-right hover-primary margin-top ${
                       article.rated ? 'rated' : ''
                     }`}
+                    role="presentation"
+                    data-url={`/articles/${article.slug}/ratings`}
+                    onClick={this.navigateToRatings}
                   >
                     {article.rating}
                     <i className="fa fa-star-o ml-5" />
                   </span>
-                  <button className="article-icon hover-primary margin-top">
+                  <button className="article-icon-right hover-primary margin-top">
                     <i className="fa fa-thumbs-up" />
                   </button>
-                  <button className="article-icon hover-primary margin-top">
-                    <i className="fa fa-thumbs-down article-icon" />
+                  <button className="article-icon-right hover-primary margin-top">
+                    <i className="fa fa-thumbs-down article-icon-right" />
                   </button>
-                  <button className="article-icon hover-primary margin-top">
-                    <i className="fa fa-bookmark article-icon" title="bookmark this article" />
+                  <button className="article-icon-right hover-primary margin-top">
+                    <i
+                      className="fa fa-bookmark article-icon-right"
+                      title="bookmark this article"
+                    />
                   </button>
                 </div>
                 <div className="article-share">
@@ -118,8 +131,6 @@ export class Article extends Component {
                   <p>Rate this article</p>
                   <div className="rate">
                     <button
-                      htmlFor="star5"
-                      title="text"
                       className={article.rated === 5 ? 'selected' : ''}
                       data-value="5"
                       onClick={this.onSelectedRating}
@@ -132,8 +143,6 @@ export class Article extends Component {
                     />
 
                     <button
-                      htmlFor="star3"
-                      title="text"
                       className={article.rated === 3 ? 'selected' : ''}
                       data-value="3"
                       onClick={this.onSelectedRating}
@@ -154,9 +163,8 @@ export class Article extends Component {
                 </div>
                 <div className="items-center">
                   <a href="#modal-report" className="hover-primary">
-                    <i className="fa fa-file" />
-                    {' '}
-Report
+                    <i className="fa fa-file mr-5" />
+                    Report
                   </a>
                 </div>
               </div>
@@ -193,12 +201,11 @@ Article.propTypes = {
   match: PropTypes.any.isRequired,
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
-  currentUser: PropTypes.object,
+  history: PropTypes.object.isRequired,
 };
 
 Article.defaultProps = {
   article: {},
-  currentUser: {},
 };
 
 export default connect(

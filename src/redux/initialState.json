@@ -48,6 +48,7 @@
   },
   "article": {
     "loading": true,
+    "loadingRatings": true,
     "submitting": false,
     "success": true,
     "article": {
@@ -55,6 +56,7 @@
       "body": "",
       "tagList": []
     },
-    "articles": []
+    "articles": [],
+    "ratings": []
   }
 }

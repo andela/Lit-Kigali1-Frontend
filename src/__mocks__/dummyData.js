@@ -21,4 +21,20 @@ module.exports = {
   articleReducerState: {
     articles: [],
   },
+  ratingData: {
+    id: '1a322238-dadf-406c-8252-df926958622e',
+    userId: 'd018c3b5-13c7-41c0-8b2c-4ec1cb6b21da',
+    articleId: 'f9a4731d-7dea-4a9a-9b7d-8766d651c202',
+    state: null,
+    rating: 3,
+    createdAt: '2019-04-19T14:14:09.096Z',
+    updatedAt: '2019-04-19T17:50:48.826Z',
+    author: {
+      username: 'username',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      image: null,
+    },
+    url: '/articles/article-slug/rating',
+  },
 };

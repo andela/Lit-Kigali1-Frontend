@@ -74,6 +74,20 @@ const articleReducer = (state = initialState, { type, payload }) => {
           ...payload,
         },
       };
+    case articleTypes.SET_ARTICLE_RATINGS_LOADING:
+      return {
+        ...state,
+        loadingRatings: payload,
+      };
+    case articleTypes.SET_ARTICLE_RATINGS:
+      return {
+        ...state,
+        ratings: payload.ratings,
+        article: {
+          ...state.article,
+          ...payload.article,
+        },
+      };
     default:
       return state;
   }

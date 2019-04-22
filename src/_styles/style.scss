@@ -14,9 +14,11 @@
 /* Components */
 @import 'components/FiveStars';
 @import 'components/Toast';
+@import 'components/RatingCard';
 
 /* Pages */
 @import 'pages/Login';
 @import 'pages/Profile';
 @import 'pages/ErrorPage';
 @import 'pages/Article';
+@import 'pages/Ratings';
