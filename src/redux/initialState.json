@@ -20,7 +20,10 @@
   "currentUser": {
     "following": false,
     "isLoggedIn": false,
-    "profile": {},
+    "profile": {
+      "username": "",
+      "articles": ""
+    },
     "articles": [],
     "favorites": []
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { NavBar, mapStateToProps } from '../../components/NavBar/NavBar';
+import initialState from '../../redux/initialState.json';
 
 describe('<NavBar />', () => {
   let wrapper;
@@ -46,13 +47,8 @@ describe('<NavBar />', () => {
 
   describe('reducers', () => {
     test('should return `mapStateToProps`', () => {
-      const initialState = {
-        currentUser: {
-          isLoggedIn: false,
-        },
-      };
       const state = mapStateToProps(initialState);
-      expect(state).toEqual(initialState.currentUser);
+      expect(state).toEqual({ isLoggedIn: false, username: '' });
     });
   });
 });
