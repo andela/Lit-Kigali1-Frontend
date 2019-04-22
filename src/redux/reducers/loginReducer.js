@@ -48,7 +48,7 @@ const loginReducer = (state = initialState, { type, payload }) => {
     case SOCIAL_AUTH_SUBMIT:
       return {
         ...initialState,
-        submitting: true,
+        submitting: false,
       };
     case SOCIAL_AUTH_SUCCESS:
       return {
