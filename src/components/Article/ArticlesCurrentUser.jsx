@@ -91,7 +91,7 @@ export class ArticlesCurrentUser extends Component {
 
   renderArticles = () => {
     const {
-      currentUser: { articles },
+      articles,
     } = this.props;
     const { articleStatus } = this.state;
     return articles.map((article, index) => {
@@ -173,13 +173,14 @@ export class ArticlesCurrentUser extends Component {
 
 export const mapStateToProps = ({
   currentUser: {
-    message, following, profile, deletingArticle,
+    message, following, profile, deletingArticle, articles,
   },
 }) => ({
   message,
   deletingArticle,
   currentUser: profile,
   following,
+  articles,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -190,6 +191,7 @@ ArticlesCurrentUser.propTypes = {
   deletingArticle: PropTypes.bool,
   currentUser: PropTypes.object,
   deleteArticle: PropTypes.func.isRequired,
+  articles: PropTypes.array.isRequired,
 };
 
 ArticlesCurrentUser.defaultProps = {
