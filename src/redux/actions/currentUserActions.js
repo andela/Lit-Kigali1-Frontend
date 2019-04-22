@@ -1,4 +1,3 @@
-import { OutgoingMessage } from 'http';
 import {
   SET_CURRENT_USER,
   SET_CURRENT_USER_FOLLOWING,

@@ -32,8 +32,15 @@ export class ProfileView extends Component {
   }
 
   renderArticles = () => {
-    const { profile } = this.props;
-    return profile.articles.map(article => <ArticleCard key={article.slug} article={article} />);
+    const { profile, history } = this.props;
+    return profile.articles.map(article => (
+      <ArticleCard
+        history={history}
+        url={`/articles/${article.slug}`}
+        key={article.slug}
+        article={article}
+      />
+    ));
   };
 
   onFollowButton = () => {
@@ -142,6 +149,7 @@ ProfileView.propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   match: PropTypes.any,
   onFollowUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 ProfileView.defaultProps = {
