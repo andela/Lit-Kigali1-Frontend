@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Video = (props) => {
   const { src, classes } = props;
   return (
-    <video controls src={src} classes={classes}>
+    <video controls src={src} className={classes}>
       <track kind="captions" />
     </video>
   );

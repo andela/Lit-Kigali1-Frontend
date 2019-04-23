@@ -120,7 +120,7 @@ export const fetchAndUpdateArticle = slug => (dispatch) => {
   return fetchAPI(`/articles/${slug}`)
     .then((data) => {
       dispatch(setEditArticle(data.article));
-      return data.article;
+      return data;
     })
     .catch((err) => {
       dispatch(fetchingArticleFailure(err.message));
@@ -136,9 +136,8 @@ export const updateArticle = (slug, article) => (dispatch) => {
       article,
     },
   }).then((data) => {
-    console.log(data);
     dispatch(submitArticleFormSuccess(data));
-    return data.article;
+    return data;
   }).catch((err) => {
     dispatch(submitArticleFormFailure(err.message));
     return err;
