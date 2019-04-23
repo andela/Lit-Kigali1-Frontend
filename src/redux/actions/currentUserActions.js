@@ -134,7 +134,12 @@ export const setNextPath = payload => ({
   payload,
 });
 export const updateProfile = ({
-  firstName, lastName, birthDate, bio, image,
+  firstName,
+  lastName,
+  gender,
+  birthDate,
+  bio,
+  image,
 }) => (dispatch) => {
   dispatch(submitProfileForm());
   return fetchAPI('/user', {
@@ -144,6 +149,7 @@ export const updateProfile = ({
         firstName,
         lastName,
         birthDate,
+        gender,
         bio,
         image,
       },

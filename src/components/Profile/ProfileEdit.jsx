@@ -23,6 +23,17 @@ export class ProfileEdit extends Component {
     message: '',
   };
 
+  showToast = (showToast, status, message) => {
+    this.setState({
+      showToast,
+      status,
+      message,
+    });
+    setTimeout(() => {
+      this.setState({ showToast: false });
+    }, 5000);
+  };
+
   onImageDrop = (files) => {
     const { handleInput } = this.props;
     const file = files[0];
@@ -33,14 +44,9 @@ export class ProfileEdit extends Component {
 
     upload.end((err, response) => {
       if (err) {
-        this.setState({
-          showToast: true,
-          status: 'error',
-          message: 'Something Went Wrong',
-        });
+        this.showToast(true, 'error', 'Something went wrong');
       }
-
-      if (response.body.secure_url !== '') {
+      if (response.body.secure_url) {
         handleInput({ field: 'image', value: response.body.secure_url });
       }
     });
@@ -75,17 +81,9 @@ export class ProfileEdit extends Component {
       username,
     }).then(({ status }) => {
       if (status === 200) {
-        this.setState({
-          showToast: true,
-          status: 'success',
-          message: 'Updated Successfully',
-        });
+        this.showToast(true, 'success', 'Updated Successfully');
       } else {
-        this.setState({
-          showToast: true,
-          status: 'error',
-          message: 'Profile Edit Failed',
-        });
+        this.showToast(true, 'error', 'Profile Edit Failed');
       }
     });
     e.preventDefault();
