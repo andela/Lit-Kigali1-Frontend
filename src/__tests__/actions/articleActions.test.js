@@ -240,5 +240,47 @@ describe('articleActions', () => {
         expect(res.articles).toEqual(expectedActions[1].payload);
       });
     });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}`)
+        .reply(200, { status: 200, article: articleData });
+      return store.dispatch(articleActions.fetchAndUpdateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(200);
+        expect(res.article).toEqual(articleData);
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.SET_EDIT_ARTICLE);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      return store.dispatch(articleActions.fetchAndUpdateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(404);
+        expect(res.message).toEqual('Article not found');
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.FETCHING_ARTICLE_FAILURE);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .put(`/articles/${articleSlug}`)
+        .reply(200, { status: 200, article: articleData });
+      return store.dispatch(articleActions.updateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(200);
+        expect(res.article).toEqual(articleData);
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.SET_EDIT_ARTICLE);
+      });
+    });
   });
 });

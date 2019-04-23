@@ -1,13 +1,12 @@
 import request from 'superagent';
-import Config from '../config/config';
 
-const CLOUDINARY_UPLOAD_PRESET = Config.upload_preset;
-const CLOUDINARY_UPLOAD_URL = Config.upload_url;
-
+const CLOUDINARY_UPLOAD_PRESET = process.env.UPLOAD_PRESET;
+const CLOUDINARY_UPLOAD_URL = process.env.UPLOAD_URL;
 const upLoadFile = file => new Promise((resolve) => {
   const upload = request
     .post(CLOUDINARY_UPLOAD_URL)
     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+    .field('resource_type', 'auto')
     .field('file', file);
   upload.end((err, response) => {
     if (err) {

@@ -16,7 +16,7 @@ export const Media = (props) => {
   }
 
   if (type === 'video') {
-    media = <Video src={src} classes="article-video" />;
+    media = <Video src={src} classes="width-100" />;
     return media;
   }
   return media;

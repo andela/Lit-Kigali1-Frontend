@@ -3,10 +3,25 @@ import { connect } from 'react-redux';
 import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
-import { Editor, EditorState, convertFromRaw } from 'draft-js';
+import {
+  Editor, EditorState, convertFromRaw,
+} from 'draft-js';
 import { fetchArticle } from '../../redux/actions/articleActions';
+import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
+import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
+import addLinkPlugin from '../../helpers/editorPlugins/addLink';
+
+const highlightPlugin = createHighlightPlugin();
 
 export class Article extends Component {
+  constructor() {
+    super();
+    this.plugins = [
+      highlightPlugin,
+      addLinkPlugin,
+    ];
+  }
+
   componentDidMount() {
     const {
       match: {
@@ -24,7 +39,16 @@ export class Article extends Component {
     if (body.match(/blocks/)) {
       const editorObject = convertFromRaw(JSON.parse(body));
       const editorState = EditorState.createWithContent(editorObject);
-      return <Editor className="article-text" name="body" editorState={editorState} readOnly />;
+      return (
+        <Editor
+          className="article-text"
+          name="body"
+          editorState={editorState}
+          blockRendererFn={mediaBlockRenderer}
+          plugins={this.plugins}
+          readOnly
+        />
+      );
     }
     return new HtmlToReact().parse(body);
   };
