@@ -50,7 +50,7 @@ describe('Media', () => {
       },
     };
     const media = Media(props);
-    expect(media).toEqual(<Video classes="article-video" src="image/hello.mp4" />);
+    expect(media).toEqual(<Video classes="width-100" src="image/hello.mp4" />);
   });
   test('should return a video component ', () => {
     const props = {
