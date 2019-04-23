@@ -130,6 +130,11 @@
   justify-content: flex-end;
 }
 
+.content-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .items-center {
   display: flex;
   align-items: center;

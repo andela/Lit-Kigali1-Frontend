@@ -84,7 +84,7 @@ export class Article extends Component {
               {this.renderBody()}
               <p className="article-date">{this.renderDate()}</p>
 
-              <div className="row">
+              <div className="row content-space-between">
                 <div className="article-side-actions">
                   <span>{article.readingTime}</span>
                   <span
@@ -97,7 +97,7 @@ export class Article extends Component {
                     onClick={this.navigateToRatings}
                   >
                     {article.rating}
-                    <i className="fa fa-star-o ml-5" />
+                    <i className={`fa fa-star${article.rated ? '' : '-o'} ml-5`} />
                   </span>
                   <button className="article-icon-right hover-primary margin-top">
                     <i className="fa fa-thumbs-up" />
@@ -107,7 +107,7 @@ export class Article extends Component {
                   </button>
                   <button className="article-icon-right hover-primary margin-top">
                     <i
-                      className="fa fa-bookmark article-icon-right"
+                      className="fa fa-bookmark-o article-icon-right"
                       title="bookmark this article"
                     />
                   </button>
@@ -162,8 +162,8 @@ export class Article extends Component {
                   </div>
                 </div>
                 <div className="items-center">
-                  <a href="#modal-report" className="hover-primary">
-                    <i className="fa fa-file mr-5" />
+                  <a href="#modal-report" className="hover-primary gray-icon">
+                    <i className="fa fa-file mr-5 gray-icon" />
                     Report
                   </a>
                 </div>

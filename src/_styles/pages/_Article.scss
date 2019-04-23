@@ -45,7 +45,7 @@
 }
 .article-date {
   margin: 20px 0;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   color: rgba(0, 0, 0, 0.3);
 }
 .article-side-actions {
@@ -65,9 +65,15 @@
   flex-direction: column;
   .article-icon-right {
     font-size: 1.3rem;
+    white-space: nowrap;
+    cursor: pointer;
+    i {
+      color: #717171;
+    }
     &.rated {
       color: #e2c14a;
-      a {
+      a,
+      i {
         color: #e2c14a;
       }
     }
@@ -110,7 +116,6 @@
   }
 }
 .article-share {
-  margin: 10px 0;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -121,6 +126,9 @@
   button {
     background-color: transparent;
     font-size: 1rem;
+    i {
+      color: #717171;
+    }
   }
 }
 .tagged {
@@ -129,10 +137,11 @@
   float: left;
   border-radius: 5px;
   color: grey;
-  font-size: 10px;
+  font-size: 1rem;
   background: #e8eaf6;
-  padding: 4px 7px;
+  padding: 5px 10px;
   margin: 4px;
+  font-family: 'Roboto-Light';
 }
 .tagged:hover {
   color: #e8eaf6;
