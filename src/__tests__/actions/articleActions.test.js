@@ -1,4 +1,4 @@
-import configureStore from 'redux-mock-store'; // ES6 modules
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';
@@ -10,14 +10,6 @@ const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
 let store;
 jest.setTimeout(30000);
-// export const CLEAR_ARTICLE_FORM = 'CLEAR_ARTICLE_FORM';
-// export const SET_ARTICLE_FORM_INPUT = 'SET_ARTICLE_FORM_INPUT';
-// export const SUBMIT_ARTICLE_FORM = 'SUBMIT_ARTICLE_FORM';
-// export const SUBMIT_ARTICLE_FORM_SUCCESS = 'SUBMIT_ARTICLE_FORM_SUCCESS';
-// export const SUBMIT_ARTICLE_FORM_FAILURE = 'SUBMIT_ARTICLE_FORM_FAILURE';
-// export const FETCHING_ARTICLE = 'FETCHING_ARTICLE';
-// export const FETCHING_ARTICLE_SUCCESS = 'FETCHING_ARTICLE_SUCCESS';
-// export const FETCHING_ARTICLE_FAILURE = 'FETCHING_ARTICLE_FAILURE';
 describe('articleActions', () => {
   describe('actions creators', () => {
     test('should dispatch `CLEAR_ARTICLE_FORM`', () => {
