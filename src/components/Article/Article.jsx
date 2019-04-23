@@ -4,22 +4,21 @@ import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import {
-  Editor, EditorState, convertFromRaw,
+  Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
+import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { fetchArticle } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
-import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
+import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 
 const highlightPlugin = createHighlightPlugin();
-
 export class Article extends Component {
   constructor() {
     super();
-    this.plugins = [
-      highlightPlugin,
-      addLinkPlugin,
-    ];
+    this.decorator = new MultiDecorator(
+      [new CompositeDecorator(addLinkPlugin.decorators)],
+    );
   }
 
   componentDidMount() {
@@ -38,14 +37,14 @@ export class Article extends Component {
     } = this.props;
     if (body.match(/blocks/)) {
       const editorObject = convertFromRaw(JSON.parse(body));
-      const editorState = EditorState.createWithContent(editorObject);
+      const editorState = EditorState.createWithContent(editorObject, this.decorator);
       return (
         <Editor
           className="article-text"
           name="body"
           editorState={editorState}
           blockRendererFn={mediaBlockRenderer}
-          plugins={this.plugins}
+          customStyleMap={highlightPlugin.customStyleMap}
           readOnly
         />
       );
