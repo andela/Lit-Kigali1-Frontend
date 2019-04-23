@@ -33,7 +33,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SUBMIT_ARTICLE_FORM_FAILURE:
       return {
         ...state,
-        message: payload.message,
+        message: payload,
         errors: payload.errors || [],
         submitting: false,
         success: false,

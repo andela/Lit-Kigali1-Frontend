@@ -38,7 +38,7 @@ export const submitArticle = ({ article }) => (dispatch) => {
       return data;
     })
     .catch((err) => {
-      dispatch(submitArticleFormFailure(err.message));
+      dispatch(submitArticleFormFailure(err));
       return err;
     });
 };

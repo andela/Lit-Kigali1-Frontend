@@ -17,6 +17,7 @@ import UnderlinedButton from '../../assets/images/format-underlined.svg';
 import LinkButton from '../../assets/images/format-link.svg';
 import ImageButton from '../../assets/images/format-image.svg';
 import VideoButton from '../../assets/images/format-video.svg';
+import TitleButton from '../../assets/images/format-size.svg';
 import {
   clearArticleForm,
   onArticleFormInput,
@@ -36,6 +37,7 @@ import upLoadFile from '../../helpers/upLoadFile';
 import getLink from '../../helpers/getLink';
 import getVideo from '../../helpers/getVideo';
 import getDescription from '../../helpers/getDescription';
+import getCover from '../../helpers/getCover';
 
 const highlightPlugin = createHighlightPlugin();
 export class ArticleCreate extends Component {
@@ -57,6 +59,12 @@ export class ArticleCreate extends Component {
   }
 
   componentDidMount() {
+    setTimeout(() => {
+      const { history, isLoggedIn } = this.props;
+      if (!isLoggedIn) {
+        history.push('/auth');
+      }
+    }, 100);
     const {
       match: {
         params: { articleSlug },
@@ -94,7 +102,7 @@ export class ArticleCreate extends Component {
 
   handleItalic = () => {
     const { editorState } = this.state;
-    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
+    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
   }
 
   handleBold = () => {
@@ -106,6 +114,11 @@ export class ArticleCreate extends Component {
     const { editorState } = this.state;
     this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
   }
+
+  handleHeader = () => {
+    const { editorState } = this.state;
+    this.onBodyChange(RichUtils.toggleBlockType(editorState, 'header-two'));
+  };
 
   handleTag = (e) => {
     this.setState({ tag: e.target.value });
@@ -174,11 +187,13 @@ export class ArticleCreate extends Component {
   publish = (status) => {
     const { createArticle, postArticle } = this.props;
     const description = getDescription(createArticle.body.blocks);
+    const cover = getCover(createArticle.body.entityMap);
     const article = {
       ...createArticle,
       body: JSON.stringify(createArticle.body),
       description,
       status,
+      cover,
     };
     postArticle(article);
   }
@@ -224,7 +239,7 @@ export class ArticleCreate extends Component {
       isEdit,
     } = this.state;
     if (message === 'Article created successfully' || message === 'Article updated successfully') {
-      history.push(`../../articles/${createArticle.slug}`);
+      history.push(`../../${createArticle.slug}`);
     }
     return (
       <section className="main-content">
@@ -247,6 +262,9 @@ export class ArticleCreate extends Component {
           <div className="row">
             <div className="col-2-mob">
               <div className="article-actions">
+                <Button classes="transparent" onClick={this.handleHeader}>
+                  <TitleButton className="logo" width={25} height={25} />
+                </Button>
                 <Button classes="transparent" onClick={this.handleBold}>
                   <BoldButton className="logo" width={25} height={25} />
                 </Button>
@@ -333,11 +351,13 @@ export const mapStateToProps = ({
     submitting,
     message,
   },
+  currentUser: { isLoggedIn },
 }) => ({
   createArticle,
   loading,
   submitting,
   message,
+  isLoggedIn,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -368,6 +388,7 @@ ArticleCreate.propTypes = {
   match: PropTypes.any,
   getArticle: PropTypes.func.isRequired,
   onUpdateArticle: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 ArticleCreate.defaultProps = {
