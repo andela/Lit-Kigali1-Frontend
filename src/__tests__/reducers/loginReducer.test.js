@@ -160,7 +160,7 @@ describe('Login Actions', () => {
       payload: {},
     };
     const res = loginReducer(initial, action);
-    expect(res.submitting).toEqual(true);
+    expect(res.submitting).toEqual(false);
     expect(res.credentials).toEqual(initial.credentials);
   });
 
