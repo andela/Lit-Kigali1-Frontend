@@ -120,7 +120,7 @@ export class ProfileView extends Component {
               <div className="col-3 content-right">{this.renderUserAction()}</div>
 
               <div className="profile-bio">
-                <div className="bio-header">Bio:</div>
+                {profile.bio ? <div className="bio-header">Bio:</div> : ''}
                 {profile.bio ? <div className="bio-text">{profile.bio}</div> : ''}
               </div>
             </div>
