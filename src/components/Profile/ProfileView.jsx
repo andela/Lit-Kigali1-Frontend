@@ -149,13 +149,14 @@ ProfileView.propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   match: PropTypes.any,
   onFollowUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
 };
 
 ProfileView.defaultProps = {
   match: { params: {} },
   loading: true,
   following: false,
+  history: {},
 };
 
 export const mapStateToProps = ({ user: { profile, loading }, currentUser }) => ({
