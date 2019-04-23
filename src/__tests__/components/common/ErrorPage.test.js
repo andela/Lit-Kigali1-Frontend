@@ -9,22 +9,22 @@ const props = {
     goBack: jest.fn(),
   },
 };
+
 describe('<ErrorPage />', () => {
   test('should render the <ErrorPage />', () => {
     wrapper = shallow(<ErrorPage />);
     expect(wrapper).toMatchSnapshot();
   });
-  // it('should have onClick as prop', () => {
-  //   expect(wrapper.props().onClick).toBeDefined();
-  // });
 
   describe('when clicking on navigate button', () => {
     beforeEach(() => {
       wrapper = mount(<ErrorPage {...props} />);
     });
+
     test('should have render 404 and navigate back', () => {
       wrapper.find('button').simulate('click');
     });
+
     test('should have render 500 and reload the page', () => {
       Object.defineProperty(window.location, 'reload', {
         configurable: true,
@@ -34,6 +34,7 @@ describe('<ErrorPage />', () => {
       wrapper = mount(<ErrorPage {...newProps} />);
       wrapper.find('button').simulate('click');
     });
+
     test('should have render default type', () => {
       const newProps = { ...props, type: '' };
       wrapper = mount(<ErrorPage {...newProps} />);
