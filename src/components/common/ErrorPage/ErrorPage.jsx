@@ -9,21 +9,21 @@ class ErrorPage extends Component {
       404: {
         image: error404,
         title: 'NOT FOUND',
-        text: "It's not you, it's us. We are fixing it",
+        text: "I'm afraid this page doesn't exist",
         button: 'Go Back',
         url: '',
       },
       500: {
         image: error500,
         title: 'ERROR',
-        text: "We are afraid this page doesn't exist",
+        text: "It's not you, it's us. We are fixing it",
         button: 'Try Again',
         url: '',
       },
     },
   };
 
-  naviageTo = () => {
+  navigateTo = () => {
     const { history, type } = this.props;
     switch (type) {
       case '404':
@@ -42,7 +42,7 @@ class ErrorPage extends Component {
     const { type } = this.props;
     const { errors } = this.state;
     return (
-      <button className="button primary" onClick={this.naviageTo}>
+      <button className="button primary" onClick={this.navigateTo}>
         {errors[type || 404].button}
       </button>
     );
@@ -75,7 +75,7 @@ ErrorPage.propTypes = {
 };
 
 ErrorPage.defaultProps = {
-  type: '404',
+  type: '500',
   history: {},
 };
 
