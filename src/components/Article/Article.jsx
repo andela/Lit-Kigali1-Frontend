@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
+import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { fetchArticle } from '../../redux/actions/articleActions';
 
 export class Article extends Component {
@@ -20,6 +21,11 @@ export class Article extends Component {
     const {
       singleArticle: { body },
     } = this.props;
+    if (body.match(/blocks/)) {
+      const editorObject = convertFromRaw(JSON.parse(body));
+      const editorState = EditorState.createWithContent(editorObject);
+      return <Editor className="article-text" name="body" editorState={editorState} readOnly />;
+    }
     return new HtmlToReact().parse(body);
   };
 
@@ -47,6 +53,24 @@ export class Article extends Component {
     );
   };
 
+  renderCover = () => {
+    const {
+      singleArticle: { cover },
+    } = this.props;
+
+    if (!cover) return '';
+    return (
+      <div className="col-12">
+        <div
+          className="article-image"
+          style={{
+            backgroundImage: `url("${cover}")`,
+          }}
+        />
+      </div>
+    );
+  };
+
   render() {
     const { singleArticle } = this.props;
     return (
@@ -55,14 +79,7 @@ export class Article extends Component {
           <br />
           <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
-            <div className="col-12">
-              <div
-                className="article-image"
-                style={{
-                  backgroundImage: `url("${singleArticle.cover}")`,
-                }}
-              />
-            </div>
+            {this.renderCover()}
             <div className="col-12">
               {this.renderBody()}
               <p className="article-date">{this.renderDate()}</p>
@@ -132,7 +149,7 @@ export class Article extends Component {
                   <a href="#modal-report" className="hover-primary">
                     <i className="fa fa-file" />
                     {' '}
-                    Report
+Report
                   </a>
                 </div>
               </div>

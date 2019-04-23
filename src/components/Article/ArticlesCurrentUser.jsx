@@ -109,7 +109,7 @@ export class ArticlesCurrentUser extends Component {
                 <i className="fa fa-trash" data-index={index} />
               </Button>
             </div>
-            <p className="my-article__text">{article.body}</p>
+            <p className="my-article__text">{article.description || article.body}</p>
             <p className="my-article__meta">{this.renderDate(article.createdAt)}</p>
           </div>
         );
