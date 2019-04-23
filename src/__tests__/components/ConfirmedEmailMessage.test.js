@@ -41,6 +41,7 @@ describe('<ConfirmedEmaiMessage  />', () => {
     wrapper = shallow(<ConfirmedEmailMessage {...props} />);
     expect(wrapper.state()).toEqual(defaultState);
   });
+
   test('should render default state', () => {
     wrapper = shallow(<ConfirmedEmailMessage {...props} />);
     wrapper.setState({ message: 'email confirmed' });

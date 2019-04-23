@@ -68,6 +68,7 @@ describe('<Login />', () => {
       wrapper.find('.button').simulate('click');
       expect(props.validate).toHaveBeenCalled();
     });
+
     test('should call not login user', () => {
       const validate = jest
         .fn()
@@ -129,6 +130,7 @@ describe('<Login />', () => {
         .simulate('click');
       expect(props.socialAuth).toHaveBeenCalled();
     });
+
     test('should trigger click event', () => {
       const wrapper = mount(
         <Router>
@@ -141,6 +143,7 @@ describe('<Login />', () => {
         .simulate('click');
       expect(props.socialAuth).toHaveBeenCalled();
     });
+
     test('should trigger click event', () => {
       const wrapper = mount(
         <Router>
@@ -204,6 +207,7 @@ describe('<Login />', () => {
       expect(state).toEqual(expectedState);
     });
   });
+
   describe('handleError function', () => {
     test('should call handleError and return error message', () => {
       const error = {
@@ -215,6 +219,7 @@ describe('<Login />', () => {
       expect(errorContainer.length).toEqual(1);
       expect(errorContainer.text()).toEqual(error.message);
     });
+
     test('should call handleError and return error message', () => {
       const isLoggedIn = true;
       const dataTestValue = 'form-errors';

@@ -226,6 +226,7 @@ describe('socialLogin', () => {
       .simulate('click');
     expect(props.socialAuth).toHaveBeenCalled();
   });
+
   test('should trigger click event', () => {
     const wrapper = mount(<SignUp store={store} {...props} />);
     wrapper
@@ -234,6 +235,7 @@ describe('socialLogin', () => {
       .simulate('click');
     expect(props.socialAuth).toHaveBeenCalled();
   });
+
   test('should trigger click event', () => {
     const wrapper = mount(<SignUp store={store} {...props} />);
     wrapper

@@ -18,6 +18,7 @@ describe('<Login />', () => {
     const div = component.find(`[data-test='${dataTest.div}']`);
     expect(div.length).toEqual(1);
   });
+
   test('should render an image', () => {
     const img = component.find(`[data-test='${dataTest.img}']`);
     expect(img.length).toEqual(1);
