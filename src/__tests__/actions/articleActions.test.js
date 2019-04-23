@@ -278,8 +278,8 @@ describe('articleActions', () => {
         const actions = store.getActions();
         expect(res.status).toBe(200);
         expect(res.article).toEqual(articleData);
-        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
-        expect(actions[1].type).toEqual(articleTypes.SET_EDIT_ARTICLE);
+        expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
+        expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS);
       });
     });
   });
