@@ -4,7 +4,7 @@ const getDescription = (article) => {
     articleText += paragraph.text;
     return articleText;
   });
-  const description = articleText.slice(1, 500);
+  const description = articleText.slice(0, 500);
 
   return description;
 };

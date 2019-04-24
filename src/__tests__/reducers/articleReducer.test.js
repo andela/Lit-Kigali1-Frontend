@@ -61,7 +61,8 @@ describe('currentUserReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       ...payload,
-      errors: [],
+      createArticle: {},
+      errors: payload,
       submitting: false,
       success: false,
     });

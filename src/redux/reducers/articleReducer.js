@@ -21,11 +21,11 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS:
       return {
         ...state,
-        message: payload.message,
         createArticle: {
           ...state.createArticle,
           slug: payload.article.slug,
         },
+        message: payload.message,
         errors: [],
         submitting: false,
         success: true,
@@ -33,8 +33,11 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SUBMIT_ARTICLE_FORM_FAILURE:
       return {
         ...state,
-        message: payload,
-        errors: payload.errors || [],
+        createArticle: {
+          ...state.createArticle,
+        },
+        message: payload.message,
+        errors: payload || [],
         submitting: false,
         success: false,
       };
