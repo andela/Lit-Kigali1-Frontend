@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import ArticleCard from '../../components/Article/ArticleCard';
 import { articleData } from '../../__mocks__/dummyData';
-import initialState from '../../redux/initialState.json';
 
 let wrapper;
 const props = {
