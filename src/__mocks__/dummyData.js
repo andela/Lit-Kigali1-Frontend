@@ -40,4 +40,71 @@ module.exports = {
   ],
   urlValue: 'https://cdn.shopify.com/s/files/1/0550/6737/products/ORANGEWOOD_MANHATTAN_SPRUCE_BEGINNER_DREADNAUGHT_ACOUSTIC_GUITAR-1_2000x.png?v=1524595098',
   jsonFormat: '{"key":"dhjdh","text":"orem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas justo arcu, sit amet eleifend velit venenatis et. Curabitur vel ipsum est. Phasellus iaculis arcu vel ligula faucibus laoree"}',
+  entityMap1: {
+    0: {
+      type: 'LINK',
+      mutability: 'MUTABLE',
+      data: {
+        url: 'https://www.lipsum.com/feed/html',
+      },
+    },
+    1: {
+      type: 'image',
+      mutability: 'IMMUTABLE',
+      data: {
+        src: 'https://res.cloudinary.com/litkigaliauthorshaven/image/upload/v1556089726/beach-exotic-holiday-248797_fegfqb.jpg',
+      },
+    },
+    2: {
+      type: 'LINK',
+      mutability: 'MUTABLE',
+      data: {
+        url: 'https://www.lipsum.com/feed/html',
+      },
+    },
+    3: {
+      type: 'LINK',
+      mutability: 'MUTABLE',
+      data: {
+        url: 'https://www.lipsum.com/feed/html',
+      },
+    },
+    4: {
+      type: 'video',
+      mutability: 'IMMUTABLE',
+      data: {
+        src: 'https://res.cloudinary.com/litkigaliauthorshaven/video/upload/v1556089741/BirdNoSound_1_klovmd.mp4',
+      },
+    },
+  },
+  entityMap2: {
+    0: {
+      type: 'LINK',
+      mutability: 'MUTABLE',
+      data: {
+        url: 'https://www.lipsum.com/feed/html',
+      },
+    },
+    2: {
+      type: 'LINK',
+      mutability: 'MUTABLE',
+      data: {
+        url: 'https://www.lipsum.com/feed/html',
+      },
+    },
+    3: {
+      type: 'LINK',
+      mutability: 'MUTABLE',
+      data: {
+        url: 'https://www.lipsum.com/feed/html',
+      },
+    },
+    4: {
+      type: 'video',
+      mutability: 'IMMUTABLE',
+      data: {
+        src: 'https://res.cloudinary.com/litkigaliauthorshaven/video/upload/v1556089741/BirdNoSound_1_klovmd.mp4',
+      },
+    },
+  },
 };

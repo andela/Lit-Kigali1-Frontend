@@ -37,7 +37,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
           ...state.createArticle,
         },
         message: payload.message,
-        errors: payload || [],
+        errors: payload,
         submitting: false,
         success: false,
       };
