@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
-import { articleData } from '../../__mocks__/dummyData';
+import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
@@ -31,6 +31,19 @@ describe('<Article />', () => {
 
   test('should render <Article /> with tags', () => {
     wrapper = mount(<Article {...props} />);
+    expect(wrapper.props().singleArticle.tagList).toBeDefined();
+  });
+
+  test('should render <Article /> with cover', () => {
+    props.singleArticle.cover = 'https://picsum.photos/200/300';
+    wrapper = mount(<Article {...props} />);
+    expect(wrapper.props().singleArticle.cover).toBeDefined();
+  });
+
+  test('should render <Article /> the Editor', () => {
+    const newProps = props;
+    newProps.singleArticle = articleDataDraft;
+    wrapper = mount(<Article {...newProps} />);
     expect(wrapper.props().singleArticle.tagList).toBeDefined();
   });
 
