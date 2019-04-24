@@ -7,34 +7,28 @@ class AuthComponent extends React.Component {
   constructor() {
     super();
     this.state = {
-      flip: false,
+      flip: 'flip-login',
     };
   }
 
- flip = (e) => {
-   this.setState({ flip: true });
-   e.preventDefault();
- }
+  flip = (e) => {
+    this.setState({ flip: e.target.id });
+    e.preventDefault();
+  };
 
- flipBack = (e) => {
-   this.setState({ flip: false });
-   e.preventDefault();
- }
-
- render() {
-   const { history } = this.props;
-   const { flip } = this.state;
-   return (
-     <div className="main-content middle-content">
-       <div id="card" className={flip ? 'flip' : 'flipBack'}>
-         <SignUp history={history} flip={this.flip} />
-         <Login history={history} flipBack={this.flipBack} />
-       </div>
-     </div>
-   );
- }
+  render() {
+    const { history } = this.props;
+    const { flip } = this.state;
+    return (
+      <div className="main-content middle-content">
+        <div id="card" className={flip !== 'flip-login' ? 'flip' : 'flipBack'}>
+          <SignUp data-name="signup" history={history} onFlip={this.flip} />
+          <Login data-name="login" history={history} onFlip={this.flip} />
+        </div>
+      </div>
+    );
+  }
 }
-
 AuthComponent.propTypes = {
   history: PropTypes.any.isRequired,
 };
