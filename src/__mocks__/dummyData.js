@@ -107,4 +107,12 @@ module.exports = {
       },
     },
   },
+  file: {
+    lastModified: 1553947426997,
+    lastModifiedDate: new Date(),
+    name: 'beach-exotic-holiday-248797.jpg',
+    size: 522195,
+    type: 'image/jpeg',
+    webkitRelativePath: '',
+  },
 };
