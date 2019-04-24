@@ -14,7 +14,7 @@ let wrapper;
 const props = {
   deletingArticle: true,
   currentUser: {
-    articles: [articleData],
+    articles: [{ ...articleData, status: 'unpublished' }],
   },
   deleteArticle: jest
     .fn({ articleSlug: 'article-slug', index: 0 })

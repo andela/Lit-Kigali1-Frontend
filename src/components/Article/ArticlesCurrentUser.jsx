@@ -21,7 +21,7 @@ export class ArticlesCurrentUser extends Component {
 
   toggleArticleStatus = (e) => {
     const { status } = e.target.dataset;
-    this.setState({ articleStatus: status });
+    this.setState({ articleStatus: status, showToast: false });
   };
 
   openModal = (e) => {
@@ -95,7 +95,7 @@ export class ArticlesCurrentUser extends Component {
     } = this.props;
     const { articleStatus } = this.state;
     return articles.map((article, index) => {
-      if (articleStatus !== article.status) {
+      if (articleStatus === article.status) {
         return (
           <div className="my-article" key={article.slug}>
             <div className="my-article__title">
@@ -117,14 +117,20 @@ export class ArticlesCurrentUser extends Component {
     });
   };
 
+  renderToast = () => {
+    const { showToast, deleteStatus, deleteMessage } = this.state;
+    if (!showToast) return '';
+    return <Toast show={showToast} type={deleteStatus} message={deleteMessage} />;
+  };
+
   render() {
     const {
-      articleStatus, showToast, deleteStatus, deleteMessage,
+      articleStatus,
     } = this.state;
     return (
       <section className="main-content">
         <div className="container">
-          <Toast show={showToast} type={deleteStatus} message={deleteMessage} />
+          {this.renderToast()}
           {this.renderModal()}
           <div className="row content-margin">
             <div className="col-1" />

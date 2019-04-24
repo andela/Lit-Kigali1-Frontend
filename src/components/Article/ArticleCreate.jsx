@@ -38,6 +38,7 @@ import getLink from '../../helpers/getLink';
 import getVideo from '../../helpers/getVideo';
 import getDescription from '../../helpers/getDescription';
 import getCover from '../../helpers/getCover';
+import Toast from '../common/Toast/Toast';
 
 const highlightPlugin = createHighlightPlugin();
 export class ArticleCreate extends Component {
@@ -64,7 +65,7 @@ export class ArticleCreate extends Component {
       if (!isLoggedIn) {
         history.push('/auth');
       }
-    }, 100);
+    }, 1000);
     const {
       match: {
         params: { articleSlug },
@@ -225,6 +226,14 @@ export class ArticleCreate extends Component {
     </div>
   );
 
+  showToast = () => {
+    const { message } = this.props;
+    if (message.length) {
+      return <Toast show type="error" message={message} />;
+    }
+    return '';
+  };
+
   render() {
     const {
       onInputChange,
@@ -239,12 +248,13 @@ export class ArticleCreate extends Component {
       isEdit,
     } = this.state;
     if (message === 'Article created successfully' || message === 'Article updated successfully') {
-      history.push(`../../${createArticle.slug}`);
+      history.push(`/articles/${createArticle.slug}`);
     }
     return (
       <section className="main-content">
         { isModel ? this.openModel() : ''}
         <div className="container content-margin">
+          {this.showToast()}
           <div className="row">
             <div className="col-2-mob" />
             <div className="col-10-mob mt-10">

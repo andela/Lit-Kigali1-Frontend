@@ -101,14 +101,17 @@ describe('articleActions', () => {
         },
         {
           type: articleTypes.SUBMIT_ARTICLE_FORM_FAILURE,
-          payload: 'Unauthorized access',
+          payload: {
+            status: 401,
+            message: 'Unauthorized access',
+          },
         },
       ];
       return store.dispatch(articleActions.submitArticle(payload)).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(401);
-        expect(res.message).toBe(expectedActions[1].payload);
+        expect(res.message).toBe(expectedActions[1].payload.message);
       });
     });
 
