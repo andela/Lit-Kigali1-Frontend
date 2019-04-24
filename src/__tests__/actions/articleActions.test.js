@@ -78,6 +78,33 @@ describe('articleActions', () => {
       };
       expect(articleActions.fetchingArticleFailure(payload)).toEqual(expectedAction);
     });
+
+    test('should dispatch `addTag`', () => {
+      const payload = 'tag';
+      const expectedAction = {
+        type: articleTypes.SUBMIT_ARTICLE_TAG,
+        payload,
+      };
+      expect(articleActions.addTag(payload)).toEqual(expectedAction);
+    });
+
+    test('should dispatch `REMOVE_ARTICLE_TAG`', () => {
+      const payload = 'tag';
+      const expectedAction = {
+        type: articleTypes.REMOVE_ARTICLE_TAG,
+        payload,
+      };
+      expect(articleActions.removeTag(payload)).toEqual(expectedAction);
+    });
+
+    test('should dispatch `SET_ARTICLE_EDITOR`', () => {
+      const payload = 'EDITOR';
+      const expectedAction = {
+        type: articleTypes.SET_ARTICLE_EDITOR,
+        payload,
+      };
+      expect(articleActions.updateEditorState(payload)).toEqual(expectedAction);
+    });
   });
 
   describe('asynchronous actions', () => {
