@@ -277,5 +277,19 @@ describe('articleActions', () => {
         expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS);
       });
     });
+
+    test('should dispatch fetchAndUpdateArticle - FAILURE', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .put(`/articles/${articleSlug}`)
+        .reply(404, { status: 404, message: 'article not found' });
+      return store.dispatch(articleActions.updateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(404);
+        expect(res.message).toEqual('article not found');
+        expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
+        expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_FAILURE);
+      });
+    });
   });
 });
