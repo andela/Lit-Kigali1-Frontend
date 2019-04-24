@@ -154,20 +154,19 @@ export class ArticleCreate extends Component {
   }
 
   addImage = (e) => {
-    console.log(e.target.files[0].lastModifiedDate);
-    // upLoadFile(e.target.files[0]).then((url) => {
-    //   const { editorState } = this.state;
-    //   const { newEditorState, entityKey } = getImage(editorState, url);
-    //   this.setState(
-    //     {
-    //       editorState: AtomicBlockUtils.insertAtomicBlock(
-    //         newEditorState,
-    //         entityKey,
-    //         ' ',
-    //       ),
-    //     },
-    //   );
-    // });
+    upLoadFile(e.target.files[0]).then((url) => {
+      const { editorState } = this.state;
+      const { newEditorState, entityKey } = getImage(editorState, url);
+      this.setState(
+        {
+          editorState: AtomicBlockUtils.insertAtomicBlock(
+            newEditorState,
+            entityKey,
+            ' ',
+          ),
+        },
+      );
+    });
   }
 
   addVideo = (e) => {
