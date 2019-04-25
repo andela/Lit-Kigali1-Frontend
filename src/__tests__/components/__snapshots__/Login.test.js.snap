@@ -80,47 +80,35 @@ exports[`<Login /> should render the <Login /> 1`] = `
       <div
         data-test="fb-container"
         id="fb"
+        onClick={[Function]}
       >
-        <a
-          data-test="fb-a"
-          href="/#"
-        >
-          <img
-            alt="fb-logo"
-            data-test="fb-img"
-            src="test-file-stub"
-          />
-        </a>
+        <img
+          alt="fb-logo"
+          data-test="fb-img"
+          src="test-file-stub"
+        />
       </div>
       <div
         data-test="twbs-container"
         id="twbs"
+        onClick={[Function]}
       >
-        <a
-          data-test="twbs-a"
-          href="/#"
-        >
-          <img
-            alt="twbs-logo"
-            data-test="twbs-img"
-            src="test-file-stub"
-          />
-        </a>
+        <img
+          alt="twbs-logo"
+          data-test="twbs-img"
+          src="test-file-stub"
+        />
       </div>
       <div
         data-test="gl-container"
         id="gl"
+        onClick={[Function]}
       >
-        <a
-          data-test="gl-a"
-          href="/#"
-        >
-          <img
-            alt="gl-logo"
-            data-test="gl-img"
-            src="test-file-stub"
-          />
-        </a>
+        <img
+          alt="gl-logo"
+          data-test="gl-img"
+          src="test-file-stub"
+        />
       </div>
     </div>
     <div
@@ -131,8 +119,9 @@ exports[`<Login /> should render the <Login /> 1`] = `
         Not a member?
       </span>
       <a
-        href="/"
-        onClick={[Function]}
+        href="#signup"
+        id="flip-login"
+        onClick={[MockFunction]}
       >
         Sign Up
       </a>

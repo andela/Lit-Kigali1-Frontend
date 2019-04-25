@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import fetchAPI from '../../helpers/fetchAPI';
+import { connect } from 'react-redux';
+import { fetchConfirmEmail } from '../../redux/actions/signupActions';
 
 export class ConfirmedEmailMessage extends Component {
   state = {
@@ -10,33 +11,20 @@ export class ConfirmedEmailMessage extends Component {
   };
 
   componentDidMount() {
-    this.fetchConfirmEmail();
+    const {
+      onEmailVerification,
+      match: { params },
+    } = this.props;
+    onEmailVerification({ ...params });
   }
 
-  fetchConfirmEmail = () => {
-    const {
-      match: {
-        params: { userId, confirmationCode },
-      },
-    } = this.props;
-
-    return fetchAPI(`/users/${userId}/confirm_email/${confirmationCode}`, {
-      method: 'GET',
-    })
-      .then(({ message }) => {
-        this.setState({ message });
-      })
-      .catch(({ message }) => {
-        this.setState({ message, error: true });
-      });
-  };
-
   render() {
-    const { message } = this.state;
+    const { confirmMessage } = this.props;
+
     return (
       <section className="main-content content-margin">
         <div className="container align-center">
-          <p className="color-primary title-2 align-center">{message}</p>
+          <p className="color-primary title-2 align-center">{confirmMessage}</p>
         </div>
       </section>
     );
@@ -44,7 +32,21 @@ export class ConfirmedEmailMessage extends Component {
 }
 
 ConfirmedEmailMessage.propTypes = {
-  match: PropTypes.any,
+  confirmMessage: PropTypes.string,
+  onEmailVerification: PropTypes.func.isRequired,
 };
+ConfirmedEmailMessage.defaultProps = {
+  confirmMessage: '',
+};
+export const mapStateToProps = state => ({
+  confirmMessage: state.signUp.confirmMessage,
+});
 
-export default ConfirmedEmailMessage;
+export const mapDispatchToProps = dispatch => ({
+  onEmailVerification: ({ userId, confirmationCode }) => dispatch(fetchConfirmEmail({ userId, confirmationCode })),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmedEmailMessage);

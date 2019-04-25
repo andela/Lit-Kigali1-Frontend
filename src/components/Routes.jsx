@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import Home from './Home/Home';
-import Login from './Auth';
+import Login from './Auth/Login';
 import ResetPassword from './ForgotPassword/ResetPassword';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
@@ -24,7 +24,7 @@ const Routes = () => (
       component={ConfirmedEmailMessage}
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
-    <Route path="*" component={ErrorPage} />
+    <Route path="/error" component={ErrorPage} />
   </div>
 );
 

@@ -22,8 +22,8 @@ export const onUserActionFailure = message => ({
   payload: message,
 });
 
-export const fetchCurrentUser = () => dispatch => fetchAPI('/user')
-  .then(({ user }) => {
+export const fetchCurrentUser = token => dispatch => fetchAPI('/user', { token })
+  .then(({ user, token }) => {
     dispatch(setCurrentUser(user));
     return user;
   })

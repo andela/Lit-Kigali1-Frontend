@@ -6,6 +6,8 @@ import {
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
+  SOCIAL_AUTH_SUBMIT,
+  SOCIAL_AUTH_SUCCESS,
 } from '../../redux/actions-types';
 
 describe('Login Actions', () => {
@@ -144,5 +146,37 @@ describe('Login Actions', () => {
     };
     const res = loginReducer(initial, action);
     expect(res).toEqual(initial);
+  });
+
+  test('should change submitting to true on SOCIAL_AUTH_SUBMIT', () => {
+    const initial = {
+      credentials: {
+        username: '',
+        password: '',
+      },
+    };
+    const action = {
+      type: SOCIAL_AUTH_SUBMIT,
+      payload: {},
+    };
+    const res = loginReducer(initial, action);
+    expect(res.submitting).toEqual(false);
+    expect(res.credentials).toEqual(initial.credentials);
+  });
+
+  test('should change submitting to true on SOCIAL_AUTH_SUCCESS', () => {
+    const initial = {
+      credentials: {
+        username: '',
+        password: '',
+      },
+    };
+    const action = {
+      type: SOCIAL_AUTH_SUCCESS,
+      payload: {},
+    };
+    const res = loginReducer(initial, action);
+    expect(res.submitting).toEqual(false);
+    expect(res.credentials).toEqual(initial.credentials);
   });
 });

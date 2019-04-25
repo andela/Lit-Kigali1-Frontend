@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmail } from 'validator';
-import { handleSignUpForm, submitSignUp } from '../../redux/actions';
+import { handleSignUpForm, submitSignUp, socialAuth } from '../../redux/actions';
 import Button from '../common/Button/Button';
 import Input from '../common/Input/Input';
 import fb from '../../assets/images/facebook.png';
 import twitter from '../../assets/images/twitter.png';
 import google from '../../assets/images/google.png';
+import SocialLoginIcon from '../SocialLoginIcon';
 
 export class SignUp extends Component {
   state = {
@@ -81,9 +82,15 @@ export class SignUp extends Component {
     return errors.map(err => <span key={err}>{err.message || err}</span>);
   };
 
+  socialAuthLogin = (provider) => {
+    const { submitting, socialAuth } = this.props;
+
+    !submitting && socialAuth(provider);
+  };
+
   render() {
     const {
-      username, password, email, submitting,
+      username, password, email, submitting, onFlip,
     } = this.props;
     const {
       emailError,
@@ -146,19 +153,39 @@ export class SignUp extends Component {
             Sign Up
           </Button>
           <div className="icon-group">
-            <div id="fb">
-              <img src={fb} alt="fb-logo" />
-            </div>
-            <div id="twbs">
-              <img src={twitter} alt="twbs-logo" />
-            </div>
-            <div id="gl">
-              <img src={google} alt="gl-logo" />
-            </div>
+            <SocialLoginIcon
+              id="fb"
+              onClick={() => {
+                this.socialAuthLogin('facebook');
+              }}
+              icon={fb}
+              alt="fb-logo"
+              dataTest={{ div: 'fb-container', a: 'fb-a', img: 'fb-img' }}
+            />
+            <SocialLoginIcon
+              id="twbs"
+              onClick={() => {
+                this.socialAuthLogin('twitter');
+              }}
+              icon={twitter}
+              alt="twbs-logo"
+              dataTest={{ div: 'twbs-container', a: 'twbs-a', img: 'twbs-img' }}
+            />
+            <SocialLoginIcon
+              id="gl"
+              onClick={() => {
+                this.socialAuthLogin('google');
+              }}
+              icon={google}
+              alt="gl-logo"
+              dataTest={{ div: 'gl-container', a: 'gl-a', img: 'gl-img' }}
+            />
           </div>
           <div className="to-center" id="form-link">
             <span>Already a member?</span>
-            <a to="/login">Sign In</a>
+            <a href="#login" id="flip-signup" onClick={onFlip}>
+              Sign In
+            </a>
           </div>
         </form>
       </div>
@@ -185,6 +212,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       ownProps,
     }),
   ),
+  socialAuth: provider => dispatch(socialAuth(provider)),
 });
 
 SignUp.propTypes = {
@@ -197,6 +225,8 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
+  socialAuth: PropTypes.func,
+  onFlip: PropTypes.func,
 };
 
 SignUp.defaultProps = {
