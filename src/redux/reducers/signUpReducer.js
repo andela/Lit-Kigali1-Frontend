@@ -5,7 +5,7 @@ import {
   CLEAR_SIGNUP_FORM,
   SIGNUP_FORM,
 } from '../actions-types';
-import { signUp as initialState } from '../initialState.json';
+import { signUp as initialState } from '../initialState';
 
 const signupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -24,10 +24,10 @@ const signupReducer = (state = initialState, { type, payload }) => {
         message: '',
       };
     case SIGNUP_SUCCESS:
-      return { 
-        ...state, 
-        successMessage: payload.message, 
-        submitting: false 
+      return {
+        ...state,
+        successMessage: payload.message,
+        submitting: false,
       };
     case SIGNUP_FAILURE:
       return {

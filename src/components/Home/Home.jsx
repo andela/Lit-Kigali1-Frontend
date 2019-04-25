@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const HomeComponent = () => (
+const Home = () => (
   <div className="main-content">
     <div className="container is-column content-center">
       <h1 style={{ background: 'gray', color: 'white' }}>Home Component</h1>
@@ -15,4 +15,4 @@ const HomeComponent = () => (
   </div>
 );
 
-export default HomeComponent;
+export default Home;

@@ -7,7 +7,7 @@ import {
   mapStateToProps,
   mapDispatchToProps,
 } from '../../components/Profile/ProfileView';
-import initialState from '../../redux/initialState.json';
+import initialState from '../../redux/initialState';
 import { articleData } from '../../__mocks__/dummyData';
 
 let wrapper;
@@ -23,6 +23,7 @@ const props = {
   },
   getUserProfile: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   onFollowUser: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  history: { push: jest.fn() },
 };
 describe('<ProfileView />', () => {
   beforeEach(() => {

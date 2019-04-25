@@ -1,37 +1,46 @@
-import {
-  SET_CURRENT_USER,
-  SET_CURRENT_USER_FOLLOWING,
-  SET_USER_ACTION_SUCCESS,
-  SET_USER_ACTION_FAILURE,
-} from '../actions-types/currentUserTypes';
-import { currentUser as initialState } from '../initialState.json';
+import * as types from '../actions-types/currentUserTypes';
+import { currentUser as initialState } from '../initialState';
 
 const currentUserReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_USER_ACTION_FAILURE:
+    case types.SET_USER_ACTION_FAILURE:
       return {
         ...state,
         message: payload,
         success: false,
         loading: false,
       };
-    case SET_USER_ACTION_SUCCESS:
+    case types.SET_USER_ACTION_SUCCESS:
       return {
         ...state,
         message: payload,
         success: true,
         loading: false,
       };
-    case SET_CURRENT_USER:
+    case types.SET_CURRENT_USER:
       return {
         ...state,
         profile: payload,
         isLoggedIn: true,
       };
-    case SET_CURRENT_USER_FOLLOWING:
+    case types.SET_CURRENT_USER_FOLLOWING:
       return {
         ...state,
         following: payload,
+      };
+    case types.SET_CURRENT_USER_DELETING_ARTICLE:
+      return {
+        ...state,
+        deletingArticle: payload,
+      };
+    case types.DELETE_CURRENT_USER_ARTICLE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          articles: state.profile.articles.filter(article => article.slug !== payload.articleSlug),
+        },
+        message: payload.message,
       };
     default:
       return state;

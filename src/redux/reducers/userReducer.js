@@ -5,7 +5,7 @@ import {
   FETCH_PROFILE_FAILURE,
   SET_USER_FOLLOWED,
 } from '../actions-types/userTypes';
-import { user as initialState } from '../initialState.json';
+import { user as initialState } from '../initialState';
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {

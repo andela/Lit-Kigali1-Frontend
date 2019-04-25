@@ -83,7 +83,7 @@ export class SignUp extends Component {
 
   render() {
     const {
-      username, password, email, submitting,
+      username, password, email, submitting, flip,
     } = this.props;
     const {
       emailError,
@@ -158,7 +158,9 @@ export class SignUp extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Already a member?</span>
-            <a to="/login">Sign In</a>
+            <a href="#login" onClick={flip}>
+              Sign In
+            </a>
           </div>
         </form>
       </div>
@@ -197,12 +199,14 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
+  flip: PropTypes.func,
 };
 
 SignUp.defaultProps = {
   message: '',
   errors: [],
   submitting: false,
+  flip: () => '',
 };
 
 export default connect(

@@ -46,6 +46,7 @@ export class LoginComponent extends Component {
       credentials: { username, password },
       submitting,
       error: { passwordRequired, usernameRequired },
+      flipBack,
     } = this.props;
     return (
       <div>
@@ -116,7 +117,9 @@ export class LoginComponent extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Not a member?</span>
-            <Link to="/#">Sign Up</Link>
+            <a href="#signup" onClick={flipBack}>
+              Sign Up
+            </a>
           </div>
         </form>
       </div>
@@ -133,6 +136,7 @@ LoginComponent.propTypes = {
   error: PropTypes.object,
   history: PropTypes.any.isRequired,
   isLoggedIn: PropTypes.bool,
+  flipBack: PropTypes.func,
 };
 
 LoginComponent.defaultProps = {
@@ -143,6 +147,7 @@ LoginComponent.defaultProps = {
   error: {},
   submitting: false,
   isLoggedIn: false,
+  flipBack: () => '',
 };
 export const mapStateToProps = ({
   login: { error, credentials, submitting },

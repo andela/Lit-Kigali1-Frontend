@@ -18,6 +18,7 @@ const props = {
   handleInput: mockFn,
   validate: jest.fn().mockImplementation(() => Promise.resolve({ message: 'Ok' })),
   history: { push: mockFn },
+  flipBack: mockFn,
 };
 
 const mockStore = configureMockStore();

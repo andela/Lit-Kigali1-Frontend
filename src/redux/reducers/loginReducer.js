@@ -6,7 +6,7 @@ import {
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
 } from '../actions-types';
-import { login as initialState } from '../initialState.json';
+import { login as initialState } from '../initialState';
 
 // const { login } = initialState;
 

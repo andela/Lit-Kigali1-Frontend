@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Button from '../common/Button/Button';
 import logoWhite from '../../assets/images/logo-white.png';
 import userAvatar from '../../assets/images/avatar.png';
@@ -37,7 +38,7 @@ export class NavBar extends Component {
         <Link to="/articles">Articles</Link>
       </li>
       <li>
-        <Link to="/profile/:username/articles">My Articles</Link>
+        <Link to="/my-articles">My Articles</Link>
       </li>
       <li className="separator" />
       <li>
@@ -54,6 +55,7 @@ export class NavBar extends Component {
 
   render() {
     const { showMenu } = this.state;
+    const { isLoggedIn } = this.props;
     return (
       <nav className="top-navbar container">
         <div className="col-3-mob">
@@ -68,7 +70,11 @@ export class NavBar extends Component {
           </div>
           <div className="nav-button navbar-dropdown is-desktop color-white">
             <Button onClick={this.showMenu} classes="transparent">
-              <img src={userAvatar} className="top-navbar__avatar" alt="User logo" />
+              {isLoggedIn ? (
+                <img src={userAvatar} className="top-navbar__avatar" alt="User logo" />
+              ) : (
+                ''
+              )}
             </Button>
             {this.renderLinks('dropdown')}
           </div>
@@ -77,6 +83,10 @@ export class NavBar extends Component {
     );
   }
 }
+
+NavBar.protoTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+};
 
 export const mapStateToProps = ({ currentUser: { isLoggedIn } }) => ({
   isLoggedIn,
