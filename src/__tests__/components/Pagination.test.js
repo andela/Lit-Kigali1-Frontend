@@ -1,19 +1,13 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
-import {
-  Pagination,
-  mapStateToProps,
-  mapDispatchToProps,
-} from '../../components/common/Pagination';
+import { Pagination } from '../../components/common/Pagination';
 
 let wrapper;
-let store;
 const mockFn = jest.fn();
 
 let props = {
-  //   onSubmit: jest.fn().mockImplementation(() => Promise.resolve({ status: 201 })),
   navigateTo: mockFn,
   onNext: mockFn,
   onPrev: mockFn,
@@ -22,11 +16,8 @@ let props = {
   totalPages: 12,
   url: '/articles?page=2',
 };
-const mockStore = configureMockStore();
 
 describe('<Pagination />', () => {
-  const { reload } = window.location;
-
   test('should render the <Pagination />', () => {
     const renderedValue = renderer.create(<Pagination {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();

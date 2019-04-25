@@ -19,6 +19,14 @@ describe('<Login />', () => {
     expect(div.length).toEqual(1);
   });
 
+<<<<<<< HEAD
+=======
+  test('should render a anchor tag', () => {
+    const anchor = component.find(`[data-test='${dataTest.a}']`);
+    expect(anchor.length).toEqual(1);
+  });
+
+>>>>>>> feat(articles) add pagination for articles
   test('should render an image', () => {
     const img = component.find(`[data-test='${dataTest.img}']`);
     expect(img.length).toEqual(1);
