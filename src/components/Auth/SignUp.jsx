@@ -229,8 +229,12 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
+<<<<<<< HEAD
   socialAuth: PropTypes.func,
   onFlip: PropTypes.func,
+=======
+  onFlip: PropTypes.func.isRequired,
+>>>>>>> feat(comment) CRUD comment
 };
 
 SignUp.defaultProps = {

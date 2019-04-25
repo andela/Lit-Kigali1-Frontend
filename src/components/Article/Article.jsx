@@ -12,6 +12,7 @@ import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRender
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle } from '../../redux/actions/currentUserActions';
+import Comment from '../Comment/Comment';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
@@ -209,6 +210,7 @@ export class Article extends Component {
             </div>
             {this.renderTags()}
           </div>
+          <Comment articleSlug={singleArticle.slug} />
         </div>
         <a className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />

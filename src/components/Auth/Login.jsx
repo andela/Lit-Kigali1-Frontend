@@ -150,7 +150,7 @@ LoginComponent.propTypes = {
   history: PropTypes.any.isRequired,
   isLoggedIn: PropTypes.bool,
   socialAuth: PropTypes.func,
-  onFlip: PropTypes.func,
+  onFlip: PropTypes.func.isRequired,
 };
 
 LoginComponent.defaultProps = {
