@@ -10,6 +10,7 @@ import {
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
   SET_CURRENT_USER_DELETING_ARTICLE,
+  DELETE_CURRENT_USER_ARTICLE,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED } from '../../redux/actions-types/userTypes';
 

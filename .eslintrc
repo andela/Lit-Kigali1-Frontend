@@ -18,7 +18,7 @@
     ],
     "import/prefer-default-export": 0,
     "react/button-has-type": 0,
-    "prefer-promise-reject-errors": 0,
-    "react/no-array-index-key": 0
+    "react/no-array-index-key": 0,
+    "prefer-promise-reject-errors": 0
   }
 }
