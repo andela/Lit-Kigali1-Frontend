@@ -32,7 +32,8 @@
     "email": "",
     "password": "",
     "message": "",
-    "errors": []
+    "errors": [],
+    "confirmMessage": ""
   },
   "login": {
     "submitting": false,

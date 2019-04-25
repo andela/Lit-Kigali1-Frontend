@@ -16,7 +16,6 @@ const Routes = () => (
     <Route exact path="/" component={Home} />
     <Route exact path="/forgot-password" component={ForgotPassword} />
     <Route exact path="/auth" component={Auth} />
-    <Route exact path="/auth/login" component={Login} />
     <Route exact path="/forgot-password-message" component={ForgotPasswordMessage} />
     <Route exact path="/users/:userId/reset/:resetCode" component={ResetPassword} />
     <Route
