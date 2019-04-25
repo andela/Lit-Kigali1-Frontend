@@ -1,12 +1,11 @@
 import reducer from '../../redux/reducers/articleReducer';
 import * as articleTypes from '../../redux/actions-types/articleTypes';
 import { articleData } from '../../__mocks__/dummyData';
-
-import store from '../../redux/store';
+import { article as initialState } from '../../redux/initialState.json';
 
 describe('currentUserReducer', () => {
   it('should return the initial `state`', () => {
-    expect(reducer(undefined, {})).toEqual(store.getState().article);
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle `CLEAR_ARTICLE_FORM`', () => {
