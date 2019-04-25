@@ -1,3 +1,4 @@
+@import '../base/variables';
 .article-view-title {
   font-size: 2rem;
   text-align: center;
@@ -162,4 +163,51 @@
 
 #modal-report:target {
   display: flex;
+}
+.comment-textarea {
+  border-radius: 15px;
+  padding: 10px 10px 0px 10px;
+  height: 50px;
+  width: 80%;
+  justify-content: flex-start;
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    border-width: 2px;
+  }
+  @media screen and (max-width: $tablet-width) {
+    width:70%;
+  }
+}
+.comment-button {
+  float: right;
+  margin-top: 7px;
+} 
+.article-comment {
+  .box {
+    margin-top: 20px;
+    span {
+      float: right;
+    }
+  }
+  .article-comment__center {
+    margin: auto;
+    width: 60%;
+    font-family: Roboto-light;
+    @media screen and (max-width: $tablet-width) {
+      width: 90%;
+    }
+  }
+}
+.my-comment-update {
+  cursor: pointer;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  width: auto;
+  min-width: auto;
+  text-align: right;
+  &:hover {
+    color: $primary;
+  }
 }

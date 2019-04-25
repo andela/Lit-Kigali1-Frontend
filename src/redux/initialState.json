@@ -52,6 +52,7 @@
     "singleArticle": {
       "title": "",
       "body": "",
+      "slug": "",
       "tagList": []
     },
     "createArticle": {
@@ -60,5 +61,14 @@
       "tagList": []
     },
     "articlesList": []
+  },
+  "comment": {
+    "body": "",
+    "submitting": false,
+    "fetching": false,
+    "deleting": false,
+    "updating": false,
+    "success": false,
+    "commentList": []
   }
 }

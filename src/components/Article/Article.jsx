@@ -11,6 +11,7 @@ import { fetchArticle } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
+import Comment from '../Comment/Comment';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
@@ -172,13 +173,14 @@ export class Article extends Component {
                   <a href="#modal-report" className="hover-primary">
                     <i className="fa fa-file" />
                     {' '}
-Report
+                    Report
                   </a>
                 </div>
               </div>
             </div>
             {this.renderTags()}
           </div>
+          <Comment articleSlug={singleArticle.slug} />
         </div>
         <a className="go-top-btn" href="/#">
           <i className="fa fa-angle-up" />

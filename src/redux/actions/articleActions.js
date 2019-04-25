@@ -1,5 +1,6 @@
 import * as articleTypes from '../actions-types/articleTypes';
 import fetchAPI from '../../helpers/fetchAPI';
+import { fetchAllComments } from './commentAction';
 
 export const clearArticleForm = () => ({
   type: articleTypes.CLEAR_ARTICLE_FORM,
@@ -74,6 +75,7 @@ export const fetchArticle = slug => (dispatch) => {
   return fetchAPI(`/articles/${slug}`)
     .then((data) => {
       dispatch(fetchingArticleSuccess(data.article));
+      dispatch(fetchAllComments(slug));
       return data;
     })
     .catch((err) => {
