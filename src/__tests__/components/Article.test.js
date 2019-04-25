@@ -26,6 +26,7 @@ describe('<Article />', () => {
   beforeEach(() => {
     wrapper = mount(<Article {...props} />);
   });
+
   test('should render the <Article />', () => {
     const renderedValue = renderer.create(<Article {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();

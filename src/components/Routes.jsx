@@ -2,10 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
-<<<<<<< HEAD
 import Login from './Auth/Login';
-=======
->>>>>>> feat: implement article's rating
 import ResetPassword from './ForgotPassword/ResetPassword';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';

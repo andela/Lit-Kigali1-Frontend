@@ -16,6 +16,7 @@ describe('<ArticleCard />', () => {
   beforeEach(() => {
     wrapper = mount(<ArticleCard {...props} />);
   });
+
   test('should render the <ArticleCard />', () => {
     const renderedValue = renderer.create(<ArticleCard {...props} />).toJSON();
     expect(renderedValue).toMatchSnapshot();
