@@ -24,7 +24,7 @@ const Routes = () => (
       component={ConfirmedEmailMessage}
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
-    <Route path="*" component={ErrorPage} />
+    <Route path="/error" component={ErrorPage} />
   </div>
 );
 
