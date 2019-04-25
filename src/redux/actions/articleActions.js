@@ -102,6 +102,7 @@ export const addTag = payload => ({
 
 export const removeTag = payload => ({
   type: articleTypes.REMOVE_ARTICLE_TAG,
+  payload,
 });
 export const updateEditorState = payload => ({
   type: articleTypes.SET_ARTICLE_EDITOR,

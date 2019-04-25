@@ -26,7 +26,7 @@ describe('Highlight text', () => {
   test('should return undefined for handleKeyCommand(', () => {
     const command = '';
     const editorState = EditorState.createEmpty();
-    const setEditorState = '';
+    const setEditorState = jest.fn();
     const res1 = res.handleKeyCommand(command, editorState, { setEditorState });
     expect(res1).toBeUndefined();
   });

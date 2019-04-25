@@ -103,7 +103,7 @@ export class ArticleCreate extends Component {
 
   handleItalic = () => {
     const { editorState } = this.state;
-    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
+    this.onBodyChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
   }
 
   handleBold = () => {

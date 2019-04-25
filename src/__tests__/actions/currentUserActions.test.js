@@ -10,7 +10,6 @@ import {
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
   SET_CURRENT_USER_DELETING_ARTICLE,
-  DELETE_CURRENT_USER_ARTICLE,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED } from '../../redux/actions-types/userTypes';
 
@@ -235,15 +234,19 @@ describe('currentUserActions', () => {
         });
       const expectedActions = [
         {
-          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          type: 'SET_CURRENT_USER_DELETING_ARTICLE',
           payload: true,
         },
         {
-          type: DELETE_CURRENT_USER_ARTICLE,
-          payload,
+          type: 'DELETE_CURRENT_USER_ARTICLE',
+          payload:
+        {
+          articleSlug: 'article-slug',
+          message: 'Article deleted successfully',
+        },
         },
         {
-          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          type: 'SET_CURRENT_USER_DELETING_ARTICLE',
           payload: false,
         },
       ];

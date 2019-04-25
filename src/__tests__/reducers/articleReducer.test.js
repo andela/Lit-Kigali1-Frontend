@@ -4,7 +4,7 @@ import { articleData, draftjsBody, jsonFormat } from '../../__mocks__/dummyData'
 
 import store from '../../redux/store';
 
-describe('currentUserReducer', () => {
+describe('articleReducer', () => {
   it('should return the initial `state`', () => {
     expect(reducer(undefined, {})).toEqual(store.getState().article);
   });
