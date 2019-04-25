@@ -243,7 +243,7 @@ describe('articleActions', () => {
     test('should dispatch fetchArticles action - SUCCESS', () => {
       expect.assertions(3);
       nock(API_URL)
-        .get('/articles')
+        .get('/articles?title=words')
         .reply(200, { status: 200, articles: [articleData] });
       const expectedActions = [
         {
@@ -255,7 +255,7 @@ describe('articleActions', () => {
           payload: [articleData],
         },
       ];
-      return store.dispatch(articleActions.fetchArticles()).then((res) => {
+      return store.dispatch(articleActions.fetchArticles({ words: 'words' })).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(200);
