@@ -10,7 +10,7 @@ import ProfileView from './Profile/ProfileView';
 import ErrorPage from './common/ErrorPage/ErrorPage';
 import Article from './Article/Article';
 import Ratings from './Rating/Ratings';
-import ArticleCreate from './Article/ArticleCreate';
+import Articles from './Article/Articles';
 
 const Routes = () => (
   <Switch>
@@ -26,9 +26,9 @@ const Routes = () => (
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles/:articleSlug" component={Article} />
-    <Route exact path="/articles/create" component={ArticleCreate} />
     <Route path="*" component={ErrorPage} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
+    <Route exact path="/articles" component={Articles} />
   </Switch>
 );
 
