@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SignUp /> should render the <SignUp /> 1`] = `
+<div>
+  <form
+    className="bg-primary-light login-form"
+    id="signup"
+  >
+    <div
+      className="color-primary to-center"
+    >
+      <h2>
+        SIGN UP
+      </h2>
+    </div>
+    <div
+      className="form-errors"
+      data-test="form-errors"
+    >
+      <span>
+        
+      </span>
+    </div>
+    <div
+      className="input primary"
+    >
+      <i
+        className="fa fa-user"
+      />
+      <input
+        className="bg-primary-light"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="text"
+        value=""
+      />
+      
+    </div>
+    <div
+      className="input primary"
+    >
+      <i
+        className="fa fa-at"
+      />
+      <input
+        className="bg-primary-light"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email"
+        type="email"
+        value=""
+      />
+      
+    </div>
+    <div
+      className="input primary"
+    >
+      <i
+        className="fa fa-lock"
+      />
+      <input
+        className="bg-primary-light"
+        name="password"
+        onChange={[Function]}
+        placeholder="Password"
+        type="password"
+        value=""
+      />
+      
+    </div>
+    <button
+      className="button primary color-white "
+      disabled=""
+      onClick={[Function]}
+      type="button"
+    >
+      Sign Up
+    </button>
+    <div
+      className="icon-group"
+    >
+      <div
+        data-test="fb-container"
+        id="fb"
+        onClick={[Function]}
+      >
+        <img
+          alt="fb-logo"
+          data-test="fb-img"
+          src="test-file-stub"
+        />
+      </div>
+      <div
+        data-test="twbs-container"
+        id="twbs"
+        onClick={[Function]}
+      >
+        <img
+          alt="twbs-logo"
+          data-test="twbs-img"
+          src="test-file-stub"
+        />
+      </div>
+      <div
+        data-test="gl-container"
+        id="gl"
+        onClick={[Function]}
+      >
+        <img
+          alt="gl-logo"
+          data-test="gl-img"
+          src="test-file-stub"
+        />
+      </div>
+    </div>
+    <div
+      className="to-center"
+      id="form-link"
+    >
+      <span>
+        Already a member?
+      </span>
+      <a
+        href="#login"
+        id="flip-signup"
+        onClick={[MockFunction]}
+      >
+        Sign In
+      </a>
+    </div>
+  </form>
+</div>
+`;

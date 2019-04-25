@@ -4,12 +4,9 @@ import SignUp from './SignUp';
 import Login from './Login';
 
 class AuthComponent extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      flip: 'flip-login',
-    };
-  }
+  state = {
+    flip: 'flip-login',
+  };
 
   flip = (e) => {
     this.setState({ flip: e.target.id });

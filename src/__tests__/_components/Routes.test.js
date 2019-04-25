@@ -3,6 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import { Routes, mapStateToProps } from '../../components/Routes';
 import initialState from '../../redux/initialState';
 
@@ -15,7 +16,7 @@ const props = {
   onInputChange: mockFn,
   history: { push: mockFn },
 };
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 describe('<Routes />', () => {
   test('Should render the Routes', () => {
     const routes = shallow(<Routes />);
@@ -29,18 +30,22 @@ describe('<Routes />', () => {
 
     it('should show Home component for `/`', () => {
       const component = mount(
-        <MemoryRouter initialEntries={['/']}>
-          <Routes isLoggedIn />
-        </MemoryRouter>,
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <Routes isLoggedIn />
+          </MemoryRouter>
+        </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
     });
 
     it('should show redirect to `/` for `/auth`', () => {
       const component = mount(
-        <MemoryRouter initialEntries={['/auth']}>
-          <Routes isLoggedIn />
-        </MemoryRouter>,
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/auth']}>
+            <Routes isLoggedIn />
+          </MemoryRouter>
+        </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
     });
@@ -59,9 +64,11 @@ describe('<Routes />', () => {
 
     it('should show Home component for `/auth`', () => {
       const component = mount(
-        <MemoryRouter initialEntries={['/forgot-password-message']}>
-          <Routes isLoggedIn />
-        </MemoryRouter>,
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/forgot-password-message']}>
+            <Routes isLoggedIn />
+          </MemoryRouter>
+        </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
     });
@@ -72,7 +79,6 @@ describe('<Routes />', () => {
           <MemoryRouter initialEntries={['/forgot-password-message']}>
             <Routes />
           </MemoryRouter>
-          ,
         </Provider>,
       );
       expect(component.find('ForgotPasswordMessage')).toHaveLength(1);
@@ -80,9 +86,12 @@ describe('<Routes />', () => {
 
     it('should show Home component for `/users/:userId/reset/:resetCode`', () => {
       const component = mount(
-        <MemoryRouter initialEntries={['/users/:userId/reset/:resetCode']}>
-          <Routes isLoggedIn />
-        </MemoryRouter>,
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/users/:userId/reset/:resetCode']}>
+            <Routes isLoggedIn />
+          </MemoryRouter>
+          ,
+        </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
     });
@@ -101,9 +110,12 @@ describe('<Routes />', () => {
 
     it('should show Home component for `/forgot-password`', () => {
       const component = mount(
-        <MemoryRouter initialEntries={['/forgot-password']}>
-          <Routes />
-        </MemoryRouter>,
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/forgot-password']}>
+            <Routes />
+          </MemoryRouter>
+          ,
+        </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
     });

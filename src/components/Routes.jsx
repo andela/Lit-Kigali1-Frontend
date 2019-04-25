@@ -13,6 +13,7 @@ import ProfileView from './Profile/ProfileView';
 import Article from './Article/Article';
 import Articles from './Article/Articles';
 import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
+import ErrorPage from './common/ErrorPage/ErrorPage';
 
 export const Routes = ({ isLoggedIn }) => (
   <Switch>
@@ -50,6 +51,7 @@ export const Routes = ({ isLoggedIn }) => (
       path="/my-articles"
       render={props => (isLoggedIn ? <ArticlesCurrentUser {...props} /> : <Redirect to="/auth" />)}
     />
+    <Route path="*" component={ErrorPage} />
   </Switch>
 );
 

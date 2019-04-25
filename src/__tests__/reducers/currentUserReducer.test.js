@@ -86,7 +86,7 @@ describe('currentUserReducer', () => {
       ),
     ).toEqual({
       ...initialState,
-      message: expectedState.payload.message,
+      profile: { articles: [{ slug: 'article-slug' }] },
     });
   });
 });

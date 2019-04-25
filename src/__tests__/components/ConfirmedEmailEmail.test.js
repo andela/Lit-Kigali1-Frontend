@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import ConfirmedEmailMessage from '../../components/Auth/ConfirmedEmailMessage';
+import { ConfirmedEmailMessage } from '../../components/Auth/ConfirmedEmailMessage';
 
 let wrapper;
 const mockFn = jest.fn();
@@ -17,6 +17,7 @@ const props = {
       confirmationCode: '0382040a-f609-49b6-a43a-f1878ae1b5fd',
     },
   },
+  onEmailVerification: jest.fn(),
 };
 const defaultState = {
   error: false,

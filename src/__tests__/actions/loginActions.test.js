@@ -9,6 +9,8 @@ import {
   clearLogin,
   validateCredentials,
   loginUser,
+  socialAuthLogin,
+  socialAuth,
 } from '../../redux/actions/loginActions';
 import {
   LOGIN_FAILURE,
@@ -17,6 +19,7 @@ import {
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
+  SOCIAL_AUTH_SUBMIT,
 } from '../../redux/actions-types/loginTypes';
 import { SET_CURRENT_USER } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
@@ -209,6 +212,16 @@ describe('Login Actions', () => {
     expect(validationResponse('Password must be greater than 6 characters')).toEqual(
       expectedAction,
     );
+  });
+  it('dispatches SOCIAL_AUTH_SUBMIT action creator', () => {
+    global.open = jest.fn();
+    const expectedAction = [
+      {
+        type: SOCIAL_AUTH_SUBMIT,
+      },
+    ];
+    socialAuth('google')(store.dispatch);
+    expect(store.getActions()).toEqual(expectedAction);
   });
 
   describe('asynchronous actions', () => {

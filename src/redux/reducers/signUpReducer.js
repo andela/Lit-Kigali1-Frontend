@@ -4,6 +4,8 @@ import {
   SIGNUP_FAILURE,
   CLEAR_SIGNUP_FORM,
   SIGNUP_FORM,
+  EMAIL_VERIFICATION_ERROR,
+  EMAIL_VERIFICATION_SUCCESS,
 } from '../actions-types';
 import { signUp as initialState } from '../initialState';
 
@@ -35,6 +37,16 @@ const signupReducer = (state = initialState, { type, payload }) => {
         message: payload.message,
         errors: payload.errors || [],
         submitting: false,
+      };
+    case EMAIL_VERIFICATION_SUCCESS:
+      return {
+        ...state,
+        confirmMessage: payload,
+      };
+    case EMAIL_VERIFICATION_ERROR:
+      return {
+        ...state,
+        confirmMessage: payload,
       };
     default:
       return state;

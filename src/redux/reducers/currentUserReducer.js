@@ -33,15 +33,6 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         ...state,
         deletingArticle: payload,
       };
-    case types.DELETE_CURRENT_USER_ARTICLE:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          articles: state.profile.articles.filter(article => article.slug !== payload.articleSlug),
-        },
-        message: payload.message,
-      };
     default:
       return state;
   }

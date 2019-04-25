@@ -32,6 +32,7 @@ module.exports = {
     submitting: false,
     success: false,
     successMessage: '',
+    confirmMessage: '',
     username: '',
     email: '',
     password: '',
