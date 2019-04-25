@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import {
-  ConfirmedEmailMessage,
   mapStateToProps,
   mapDispatchToProps,
-} from '../../components/auth/ConfirmedEmailMessage';
+  ConfirmedEmailMessage,
+} from '../../components/Auth/ConfirmedEmailMessage';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;

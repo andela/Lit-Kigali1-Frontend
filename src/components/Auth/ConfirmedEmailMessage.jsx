@@ -15,7 +15,6 @@ export class ConfirmedEmailMessage extends Component {
       onEmailVerification,
       match: { params },
     } = this.props;
-    console.log(params);
     onEmailVerification({ ...params });
   }
 
