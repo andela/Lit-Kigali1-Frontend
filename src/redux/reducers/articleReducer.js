@@ -164,6 +164,11 @@ const articleReducer = (state = initialState, { type, payload }) => {
         searching: payload,
       };
 
+    case articleTypes.SHARE_SOCIAL_SUCCESS:
+      return {
+        ...state,
+        payload,
+      };
     default:
       return state;
   }

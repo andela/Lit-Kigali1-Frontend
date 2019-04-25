@@ -352,6 +352,7 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
+  article: PropTypes.object.isRequired,
 };
 
 Article.defaultProps = {

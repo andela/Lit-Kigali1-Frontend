@@ -3,6 +3,7 @@
 .align-center {
   text-align: center;
 }
+
 .align-right {
   text-align: right;
 }
@@ -21,6 +22,9 @@
 
 .hover-primary:hover {
   color: $primary;
+  i {
+    color: inherit;
+  }
 }
 
 .underlined {
