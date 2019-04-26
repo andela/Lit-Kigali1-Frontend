@@ -20,7 +20,7 @@ module.exports = {
         include: path.join(__dirname, 'src', 'assets'),
         loader: 'url-loader',
         options: {
-          limit: 8192, // in bytes
+          limit: 8192,
         },
       },
       {

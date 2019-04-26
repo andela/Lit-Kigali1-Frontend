@@ -144,11 +144,6 @@ describe('<Article />', () => {
     });
 
     test('should call on socialShare', () => {
-      wrapper.find('button[id="ld"]').simulate('click');
-      expect(props.onShare).toHaveBeenCalled();
-    });
-
-    test('should call on socialShare', () => {
       wrapper.find('button[id="e"]').simulate('click');
       expect(props.onShare).toHaveBeenCalled();
     });
@@ -158,7 +153,6 @@ describe('<Article />', () => {
     test('should initialize the component state', () => {
       const state = mapStateToProps(initialState);
       expect(state).toHaveProperty('loading');
-      expect(state).toHaveProperty('article');
       expect(state).toHaveProperty('submitting');
       expect(state).toHaveProperty('currentUser');
     });
@@ -239,7 +233,6 @@ describe('<Article />', () => {
       wrapper.find('button[data-value="dislike"]').simulate('click');
       expect(props.nextPath).toHaveBeenCalled();
     });
-<<<<<<< HEAD
     test('should render <Article /> with cover', () => {
       props.singleArticle.cover = 'https://picsum.photos/200/300';
       wrapper = mount(<Article {...props} />);
@@ -288,16 +281,15 @@ describe('<Article />', () => {
         mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
         expect(dispatch).toHaveBeenCalled();
       });
-=======
-    test('should call onShare action', () => {
-      const payload = {
-        on: 'facebook',
-        articleSlug: 'slug',
-      };
-      const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).onShare(payload);
-      expect(dispatch).toHaveBeenCalled();
->>>>>>> feat: add unit tests [Finishes #16351909]
+      test('should call onShare action', () => {
+        const payload = {
+          on: 'facebook',
+          articleSlug: 'slug',
+        };
+        const dispatch = jest.fn();
+        mapDispatchToProps(dispatch).onShare(payload);
+        expect(dispatch).toHaveBeenCalled();
+      });
     });
   });
 });

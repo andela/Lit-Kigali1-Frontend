@@ -169,24 +169,6 @@ export const fetchAndUpdateArticle = slug => (dispatch) => {
     });
 };
 
-export const updateArticle = (slug, article) => (dispatch) => {
-  dispatch(submitArticleForm({ submitting: true }));
-  return fetchAPI(`/articles/${slug}`, {
-    method: 'PUT',
-    body: {
-      article,
-    },
-  })
-    .then((data) => {
-      dispatch(submitArticleFormSuccess(data));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(submitArticleFormFailure(err.message));
-      return err;
-    });
-};
-
 export const setArticleRate = payload => ({
   type: articleTypes.SET_ARTICLE_RATE,
   payload,
@@ -247,4 +229,22 @@ export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${a
 export const share = ({ on, articleSlug }) => (dispatch) => {
   dispatch(shareSocial(on));
   return window.open(`${API_URL}/articles/${articleSlug}/share/${on}`);
+};
+
+export const updateArticle = (slug, article) => (dispatch) => {
+  dispatch(submitArticleForm({ submitting: true }));
+  return fetchAPI(`/articles/${slug}`, {
+    method: 'PUT',
+    body: {
+      article,
+    },
+  })
+    .then((data) => {
+      dispatch(submitArticleFormSuccess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(submitArticleFormFailure(err.message));
+      return err;
+    });
 };

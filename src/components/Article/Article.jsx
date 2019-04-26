@@ -7,7 +7,12 @@ import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
+import {
+  fetchArticle,
+  likeArticle,
+  dislikeArticle,
+  share,
+} from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
@@ -238,13 +243,6 @@ export class Article extends Component {
                     <i className="fa fa-twitter-square" title="Share via Twitter" />
                   </button>
                   <button
-                    id="ld"
-                    className="article-icon hover-primary"
-                    onClick={() => this.SocialShare('linkedin')}
-                  >
-                    <i className="fa fa-linkedin-square" title="Share via LinkedIn" />
-                  </button>
-                  <button
                     id="e"
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('email')}
@@ -347,6 +345,7 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
+  article: PropTypes.object,
 };
 
 Article.defaultProps = {
@@ -355,6 +354,7 @@ Article.defaultProps = {
   disliked: false,
   likeCount: 0,
   dislikeCount: 0,
+  article: {},
 };
 
 export default connect(

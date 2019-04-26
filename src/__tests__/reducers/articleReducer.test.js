@@ -204,14 +204,160 @@ describe('articleReducer', () => {
     expect(reducer({}, expectedState)).toEqual({
       error: 'Dislike Article Failed',
     });
+  });
 
-    it('should handle `SHARE_SOCIAL_SUCCESS`', () => {
-      const payload = 'fb';
-      const expectedState = {
-        type: articleTypes.SHARE_SOCIAL_SUCCESS,
-        payload,
-      };
-      expect(reducer({}, expectedState)).toEqual({ payload: 'fb' });
+  it('should handle `SHARE_SOCIAL_SUCCESS`', () => {
+    const payload = 'fb';
+    const expectedState = {
+      type: articleTypes.SHARE_SOCIAL_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({ payload: 'fb' });
+  });
+
+  it('should handle `SHARE_SOCIAL_SUCCESS`', () => {
+    const payload = 'fb';
+    const expectedState = {
+      type: articleTypes.SHARE_SOCIAL_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({ payload: 'fb' });
+  });
+
+  it('should handle `SUBMIT_ARTICLE_TAG`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.SUBMIT_ARTICLE_TAG,
+      payload: {
+        tag: 'headset',
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [expectedState.payload.tag],
+      },
+      articlesList: [],
+    });
+  });
+
+  it('should handle `SUBMIT_ARTICLE_TAG`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: ['headset'],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.REMOVE_ARTICLE_TAG,
+      payload: {
+        index: 0,
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    });
+  });
+
+  it('should handle `SET_ARTICLE_EDITOR`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_EDITOR,
+      payload: {
+        blocks: [],
+        entityMap: {},
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: expectedState.payload,
+        tagList: [],
+      },
+      articlesList: [],
+    });
+  });
+
+  it('should handle `SET_EDIT_ARTICLE`', () => {
+    const initialState = {
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: '',
+        body: '',
+        tagList: [],
+      },
+      articlesList: [],
+    };
+    const expectedState = {
+      type: articleTypes.SET_EDIT_ARTICLE,
+      payload: {
+        body: jsonFormat,
+        title: articleData.title,
+        tagList: articleData.tagList,
+      },
+    };
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: true,
+      submitting: false,
+      success: true,
+      createArticle: {
+        title: articleData.title,
+        body: draftjsBody[0],
+        tagList: articleData.tagList,
+      },
+      articlesList: [],
+    });
+  });
+
+  it('should handle `SET_SEARCHING_ARTICLE`', () => {
+    const expectedState = {
+      type: articleTypes.SET_SEARCHING_ARTICLE,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      searching: true,
     });
   });
 
