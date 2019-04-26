@@ -27,8 +27,8 @@ export class Pagination extends Component {
   };
 
   onPrev = () => {
-    const { currentPage } = this.props;
-    if (currentPage > 1) {
+    const { currentPage, totalPages } = this.props;
+    if (currentPage > 1 && currentPage <= totalPages) {
       const next = (
         <i
           className="fa fa-angle-left"
