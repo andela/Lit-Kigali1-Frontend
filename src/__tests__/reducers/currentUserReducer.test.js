@@ -85,15 +85,4 @@ describe('currentUserReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({ profile: {}, message: undefined, loading: false });
   });
-
-  it('should hande ``', () => {
-    const expectedState = {
-      type: UPDATE_PROFILE_FAILURE,
-      payload: true,
-    };
-    expect(reducer({}, expectedState)).toEqual({
-      message: 'Failed To Edit Your Profile',
-      loading: false,
-    });
-  });
 });

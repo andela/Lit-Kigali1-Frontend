@@ -36,7 +36,8 @@ export class ProfileEdit extends Component {
   onImageDrop = (files) => {
     const { handleInput } = this.props;
     const file = files[0];
-    const upload = request
+    const upload = request;
+    upload
       .post(CLOUDINARY_UPLOAD_URL)
       .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       .field('file', file)

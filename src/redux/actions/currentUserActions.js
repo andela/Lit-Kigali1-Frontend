@@ -79,7 +79,7 @@ export const onFollow = ({ username, method }) => (dispatch) => {
     });
 };
 
-export const updateProfile = ({ userData }) => (dispatch) => {
+export const updateProfile = userData => (dispatch) => {
   dispatch(submitProfileForm());
   return fetchAPI('/user', {
     method: 'PUT',
