@@ -88,6 +88,30 @@ const articleReducer = (state = initialState, { type, payload }) => {
           ...payload.article,
         },
       };
+    case articleTypes.SET_LIKES:
+      return {
+        ...state,
+        likes: payload.likes,
+        likeCount: payload.count,
+        liked: payload.liked,
+      };
+    case articleTypes.SET_DISLIKES:
+      return {
+        ...state,
+        dislikes: payload.dislikes,
+        dislikeCount: payload.count,
+        disliked: payload.disliked,
+      };
+    case articleTypes.LIKE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        error: payload,
+      };
+    case articleTypes.DISLIKE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        error: payload,
+      };
     default:
       return state;
   }
