@@ -10,11 +10,10 @@ import Input from '../common/Input/Input';
 import Button from '../common/Button/Button';
 import Toast from '../common/Toast/Toast';
 import { fetchUserProfile, profileInputHandler, updateProfile } from '../../redux/actions';
-import Config from '../../config/config';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const CLOUDINARY_UPLOAD_PRESET = Config.upload_preset;
-const CLOUDINARY_UPLOAD_URL = Config.upload_url;
+const CLOUDINARY_UPLOAD_PRESET = process.env.UPLOAD_PRESET;
+const CLOUDINARY_UPLOAD_URL = process.env.UPLOAD_URL;
 
 export class ProfileEdit extends Component {
   state = {
@@ -23,14 +22,14 @@ export class ProfileEdit extends Component {
     message: '',
   };
 
-  showToast = (showToast, status, message) => {
+  showToast = (status, message) => {
     this.setState({
-      showToast,
+      showToast: true,
       status,
       message,
     });
     setTimeout(() => {
-      this.setState({ showToast: false });
+      this.setState({ showToast: false, status: 'success', message: '' });
     }, 5000);
   };
 
@@ -40,16 +39,14 @@ export class ProfileEdit extends Component {
     const upload = request
       .post(CLOUDINARY_UPLOAD_URL)
       .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-      .field('file', file);
-
-    upload.end((err, response) => {
-      if (err) {
-        this.showToast(true, 'error', 'Something went wrong');
-      }
-      if (response.body.secure_url) {
-        handleInput({ field: 'image', value: response.body.secure_url });
-      }
-    });
+      .field('file', file)
+      .end((err, response) => {
+        if (err) {
+          this.showToast('error', 'Something Went Wrong');
+        } else if (response.body.secure_url !== '') {
+          handleInput({ field: 'image', value: response.body.secure_url });
+        }
+      });
   };
 
   handleInput = (e) => {
@@ -81,9 +78,9 @@ export class ProfileEdit extends Component {
       username,
     }).then(({ status }) => {
       if (status === 200) {
-        this.showToast(true, 'success', 'Updated Successfully');
+        this.showToast('success', 'Updated Successfully');
       } else {
-        this.showToast(true, 'error', 'Profile Edit Failed');
+        this.showToast('error', 'Profile Edit Failed');
       }
     });
     e.preventDefault();
@@ -212,7 +209,7 @@ export const mapDispatchToProps = dispatch => ({
   getUserProfile: username => dispatch(fetchUserProfile(username)),
   handleInput: ({ field, value }) => dispatch(profileInputHandler({ field, value })),
   saveData: ({
-    firstName, lastName, gender, birthDate, bio, image, username,
+    firstName, lastName, gender, birthDate, bio, image,
   }) => dispatch(
     updateProfile({
       firstName,
@@ -221,7 +218,6 @@ export const mapDispatchToProps = dispatch => ({
       birthDate,
       bio,
       image,
-      username,
     }),
   ),
 });

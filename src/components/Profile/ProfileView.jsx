@@ -10,6 +10,10 @@ import { onFollow } from '../../redux/actions/currentUserActions';
 import Button from '../common/Button/Button';
 
 export class ProfileView extends Component {
+  state = {
+    moreArticles: false,
+  };
+
   componentWillMount() {
     const {
       match: {
@@ -33,14 +37,27 @@ export class ProfileView extends Component {
 
   renderArticles = () => {
     const { profile, history } = this.props;
-    return profile.articles.map(article => (
-      <ArticleCard
-        history={history}
-        url={`/articles/${article.slug}`}
-        key={article.slug}
-        article={article}
-      />
-    ));
+    const { moreArticles } = this.state;
+    if (moreArticles) {
+      return profile.articles.map(article => (
+        <ArticleCard
+          history={history}
+          url={`/articles/${article.slug}`}
+          key={article.slug}
+          article={article}
+        />
+      ));
+    }
+    return profile.articles
+      .slice(0, 5)
+      .map(article => (
+        <ArticleCard
+          history={history}
+          url={`/articles/${article.slug}`}
+          key={article.slug}
+          article={article}
+        />
+      ));
   };
 
   onFollowButton = () => {
@@ -83,8 +100,22 @@ export class ProfileView extends Component {
     );
   };
 
+  onMoreArticles = () => {
+    const { moreArticles } = this.state;
+    if (moreArticles) {
+      this.setState({
+        moreArticles: false,
+      });
+    } else {
+      this.setState({
+        moreArticles: true,
+      });
+    }
+  };
+
   render() {
     const { profile, loading } = this.props;
+    const { moreArticles } = this.state;
     if (loading) return <div />;
     return (
       <section className="main-content content-margin">
@@ -130,7 +161,9 @@ export class ProfileView extends Component {
                 <h3 className="profile-meta__text">ARTICLES</h3>
                 {this.renderArticles()}
                 <div className="col-12 content-right">
-                  <Button classes="transparent title-3">More Articles...</Button>
+                  <Button classes="transparent title-3" onClick={this.onMoreArticles}>
+                    {moreArticles ? 'Less Articles..' : 'More Articles...'}
+                  </Button>
                 </div>
               </div>
             </div>
