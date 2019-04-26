@@ -204,6 +204,15 @@ describe('articleReducer', () => {
     expect(reducer({}, expectedState)).toEqual({
       error: 'Dislike Article Failed',
     });
+
+    it('should handle `SHARE_SOCIAL_SUCCESS`', () => {
+      const payload = 'fb';
+      const expectedState = {
+        type: articleTypes.SHARE_SOCIAL_SUCCESS,
+        payload,
+      };
+      expect(reducer({}, expectedState)).toEqual({ payload: 'fb' });
+    });
   });
 
   it('should handle `SUBMIT_ARTICLE_TAG`', () => {

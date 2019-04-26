@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
 import * as articleTypes from '../actions-types/articleTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
-const API_URL = 'http://localhost:3000/api/v1';
+dotenv.config();
+const { API_URL } = process.env;
 
 export const clearArticleForm = () => ({
   type: articleTypes.CLEAR_ARTICLE_FORM,
@@ -244,6 +246,5 @@ export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${a
 
 export const share = ({ on, articleSlug }) => (dispatch) => {
   dispatch(shareSocial(on));
-  console.log('reach here please ++++++++++++++=');
   return window.open(`${API_URL}/articles/${articleSlug}/share/${on}`);
 };

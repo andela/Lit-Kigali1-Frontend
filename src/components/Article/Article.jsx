@@ -7,12 +7,7 @@ import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import {
-  fetchArticle,
-  likeArticle,
-  dislikeArticle,
-  share,
-} from '../../redux/actions/articleActions';
+import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
@@ -352,7 +347,6 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
-  article: PropTypes.object.isRequired,
 };
 
 Article.defaultProps = {

@@ -122,6 +122,16 @@ describe('articleActions', () => {
         payload,
       };
       expect(articleActions.updateEditorState(payload)).toEqual(expectedAction);
+    })
+    
+    test('should dispatch `SHARE_SOCIAL_SUCCESS`', () => {
+      const on = 'fb';
+      const payload = on;
+      const expectedAction = {
+        type: articleTypes.SHARE_SOCIAL_SUCCESS,
+        payload,
+      };
+      expect(articleActions.shareSocial(payload)).toEqual(expectedAction);
     });
   });
 
@@ -487,6 +497,23 @@ describe('articleActions', () => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
       });
+    });
+
+    test('should dispatch share action', () => {
+      global.open = jest.fn();
+      const on = 'fb';
+      const articleSlug = 'slug';
+      const payload = on;
+      const expectedAction = [
+        {
+          type: articleTypes.SHARE_SOCIAL_SUCCESS,
+          payload,
+        },
+      ];
+
+      store.dispatch(articleActions.share({ on, articleSlug }));
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedAction);
     });
   });
 });
