@@ -133,15 +133,8 @@ export const setNextPath = payload => ({
   type: SET_NEXT_PATH,
   payload,
 });
-export const updateProfile = ({
-  firstName,
-  lastName,
-  gender,
-  birthDate,
-  bio,
-  image,
-}) => (dispatch) => {
-export const updateProfile = ({ userData }) => (dispatch) => {
+
+export const updateProfile = userData => (dispatch) => {
   dispatch(submitProfileForm());
   return fetchAPI('/user', {
     method: 'PUT',

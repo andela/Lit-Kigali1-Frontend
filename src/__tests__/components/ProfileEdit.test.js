@@ -1,19 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-// import configureMockStore from 'redux-mock-store';
-// import request from 'superagent';
 import {
   ProfileEdit,
   mapStateToProps,
   mapDispatchToProps,
 } from '../../components/Profile/ProfileEdit';
 import initialState from '../../redux/initialState.json';
-// import { articleData } from '../../__mocks__/dummyData';
 
 let wrapper;
-// let store;
-// const mockStore = configureMockStore();
 const props = {
   currentUser: {
     profile: {},
@@ -23,7 +18,6 @@ const props = {
   getUserProfile: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   handleInput: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
-
 describe('<ProfileEdit />', () => {
   beforeEach(() => {
     wrapper = mount(<ProfileEdit {...props} />);
@@ -35,7 +29,8 @@ describe('<ProfileEdit />', () => {
   });
 
   test('should call On image drop', () => {
-    expect(wrapper.instance().onImageDrop(['aas', 'asdf'])).toBeUndefined();
+    const files = ['http://placehold.it/32x32', 'asdfasd'];
+    expect(wrapper.instance().onImageDrop(files)).toBe(undefined);
   });
 
   test('should handle input', () => {
@@ -59,44 +54,39 @@ describe('<ProfileEdit />', () => {
     expect(props.saveData).toHaveBeenCalled();
     expect(e.preventDefault).toHaveBeenCalled();
   });
+});
+describe('reducers', () => {
+  test('should initialize the component state', () => {
+    const state = mapStateToProps(initialState);
+    expect(state).toHaveProperty('currentUser');
+  });
+});
 
-  test('should handle message', () => {
-    expect(wrapper.instance().handleMessage()).toBeDefined();
+describe('action creators', () => {
+  test('should call getUserProfile action', () => {
+    const payload = 'username';
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).getUserProfile(payload);
+    expect(dispatch).toHaveBeenCalled();
   });
 
-  describe('reducers', () => {
-    test('should initialize the component state', () => {
-      const state = mapStateToProps(initialState);
-      expect(state).toHaveProperty('currentUser');
-    });
+  test('should call updateProfile', () => {
+    const payload = {
+      firstName: 'firstName',
+      lastName: 'lastName',
+      birthDate: 'birthDate',
+      bio: 'bio',
+      image: 'image',
+    };
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).saveData(payload);
+    expect(dispatch).toHaveBeenCalled();
   });
 
-  describe('action creators', () => {
-    test('should call getUserProfile action', () => {
-      const payload = 'username';
-      const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).getUserProfile(payload);
-      expect(dispatch).toHaveBeenCalled();
-    });
-
-    test('should call updateProfile', () => {
-      const payload = {
-        firstName: 'firstName',
-        lastName: 'lastName',
-        birthDate: 'birthDate',
-        bio: 'bio',
-        image: 'image',
-      };
-      const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).saveData(payload);
-      expect(dispatch).toHaveBeenCalled();
-    });
-
-    test('should call handleInput', () => {
-      const payload = { field: 'field', value: 'value' };
-      const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).handleInput(payload);
-      expect(dispatch).toHaveBeenCalled();
-    });
+  test('should call handleInput', () => {
+    const payload = { field: 'field', value: 'value' };
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).handleInput(payload);
+    expect(dispatch).toHaveBeenCalled();
   });
 });
