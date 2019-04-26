@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
 import Login from './Auth/Login';
@@ -10,9 +10,11 @@ import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
 import ErrorPage from './common/ErrorPage/ErrorPage';
+import Article from './Article/Article';
+import Ratings from './Rating/Ratings';
 
 const Routes = () => (
-  <div>
+  <Switch>
     <Route exact path="/" component={Home} />
     <Route exact path="/forgot-password" component={ForgotPassword} />
     <Route exact path="/auth" component={Auth} />
@@ -24,8 +26,10 @@ const Routes = () => (
       component={ConfirmedEmailMessage}
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
-    <Route path="/error" component={ErrorPage} />
-  </div>
+    <Route exact path="/articles/:articleSlug" component={Article} />
+    <Route path="*" component={ErrorPage} />
+    <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
+  </Switch>
 );
 
 export default Routes;

@@ -5,6 +5,7 @@ import user from './userReducer';
 import currentUser from './currentUserReducer';
 import signUp from './signUpReducer';
 import login from './loginReducer';
+import article from './articleReducer';
 
 const reducer = combineReducers({
   user,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   currentUser,
   signUp,
   login,
+  article,
 });
 
 export default reducer;

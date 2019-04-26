@@ -1,0 +1,35 @@
+.rating-card {
+  display: flex;
+  justify-content: space-between;
+  background-color: #6d6d6d1a;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.rating-card__left {
+  display: flex;
+  flex-direction: column;
+}
+.rating-card__right {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.rating-date {
+  color: $gray;
+  padding-left: 8px;
+  margin-top: 15px;
+}
+
+.rating-card__avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.rating-card__names {
+  margin-top: 5px;
+  color: rgba(0, 0, 0, 0.5);
+}

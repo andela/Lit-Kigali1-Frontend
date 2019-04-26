@@ -1,6 +1,6 @@
 import store from '../redux/store';
 
-const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
+const { API_URL } = process.env;
 
 const { token = localStorage.getItem('token') } = store.getState().user;
 const defaultOptions = {
