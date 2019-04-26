@@ -225,15 +225,14 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
-  socialAuth: PropTypes.func,
-  onFlip: PropTypes.func,
+  socialAuth: PropTypes.func.isRequired,
+  onFlip: PropTypes.func.isRequired,
 };
 
 SignUp.defaultProps = {
   message: '',
   errors: [],
   submitting: false,
-  flip: () => '',
 };
 
 export default connect(

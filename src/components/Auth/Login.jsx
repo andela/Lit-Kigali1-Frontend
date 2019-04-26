@@ -162,7 +162,6 @@ LoginComponent.defaultProps = {
   error: {},
   submitting: false,
   isLoggedIn: false,
-  flipBack: () => '',
 };
 export const mapStateToProps = ({
   login: { error, credentials, submitting },
