@@ -78,8 +78,8 @@ export class ArticleCreate extends Component {
       setTimeout(() => {
         const { createArticle: { body } } = this.props;
         const newEditorState = convertFromRaw(body);
-        const editors = EditorState.createWithContent(newEditorState);
-        this.setState({ editorState: editors });
+        const editor = EditorState.createWithContent(newEditorState);
+        this.setState({ editorState: editor });
       }, 1000);
     }
   }
@@ -220,7 +220,7 @@ export class ArticleCreate extends Component {
     <div className="my-article-modal active">
       <div className="create-article-wrap">
         <form onSubmit={this.addLink}>
-          <input type="text" placeholder="paste a link" className="bg-primary-light" name="url" onChange={e => this.setState({ link: e.target.value })} />
+          <input type="text" placeholder="paste a link" className="bg-primary-light" name="url" onChange={e => this.setState({ link: e.target.value })} data-el="link-input" />
         </form>
       </div>
     </div>
@@ -265,6 +265,8 @@ export class ArticleCreate extends Component {
                   onChange={onInputChange}
                   value={createArticle.title}
                   placeholder="Enter Title Here"
+                  dataTest="article-input"
+                  data-el="article-input"
                 />
               </div>
             </div>
@@ -272,26 +274,26 @@ export class ArticleCreate extends Component {
           <div className="row">
             <div className="col-2-mob">
               <div className="article-actions">
-                <Button classes="transparent" onClick={this.handleHeader}>
+                <Button classes="transparent" onClick={this.handleHeader} data-el="title-btn">
                   <TitleButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={this.handleBold}>
+                <Button classes="transparent" onClick={this.handleBold} data-el="bold-btn">
                   <BoldButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={this.handleItalic}>
+                <Button classes="transparent" onClick={this.handleItalic} data-el="italic-btn">
                   <ItalicButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={this.handleUnderline}>
+                <Button classes="transparent" onClick={this.handleUnderline} data-el="underline-btn">
                   <UnderlinedButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={() => this.setState({ isModel: !isModel })}>
+                <Button classes="transparent" onClick={() => this.setState({ isModel: !isModel })} data-el="link-btn">
                   <LinkButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={() => this.uploadImageButton.current.click()}>
+                <Button classes="transparent" onClick={() => this.uploadImageButton.current.click()} data-el="image-btn">
                   <input type="file" ref={this.uploadImageButton} hidden onChange={this.addImage} name="image" />
                   <ImageButton className="logo" width={25} height={25} />
                 </Button>
-                <Button classes="transparent" onClick={() => this.uploadVideoButton.current.click()}>
+                <Button classes="transparent" onClick={() => this.uploadVideoButton.current.click()} data-el="video-btn">
                   <input type="file" ref={this.uploadVideoButton} hidden onChange={this.addVideo} name="video" />
                   <VideoButton className="logo" width={25} height={25} />
                 </Button>
@@ -315,30 +317,31 @@ export class ArticleCreate extends Component {
             <div className="col-10 content-left">
               <div id="tags">
                 {this.displayTag()}
-                <form onSubmit={this.handleTagSubmit} className="width-100">
+                <form onSubmit={this.handleTagSubmit} className="width-100" data-test="tag-form">
                   <input
                     type="text"
                     name="tag"
                     onChange={this.handleTag}
                     value={tag}
                     placeholder="Add a tag..."
+                    data-test="tag-input"
                   />
                 </form>
               </div>
             </div>
             <div className="col-2 content-right">
               <div>
-                { isEdit ? <Button classes="primary save-article-btn" onClick={this.edit}>Save</Button>
+                { isEdit ? <Button classes="primary save-article-btn" onClick={this.edit} data-el="edit-btn">Save</Button>
                   : (
                     <Button classes="primary save-article-btn">
                       Save
                       <div className="options">
                         <ul>
                           <li>
-                            <a href="#/draft" onClick={() => { this.publish('unpublished'); }}>Save as Draft</a>
+                            <a href="#/draft" onClick={() => { this.publish('unpublished'); }} data-el="draft-btn">Save as Draft</a>
                           </li>
                           <li>
-                            <a href="#/publish" onClick={() => { this.publish('published'); }}>Publish</a>
+                            <a href="#/publish" onClick={() => { this.publish('published'); }} data-el="publish-btn">Publish</a>
                           </li>
                         </ul>
                       </div>
@@ -378,12 +381,12 @@ export const mapDispatchToProps = dispatch => ({
     }),
   ),
   onClearForm: () => dispatch(clearArticleForm()),
-  onTagFormSubmit: (tag) => { dispatch(addTag(tag)); },
-  onTagRemove: (index) => { dispatch(removeTag(index)); },
-  onUpdateEditorState: (newState) => { dispatch(updateEditorState(newState)); },
-  postArticle: (article) => { dispatch(submitArticle({ article })); },
-  getArticle: (slug) => { dispatch(fetchAndUpdateArticle(slug)); },
-  onUpdateArticle: (slug, article) => { dispatch(updateArticle(slug, article)); },
+  onTagFormSubmit: tag => dispatch(addTag(tag)),
+  onTagRemove: index => dispatch(removeTag(index)),
+  onUpdateEditorState: newState => dispatch(updateEditorState(newState)),
+  postArticle: article => dispatch(submitArticle({ article })),
+  getArticle: slug => dispatch(fetchAndUpdateArticle(slug)),
+  onUpdateArticle: (slug, article) => dispatch(updateArticle(slug, article)),
 });
 
 ArticleCreate.propTypes = {

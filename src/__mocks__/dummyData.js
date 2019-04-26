@@ -137,4 +137,9 @@ module.exports = {
     readingTime: '1 min',
     tagList: ['test', 'article'],
   },
+  article: {
+    title: 'hello world',
+    body: 'ejej lkejke lkejde eljfe kefnef efnefve lkenfefenf kefnerjfnern elkfnrfernflef elkfnejfernf lefnerfe kefnrefne klekfnerfefnlef ekfnefnerel nefefnef efnefklnef kenfefnef kenferfn',
+    tagList: [],
+  },
 };

@@ -27,6 +27,7 @@ exports[`<Login /> should render the <Login /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="username"
         onChange={[Function]}
         placeholder="Username / Email"
@@ -45,6 +46,7 @@ exports[`<Login /> should render the <Login /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="password"
         onChange={[Function]}
         placeholder="Password"
@@ -132,6 +134,7 @@ exports[`<Login /> should render the <Login /> 1`] = `
       </span>
       <a
         href="#signup"
+        id="flip-login"
         onClick={[MockFunction]}
       >
         Sign Up

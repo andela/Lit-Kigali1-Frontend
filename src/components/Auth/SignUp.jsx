@@ -87,7 +87,7 @@ export class SignUp extends Component {
       password,
       email,
       submitting,
-      flip,
+      onFlip,
     } = this.props;
     const {
       emailError,
@@ -162,7 +162,7 @@ export class SignUp extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Already a member?</span>
-            <a href="#login" onClick={flip}>Sign In</a>
+            <a href="#login" id="flip-back" onClick={onFlip}>Sign In</a>
           </div>
         </form>
       </div>
@@ -201,7 +201,7 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
-  flip: PropTypes.func.isRequired,
+  onFlip: PropTypes.func.isRequired,
 };
 
 SignUp.defaultProps = {
