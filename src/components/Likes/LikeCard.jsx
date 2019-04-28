@@ -6,7 +6,7 @@ import defaultAvatar from '../../assets/images/avatar.png';
 const LikeCard = ({ like }) => (
   <div className="rating-card">
     <div className="rating-card__left">
-      <div>
+      <div className="rating-icon-wrapper">
         <i className="fa fa-thumbs-up like-icon" />
       </div>
       <div className="rating-date">{moment(like.updatedAt).fromNow()}</div>
