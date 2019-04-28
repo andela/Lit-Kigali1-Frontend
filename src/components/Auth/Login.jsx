@@ -45,7 +45,6 @@ export class LoginComponent extends Component {
 
   socialAuthLogin = (provider) => {
     const { submitting, socialAuth } = this.props;
-
     !submitting && socialAuth(provider);
   };
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount, render} from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import 'isomorphic-fetch';
 import request from 'superagent';
+import renderer from 'react-test-renderer';
 import mock from 'superagent-mock';
 import {
   convertToRaw,
@@ -90,8 +91,7 @@ describe('<ArticleCreate/>', () => {
     const wrapper = mount(<ArticleCreate {...props} />);
     const videoBtn = wrapper.find('[data-el="video-btn"]');
     videoBtn.simulate('click');
-    const videoInput = wrapper.find('[data-el="video-input"]');
-    // videoInput.simulate('change', event);
+    wrapper.find('[data-el="video-input"]');
   });
 
   test('should add video', () => {
@@ -129,8 +129,7 @@ describe('<ArticleCreate/>', () => {
     const wrapper = mount(<ArticleCreate {...props} />);
     const imageBtn = wrapper.find('[data-el="image-btn"]');
     imageBtn.simulate('click');
-    const imageInput = wrapper.find('[data-el="image-input"]');
-    // imageInput.simulate('change', event);
+    wrapper.find('[data-el="image-input"]');
   });
 
   test('should add image', () => {
@@ -245,15 +244,6 @@ describe('<ArticleCreate/>', () => {
     const { handleKeyCommand } = instance;
     const res = handleKeyCommand(command);
     expect(res).toEqual('not-handled');
-  });
-
-
-  test('should run component did mount', () => {
-    jest.useFakeTimers();
-    const wrapper = shallow(<ArticleCreate {...props} />);
-    const instance = wrapper.instance();
-    const { componentDidMount } = instance;
-    componentDidMount();
   });
 });
 
