@@ -208,10 +208,12 @@ export class ArticleCreate extends Component {
       },
     } = this.props;
     const description = getDescription(createArticle.body.blocks);
+    const cover = getCover(createArticle.body.entityMap);
     const article = {
       ...createArticle,
       body: JSON.stringify(createArticle.body),
       description,
+      cover,
     };
     onUpdateArticle(articleSlug, article);
   }
@@ -313,7 +315,7 @@ export class ArticleCreate extends Component {
           </div>
           <div className="row">
             <div className="col-10 content-left">
-              <div id="tags">
+              <div className="tags">
                 {this.displayTag()}
                 <form onSubmit={this.handleTagSubmit} className="width-100">
                   <input

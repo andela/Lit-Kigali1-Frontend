@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
 import { PropTypes } from 'prop-types';
 import {
   handleCommentInput,
   submitComment,
   deleteComment,
   updateComment,
+  setUpdateCommentBody,
 } from '../../redux/actions/commentAction';
-import Button from '../common/Button/Button';
+import CommentRender from './CommentForm';
 
 class Comment extends Component {
-  state = {
-    isEdit: false,
-  }
-
-  addComment = (e) => {
+  addComment = () => {
     const { body, articleSlug, onSubmitComment } = this.props;
     onSubmitComment(body, articleSlug);
-    e.preventDefault();
   }
 
   onChange = (e) => {
@@ -26,44 +23,30 @@ class Comment extends Component {
     e.preventDefault();
   }
 
-  // updateComment = () => {
-  //   const { body, articleSlug, onUpdateComment } = this.props;
-  //   onUpdateComment(id, articleSlug, body);
-  // }
-
   displayComments = () => {
     const {
       commentList,
       currentUser,
       onDeleteComment,
       articleSlug,
-      onUpdateComment,
+      onUpdateCommentInput,
     } = this.props;
-    const { isEdit } = this.state;
     if (commentList.length) {
+      const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       return (
-        commentList.map(comment => (
-          isEdit ? this.commentForm(onUpdateComment) : (
-            <div key={comment.id} className="box">
-              <p>{comment.body}</p>
-              {(comment.userId === currentUser.id) && (
-              <span>
-                <Button
-                  classes="my-article-delete"
-                  onClick={() => onDeleteComment(comment.id, articleSlug)}
-                >
-                  <i className="fa fa-trash" />
-                </Button>
-                <Button
-                  classes="my-comment-update"
-                  onClick={this.onEditComment}
-                >
-                  <i className="fa fa-edit" />
-                </Button>
-              </span>
-              ) }
-            </div>
-          )))
+        newList.map(comment => (
+          <CommentRender
+            commentList={commentList}
+            currentUser={currentUser}
+            onDeleteComment={onDeleteComment}
+            articleSlug={articleSlug}
+            comment={comment}
+            key={comment.id}
+            enterPress={this.onEnterPress}
+            updateComment={this.onEditComment}
+            inputHandler={onUpdateCommentInput}
+          />
+        ))
       );
     }
     return '';
@@ -72,23 +55,39 @@ class Comment extends Component {
   commentForm = () => {
     const { body } = this.props;
     return (
-      <form onSubmit={this.addComment}>
-        <textarea
-          className="comment-textarea"
-          placeholder="Add your comment.."
+      <form>
+        <Textarea
+          className="comment-textarea new"
+          placeholder="Add your comment..."
           type="text"
           value={body}
           onChange={this.onChange}
+          onKeyDown={e => this.onEnterPress(e, this.addComment)}
         />
-        <Button classes="primary comment-button" onClick={this.addComment}>Comment</Button>
       </form>
     );
   }
 
-  onEditComment = () => {
-    this.setState({
-      isEdit: true,
-    });
+  onEnterPress = (e, fun, id) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      if (!e.target.value.trim()) {
+        e.preventDefault();
+        return;
+      }
+      const { isLoggedIn, history } = this.props;
+      if (!isLoggedIn) {
+        e.preventDefault();
+        history.push('/auth');
+        return;
+      }
+      fun(id);
+      e.preventDefault();
+    }
+  }
+
+  onEditComment = (id) => {
+    const { articleSlug, updateBody, onUpdateComment } = this.props;
+    onUpdateComment(id, articleSlug, updateBody);
   }
 
   render() {
@@ -112,24 +111,32 @@ Comment.propTypes = {
   currentUser: PropTypes.object.isRequired,
   onDeleteComment: PropTypes.func.isRequired,
   onUpdateComment: PropTypes.func.isRequired,
+  updateBody: PropTypes.string.isRequired,
+  onUpdateCommentInput: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  history: PropTypes.any.isRequired,
 };
 
 export const mapStateToProps = ({
-  comment: { body, commentList },
+  comment: { body, commentList, updateBody },
   currentUser: {
     profile,
+    isLoggedIn,
   },
 }) => ({
   body,
   currentUser: profile,
   commentList,
+  updateBody,
+  isLoggedIn,
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onCommentInput: ({ body }) => { dispatch(handleCommentInput({ body })); },
-  onSubmitComment: (comment, articleSlug) => { dispatch(submitComment(comment, articleSlug)); },
+  onCommentInput: ({ body }) => dispatch(handleCommentInput({ body })),
+  onSubmitComment: (comment, articleSlug) => dispatch(submitComment(comment, articleSlug)),
   onDeleteComment: (id, articleSlug) => { dispatch(deleteComment(id, articleSlug)); },
-  onUpdateComment: (id, articleSlug, body) => { dispatch(updateComment(id, articleSlug, body)); },
+  onUpdateComment: (id, articleSlug, body) => dispatch(updateComment(id, articleSlug, body)),
+  onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
 });
 export default connect(
   mapStateToProps,

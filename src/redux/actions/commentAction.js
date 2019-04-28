@@ -11,6 +11,7 @@ import {
   UPDATE_COMMENT_FAILURE,
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
+  HANDLE_UPDATE_COMMENT_INPUT,
 } from '../actions-types/commentTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
@@ -119,10 +120,15 @@ export const updatingCommentSuccess = payload => ({
   payload,
 });
 
+export const setUpdateCommentBody = payload => ({
+  type: HANDLE_UPDATE_COMMENT_INPUT,
+  payload,
+});
+
 export const updateComment = (id, articleSlug, body) => (dispatch) => {
-  dispatch();
-  return fetchAPI(`articles/${articleSlug}/comments/${id}`, {
-    method: 'POST',
+  dispatch(updatingComment());
+  return fetchAPI(`/articles/${articleSlug}/comments/${id}`, {
+    method: 'PUT',
     body: {
       comment: {
         body,

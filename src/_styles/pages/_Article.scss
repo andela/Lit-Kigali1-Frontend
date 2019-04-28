@@ -117,7 +117,7 @@
   float: left;
   border-radius: 5px;
   color: grey;
-  font-size: 10px;
+  font-size: 13px;
   background: #e8eaf6;
   padding: 4px 7px;
   margin: 4px;
@@ -166,28 +166,54 @@
 }
 .comment-textarea {
   border-radius: 15px;
-  padding: 10px 10px 0px 10px;
-  height: 50px;
-  width: 80%;
-  justify-content: flex-start;
+  padding: 10px 0px 10px 10px;
+  font-family: Roboto-light;
+  resize: none;
   &:focus {
     outline: none;
     border-color: $primary;
     border-width: 2px;
   }
-  @media screen and (max-width: $tablet-width) {
-    width:70%;
-  }
+}
+.new {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 .comment-button {
   float: right;
-  margin-top: 7px;
 } 
 .article-comment {
-  .box {
-    margin-top: 20px;
-    span {
+  .comment-box {
+    margin-top: 1rem;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    background-color:#fff;
+    border-radius: 0.3rem;
+    border:1px solid #d8dee2;
+    .control-btn {
       float: right;
+    }
+    .comment-time {
+      padding-top: 5px;
+      font-size: 12px;
+      color: $input-border-color;
+    }
+    .author-name {
+      float: left;
+      font-weight: bold;
+      .profile-avatar {
+        width: 40px;
+        margin-right: 5px;
+        height: unset;
+        @media screen and (max-width: $tablet-width) {
+          height: unset;
+        }
+      }
+      margin-bottom: 10px;
+    }
+    .comment-header {
+      display: inline-block;
+      width: 100%;
     }
   }
   .article-comment__center {

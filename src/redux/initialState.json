@@ -64,6 +64,7 @@
   },
   "comment": {
     "body": "",
+    "updateBody": "",
     "submitting": false,
     "fetching": false,
     "deleting": false,

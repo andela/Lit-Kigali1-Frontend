@@ -12,6 +12,7 @@ import {
   UPDATE_COMMENT_FAILURE,
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
+  HANDLE_UPDATE_COMMENT_INPUT,
 } from '../actions-types';
 
 import { comment as initialState } from '../initialState.json';
@@ -89,11 +90,18 @@ const commentReducer = (state = initialState, { type, payload }) => {
         ...state,
         message: payload.message,
         error: payload,
+        updating: false,
       };
     case UPDATE_COMMENT_SUCCESS:
       return {
         ...state,
         message: payload.message,
+        updating: false,
+      };
+    case HANDLE_UPDATE_COMMENT_INPUT:
+      return {
+        ...state,
+        updateBody: payload,
       };
     default:
       return state;
