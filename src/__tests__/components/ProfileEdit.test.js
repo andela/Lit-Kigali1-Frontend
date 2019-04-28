@@ -54,6 +54,12 @@ describe('<ProfileEdit />', () => {
     expect(props.saveData).toHaveBeenCalled();
     expect(e.preventDefault).toHaveBeenCalled();
   });
+
+  test('should render showToaster', () => {
+    jest.useFakeTimers();
+    wrapper.instance().showToast();
+    jest.runAllTimers();
+  });
 });
 describe('reducers', () => {
   test('should initialize the component state', () => {

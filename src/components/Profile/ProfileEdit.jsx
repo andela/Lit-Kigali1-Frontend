@@ -42,11 +42,9 @@ export class ProfileEdit extends Component {
       .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       .field('file', file)
       .end((err, response) => {
-        if (err) {
-          this.showToast('error', 'Something Went Wrong');
-        } else if (response.body.secure_url !== '') {
-          handleInput({ field: 'image', value: response.body.secure_url });
-        }
+        if (err) this.showToast('error', 'Something Went Wrong');
+
+        if (response.body.secure_url !== '') handleInput({ field: 'image', value: response.body.secure_url });
       });
   };
 
@@ -78,11 +76,8 @@ export class ProfileEdit extends Component {
       image,
       username,
     }).then(({ status }) => {
-      if (status === 200) {
-        this.showToast('success', 'Updated Successfully');
-      } else {
-        this.showToast('error', 'Profile Edit Failed');
-      }
+      if (status === 200) this.showToast('success', 'Updated Successfully');
+      this.showToast('error', 'Profile Edit Failed');
     });
     e.preventDefault();
   };

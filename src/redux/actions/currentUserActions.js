@@ -32,7 +32,7 @@ export const onUserActionFailure = message => ({
 });
 
 export const fetchCurrentUser = token => dispatch => fetchAPI('/user', { token })
-  .then(({ user, token }) => {
+  .then(({ user }) => {
     dispatch(setCurrentUser(user));
     return user;
   })

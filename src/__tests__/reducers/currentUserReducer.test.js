@@ -86,7 +86,7 @@ describe('currentUserReducer', () => {
       reducer(
         {
           ...initialState,
-          profile: { articles: [{ slug: 'article-slug' }] },
+          profile: { articles: [{ slug: 'article-slug' }], username: '' },
         },
         expectedState,
       ),
@@ -115,7 +115,7 @@ describe('currentUserReducer', () => {
       nextPath: 'url',
     });
   });
-  
+
   it('should handle `HANDLE_PROFILE_INPUT`', () => {
     const expectedState = {
       type: HANDLE_PROFILE_INPUT,
@@ -138,5 +138,13 @@ describe('currentUserReducer', () => {
       payload: true,
     };
     expect(reducer({}, expectedState)).toEqual({ profile: {}, message: undefined, loading: false });
+  });
+
+  it('should handle `UPDATE_PROFILE_FAILURE`', () => {
+    const expectedState = {
+      type: UPDATE_PROFILE_FAILURE,
+      loading: false,
+    };
+    expect(reducer({}, expectedState)).toEqual({ loading: false });
   });
 });

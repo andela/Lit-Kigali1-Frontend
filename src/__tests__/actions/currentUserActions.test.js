@@ -56,6 +56,13 @@ describe('currentUserActions', () => {
       };
       expect(currentUserActions.onUserActionSuccess('SUCCESS')).toEqual(expectedAction);
     });
+
+    test('should dispatch `SUBMIT_PROFILE_FORM`', () => {
+      const expectedAction = {
+        type: SUBMIT_PROFILE_FORM,
+      };
+      expect(currentUserActions.submitProfileForm()).toEqual(expectedAction);
+    });
   });
 
   describe('asynchronous actions', () => {
@@ -282,6 +289,37 @@ describe('currentUserActions', () => {
       });
     });
 
+    test('should dispatch updateProfile -SUCCESS', () => {
+      const userData = {
+        user: {
+          firstName: 'firstname',
+          lastName: 'lastname',
+          gender: 'gender',
+          birthDate: 'bod',
+          bio: 'bio',
+          image: 'https://image',
+        },
+      };
+      nock(API_URL)
+        .put('/user', { user: userData })
+        .reply(200, { status: 200, message: 'Updated Successfully' });
+
+      const expectedActions = [
+        {
+          type: SUBMIT_PROFILE_FORM,
+        },
+        {
+          type: UPDATE_PROFILE_SUCCESS,
+          payload: { message: 'Updated Successfully' },
+        },
+      ];
+
+      return store.dispatch(currentUserActions.updateProfile(userData)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
     test('should dispatch onUserRateArticle action - SUCCESS', () => {
       expect.assertions(1);
       const payload = {
@@ -313,6 +351,37 @@ describe('currentUserActions', () => {
         },
       ];
       return store.dispatch(currentUserActions.onUserRateArticle({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch updateProfile -FAILURE', () => {
+      const userData = {
+        user: {
+          firstName: 'firstname',
+          lastName: 'lastname',
+          gender: 'gender',
+          birthDate: 'bod',
+          bio: 'bio',
+          image: 'https://image',
+        },
+      };
+      nock(API_URL)
+        .put('/user', { user: userData })
+        .reply(404, { status: 404, message: 'Something Went Wrong' });
+
+      const expectedActions = [
+        {
+          type: SUBMIT_PROFILE_FORM,
+        },
+        {
+          type: UPDATE_PROFILE_FAILURE,
+          payload: { message: 'Something Went Wrong' },
+        },
+      ];
+
+      return store.dispatch(currentUserActions.updateProfile(userData)).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
       });

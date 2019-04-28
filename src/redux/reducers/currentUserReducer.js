@@ -1,14 +1,4 @@
 import * as types from '../actions-types/currentUserTypes';
-import {
-  SET_CURRENT_USER,
-  SET_CURRENT_USER_FOLLOWING,
-  SET_USER_ACTION_SUCCESS,
-  SET_USER_ACTION_FAILURE,
-  HANDLE_PROFILE_INPUT,
-  UPDATE_PROFILE_FAILURE,
-  UPDATE_PROFILE_SUCCESS,
-  SUBMIT_PROFILE_FORM,
-} from '../actions-types/currentUserTypes';
 import { currentUser as initialState } from '../initialState.json';
 
 const currentUserReducer = (state = initialState, { type, payload }) => {
@@ -44,7 +34,6 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         deletingArticle: payload,
       };
     case types.DELETE_CURRENT_USER_ARTICLE:
-    case HANDLE_PROFILE_INPUT:
       return {
         ...state,
         profile: {
@@ -62,15 +51,21 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         nextPath: payload,
+      };
+    case types.HANDLE_PROFILE_INPUT:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
           [payload.field]: payload.value,
         },
       };
-    case SUBMIT_PROFILE_FORM:
+    case types.SUBMIT_PROFILE_FORM:
       return {
         ...state,
         loading: true,
       };
-    case UPDATE_PROFILE_SUCCESS:
+    case types.UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         profile: {
@@ -79,7 +74,7 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         },
         loading: false,
       };
-    case UPDATE_PROFILE_FAILURE:
+    case types.UPDATE_PROFILE_FAILURE:
       return {
         ...state,
         loading: false,
