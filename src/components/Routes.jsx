@@ -26,9 +26,9 @@ const Routes = () => (
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles/:articleSlug" component={Article} />
-    <Route path="*" component={ErrorPage} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
     <Route exact path="/articles" component={Articles} />
+    <Route path="*" component={ErrorPage} />
   </Switch>
 );
 
