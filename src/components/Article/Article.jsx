@@ -277,9 +277,6 @@ Article.propTypes = {
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-<<<<<<< HEAD
-  currentUser: PropTypes.object,
-=======
   liked: PropTypes.bool,
   disliked: PropTypes.bool,
   likeCount: PropTypes.number,
@@ -288,7 +285,6 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
->>>>>>> feat(like/dislike): add like and dislike functionality
 };
 
 Article.defaultProps = {

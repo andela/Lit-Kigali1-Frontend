@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LikeCard from './LikeCard';
 import { fetchLikes } from '../../redux/actions/articleActions';
+import ErrorPage from '../common/ErrorPage/ErrorPage';
 
 export class Likes extends Component {
   componentDidMount() {
@@ -16,9 +17,9 @@ export class Likes extends Component {
   }
 
   renderLikes = () => {
-    const { likes } = this.props;
+    const { likes, history } = this.props;
     if (likes.length === 0) {
-      return console.log('404 Page');
+      history.push('*');
     }
     return likes.map(like => <LikeCard like={like} key={likes.indexOf(like)} />);
   };
@@ -42,6 +43,7 @@ Likes.propTypes = {
   likes: PropTypes.array,
   onFetchLikes: PropTypes.func.isRequired,
   match: PropTypes.any.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 Likes.defaultProps = {
