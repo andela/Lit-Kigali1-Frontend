@@ -64,14 +64,14 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.FETCHING_ALL_ARTICLE_SUCCESS:
       return {
         ...state,
-        articles: payload,
+        articlesList: payload,
         loading: false,
         success: true,
       };
     case articleTypes.FETCHING_ALL_ARTICLE_FAILURE:
       return {
         ...state,
-        articles: [],
+        articlesList: [],
         loading: false,
         success: false,
         message: payload,
@@ -79,8 +79,8 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.SET_ARTICLE_RATE:
       return {
         ...state,
-        article: {
-          ...state.article,
+        singleArticle: {
+          ...state.singleArticle,
           ...payload,
         },
       };
@@ -93,7 +93,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         ratings: payload.ratings,
-        article: {
+        singleArticle: {
           ...state.article,
           ...payload.article,
         },

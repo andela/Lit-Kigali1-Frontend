@@ -32,9 +32,9 @@ const Routes = () => (
     <Route exact path="/my-articles" component={ArticlesCurrentUser} />
     <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
     <Route exact path="/articles/:articleSlug" component={Article} />
-    <Route path="*" component={ErrorPage} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
     <Route exact path="/articles" component={Articles} />
+    <Route path="*" component={ErrorPage} />
   </Switch>
 );
 
