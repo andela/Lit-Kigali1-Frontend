@@ -80,11 +80,11 @@ export class Articles extends Component {
 }
 
 export const mapStateToProps = ({
-  article: { loading, articles, submitting },
+  article: { loading, articlesList, submitting },
   currentUser: { profile },
 }) => ({
   loading,
-  articles,
+  articles: articlesList,
   submitting,
   currentUser: profile,
 });

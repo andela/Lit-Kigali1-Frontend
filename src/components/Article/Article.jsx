@@ -17,9 +17,7 @@ const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
   constructor() {
     super();
-    this.decorator = new MultiDecorator(
-      [new CompositeDecorator(addLinkPlugin.decorators)],
-    );
+    this.decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
   }
 
   componentDidMount() {
@@ -36,7 +34,7 @@ export class Article extends Component {
     const {
       singleArticle: { body },
     } = this.props;
-    if (body.match(/blocks/)) {
+    if (body && body.match(/blocks/)) {
       const editorObject = convertFromRaw(JSON.parse(body));
       const editorState = EditorState.createWithContent(editorObject, this.decorator);
       return (
@@ -216,7 +214,6 @@ export class Article extends Component {
           <i className="fa fa-angle-up" />
         </a>
       </section>
-
     );
   }
 }
