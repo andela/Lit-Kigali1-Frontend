@@ -13,7 +13,7 @@ export class Pagination extends Component {
   onNext = () => {
     const { currentPage, totalPages } = this.props;
     if (currentPage < totalPages) {
-      const next = (
+      return (
         <i
           className="fa fa-angle-right"
           data-value={currentPage + 1}
@@ -22,14 +22,16 @@ export class Pagination extends Component {
           alt="Next"
         />
       );
-      return next;
     }
+    return (
+      <i className="fa fa-angle-right" data-value={currentPage} key={currentPage} alt="Next" />
+    );
   };
 
-  onPrev = () => {
+  onPrev = (e) => {
     const { currentPage, totalPages } = this.props;
     if (currentPage > 1 && currentPage <= totalPages) {
-      const next = (
+      return (
         <i
           className="fa fa-angle-left"
           data-value={currentPage - 1}
@@ -38,8 +40,10 @@ export class Pagination extends Component {
           alt="Previous"
         />
       );
-      return next;
     }
+    return (
+      <i className="fa fa-angle-left" data-value={currentPage} key={currentPage} alt="Previous" />
+    );
   };
 
   PaginationIcon = () => {
@@ -50,12 +54,7 @@ export class Pagination extends Component {
     for (let i = 1; i <= totalPages; i++) {
       if (iconNumber === currentPage) {
         parent.push(
-          <li
-            data-value={iconNumber}
-            key={iconNumber}
-            className="page current"
-            onClick={this.navigateTo}
-          >
+          <li data-value={iconNumber} key={iconNumber} className="selected current">
             {iconNumber}
           </li>,
         );
