@@ -37,9 +37,6 @@ module.exports = {
     },
     url: '/articles/article-slug/rating',
   },
-  articleReducerState: {
-    articles: [],
-  },
   draftjsBody: [
     {
       key: 'dhjdh',

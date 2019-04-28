@@ -153,37 +153,33 @@ export class ArticleCreate extends Component {
     return 'handled';
   }
 
-  addImage = (e) => {
-    upLoadFile(e.target.files[0]).then((url) => {
-      const { editorState } = this.state;
-      const { newEditorState, entityKey } = getImage(editorState, url);
-      this.setState(
-        {
-          editorState: AtomicBlockUtils.insertAtomicBlock(
-            newEditorState,
-            entityKey,
-            ' ',
-          ),
-        },
-      );
-    });
-  }
+  addImage = e => upLoadFile(e.target.files[0]).then((url) => {
+    const { editorState } = this.state;
+    const { newEditorState, entityKey } = getImage(editorState, url);
+    this.setState(
+      {
+        editorState: AtomicBlockUtils.insertAtomicBlock(
+          newEditorState,
+          entityKey,
+          ' ',
+        ),
+      },
+    );
+  })
 
-  addVideo = (e) => {
-    upLoadFile(e.target.files[0]).then((url) => {
-      const { editorState } = this.state;
-      const { newEditorState, entityKey } = getVideo(editorState, url);
-      this.setState(
-        {
-          editorState: AtomicBlockUtils.insertAtomicBlock(
-            newEditorState,
-            entityKey,
-            ' ',
-          ),
-        },
-      );
-    });
-  }
+  addVideo = e => upLoadFile(e.target.files[0]).then((url) => {
+    const { editorState } = this.state;
+    const { newEditorState, entityKey } = getVideo(editorState, url);
+    this.setState(
+      {
+        editorState: AtomicBlockUtils.insertAtomicBlock(
+          newEditorState,
+          entityKey,
+          ' ',
+        ),
+      },
+    );
+  })
 
   publish = (status) => {
     const { createArticle, postArticle } = this.props;
@@ -290,11 +286,11 @@ export class ArticleCreate extends Component {
                   <LinkButton className="logo" width={25} height={25} />
                 </Button>
                 <Button classes="transparent" onClick={() => this.uploadImageButton.current.click()} data-el="image-btn">
-                  <input type="file" ref={this.uploadImageButton} hidden onChange={this.addImage} name="image" />
+                  <input type="file" ref={this.uploadImageButton} hidden onChange={this.addImage} name="image" data-el="image-input" />
                   <ImageButton className="logo" width={25} height={25} />
                 </Button>
                 <Button classes="transparent" onClick={() => this.uploadVideoButton.current.click()} data-el="video-btn">
-                  <input type="file" ref={this.uploadVideoButton} hidden onChange={this.addVideo} name="video" />
+                  <input type="file" ref={this.uploadVideoButton} hidden onChange={this.addVideo} name="video" data-el="video-input" />
                   <VideoButton className="logo" width={25} height={25} />
                 </Button>
               </div>
