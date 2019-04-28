@@ -54,6 +54,7 @@ describe('<ProfileView />', () => {
       },
     };
     wrapper = mount(<ProfileView {...newProps} />);
+    wrapper.setState({ moreArticles: 'a' });
     expect(wrapper.instance().renderArticles()).toBeDefined();
   });
 
@@ -66,6 +67,11 @@ describe('<ProfileView />', () => {
   test('should render profile bio div', () => {
     wrapper.setProps({ profile: { articles: [], bio: 'My Bio' }, loading: false });
     expect(wrapper.props().profile.bio).toBe('My Bio');
+  });
+
+  test('should should render `onMoreArticles`', () => {
+    wrapper.instance().onMoreArticles();
+    wrapper.setState({ moreArticles: true });
   });
 
   describe('when clicking on submit button', () => {
@@ -84,6 +90,16 @@ describe('<ProfileView />', () => {
       wrapper.setProps({ loading: false, profile: { followed: true, articles: [] } });
       wrapper.find('.profile-meta__button').simulate('click');
       expect(props.onFollowUser).toHaveBeenCalled();
+    });
+
+    test('should call `shouldComponentUpdate`', () => {
+      const nextProps = {
+        match: {
+          params: { username: 'username' },
+        },
+      };
+      wrapper.instance().shouldComponentUpdate(nextProps);
+      expect(props.getUserProfile).toHaveBeenCalledWith(nextProps.match.params.username);
     });
   });
 

@@ -85,4 +85,12 @@ describe('currentUserReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({ profile: {}, message: undefined, loading: false });
   });
+
+  it('should handle `UPDATE_PROFILE_FAILURE`', () => {
+    const expectedState = {
+      type: UPDATE_PROFILE_FAILURE,
+      loading: false,
+    };
+    expect(reducer({}, expectedState)).toEqual({ loading: false });
+  });
 });
