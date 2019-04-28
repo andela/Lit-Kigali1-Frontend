@@ -89,11 +89,7 @@
     left: 10vw;
   }
 }
-#tags {
-  float: left;
-  border: 1px solid #ccc;
-  font-family: Arial;
-  margin-left: 13vw;
+.tags {
   border: 1px solid #ccc;
   font-family: Arial;
   margin-left: 13.3vw;
@@ -101,7 +97,7 @@
     margin-left: 15vw;
     }
 }
-#tags {
+.tags {
   span {
     cursor: pointer;
     display: block;

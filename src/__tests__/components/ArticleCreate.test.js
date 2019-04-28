@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import 'isomorphic-fetch';
 import request from 'superagent';
@@ -226,6 +226,34 @@ describe('<ArticleCreate/>', () => {
     const editBtn = wrapper.find('[data-el="edit-btn"]');
     editBtn.simulate('click');
     expect(props.onUpdateArticle).toHaveBeenCalled();
+  });
+  test('should handle tag submit', () => {
+    const event = {
+      preventDefault: jest.fn(),
+    };
+    const wrapper = mount(<ArticleCreate {...props} />);
+    const instance = wrapper.instance();
+    instance.handleTagSubmit(event);
+    expect(wrapper.props().onTagFormSubmit).toHaveBeenCalled();
+    expect(wrapper.state().tag).toEqual('');
+  });
+
+  test('should not handle key command', () => {
+    const command = 'highlight';
+    const wrapper = mount(<ArticleCreate {...props} />);
+    const instance = wrapper.instance();
+    const { handleKeyCommand } = instance;
+    const res = handleKeyCommand(command);
+    expect(res).toEqual('not-handled');
+  });
+
+
+  test('should run component did mount', () => {
+    jest.useFakeTimers();
+    const wrapper = shallow(<ArticleCreate {...props} />);
+    const instance = wrapper.instance();
+    const { componentDidMount } = instance;
+    componentDidMount();
   });
 });
 

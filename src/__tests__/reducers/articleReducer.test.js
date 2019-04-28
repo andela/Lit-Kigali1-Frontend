@@ -112,7 +112,7 @@ describe('articleReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      articles: payload,
+      articlesList: payload,
       loading: false,
       success: true,
     });
@@ -125,7 +125,7 @@ describe('articleReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      articles: [],
+      articlesList: [],
       loading: false,
       success: false,
       message: payload,
@@ -138,7 +138,7 @@ describe('articleReducer', () => {
       payload: articleData,
     };
     expect(reducer({}, expectedState)).toEqual({
-      article: articleData,
+      singleArticle: articleData,
     });
   });
 
@@ -159,7 +159,7 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       ratings: [],
-      article: {},
+      singleArticle: {},
     });
   });
   it('should handle `SUBMIT_ARTICLE_TAG`', () => {
