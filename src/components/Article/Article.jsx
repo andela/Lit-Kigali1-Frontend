@@ -90,7 +90,6 @@ export class Article extends Component {
     const {
       singleArticle: { cover },
     } = this.props;
-
     if (!cover) return '';
     return (
       <div className="col-12">
@@ -111,7 +110,7 @@ export class Article extends Component {
   };
 
   render() {
-    const { singleArticle } = this.props;
+    const { singleArticle, history } = this.props;
     return (
       <section className="main-content">
         <div className="container content-margin">
@@ -210,7 +209,7 @@ export class Article extends Component {
             </div>
             {this.renderTags()}
           </div>
-          <Comment articleSlug={singleArticle.slug} />
+          <Comment articleSlug={singleArticle.slug} history={history} />
         </div>
         <a className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />
@@ -246,7 +245,6 @@ Article.propTypes = {
 
 Article.defaultProps = {
   singleArticle: {},
-  currentUser: {},
 };
 
 export default connect(
