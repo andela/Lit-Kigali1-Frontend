@@ -59,19 +59,6 @@ export class ArticleCreate extends Component {
     this.uploadVideoButton = React.createRef();
   }
 
-  // eslint-disable-next-line react/sort-comp
-  getData = () => {
-    const {
-      match: {
-        params: { articleSlug },
-      },
-      getArticle,
-    } = this.props;
-    return {
-      getArticle, articleSlug,
-    };
-  }
-
   componentDidMount() {
     setTimeout(() => {
       const { history, isLoggedIn } = this.props;
@@ -79,7 +66,12 @@ export class ArticleCreate extends Component {
         history.push('/auth');
       }
     }, 1000);
-    const { articleSlug, getArticle } = this.getData();
+    const {
+      match: {
+        params: { articleSlug },
+      },
+      getArticle,
+    } = this.props;
     if (articleSlug) {
       getArticle(articleSlug);
       this.setState({ isEdit: true });
