@@ -39,6 +39,10 @@
   cursor: pointer;
   font-size: 1rem;
   color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  width: auto;
+  min-width: auto;
+  text-align: right;
   &:hover {
     color: $red;
   }
@@ -99,6 +103,7 @@
   text-overflow: ellipsis;
   font-family: Roboto-Light;
   margin: 0;
+  max-height: 4rem;
   font-size: 1rem;
 }
 .my-article__meta {

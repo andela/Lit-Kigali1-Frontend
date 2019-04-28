@@ -3,10 +3,25 @@ import { connect } from 'react-redux';
 import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
+import {
+  Editor, EditorState, convertFromRaw, CompositeDecorator,
+} from 'draft-js';
+import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { fetchArticle } from '../../redux/actions/articleActions';
+import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
+import addLinkPlugin from '../../helpers/editorPlugins/addLink';
+import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle } from '../../redux/actions/currentUserActions';
 
+const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
+  constructor() {
+    super();
+    this.decorator = new MultiDecorator(
+      [new CompositeDecorator(addLinkPlugin.decorators)],
+    );
+  }
+
   componentDidMount() {
     const {
       match: {
@@ -19,14 +34,28 @@ export class Article extends Component {
 
   renderBody = () => {
     const {
-      article: { body },
+      singleArticle: { body },
     } = this.props;
+    if (body.match(/blocks/)) {
+      const editorObject = convertFromRaw(JSON.parse(body));
+      const editorState = EditorState.createWithContent(editorObject, this.decorator);
+      return (
+        <Editor
+          className="article-text"
+          name="body"
+          editorState={editorState}
+          blockRendererFn={mediaBlockRenderer}
+          customStyleMap={highlightPlugin.customStyleMap}
+          readOnly
+        />
+      );
+    }
     return new HtmlToReact().parse(body);
   };
 
   renderDate = () => {
     const {
-      article: { createdAt },
+      singleArticle: { createdAt },
     } = this.props;
     return `Published On: ${moment(createdAt).format('LLLL')}`;
   };
@@ -35,7 +64,7 @@ export class Article extends Component {
     e.stopPropagation();
     const {
       rateArticle,
-      article: { slug },
+      singleArticle: { slug },
     } = this.props;
     const { value } = e.target.dataset;
     rateArticle({ articleSlug: slug, rate: value });
@@ -43,7 +72,7 @@ export class Article extends Component {
 
   renderTags = () => {
     const {
-      article: { tagList },
+      singleArticle: { tagList },
     } = this.props;
     return (
       <div className="row">
@@ -58,6 +87,24 @@ export class Article extends Component {
     );
   };
 
+  renderCover = () => {
+    const {
+      singleArticle: { cover },
+    } = this.props;
+
+    if (!cover) return '';
+    return (
+      <div className="col-12">
+        <div
+          className="article-image"
+          style={{
+            backgroundImage: `url("${cover}")`,
+          }}
+        />
+      </div>
+    );
+  };
+
   navigateToRatings = (e) => {
     const { url } = e.target.dataset;
     const { history } = this.props;
@@ -65,39 +112,32 @@ export class Article extends Component {
   };
 
   render() {
-    const { article } = this.props;
+    const { singleArticle } = this.props;
     return (
       <section className="main-content">
         <div className="container content-margin">
           <br />
-          <h1 className="article-view-title">{article.title}</h1>
+          <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
-            <div className="col-12">
-              <div
-                className="article-image"
-                style={{
-                  backgroundImage: `url("${article.cover}")`,
-                }}
-              />
-            </div>
+            {this.renderCover()}
             <div className="col-12">
               {this.renderBody()}
               <p className="article-date">{this.renderDate()}</p>
 
               <div className="row content-space-between">
                 <div className="article-side-actions">
-                  <span>{article.readingTime}</span>
+                  <span>{singleArticle.readingTime}</span>
                   <span
                     data-name="rate-btn"
                     className={`article-icon-right hover-primary margin-top ${
-                      article.rated ? 'rated' : ''
+                      singleArticle.rated ? 'rated' : ''
                     }`}
                     role="presentation"
-                    data-url={`/articles/${article.slug}/ratings`}
+                    data-url={`/articles/${singleArticle.slug}/ratings`}
                     onClick={this.navigateToRatings}
                   >
-                    {article.rating}
-                    <i className={`fa fa-star${article.rated ? '' : '-o'} ml-5`} />
+                    {singleArticle.rating}
+                    <i className={`fa fa-star${singleArticle.rated ? '' : '-o'} ml-5`} />
                   </span>
                   <button className="article-icon-right hover-primary margin-top">
                     <i className="fa fa-thumbs-up" />
@@ -131,31 +171,31 @@ export class Article extends Component {
                   <p>Rate this article</p>
                   <div className="rate">
                     <button
-                      className={article.rated === 5 ? 'selected' : ''}
+                      className={singleArticle.rated === 5 ? 'selected' : ''}
                       data-value="5"
                       onClick={this.onSelectedRating}
                     />
 
                     <button
-                      className={article.rated === 4 ? 'selected' : ''}
+                      className={singleArticle.rated === 4 ? 'selected' : ''}
                       data-value="4"
                       onClick={this.onSelectedRating}
                     />
 
                     <button
-                      className={article.rated === 3 ? 'selected' : ''}
+                      className={singleArticle.rated === 3 ? 'selected' : ''}
                       data-value="3"
                       onClick={this.onSelectedRating}
                     />
 
                     <button
-                      className={article.rated === 2 ? 'selected' : ''}
+                      className={singleArticle.rated === 2 ? 'selected' : ''}
                       data-value="2"
                       onClick={this.onSelectedRating}
                     />
 
                     <button
-                      className={article.rated === 1 ? 'selected' : ''}
+                      className={singleArticle.rated === 1 ? 'selected' : ''}
                       data-value="1"
                       onClick={this.onSelectedRating}
                     />
@@ -176,17 +216,17 @@ export class Article extends Component {
           <i className="fa fa-angle-up" />
         </a>
       </section>
+
     );
   }
 }
 
 export const mapStateToProps = ({
-  article: { loading, article, submitting },
-  currentUser: { profile, rating },
+  article: { loading, singleArticle, submitting },
+  currentUser: { profile },
 }) => ({
   loading,
-  rating,
-  article,
+  singleArticle,
   submitting,
   currentUser: profile,
 });
@@ -197,15 +237,17 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 Article.propTypes = {
-  article: PropTypes.object,
+  singleArticle: PropTypes.object,
   match: PropTypes.any.isRequired,
   getArticle: PropTypes.func.isRequired,
-  rateArticle: PropTypes.func.isRequired,
+  currentUser: PropTypes.object,
   history: PropTypes.object.isRequired,
+  rateArticle: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
-  article: {},
+  singleArticle: {},
+  currentUser: {},
 };
 
 export default connect(

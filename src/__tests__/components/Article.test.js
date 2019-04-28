@@ -2,13 +2,13 @@ import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
-import { articleData } from '../../__mocks__/dummyData';
+import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
 const props = {
   loading: true,
-  article: articleData,
+  singleArticle: articleData,
   currentUser: {
     username: 'username',
   },
@@ -21,7 +21,6 @@ const props = {
   },
   history: { push: jest.fn() },
 };
-
 describe('<Article />', () => {
   beforeEach(() => {
     wrapper = mount(<Article {...props} />);
@@ -33,38 +32,38 @@ describe('<Article />', () => {
 
   test('should render <Article /> with tags', () => {
     wrapper = mount(<Article {...props} />);
-    expect(wrapper.props().article.tagList).toBeDefined();
+    expect(wrapper.props().singleArticle.tagList).toBeDefined();
   });
 
   describe('should render different ratings', () => {
     test('should render <Article /> rated equals to 1', () => {
-      props.article.rated = 1;
+      props.singleArticle.rated = 1;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(1);
+      expect(wrapper.props().singleArticle.rated).toBe(1);
     });
 
     test('should render <Article /> rated equals to 2', () => {
-      props.article.rated = 2;
+      props.singleArticle.rated = 2;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(2);
+      expect(wrapper.props().singleArticle.rated).toBe(2);
     });
 
     test('should render <Article /> rated equals to 3', () => {
-      props.article.rated = 3;
+      props.singleArticle.rated = 3;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(3);
+      expect(wrapper.props().singleArticle.rated).toBe(3);
     });
 
     test('should render <Article /> rated equals to 4', () => {
-      props.article.rated = 4;
+      props.singleArticle.rated = 4;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(4);
+      expect(wrapper.props().singleArticle.rated).toBe(4);
     });
 
     test('should render <Article /> rated equals to 5', () => {
-      props.article.rated = 5;
+      props.singleArticle.rated = 5;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(5);
+      expect(wrapper.props().singleArticle.rated).toBe(5);
     });
   });
 
@@ -88,11 +87,23 @@ describe('<Article />', () => {
     });
   });
 
+  test('should render <Article /> with cover', () => {
+    props.singleArticle.cover = 'https://picsum.photos/200/300';
+    wrapper = mount(<Article {...props} />);
+    expect(wrapper.props().singleArticle.cover).toBeDefined();
+  });
+
+  test('should render <Article /> the Editor', () => {
+    const newProps = { ...props, singleArticle: articleDataDraft };
+    wrapper = mount(<Article {...newProps} />);
+    expect(wrapper.props().singleArticle.tagList).toBeDefined();
+  });
+
   describe('reducers', () => {
     test('should initialize the component state', () => {
       const state = mapStateToProps(initialState);
       expect(state).toHaveProperty('loading');
-      expect(state).toHaveProperty('article');
+      expect(state).toHaveProperty('singleArticle');
       expect(state).toHaveProperty('submitting');
       expect(state).toHaveProperty('currentUser');
     });

@@ -89,11 +89,11 @@ export class ArticlesCurrentUser extends Component {
 
   renderArticles = () => {
     const {
-      articles,
+      currentUser: { articles },
     } = this.props;
     const { articleStatus } = this.state;
     return articles.map((article, index) => {
-      if (articleStatus !== article.status) {
+      if (articleStatus === article.status) {
         return (
           <div className="my-article" key={article.slug}>
             <div className="my-article__title">
@@ -107,7 +107,7 @@ export class ArticlesCurrentUser extends Component {
                 <i className="fa fa-trash" data-index={index} />
               </Button>
             </div>
-            <p className="my-article__text">{article.body}</p>
+            <p className="my-article__text">{article.description || article.body}</p>
             <p className="my-article__meta">{this.renderDate(article.createdAt)}</p>
           </div>
         );
@@ -189,7 +189,6 @@ ArticlesCurrentUser.propTypes = {
   deletingArticle: PropTypes.bool,
   currentUser: PropTypes.object,
   deleteArticle: PropTypes.func.isRequired,
-  articles: PropTypes.array.isRequired,
 };
 
 ArticlesCurrentUser.defaultProps = {

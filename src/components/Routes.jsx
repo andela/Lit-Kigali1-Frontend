@@ -28,12 +28,13 @@ const Routes = () => (
       component={ConfirmedEmailMessage}
     />
     <Route exact path="/profiles/:username" component={ProfileView} />
+    <Route exact path="/articles/create" component={ArticleCreate} />
+    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
+    <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
     <Route exact path="/articles/:articleSlug" component={Article} />
     <Route path="*" component={ErrorPage} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
-    <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/articles" component={Articles} />
-    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
   </Switch>
 );
 

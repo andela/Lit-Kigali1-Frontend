@@ -29,6 +29,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="username"
         onChange={[Function]}
         placeholder="Username"
@@ -45,6 +46,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="email"
         onChange={[Function]}
         placeholder="Email"
@@ -61,6 +63,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="password"
         onChange={[Function]}
         placeholder="Password"

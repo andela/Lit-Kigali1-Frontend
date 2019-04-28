@@ -51,12 +51,16 @@
     "loadingRatings": true,
     "submitting": false,
     "success": true,
-    "article": {
+    "singleArticle": {
       "title": "",
       "body": "",
       "tagList": []
     },
-    "articles": [],
-    "ratings": []
+    "createArticle": {
+      "title": "",
+      "body": "",
+      "tagList": []
+    },
+    "articlesList": []
   }
 }
