@@ -84,7 +84,6 @@ export class SignUp extends Component {
 
   socialAuthLogin = (provider) => {
     const { submitting, socialAuth } = this.props;
-
     !submitting && socialAuth(provider);
   };
 
@@ -229,12 +228,8 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
-<<<<<<< HEAD
-  socialAuth: PropTypes.func,
-  onFlip: PropTypes.func,
-=======
+  socialAuth: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
->>>>>>> feat(comment) CRUD comment
 };
 
 SignUp.defaultProps = {

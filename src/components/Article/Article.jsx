@@ -236,15 +236,16 @@ export const mapDispatchToProps = dispatch => ({
 
 Article.propTypes = {
   singleArticle: PropTypes.object,
-  match: PropTypes.any.isRequired,
+  match: PropTypes.any,
   getArticle: PropTypes.func.isRequired,
-  currentUser: PropTypes.object,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
   rateArticle: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
   singleArticle: {},
+  match: { params: {} },
+  history: { push: () => '' },
 };
 
 export default connect(
