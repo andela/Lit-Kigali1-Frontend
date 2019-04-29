@@ -1,9 +1,8 @@
 import React from 'react';
-import { mount, render} from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import 'isomorphic-fetch';
 import request from 'superagent';
-import renderer from 'react-test-renderer';
 import mock from 'superagent-mock';
 import {
   convertToRaw,
@@ -82,19 +81,7 @@ describe('<ArticleCreate/>', () => {
     expect(props.postArticle).toHaveBeenCalled();
   });
 
-  test('should open video input', () => {
-    const event = {
-      target: {
-        files: [JSON.stringify(file)],
-      },
-    };
-    const wrapper = mount(<ArticleCreate {...props} />);
-    const videoBtn = wrapper.find('[data-el="video-btn"]');
-    videoBtn.simulate('click');
-    wrapper.find('[data-el="video-input"]');
-  });
-
-  test('should add video', () => {
+  describe('Video handler', () => {
     const config = [
       {
         pattern: API_URL,
@@ -104,35 +91,36 @@ describe('<ArticleCreate/>', () => {
         post: (match, data) => data,
       },
     ];
-    mock(request, config);
     const event = {
       target: {
         files: [JSON.stringify(file)],
       },
     };
-    const wrapper = mount(<ArticleCreate {...props} />);
-    const prevState = wrapper.state();
-    const instance = wrapper.instance();
-    return instance.addVideo(event).then(() => {
-      const newState = wrapper.state();
-      expect(prevState).not.toEqual(newState);
-      expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('video');
+    mock(request, config);
+    test('should open video input', () => {
+      const wrapper = mount(<ArticleCreate {...props} />);
+      const prevState = wrapper.state().editorState;
+      const videoBtn = wrapper.find('[data-el="video-btn"]');
+      videoBtn.simulate('click');
+      wrapper.find('[data-el="video-input"]')
+        .simulate('change', event);
+      wrapper.find('[data-el="video-input"]');
+      const newState = wrapper.state().editorState;
+      expect(prevState).toEqual(newState);
+    });
+    test('should add video', () => {
+      const wrapper = mount(<ArticleCreate {...props} />);
+      const prevState = wrapper.state();
+      const instance = wrapper.instance();
+      return instance.addVideo(event).then(() => {
+        const newState = wrapper.state();
+        expect(prevState).not.toEqual(newState);
+        expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('video');
+      });
     });
   });
 
-  test('should open image file input', () => {
-    const event = {
-      target: {
-        files: [file],
-      },
-    };
-    const wrapper = mount(<ArticleCreate {...props} />);
-    const imageBtn = wrapper.find('[data-el="image-btn"]');
-    imageBtn.simulate('click');
-    wrapper.find('[data-el="image-input"]');
-  });
-
-  test('should add image', () => {
+  describe('Image handler', () => {
     const config = [
       {
         pattern: API_URL,
@@ -148,13 +136,28 @@ describe('<ArticleCreate/>', () => {
         files: [JSON.stringify(file)],
       },
     };
-    const wrapper = mount(<ArticleCreate {...props} />);
-    const prevState = wrapper.state();
-    const instance = wrapper.instance();
-    return instance.addImage(event).then(() => {
-      const newState = wrapper.state();
-      expect(prevState).not.toEqual(newState);
-      expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('image');
+    test('should open image file input', () => {
+      const wrapper = mount(<ArticleCreate {...props} />);
+      const prevState = wrapper.state().editorState;
+      const imageBtn = wrapper.find('[data-el="image-btn"]');
+      imageBtn.simulate('click');
+      wrapper.find('[data-el="image-input"]')
+        .simulate('change', event);
+      wrapper.update();
+      const newState = wrapper.state().editorState;
+      expect(wrapper).toMatchSnapshot();
+      expect(prevState).toEqual(newState);
+    });
+
+    test('should add image', () => {
+      const wrapper = mount(<ArticleCreate {...props} />);
+      const prevState = wrapper.state();
+      const instance = wrapper.instance();
+      return instance.addImage(event).then(() => {
+        const newState = wrapper.state();
+        expect(prevState).not.toEqual(newState);
+        expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('image');
+      });
     });
   });
 
