@@ -47,6 +47,7 @@ describe('<Dislikes />', () => {
       expect(state).toHaveProperty('dislikes');
     });
   });
+
   describe('actions creators', () => {
     test('should call getDislikes action', () => {
       const articleSlug = 'article-slug';
