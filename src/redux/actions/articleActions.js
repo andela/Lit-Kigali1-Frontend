@@ -55,11 +55,35 @@ export const fetchingArticleFailure = payload => ({
   payload,
 });
 
+export const setLikes = payload => ({
+  type: articleTypes.SET_LIKES,
+  payload,
+});
+
+export const setDislikes = payload => ({
+  type: articleTypes.SET_DISLIKES,
+  payload,
+});
+
+export const fetchLikes = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/likes`, { method: 'GET' })
+  .then((data) => {
+    dispatch(setLikes(data));
+  })
+  .catch(err => err);
+
+export const fetchDislikes = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/dislikes`, { method: 'GET' })
+  .then((data) => {
+    dispatch(setDislikes(data));
+  })
+  .catch(err => err);
+
 export const fetchArticle = slug => (dispatch) => {
   dispatch(fetchingArticle(true));
   return fetchAPI(`/articles/${slug}`)
     .then((data) => {
       dispatch(fetchingArticleSuccess(data.article));
+      dispatch(fetchLikes(data.article.slug));
+      dispatch(fetchDislikes(data.article.slug));
       return data;
     })
     .catch((err) => {
@@ -119,3 +143,31 @@ export const fetchArticleRatings = ({ articleSlug }) => (dispatch) => {
       return err;
     });
 };
+
+export const likeArticlefailure = payload => ({
+  type: articleTypes.LIKE_ARTICLE_FAILURE,
+  payload,
+});
+
+export const likeArticle = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/like`, { method: 'POST' })
+  .then(() => {
+    dispatch(fetchLikes(articleSlug));
+    dispatch(fetchDislikes(articleSlug));
+  })
+  .catch((err) => {
+    dispatch(likeArticlefailure(err));
+  });
+
+export const dislikeArticlefailure = payload => ({
+  type: articleTypes.DISLIKE_ARTICLE_FAILURE,
+  payload,
+});
+
+export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/dislike`, { method: 'POST' })
+  .then(() => {
+    dispatch(fetchLikes(articleSlug));
+    dispatch(fetchDislikes(articleSlug));
+  })
+  .catch((err) => {
+    dispatch(dislikeArticlefailure(err));
+  });

@@ -6,6 +6,7 @@ import {
   SET_CURRENT_USER_DELETING_ARTICLE,
   DELETE_CURRENT_USER_ARTICLE,
   SET_RATING_ARTICLE,
+  SET_NEXT_PATH,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -98,3 +99,8 @@ export const onUserRateArticle = ({ articleSlug, rate }) => (dispatch) => {
       return message;
     });
 };
+
+export const setNextPath = payload => ({
+  type: SET_NEXT_PATH,
+  payload,
+});

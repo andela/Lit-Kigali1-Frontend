@@ -11,6 +11,8 @@ import ErrorPage from './common/ErrorPage/ErrorPage';
 import Article from './Article/Article';
 import Ratings from './Rating/Ratings';
 import Articles from './Article/Articles';
+import Likes from './Likes/Likes';
+import Dislikes from './Dislikes/Dislikes';
 
 const Routes = () => (
   <Switch>
@@ -28,6 +30,8 @@ const Routes = () => (
     <Route exact path="/articles/:articleSlug" component={Article} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
     <Route exact path="/articles" component={Articles} />
+    <Route exact path="/articles/:articleSlug/likes" component={Likes} />
+    <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
     <Route path="*" component={ErrorPage} />
   </Switch>
 );

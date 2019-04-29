@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
-import { fetchArticle } from '../../redux/actions/articleActions';
-import { onUserRateArticle } from '../../redux/actions/currentUserActions';
+import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
+import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
 
 export class Article extends Component {
   componentDidMount() {
@@ -64,8 +64,44 @@ export class Article extends Component {
     history.push(url);
   };
 
+  onLikeArticleClicked = (e) => {
+    const {
+      article: { slug },
+      onLikeArticle,
+      history,
+      isLoggedIn,
+      nextPath,
+    } = this.props;
+    if (isLoggedIn) {
+      onLikeArticle(slug);
+    } else {
+      nextPath(`/articles/${slug}`);
+      history.push('/auth');
+    }
+    e.preventDefault();
+  };
+
+  onDislikeArticleClicked = (e) => {
+    const {
+      article: { slug },
+      onDislikeArticle,
+      history,
+      isLoggedIn,
+      nextPath,
+    } = this.props;
+    if (isLoggedIn) {
+      onDislikeArticle(slug);
+    } else {
+      nextPath(`/articles/${slug}`);
+      history.push('/auth');
+    }
+    e.preventDefault();
+  };
+
   render() {
-    const { article } = this.props;
+    const {
+      article, liked, disliked, likeCount, dislikeCount,
+    } = this.props;
     return (
       <section className="main-content">
         <div className="container content-margin">
@@ -99,12 +135,42 @@ export class Article extends Component {
                     {article.rating}
                     <i className={`fa fa-star${article.rated ? '' : '-o'} ml-5`} />
                   </span>
-                  <button className="article-icon-right hover-primary margin-top">
-                    <i className="fa fa-thumbs-up" />
-                  </button>
-                  <button className="article-icon-right hover-primary margin-top">
-                    <i className="fa fa-thumbs-down article-icon-right" />
-                  </button>
+                  <span className="article-icon-right margin-top">
+                    <span
+                      className="hover-primary margin-top"
+                      role="presentation"
+                      data-url={`/articles/${article.slug}/likes`}
+                      onClick={this.navigateToRatings}
+                    >
+                      {likeCount === 0 ? '' : likeCount}
+                    </span>
+                    <button
+                      className="article-icon-right hover-primary favorites"
+                      data-value="like"
+                      onClick={this.onLikeArticleClicked}
+                    >
+                      <i className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`} />
+                    </button>
+                  </span>
+                  <span className="article-icon-right margin-top">
+                    <span
+                      className="hover-primary margin-top"
+                      role="presentation"
+                      data-url={`/articles/${article.slug}/dislikes`}
+                      onClick={this.navigateToRatings}
+                    >
+                      {dislikeCount === 0 ? '' : dislikeCount}
+                    </span>
+                    <button
+                      className="article-icon-right hover-primary favorites"
+                      data-value="dislike"
+                      onClick={this.onDislikeArticleClicked}
+                    >
+                      <i
+                        className={`fa fa-thumbs-${disliked ? '' : 'o-'}down article-icon-right`}
+                      />
+                    </button>
+                  </span>
                   <button className="article-icon-right hover-primary margin-top">
                     <i
                       className="fa fa-bookmark-o article-icon-right"
@@ -162,8 +228,8 @@ export class Article extends Component {
                   </div>
                 </div>
                 <div className="items-center">
-                  <a href="#modal-report" className="hover-primary gray-icon">
-                    <i className="fa fa-file mr-5 gray-icon" />
+                  <a href="#modal-report" className="hover-primary">
+                    <i className="fa fa-file mr-5" />
                     Report
                   </a>
                 </div>
@@ -181,19 +247,29 @@ export class Article extends Component {
 }
 
 export const mapStateToProps = ({
-  article: { loading, article, submitting },
-  currentUser: { profile, rating },
+  article: {
+    loading, article, submitting, liked, disliked, likeCount, dislikeCount,
+  },
+  currentUser: { profile, rating, isLoggedIn },
 }) => ({
   loading,
   rating,
   article,
   submitting,
+  liked,
+  disliked,
+  likeCount,
+  dislikeCount,
   currentUser: profile,
+  isLoggedIn,
 });
 
 export const mapDispatchToProps = dispatch => ({
   getArticle: articleSlug => dispatch(fetchArticle(articleSlug)),
   rateArticle: payload => dispatch(onUserRateArticle(payload)),
+  onLikeArticle: articleSlug => dispatch(likeArticle(articleSlug)),
+  onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
+  nextPath: url => dispatch(setNextPath(url)),
 });
 
 Article.propTypes = {
@@ -202,10 +278,22 @@ Article.propTypes = {
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  liked: PropTypes.bool,
+  disliked: PropTypes.bool,
+  likeCount: PropTypes.number,
+  dislikeCount: PropTypes.number,
+  onLikeArticle: PropTypes.func.isRequired,
+  onDislikeArticle: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  nextPath: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
   article: {},
+  liked: false,
+  disliked: false,
+  likeCount: 0,
+  dislikeCount: 0,
 };
 
 export default connect(

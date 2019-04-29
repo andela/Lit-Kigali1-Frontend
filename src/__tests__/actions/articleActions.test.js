@@ -4,13 +4,12 @@ import nock from 'nock';
 import 'isomorphic-fetch';
 import * as articleActions from '../../redux/actions/articleActions';
 import * as articleTypes from '../../redux/actions-types/articleTypes';
-import { articleData } from '../../__mocks__/dummyData';
+import { articleData, likeData, dislikeData } from '../../__mocks__/dummyData';
 
 const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
 const mockStore = configureStore([thunk]);
 let store;
 jest.setTimeout(30000);
-
 describe('articleActions', () => {
   describe('actions creators', () => {
     test('should dispatch `CLEAR_ARTICLE_FORM`', () => {
@@ -78,6 +77,24 @@ describe('articleActions', () => {
         payload,
       };
       expect(articleActions.fetchingArticleFailure(payload)).toEqual(expectedAction);
+    });
+
+    test('should dispatch `SET_LIKES`', () => {
+      const payload = 'SET_LIKES';
+      const expectedAction = {
+        type: articleTypes.SET_LIKES,
+        payload,
+      };
+      expect(articleActions.setLikes(payload)).toEqual(expectedAction);
+    });
+
+    test('should dispatch `SET_DISLIKES`', () => {
+      const payload = 'SET_DISLIKES';
+      const expectedAction = {
+        type: articleTypes.SET_DISLIKES,
+        payload,
+      };
+      expect(articleActions.setDislikes(payload)).toEqual(expectedAction);
     });
   });
 
@@ -261,6 +278,102 @@ describe('articleActions', () => {
       return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('Should dispatch FetchLikes', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/likes`)
+        .reply(200, { status: 200, likes: [likeData] });
+      const expectedAction = [
+        {
+          type: articleTypes.SET_LIKES,
+          payload: { status: 200, likes: [likeData] },
+        },
+      ];
+      return store.dispatch(articleActions.fetchLikes(articleSlug)).then(() => {
+        const action = store.getActions();
+        expect(action).toEqual(expectedAction);
+      });
+    });
+
+    test('Should dispatch FetchDislikes', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/dislikes`)
+        .reply(200, { status: 200, dislikes: [dislikeData] });
+      const expectedAction = [
+        {
+          type: articleTypes.SET_DISLIKES,
+          payload: { status: 200, dislikes: [dislikeData] },
+        },
+      ];
+      return store.dispatch(articleActions.fetchDislikes(articleSlug)).then(() => {
+        const action = store.getActions();
+        expect(action).toEqual(expectedAction);
+      });
+    });
+
+    test('should dispatch likeArticle action - FAILED', () => {
+      expect.assertions(1);
+      const articleSlug = 'fake-article-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSlug}/like`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      const expectedActions = [
+        {
+          type: articleTypes.LIKE_ARTICLE_FAILURE,
+          payload: { status: 404, message: 'Article not found' },
+        },
+      ];
+      return store.dispatch(articleActions.likeArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch dislikeArticle action - FAILED', () => {
+      expect.assertions(1);
+      const articleSlug = 'fake-article-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSlug}/dislike`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      const expectedActions = [
+        {
+          type: articleTypes.DISLIKE_ARTICLE_FAILURE,
+          payload: { status: 404, message: 'Article not found' },
+        },
+      ];
+      return store.dispatch(articleActions.dislikeArticle(articleSlug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch likeArticle action - SUCCESS', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSlug}/like`)
+        .reply(201, { status: 201, message: 'Liked' });
+      return store.dispatch(articleActions.likeArticle(articleSlug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual([]);
+      });
+    });
+
+    test('should dispatch dislikeArticle action - SUCCESS', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSlug}/dislike`)
+        .reply(201, { status: 201, message: 'Disliked' });
+      return store.dispatch(articleActions.dislikeArticle(articleSlug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual([]);
       });
     });
   });

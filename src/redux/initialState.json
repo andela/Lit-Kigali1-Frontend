@@ -59,6 +59,10 @@
     "articles": [],
     "ratings": [],
     "totalPages": 1,
-    "currentPage": 1
+    "currentPage": 1,
+    "likes": [],
+    "dislikes": [],
+    "liked": false,
+    "disliked": false
   }
 }

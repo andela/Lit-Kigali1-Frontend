@@ -47,6 +47,11 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         ...state,
         rating: payload,
       };
+    case types.SET_NEXT_PATH:
+      return {
+        ...state,
+        nextPath: payload,
+      };
     default:
       return state;
   }
