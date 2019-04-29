@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import defaultAvatar from '../../assets/images/avatar.png';
 
 class ArticleCard extends Component {
-  navigateTo = (e) => {
+  navigateTo = e => {
     const { history, url } = this.props;
     const { el } = e.target.dataset;
     if (el === 'username') {
@@ -19,18 +19,22 @@ class ArticleCard extends Component {
   toProfile = () => {
     const {
       article: { author },
-      history,
+      history
     } = this.props;
     history.push(`/profiles/${author.username}`);
   };
 
   renderAuthor = () => {
     const {
-      article: { author },
+      article: { author }
     } = this.props;
     if (!author) return '';
     return (
-      <button data-el="username" onClick={this.toProfile} className="article-card__content-author">
+      <button
+        data-el="username"
+        onClick={this.toProfile}
+        className="article-card__content-author"
+      >
         {`@ ${author.username}`}
         <div className="user">
           <div className="user-info">
@@ -65,7 +69,9 @@ class ArticleCard extends Component {
         />
         <div className="article-card__content">
           <h3 className="article-card__content-title">{article.title}</h3>
-          <div className="article-card__content-text">{article.description || article.body}</div>
+          <div className="article-card__content-text">
+            {article.description || article.body}
+          </div>
           {this.renderAuthor()}
           <div className="article-card__content-meta">
             <span>{article.readingTime}</span>
@@ -88,13 +94,13 @@ ArticleCard.propTypes = {
   article: PropTypes.object.isRequired,
   classes: PropTypes.string,
   url: PropTypes.string,
-  history: PropTypes.object,
+  history: PropTypes.object
 };
 
 ArticleCard.defaultProps = {
   classes: '',
   url: '',
-  history: {},
+  history: {}
 };
 
 export default ArticleCard;

@@ -1,37 +1,38 @@
-.rate {
-  float: left;
-  height: 46px;
-  padding: 7px 10px;
-  input:checked + label:hover,
-  input:checked + label:hover ~ label,
-  input:checked ~ label:hover,
-  input:checked ~ label:hover ~ label,
-  label:hover ~ input:checked ~ label {
-    color: #c59b08;
-  }
-}
-.rate:not(:checked) {
-  input {
-    position: absolute;
-    top: -9999px;
-  }
-  label {
-    float: right;
-    width: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor: pointer;
-    font-size: 21px;
-    color: #ccc;
-  }
-  label:before {
+@mixin rate-button {
+  float: right;
+  width: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 21px;
+  color: #ccc;
+  background: transparent;
+  &:before {
     content: '★ ';
   }
-  input:checked ~ label {
-    color: #ffc700;
+  &.selected {
+    color: #e2c14a;
+    ~ button {
+      color: #e2c14a;
+    }
   }
-  label:hover,
-  label:hover ~ label {
-    color: #deb217;
+}
+.rate {
+  float: left;
+  button {
+    @include rate-button;
+    &:hover {
+      color: #c49a03 !important;
+      ~ button {
+        color: #c49a03;
+      }
+    }
+  }
+}
+
+.rating {
+  float: left;
+  button {
+    @include rate-button;
   }
 }

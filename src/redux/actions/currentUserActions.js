@@ -5,9 +5,12 @@ import {
   SET_USER_ACTION_FAILURE,
   SET_CURRENT_USER_DELETING_ARTICLE,
   DELETE_CURRENT_USER_ARTICLE,
+  SET_RATING_ARTICLE,
+  SET_NEXT_PATH,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
+import { setArticleRate } from './articleActions';
 
 export const setCurrentUser = payload => ({
   type: SET_CURRENT_USER,
@@ -76,3 +79,28 @@ export const onUserDeleteArticle = ({ articleSlug, index }) => (dispatch) => {
       return message;
     });
 };
+
+export const setRatingArticle = payload => ({
+  type: SET_RATING_ARTICLE,
+  payload,
+});
+
+export const onUserRateArticle = ({ articleSlug, rate }) => (dispatch) => {
+  dispatch(setRatingArticle(true));
+  return fetchAPI(`/articles/${articleSlug}/rating`, { method: 'POST', body: { rate } })
+    .then(({ message, averageRate, rate: { rating } }) => {
+      dispatch(setArticleRate({ rating: averageRate, rated: rating }));
+      dispatch(setRatingArticle(false));
+      return message;
+    })
+    .catch(({ message }) => {
+      dispatch(onUserActionFailure(message));
+      dispatch(setRatingArticle(false));
+      return message;
+    });
+};
+
+export const setNextPath = payload => ({
+  type: SET_NEXT_PATH,
+  payload,
+});

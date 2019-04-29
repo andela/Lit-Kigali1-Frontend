@@ -130,6 +130,11 @@
   justify-content: flex-end;
 }
 
+.content-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .items-center {
   display: flex;
   align-items: center;
@@ -224,6 +229,15 @@
       width: 30px;
       margin: 0 5px;
     }
+    .selected {
+      display: inline-block;
+      cursor: default;
+      text-align: center;
+      padding: 5px;
+      height: 30px;
+      width: 30px;
+      margin: 0 5px;
+    }
   }
   .current {
     border: 2px solid $primary;
@@ -231,7 +245,7 @@
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
     -ms-border-radius: 50px;
-    -o-border-radius: 50px;
+    -o-border-radius: 50px;  
   }
 }
 /* 

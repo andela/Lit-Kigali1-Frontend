@@ -14,6 +14,9 @@ import Article from './Article/Article';
 import Articles from './Article/Articles';
 import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 import ErrorPage from './common/ErrorPage/ErrorPage';
+import Likes from './Likes/Likes';
+import Dislikes from './Dislikes/Dislikes';
+import Ratings from './Rating/Ratings';
 
 export const Routes = ({ isLoggedIn }) => (
   <Switch>
@@ -51,6 +54,11 @@ export const Routes = ({ isLoggedIn }) => (
       path="/my-articles"
       render={props => (isLoggedIn ? <ArticlesCurrentUser {...props} /> : <Redirect to="/auth" />)}
     />
+    <Route exact path="/articles/:articleSlug" component={Article} />
+    <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
+    <Route exact path="/articles" component={Articles} />
+    <Route exact path="/articles/:articleSlug/likes" component={Likes} />
+    <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
     <Route path="*" component={ErrorPage} />
   </Switch>
 );

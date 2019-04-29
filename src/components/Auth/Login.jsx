@@ -33,19 +33,24 @@ export class LoginComponent extends Component {
   };
 
   handleError = () => {
-    const { error, isLoggedIn, history } = this.props;
+    const {
+      error, isLoggedIn, history, nextPath,
+    } = this.props;
     if (error.message) {
       return error.message;
     }
     if (isLoggedIn) {
-      history.push('/');
+      if (nextPath) {
+        window.location.href = nextPath;
+      } else {
+        history.push('/');
+      }
     }
     return '';
   };
 
   socialAuthLogin = (provider) => {
     const { submitting, socialAuth } = this.props;
-
     !submitting && socialAuth(provider);
   };
 
@@ -152,6 +157,7 @@ LoginComponent.propTypes = {
   isLoggedIn: PropTypes.bool,
   socialAuth: PropTypes.func,
   onFlip: PropTypes.func,
+  nextPath: PropTypes.string,
 };
 
 LoginComponent.defaultProps = {
@@ -162,15 +168,17 @@ LoginComponent.defaultProps = {
   error: {},
   submitting: false,
   isLoggedIn: false,
+  nextPath: '',
 };
 export const mapStateToProps = ({
   login: { error, credentials, submitting },
-  currentUser: { isLoggedIn },
+  currentUser: { isLoggedIn, nextPath },
 }) => ({
   credentials,
   error,
   submitting,
   isLoggedIn,
+  nextPath,
 });
 
 export const mapDispatchToProps = dispatch => ({

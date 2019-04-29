@@ -6,6 +6,8 @@ import {
   SET_USER_ACTION_FAILURE,
   SET_CURRENT_USER_DELETING_ARTICLE,
   DELETE_CURRENT_USER_ARTICLE,
+  SET_RATING_ARTICLE,
+  SET_NEXT_PATH,
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
@@ -87,6 +89,26 @@ describe('currentUserReducer', () => {
     ).toEqual({
       ...initialState,
       profile: { articles: [{ slug: 'article-slug' }] },
+    });
+  });
+
+  it('should handle `SET_RATING_ARTICLE`', () => {
+    const expectedState = {
+      type: SET_RATING_ARTICLE,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      rating: true,
+    });
+  });
+
+  it('should handle `SET_NEXT_PATH`', () => {
+    const expectedState = {
+      type: SET_NEXT_PATH,
+      payload: 'url',
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      nextPath: 'url',
     });
   });
 });

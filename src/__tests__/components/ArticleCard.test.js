@@ -9,10 +9,10 @@ const props = {
   loading: true,
   article: {
     ...articleData,
-    author: signupUser,
+    author: signupUser
   },
   url: '/articles/article-slug',
-  history: { push: jest.fn() },
+  history: { push: jest.fn() }
 };
 
 describe('<ArticleCard />', () => {

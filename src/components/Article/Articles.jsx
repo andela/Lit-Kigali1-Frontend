@@ -5,6 +5,7 @@ import qs from 'query-string';
 import { fetchArticles } from '../../redux/actions/articleActions';
 import ArticleCard from './ArticleCard';
 import SearchInput from '../common/Input/SearchInput';
+import Pagination from '../../components/common/Pagination';
 
 export class Articles extends Component {
   state = {
@@ -33,9 +34,11 @@ export class Articles extends Component {
 
   filterArticles = () => {
     const { filterBy, words } = this.state;
-    const { getArticles } = this.props;
+    const { getArticles, location } = this.props;
+    const parsed = qs.parse(location.search);
+
     this.redirectTo();
-    getArticles({ filterBy, words });
+    getArticles({ filterBy, words, page: parsed.page });
   };
 
   renderArticles = () => {
@@ -61,6 +64,7 @@ export class Articles extends Component {
 
   render() {
     const { filterBy, words } = this.state;
+    const { history, page, pages } = this.props;
     return (
       <section className="main-content">
         <div className="container">
@@ -110,23 +114,7 @@ export class Articles extends Component {
 
               <h3>ARTICLES</h3>
               {this.renderArticles()}
-              <div className="pagination">
-                <span>First</span>
-                <span>
-                  <i className="fa fa-angle-left" />
-                </span>
-                <ul className="pages">
-                  <li className="page current">1</li>
-                  <li className="page">2</li>
-                  <li className="page">3</li>
-                  <li className="page">4</li>
-                  <li className="page">5</li>
-                </ul>
-                <span>
-                  <i className="fa fa-angle-right" />
-                </span>
-                <span>Last</span>
-              </div>
+              <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
             </div>
           </div>
         </div>
@@ -139,11 +127,13 @@ export class Articles extends Component {
 }
 
 export const mapStateToProps = ({
-  article: { loading, articles, submitting },
+  article: {
+    loading, articlesList, page, pages, submitting,
+  },
   currentUser: { profile },
 }) => ({
   loading,
-  articles,
+  articles: articlesList,
   submitting,
   currentUser: profile,
 });
@@ -157,11 +147,15 @@ Articles.propTypes = {
   articles: PropTypes.array,
   getArticles: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  page: PropTypes.number,
+  pages: PropTypes.number,
 };
 
 Articles.defaultProps = {
   location: { params: {} },
   articles: [],
+  page: 1,
+  pages: 1,
 };
 
 export default connect(
