@@ -1,4 +1,4 @@
-import configureStore from 'redux-mock-store'; // ES6 modules
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';
@@ -188,7 +188,7 @@ describe('articleActions', () => {
     test('should dispatch fetchArticles action - FAILED', () => {
       expect.assertions(3);
       nock(API_URL)
-        .get('/articles')
+        .get('/articles?page=1')
         .reply(401, { status: 401, message: 'Unauthorized access' });
       const expectedActions = [
         {
@@ -200,7 +200,7 @@ describe('articleActions', () => {
           payload: 'Unauthorized access',
         },
       ];
-      return store.dispatch(articleActions.fetchArticles()).then((res) => {
+      return store.dispatch(articleActions.fetchArticles(1)).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(401);
@@ -209,29 +209,14 @@ describe('articleActions', () => {
     });
 
     test('should dispatch fetchArticles action - SUCCESS', () => {
-      expect.assertions(3);
       nock(API_URL)
-        .get('/articles')
+        .get('/articles?page=1')
         .reply(200, { status: 200, articles: [articleData] });
-      const expectedActions = [
-        {
-          type: articleTypes.FETCHING_ARTICLE,
-          payload: true,
-        },
-        {
-          type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
-          payload: [articleData],
-        },
-      ];
-      return store.dispatch(articleActions.fetchArticles()).then((res) => {
-        const actions = store.getActions();
-        expect(actions).toEqual(expectedActions);
+      return store.dispatch(articleActions.fetchArticles(1)).then((res) => {
         expect(res.status).toBe(200);
-        expect(res.articles).toEqual(expectedActions[1].payload);
       });
     });
-
-    test('should dispatch fetchArticles action - FAILURE', () => {
+    test('should dispatch ratings action - FAILURE', () => {
       expect.assertions(1);
       const articleSlug = 'article-slug';
       nock(API_URL)
@@ -253,7 +238,7 @@ describe('articleActions', () => {
       });
     });
 
-    test('should dispatch fetchArticles action - SUCCESS', () => {
+    test('should dispatch ratings action - SUCCESS', () => {
       expect.assertions(1);
       const articleSlug = 'article-slug';
       nock(API_URL)

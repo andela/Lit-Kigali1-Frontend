@@ -57,6 +57,8 @@
       "tagList": []
     },
     "articles": [],
-    "ratings": []
+    "ratings": [],
+    "totalPages": 1,
+    "currentPage": 1
   }
 }

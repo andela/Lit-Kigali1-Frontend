@@ -78,11 +78,11 @@ export const fetchingAllArticleFailure = payload => ({
   payload,
 });
 
-export const fetchArticles = () => (dispatch) => {
+export const fetchArticles = ({ page = 1 }) => (dispatch) => {
   dispatch(fetchingArticle(true));
-  return fetchAPI('/articles')
+  return fetchAPI(`/articles?page=${page}`)
     .then((data) => {
-      dispatch(fetchingAllArticleSuccess(data.articles));
+      dispatch(fetchingAllArticleSuccess({ ...data, status: undefined }));
       return data;
     })
     .catch((err) => {
