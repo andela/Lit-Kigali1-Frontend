@@ -15,7 +15,7 @@ const props = {
   onSubmit: jest.fn().mockImplementation(() => Promise.resolve({ status: 201 })),
   onInputChange: mockFn,
   history: { push: mockFn },
-  socialAuth: mockFn,
+  onSocialAuth: mockFn,
   onFlip: mockFn,
 };
 
@@ -212,36 +212,36 @@ describe('actions creators', () => {
   test('should call socialAuth action', () => {
     const dispatch = jest.fn();
     const payload = { provider: 'test' };
-    mapDispatchToProps(dispatch).socialAuth(payload);
+    mapDispatchToProps(dispatch).onSocialAuth(payload);
     expect(dispatch.mock.calls[0][0]).toBeDefined();
   });
 });
 
 describe('socialLogin', () => {
   test('should trigger click event', () => {
-    const wrapper = mount(<SignUp store={store} {...props} />);
+    wrapper = mount(<SignUp store={store} {...props} />);
     wrapper
       .find('SocialLoginIcon')
       .at(0)
       .simulate('click');
-    expect(props.socialAuth).toHaveBeenCalled();
+    expect(props.onSocialAuth).toHaveBeenCalled();
   });
 
   test('should trigger click event', () => {
-    const wrapper = mount(<SignUp store={store} {...props} />);
+    wrapper = mount(<SignUp store={store} {...props} />);
     wrapper
       .find('SocialLoginIcon')
       .at(1)
       .simulate('click');
-    expect(props.socialAuth).toHaveBeenCalled();
+    expect(props.onSocialAuth).toHaveBeenCalled();
   });
 
   test('should trigger click event', () => {
-    const wrapper = mount(<SignUp store={store} {...props} />);
+    wrapper = mount(<SignUp store={store} {...props} />);
     wrapper
       .find('SocialLoginIcon')
       .at(2)
       .simulate('click');
-    expect(props.socialAuth).toHaveBeenCalled();
+    expect(props.onSocialAuth).toHaveBeenCalled();
   });
 });

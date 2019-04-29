@@ -83,8 +83,8 @@ export class SignUp extends Component {
   };
 
   socialAuthLogin = (provider) => {
-    const { submitting, socialAuth } = this.props;
-    !submitting && socialAuth(provider);
+    const { submitting, onSocialAuth } = this.props;
+    !submitting && onSocialAuth(provider);
   };
 
   render() {
@@ -215,7 +215,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       ownProps,
     }),
   ),
-  socialAuth: provider => dispatch(socialAuth(provider)),
+  onSocialAuth: provider => dispatch(socialAuth(provider)),
 });
 
 SignUp.propTypes = {
@@ -228,7 +228,7 @@ SignUp.propTypes = {
   errors: PropTypes.array,
   submitting: PropTypes.bool,
   history: PropTypes.any.isRequired,
-  socialAuth: PropTypes.func.isRequired,
+  onSocialAuth: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
 };
 

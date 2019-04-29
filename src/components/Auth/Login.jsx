@@ -44,8 +44,8 @@ export class LoginComponent extends Component {
   };
 
   socialAuthLogin = (provider) => {
-    const { submitting, socialAuth } = this.props;
-    !submitting && socialAuth(provider);
+    const { submitting, onSocialAuth } = this.props;
+    !submitting && onSocialAuth(provider);
   };
 
   render() {
@@ -149,7 +149,7 @@ LoginComponent.propTypes = {
   error: PropTypes.object,
   history: PropTypes.any.isRequired,
   isLoggedIn: PropTypes.bool,
-  socialAuth: PropTypes.func,
+  onSocialAuth: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
 };
 
@@ -176,7 +176,7 @@ export const mapDispatchToProps = dispatch => ({
   handleInput: ({ field, value }) => dispatch(inputHandler({ field, value })),
   validate: ({ username, password }) => dispatch(validateCredentials({ username, password })),
   login: ({ username, password }) => dispatch(loginUser({ username, password })),
-  socialAuth: provider => dispatch(socialAuth(provider)),
+  onSocialAuth: provider => dispatch(socialAuth(provider)),
 });
 export default connect(
   mapStateToProps,
