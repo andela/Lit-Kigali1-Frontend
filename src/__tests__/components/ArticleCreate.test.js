@@ -97,7 +97,7 @@ describe('<ArticleCreate/>', () => {
       },
     };
     mock(request, config);
-    test('should open video input', () => {
+    test('should open video input', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state().editorState;
       const videoBtn = wrapper.find('[data-el="video-btn"]');
@@ -107,8 +107,9 @@ describe('<ArticleCreate/>', () => {
       wrapper.find('[data-el="video-input"]');
       const newState = wrapper.state().editorState;
       expect(prevState).toEqual(newState);
+      done();
     });
-    test('should add video', () => {
+    test('should add video', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state();
       const instance = wrapper.instance();
@@ -116,6 +117,7 @@ describe('<ArticleCreate/>', () => {
         const newState = wrapper.state();
         expect(prevState).not.toEqual(newState);
         expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('video');
+        done();
       });
     });
   });
@@ -136,7 +138,7 @@ describe('<ArticleCreate/>', () => {
         files: [JSON.stringify(file)],
       },
     };
-    test('should open image file input', () => {
+    test('should open image file input', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state().editorState;
       const imageBtn = wrapper.find('[data-el="image-btn"]');
@@ -147,9 +149,10 @@ describe('<ArticleCreate/>', () => {
       const newState = wrapper.state().editorState;
       expect(wrapper).toMatchSnapshot();
       expect(prevState).toEqual(newState);
+      done();
     });
 
-    test('should add image', () => {
+    test('should add image', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state();
       const instance = wrapper.instance();
@@ -157,6 +160,7 @@ describe('<ArticleCreate/>', () => {
         const newState = wrapper.state();
         expect(prevState).not.toEqual(newState);
         expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('image');
+        done();
       });
     });
   });
