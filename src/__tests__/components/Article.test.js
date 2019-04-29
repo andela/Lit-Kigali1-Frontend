@@ -14,12 +14,16 @@ const props = {
   },
   getArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   rateArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  onLikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  onDislikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  nextPath: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   match: {
     params: {
       articleSlug: 'article-slug',
     },
   },
   history: { push: jest.fn() },
+  isLoggedIn: true,
 };
 
 describe('<Article />', () => {
@@ -111,6 +115,67 @@ describe('<Article />', () => {
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
       expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call likeArticle action', () => {
+      const articleSlug = 'article-slug';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).onLikeArticle({ articleSlug });
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call dislikeArticle action', () => {
+      const articleSlug = 'article-slug';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).onDislikeArticle({ articleSlug });
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call nextPath action', () => {
+      const url = 'article-slug';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).nextPath({ url });
+      expect(dispatch).toHaveBeenCalled();
+    });
+  });
+
+  describe('like and dislike an article when loggedIn', () => {
+    beforeEach(() => {
+      wrapper = mount(<Article {...props} />);
+    });
+
+    test('should like an article', () => {
+      wrapper.find('button[data-value="like"]').simulate('click');
+      expect(props.onLikeArticle).toHaveBeenCalled();
+    });
+
+    test('should dislike an article', () => {
+      wrapper.find('button[data-value="dislike"]').simulate('click');
+      expect(props.onDislikeArticle).toHaveBeenCalled();
+    });
+  });
+
+  describe('like and dislike an article when not loggedIn', () => {
+    beforeEach(() => {
+      const newProps = {
+        ...props,
+        isLoggedIn: false,
+        liked: true,
+        disliked: true,
+        likeCount: 1,
+        dislikeCount: 1,
+      };
+      wrapper = mount(<Article {...newProps} />);
+    });
+
+    test('should like an article', () => {
+      wrapper.find('button[data-value="like"]').simulate('click');
+      expect(props.nextPath).toHaveBeenCalled();
+    });
+
+    test('should dislike an article', () => {
+      wrapper.find('button[data-value="dislike"]').simulate('click');
+      expect(props.nextPath).toHaveBeenCalled();
     });
   });
 });

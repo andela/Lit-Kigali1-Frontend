@@ -95,7 +95,6 @@ export class Article extends Component {
       nextPath(`/articles/${slug}`);
       history.push('/auth');
     }
-
     e.preventDefault();
   };
 
@@ -147,6 +146,7 @@ export class Article extends Component {
                     </span>
                     <button
                       className="article-icon-right hover-primary favorites"
+                      data-value="like"
                       onClick={this.onLikeArticleClicked}
                     >
                       <i className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`} />
@@ -163,6 +163,7 @@ export class Article extends Component {
                     </span>
                     <button
                       className="article-icon-right hover-primary favorites"
+                      data-value="dislike"
                       onClick={this.onDislikeArticleClicked}
                     >
                       <i

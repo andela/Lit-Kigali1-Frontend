@@ -16,9 +16,9 @@ export class Dislikes extends Component {
   }
 
   renderLikes = () => {
-    const { dislikes } = this.props;
+    const { dislikes, history } = this.props;
     if (dislikes.length === 0) {
-      return console.log('404 Pqge');
+      history.push('*');
     }
     return dislikes.map(dislike => (
       <DislikeCard dislike={dislike} key={dislikes.indexOf(dislike)} />
@@ -44,6 +44,7 @@ Dislikes.propTypes = {
   dislikes: PropTypes.array,
   onFetchDislikes: PropTypes.func.isRequired,
   match: PropTypes.any.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 Dislikes.defaultProps = {

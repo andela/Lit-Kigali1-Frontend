@@ -147,4 +147,48 @@ describe('currentUserReducer', () => {
       article: {},
     });
   });
+
+  it('should handle `SET_LIKES`', () => {
+    const expectedState = {
+      type: articleTypes.SET_LIKES,
+      payload: { likes: [], count: 1, liked: true },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      likes: [],
+      likeCount: 1,
+      liked: true,
+    });
+  });
+
+  it('should handle `SET_DISLIKES`', () => {
+    const expectedState = {
+      type: articleTypes.SET_DISLIKES,
+      payload: { dislikes: [], count: 1, disliked: true },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      dislikes: [],
+      dislikeCount: 1,
+      disliked: true,
+    });
+  });
+
+  it('should handle `LIKE_ARTICLE_FAILURE`', () => {
+    const expectedState = {
+      type: articleTypes.LIKE_ARTICLE_FAILURE,
+      payload: 'Like Article Failed',
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      error: 'Like Article Failed',
+    });
+  });
+
+  it('should handle `DISLIKE_ARTICLE_FAILURE`', () => {
+    const expectedState = {
+      type: articleTypes.DISLIKE_ARTICLE_FAILURE,
+      payload: 'Dislike Article Failed',
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      error: 'Dislike Article Failed',
+    });
+  });
 });

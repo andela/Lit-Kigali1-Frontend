@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LikeCard from './LikeCard';
 import { fetchLikes } from '../../redux/actions/articleActions';
-import ErrorPage from '../common/ErrorPage/ErrorPage';
 
 export class Likes extends Component {
   componentDidMount() {

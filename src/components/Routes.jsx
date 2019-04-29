@@ -12,7 +12,7 @@ import Article from './Article/Article';
 import Ratings from './Rating/Ratings';
 import Articles from './Article/Articles';
 import Likes from './Likes/Likes';
-import Dislikes from './Dislikes/DIslikes';
+import Dislikes from './Dislikes/Dislikes';
 
 const Routes = () => (
   <Switch>

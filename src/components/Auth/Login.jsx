@@ -63,7 +63,7 @@ export class LoginComponent extends Component {
     } = this.props;
     return (
       <div>
-        <form className="bg-primary-light login-form" id="signup">
+        <form className="bg-primary-light login-form" id="login">
           <div className="color-primary to-center">
             <h2>LOG IN</h2>
           </div>

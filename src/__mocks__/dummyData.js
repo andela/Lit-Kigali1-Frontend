@@ -37,4 +37,24 @@ module.exports = {
     },
     url: '/articles/article-slug/rating',
   },
+
+  dislikeData: {
+    state: 'dislike',
+    updatedAt: '2019-04-25T16:20:31.730Z',
+    author: {
+      firstName: 'Christian',
+      lastName: 'Rene',
+      image: null,
+    },
+  },
+
+  likeData: {
+    state: 'like',
+    updatedAt: '2019-04-25T16:20:31.730Z',
+    author: {
+      firstName: 'Christian',
+      lastName: 'Rene',
+      image: null,
+    },
+  },
 };
