@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
+import {
+  Editor, EditorState, convertFromRaw, CompositeDecorator,
+} from 'draft-js';
+import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
+import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
+import addLinkPlugin from '../../helpers/editorPlugins/addLink';
+import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
 import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
@@ -90,7 +97,6 @@ export class Article extends Component {
     const {
       singleArticle: { cover },
     } = this.props;
-
     if (!cover) return '';
     return (
       <div className="col-12">
@@ -112,7 +118,7 @@ export class Article extends Component {
 
   onLikeArticleClicked = (e) => {
     const {
-      article: { slug },
+      singleArticle: { slug },
       onLikeArticle,
       history,
       isLoggedIn,
@@ -129,7 +135,7 @@ export class Article extends Component {
 
   onDislikeArticleClicked = (e) => {
     const {
-      article: { slug },
+      singleArticle: { slug },
       onDislikeArticle,
       history,
       isLoggedIn,
@@ -144,9 +150,27 @@ export class Article extends Component {
     e.preventDefault();
   };
 
+  renderCover = () => {
+    const {
+      singleArticle: { cover },
+    } = this.props;
+
+    if (!cover) return '';
+    return (
+      <div className="col-12">
+        <div
+          className="article-image"
+          style={{
+            backgroundImage: `url("${cover}")`,
+          }}
+        />
+      </div>
+    );
+  };
+
   render() {
     const {
-      article, liked, disliked, likeCount, dislikeCount,
+      singleArticle, liked, disliked, likeCount, dislikeCount,
     } = this.props;
   }
 
@@ -195,6 +219,42 @@ export class Article extends Component {
                   >
                     {singleArticle.rating}
                     <i className={`fa fa-star${singleArticle.rated ? '' : '-o'} ml-5`} />
+                  </span>
+                  <span className="article-icon-right margin-top">
+                    <span
+                      className="hover-primary margin-top"
+                      role="presentation"
+                      data-url={`/articles/${singleArticle.slug}/likes`}
+                      onClick={this.navigateToRatings}
+                    >
+                      {likeCount === 0 ? '' : likeCount}
+                    </span>
+                    <button
+                      className="article-icon-right hover-primary favorites"
+                      data-value="like"
+                      onClick={this.onLikeArticleClicked}
+                    >
+                      <i className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`} />
+                    </button>
+                  </span>
+                  <span className="article-icon-right margin-top">
+                    <span
+                      className="hover-primary margin-top"
+                      role="presentation"
+                      data-url={`/articles/${singleArticle.slug}/dislikes`}
+                      onClick={this.navigateToRatings}
+                    >
+                      {dislikeCount === 0 ? '' : dislikeCount}
+                    </span>
+                    <button
+                      className="article-icon-right hover-primary favorites"
+                      data-value="dislike"
+                      onClick={this.onDislikeArticleClicked}
+                    >
+                      <i
+                        className={`fa fa-thumbs-${disliked ? '' : 'o-'}down article-icon-right`}
+                      />
+                    </button>
                   </span>
                   <button className="article-icon-right hover-primary margin-top">
                     <i className="fa fa-thumbs-up" />
@@ -320,7 +380,7 @@ Article.propTypes = {
 };
 
 Article.defaultProps = {
-  article: {},
+  singleArticle: {},
   liked: false,
   disliked: false,
   likeCount: 0,

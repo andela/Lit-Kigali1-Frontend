@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
 import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
@@ -31,13 +31,35 @@ describe('<Article />', () => {
     wrapper = mount(<Article {...props} />);
   });
   test('should render the <Article />', () => {
-    const renderedValue = renderer.create(<Article {...props} />).toJSON();
-    expect(renderedValue).toMatchSnapshot();
+    wrapper = shallow(<Article {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 
   test('should render <Article /> with tags', () => {
     wrapper = mount(<Article {...props} />);
     expect(wrapper.props().singleArticle.tagList).toBeDefined();
+  });
+
+  test('should render <Article /> with cover', () => {
+    const newProps = props;
+    newProps.singleArticle.cover = 'https://picsum.photos/200/300';
+    wrapper = mount(<Article {...newProps} />);
+    expect(wrapper.props().singleArticle.cover).toBeDefined();
+  });
+
+  test('should render <Article /> without cover', () => {
+    const newProps = props;
+    newProps.singleArticle.cover = undefined;
+    const articleWrapper = mount(<Article {...newProps} />);
+    expect(articleWrapper.props().singleArticle.cover).toBeUndefined();
+  });
+
+  test('should render <Article /> the Editor', () => {
+    const newProps = props;
+    newProps.article = articleDataDraft;
+    wrapper = mount(<Article {...newProps} />);
+    expect(wrapper.props().article.tagList).toBeDefined();
+    expect(wrapper.props().article.tagList).toBeDefined();
   });
 
   describe('should render different ratings', () => {
@@ -92,15 +114,6 @@ describe('<Article />', () => {
     });
   });
 
-  describe('reducers', () => {
-    test('should initialize the component state', () => {
-      const state = mapStateToProps(initialState);
-      expect(state).toHaveProperty('loading');
-      expect(state).toHaveProperty('article');
-      expect(state).toHaveProperty('submitting');
-      expect(state).toHaveProperty('currentUser');
-    });
-  });
 
   describe('actions creators', () => {
     test('should call getArticle action', () => {
@@ -177,7 +190,7 @@ describe('<Article />', () => {
       wrapper.find('button[data-value="dislike"]').simulate('click');
       expect(props.nextPath).toHaveBeenCalled();
     });
-    
+
     test('should render <Article /> with cover', () => {
       props.singleArticle.cover = 'https://picsum.photos/200/300';
       wrapper = mount(<Article {...props} />);

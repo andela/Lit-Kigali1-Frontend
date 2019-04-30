@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import { PropTypes } from 'prop-types';
 import { fetchArticles } from '../../redux/actions/articleActions';
 import ArticleCard from './ArticleCard';
-import Pagination from '../../components/common/Pagination';
+import Pagination from '../common/Pagination';
 
 export class Articles extends Component {
   componentDidMount() {
@@ -91,11 +91,15 @@ export class Articles extends Component {
 }
 
 export const mapStateToProps = ({
-  article: { loading, articlesList, submitting },
+  article: {
+    loading, articleList, submitting, page, pages,
+  },
   currentUser: { profile },
 }) => ({
   loading,
-  articles: articlesList,
+  articles: articleList,
+  page,
+  pages,
   submitting,
   currentUser: profile,
 });

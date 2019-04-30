@@ -281,6 +281,28 @@ describe('articleActions', () => {
       });
     });
 
+    test('should dispatch ratings action - FAILURE', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/rating`)
+        .reply(404, { status: 404 });
+      const expectedActions = [
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: true,
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: false,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
     test('should dispatch fetchArticles action - FAILURE', () => {
       expect.assertions(1);
       const articleSlug = 'article-slug';
@@ -424,7 +446,7 @@ describe('articleActions', () => {
         expect(actions).toEqual([]);
       });
     });
-    
+
     test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
       const articleSlug = 'mock-article-slug';
       nock(API_URL)

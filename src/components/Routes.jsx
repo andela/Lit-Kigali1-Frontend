@@ -36,7 +36,6 @@ const Routes = () => (
     <Route exact path="/articles" component={Articles} />
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
-    <Route path="*" component={ErrorPage} />
     <Route exact path="/profile" component={ProfileEdit} />
     <Route path="/error" component={ErrorPage} />
     <Route exact path="/my-articles" component={ArticlesCurrentUser} />
