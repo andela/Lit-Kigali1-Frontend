@@ -4,3 +4,4 @@ export * from './userTypes';
 export * from './signUptypes';
 export * from './loginTypes';
 export * from './articleTypes';
+export * from './commentTypes';
