@@ -7,7 +7,9 @@ import twitter from '../../assets/images/twitter.png';
 import google from '../../assets/images/google.png';
 import Button from '../common/Button/Button';
 import Input from '../common/Input/Input';
-import { loginUser, inputHandler, validateCredentials } from '../../redux/actions';
+import {
+  loginUser, inputHandler, validateCredentials, socialAuth,
+} from '../../redux/actions';
 import SocialLoginIcon from '../SocialLoginIcon';
 
 export class LoginComponent extends Component {
@@ -41,11 +43,17 @@ export class LoginComponent extends Component {
     return '';
   };
 
+  socialAuthLogin = (provider) => {
+    const { submitting, socialAuth } = this.props;
+    !submitting && socialAuth(provider);
+  };
+
   render() {
     const {
       credentials: { username, password },
       submitting,
       error: { passwordRequired, usernameRequired },
+      onFlip,
     } = this.props;
     return (
       <div>
@@ -94,21 +102,27 @@ export class LoginComponent extends Component {
           <div className="icon-group">
             <SocialLoginIcon
               id="fb"
-              href="/#"
+              onClick={() => {
+                this.socialAuthLogin('facebook');
+              }}
               icon={fb}
               alt="fb-logo"
               dataTest={{ div: 'fb-container', a: 'fb-a', img: 'fb-img' }}
             />
             <SocialLoginIcon
               id="twbs"
-              href="/#"
+              onClick={() => {
+                this.socialAuthLogin('twitter');
+              }}
               icon={twitter}
               alt="twbs-logo"
               dataTest={{ div: 'twbs-container', a: 'twbs-a', img: 'twbs-img' }}
             />
             <SocialLoginIcon
               id="gl"
-              href="/#"
+              onClick={() => {
+                this.socialAuthLogin('google');
+              }}
               icon={google}
               alt="gl-logo"
               dataTest={{ div: 'gl-container', a: 'gl-a', img: 'gl-img' }}
@@ -116,7 +130,9 @@ export class LoginComponent extends Component {
           </div>
           <div className="to-center" id="form-link">
             <span>Not a member?</span>
-            <Link to="/#">Sign Up</Link>
+            <a href="#signup" id="flip-login" onClick={onFlip}>
+              Sign Up
+            </a>
           </div>
         </form>
       </div>
@@ -133,6 +149,8 @@ LoginComponent.propTypes = {
   error: PropTypes.object,
   history: PropTypes.any.isRequired,
   isLoggedIn: PropTypes.bool,
+  socialAuth: PropTypes.func,
+  onFlip: PropTypes.func,
 };
 
 LoginComponent.defaultProps = {
@@ -158,6 +176,7 @@ export const mapDispatchToProps = dispatch => ({
   handleInput: ({ field, value }) => dispatch(inputHandler({ field, value })),
   validate: ({ username, password }) => dispatch(validateCredentials({ username, password })),
   login: ({ username, password }) => dispatch(loginUser({ username, password })),
+  socialAuth: provider => dispatch(socialAuth(provider)),
 });
 export default connect(
   mapStateToProps,

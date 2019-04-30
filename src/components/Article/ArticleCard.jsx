@@ -1,36 +1,59 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-dom';
 import { PropTypes } from 'prop-types';
 
-const ArticleCard = ({ article, classes }) => (
-  <div className={`article-card ${classes}`} key={article.slug}>
-    <div className="article-card__image" style={{ backgroundImage: `url("${article.cover}")` }} />
-    <div className="article-card__content">
-      <h3 className="article-card__content-title">
-        <a href="./articles-view.html">{article.title}</a>
-      </h3>
-      <p className="article-card__content-text">{article.body}</p>
-      <div className="article-card__content-meta">
-        <span>{article.readingTime}</span>
-        <span>
-          <i className="fa fa-eye" />
-          200
-        </span>
-        <span>
-          <i className="fa fa-thumbs-up" />
-          15k
-        </span>
+class ArticleCard extends Component {
+  navigateTo = () => {
+    const { history, url } = this.props;
+    if (history && url) {
+      history.push(url);
+    }
+  };
+
+  render() {
+    const { article, classes } = this.props;
+    return (
+      <div
+        role="presentation"
+        className={`article-card ${classes}`}
+        key={article.slug}
+        onClick={this.navigateTo}
+      >
+        <div
+          className="article-card__image"
+          style={{ backgroundImage: `url("${article.cover}")` }}
+        />
+        <div className="article-card__content">
+          <h3 className="article-card__content-title">{article.title}</h3>
+          <div className="article-card__content-text">{article.description || article.body}</div>
+          <div className="article-card__content-meta">
+            <span>{article.readingTime}</span>
+            <span>
+              <i className="fa fa-eye" />
+              200
+            </span>
+            <span>
+              <i className="fa fa-thumbs-up" />
+              15k
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 ArticleCard.propTypes = {
   article: PropTypes.object.isRequired,
   classes: PropTypes.string,
+  url: PropTypes.string,
+  history: PropTypes.object,
 };
 
 ArticleCard.defaultProps = {
   classes: '',
+  url: '',
+  history: {},
 };
 
 export default ArticleCard;

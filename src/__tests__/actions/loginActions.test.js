@@ -9,6 +9,8 @@ import {
   clearLogin,
   validateCredentials,
   loginUser,
+  socialAuthLogin,
+  socialAuth,
 } from '../../redux/actions/loginActions';
 import {
   LOGIN_FAILURE,
@@ -17,6 +19,7 @@ import {
   INPUT_VALIDATION_SUCCESS,
   CLEAR_LOGIN,
   SUBMIT_LOGIN_FORM,
+  SOCIAL_AUTH_SUBMIT,
 } from '../../redux/actions-types/loginTypes';
 import { SET_CURRENT_USER } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
@@ -88,7 +91,7 @@ describe('Login Actions', () => {
     };
     const payload = {
       response: {
-        usernameRequired: 'required',
+        message: 'All fields are required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -103,7 +106,7 @@ describe('Login Actions', () => {
     };
     const payload = {
       response: {
-        usernameRequired: 'required',
+        usernameRequired: 'Required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -118,7 +121,7 @@ describe('Login Actions', () => {
     };
     const payload = {
       response: {
-        passwordRequired: 'required',
+        passwordRequired: 'Required',
       },
     };
     return validateCredentials(credentials)(store.dispatch).then((res) => {
@@ -210,6 +213,16 @@ describe('Login Actions', () => {
       expectedAction,
     );
   });
+  it('dispatches SOCIAL_AUTH_SUBMIT action creator', () => {
+    global.open = jest.fn();
+    const expectedAction = [
+      {
+        type: SOCIAL_AUTH_SUBMIT,
+      },
+    ];
+    socialAuth('google')(store.dispatch);
+    expect(store.getActions()).toEqual(expectedAction);
+  });
 
   describe('asynchronous actions', () => {
     beforeEach(() => {
@@ -223,7 +236,7 @@ describe('Login Actions', () => {
           type: INPUT_VALIDATION_FAILURE,
           payload: {
             response: {
-              message: 'Username and password don\'t match',
+              message: "Username and password don't match",
             },
           },
         },

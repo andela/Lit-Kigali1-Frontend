@@ -29,6 +29,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="username"
         onChange={[Function]}
         placeholder="Username"
@@ -45,6 +46,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="email"
         onChange={[Function]}
         placeholder="Email"
@@ -61,6 +63,7 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       />
       <input
         className="bg-primary-light"
+        data-test=""
         name="password"
         onChange={[Function]}
         placeholder="Password"
@@ -81,26 +84,35 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
       className="icon-group"
     >
       <div
+        data-test="fb-container"
         id="fb"
+        onClick={[Function]}
       >
         <img
           alt="fb-logo"
+          data-test="fb-img"
           src="test-file-stub"
         />
       </div>
       <div
+        data-test="twbs-container"
         id="twbs"
+        onClick={[Function]}
       >
         <img
           alt="twbs-logo"
+          data-test="twbs-img"
           src="test-file-stub"
         />
       </div>
       <div
+        data-test="gl-container"
         id="gl"
+        onClick={[Function]}
       >
         <img
           alt="gl-logo"
+          data-test="gl-img"
           src="test-file-stub"
         />
       </div>
@@ -113,7 +125,9 @@ exports[`<SignUp /> should render the <SignUp /> 1`] = `
         Already a member?
       </span>
       <a
-        to="/login"
+        href="#login"
+        id="flip-signup"
+        onClick={[MockFunction]}
       >
         Sign In
       </a>

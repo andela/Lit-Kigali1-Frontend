@@ -18,9 +18,13 @@
     "errors": []
   },
   "currentUser": {
+    "message": "",
     "following": false,
+    "deletingArticle": false,
     "isLoggedIn": false,
-    "profile": {},
+    "profile": {
+      "articles": []
+    },
     "articles": [],
     "favorites": []
   },
@@ -32,7 +36,8 @@
     "email": "",
     "password": "",
     "message": "",
-    "errors": []
+    "errors": [],
+    "confirmMessage": ""
   },
   "login": {
     "submitting": false,
@@ -43,12 +48,19 @@
   },
   "article": {
     "loading": true,
+    "loadingRatings": true,
     "submitting": false,
-    "article": {
+    "success": true,
+    "singleArticle": {
       "title": "",
       "body": "",
       "tagList": []
     },
-    "articles": []
+    "createArticle": {
+      "title": "",
+      "body": "",
+      "tagList": []
+    },
+    "articlesList": []
   }
 }

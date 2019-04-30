@@ -50,7 +50,7 @@
     }
 }
 }
-#card {
+.flipBack,.flip {
   height: 528px;
   width: 457px;
   transition: transform 1s ease-in-out;
@@ -72,7 +72,9 @@
     position: absolute;
   }
 }
-
+.flip {
+  transform: rotateY(180deg);
+}
 .errors {
   color: red;
   font-size: 12px;

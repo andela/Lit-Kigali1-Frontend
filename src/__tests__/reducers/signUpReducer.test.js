@@ -5,6 +5,8 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
   SIGNUP_FORM_SUBMIT,
+  EMAIL_VERIFICATION_ERROR,
+  EMAIL_VERIFICATION_SUCCESS,
 } from '../../redux/actions-types';
 import store from '../../redux/store';
 
@@ -54,6 +56,24 @@ describe('signUpReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({ ...payload, errors: [], submitting: false });
+  });
+
+  test('should handle EMAIL_VERIFICATION_ERROR', () => {
+    const confirmMessage = {};
+    const expectedState = {
+      type: EMAIL_VERIFICATION_ERROR,
+      confirmMessage,
+    };
+    expect(reducer({}, expectedState)).toEqual({ ...confirmMessage });
+  });
+
+  test('should handle EMAIL_VERIFICATION_ERROR', () => {
+    const confirmMessage = {};
+    const expectedState = {
+      type: EMAIL_VERIFICATION_SUCCESS,
+      confirmMessage,
+    };
+    expect(reducer({}, expectedState)).toEqual({ ...confirmMessage });
   });
 
   test('should handle SIGNUP_FORM_SUBMIT', () => {

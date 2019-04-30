@@ -7,12 +7,15 @@ import {
   submitSignUpSuccess,
   submitSignUpFailure,
   submitSignUp,
+  fetchConfirmEmail,
 } from '../../redux/actions/signupActions';
 import {
   SIGNUP_FORM,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
   SIGNUP_FORM_SUBMIT,
+  EMAIL_VERIFICATION_SUCCESS,
+  EMAIL_VERIFICATION_ERROR,
 } from '../../redux/actions-types';
 
 const { API_URL = 'http://localhost:3000/api/v1' } = process.env;
@@ -116,6 +119,66 @@ describe('signUp', () => {
           },
         });
       return store.dispatch(submitSignUp(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+  });
+
+  describe('confirm emailactions', () => {
+    beforeEach(() => {
+      store = mockStore({});
+    });
+    afterEach(() => {
+      nock.cleanAll();
+    });
+    test('should dispatch fetchConfirmEmail action - SUCCESS', () => {
+      expect.assertions(1);
+      const payload = {
+        userId: 'b2d3f3d8-5893-47df-b715-6f10f451bf92',
+        resetCode: '0382040a-f609-49b6-a43a-f1878ae1b5fd',
+        newPassword: '123456',
+        confirmNewPassword: '123456',
+      };
+      nock(API_URL)
+        .get(`/users/${payload.userId}/confirm_email/${payload.confirmationCode}`)
+        .reply(201, {
+          status: 201,
+          message: 'Your email has been confirmed successfully!',
+        });
+      const expectedActions = [
+        {
+          type: EMAIL_VERIFICATION_SUCCESS,
+          payload: 'Your email has been confirmed successfully!',
+        },
+      ];
+      return store.dispatch(fetchConfirmEmail(payload)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch fetchConfirmEmail action - SUCCESS', () => {
+      expect.assertions(1);
+      const payload = {
+        userId: 'b2d3f3d8-5893-47df-b715-6f10f451bf92',
+        resetCode: '0382040a-f609-49b6-a43a-f1878ae1b5fd',
+        newPassword: '123456',
+        confirmNewPassword: '123456',
+      };
+      nock(API_URL)
+        .get(`/users/${payload.userId}/confirm_email/${payload.confirmationCode}`)
+        .reply(401, {
+          status: 401,
+          message: 'Your email is already confirmed!',
+        });
+      const expectedActions = [
+        {
+          type: EMAIL_VERIFICATION_ERROR,
+          payload: 'Your email is already confirmed!',
+        },
+      ];
+      return store.dispatch(fetchConfirmEmail(payload)).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
       });
