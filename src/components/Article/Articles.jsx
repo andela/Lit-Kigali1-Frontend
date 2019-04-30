@@ -27,7 +27,6 @@ export class Articles extends Component {
     const { filterBy, words } = this.state;
     const parsed = qs.parse(location.search);
     let url = `/articles?page=${parsed.page || 1}`;
-    console.log(parsed, 'pppp');
     if (words) {
       url = `${url}&${filterBy || 'title'}=${words}`;
     }
@@ -57,7 +56,6 @@ export class Articles extends Component {
 
   onSelectFilter = (e) => {
     const { filterBy } = e.target.dataset;
-    console.log(filterBy, 'pp');
     this.setState({ filterBy }, () => this.filterArticles());
   };
 
