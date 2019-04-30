@@ -27,10 +27,12 @@ export class ProfileEdit extends Component {
       showToast: true,
       status,
       message,
+    }, () => {
+        setTimeout(() => {
+          this.setState({ showToast: false, status: 'success', message: '' });
+        }, 5000);
     });
-    setTimeout(() => {
-      this.setState({ showToast: false, status: 'success', message: '' });
-    }, 5000);
+    
   };
 
   onImageDrop = (files) => {

@@ -17,6 +17,7 @@ const props = {
   saveData: jest.fn().mockImplementation(() => Promise.resolve({ status: 201 })),
   getUserProfile: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   handleInput: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  onImageDrop: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
 describe('<ProfileEdit />', () => {
   beforeEach(() => {
@@ -28,9 +29,15 @@ describe('<ProfileEdit />', () => {
     expect(renderedValue).toMatchSnapshot();
   });
 
-  test('should call On image drop', () => {
-    const files = ['http://placehold.it/32x32', 'asdfasd'];
-    expect(wrapper.instance().onImageDrop(files)).toBe(undefined);
+  test('should call On image drop', (done) => {
+    const files = [
+      'https://cdn.pixabay.com/photo/2015/03/26/09/41/chain-690088_1280.jpg',
+      'asdfasd',
+      'http://placehold.it/32x32',
+      'asdfasd',
+    ];
+    wrapper.instance().onImageDrop(files);
+    done();
   });
 
   test('should handle input', () => {
