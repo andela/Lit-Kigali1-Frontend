@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-dom';
 import { PropTypes } from 'prop-types';
 
 class ArticleCard extends Component {
