@@ -86,7 +86,7 @@ describe('currentUserReducer', () => {
       reducer(
         {
           ...initialState,
-          profile: { articles: [{ slug: 'article-slug' }], username: '' },
+          profile: { articles: [{ slug: 'article-slug' }] },
         },
         expectedState,
       ),

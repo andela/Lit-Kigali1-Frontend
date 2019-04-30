@@ -9,14 +9,22 @@ import Pagination from '../../components/common/Pagination';
 export class Articles extends Component {
   componentDidMount() {
     const { getArticles } = this.props;
-    const parsed = queryString.parse(this.props.location.search);
-    getArticles({ page: parsed.page });
+    getArticles();
   }
 
+  renderArticles = () => {
+    const { articles, history } = this.props;
+    return articles.map(article => (
+      <ArticleCard
+        history={history}
+        url={`/articles/${article.slug}`}
+        key={article.slug}
+        article={article}
+      />
+    ));
+  };
+
   render() {
-    const {
-      articles, history, page, pages,
-    } = this.props;
     return (
       <section className="main-content">
         <div className="container">
@@ -53,6 +61,24 @@ export class Articles extends Component {
                 />
               ))}
               <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
+              {this.renderArticles()}
+              <div className="pagination">
+                <span>First</span>
+                <span>
+                  <i className="fa fa-angle-left" />
+                </span>
+                <ul className="pages">
+                  <li className="page current">1</li>
+                  <li className="page">2</li>
+                  <li className="page">3</li>
+                  <li className="page">4</li>
+                  <li className="page">5</li>
+                </ul>
+                <span>
+                  <i className="fa fa-angle-right" />
+                </span>
+                <span>Last</span>
+              </div>
             </div>
           </div>
         </div>
@@ -65,21 +91,17 @@ export class Articles extends Component {
 }
 
 export const mapStateToProps = ({
-  article: {
-    loading, articles, submitting, page, pages,
-  },
+  article: { loading, articlesList, submitting },
   currentUser: { profile },
 }) => ({
   loading,
-  articles,
-  page,
-  pages,
+  articles: articlesList,
   submitting,
   currentUser: profile,
 });
 
 export const mapDispatchToProps = dispatch => ({
-  getArticles: payload => dispatch(fetchArticles(payload)),
+  getArticles: () => dispatch(fetchArticles()),
 });
 
 Articles.propTypes = {

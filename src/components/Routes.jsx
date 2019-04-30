@@ -15,6 +15,8 @@ import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
 import ProfileEdit from './Profile/ProfileEdit';
 import ArticleCreate from './Article/ArticleCreate';
+import Articles from './Article/Articles';
+import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 
 const Routes = () => (
   <Switch>
@@ -28,6 +30,7 @@ const Routes = () => (
       path="/users/:userId/confirm_email/:confirmationCode"
       component={ConfirmedEmailMessage}
     />
+    <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/articles/:articleSlug" component={Article} />
@@ -38,6 +41,9 @@ const Routes = () => (
     <Route path="*" component={ErrorPage} />
     <Route exact path="/profile" component={ProfileEdit} />
     <Route path="/error" component={ErrorPage} />
+    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
+    <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
+    <Route path="*" component={ErrorPage} />
   </Switch>
 );
 
