@@ -7,16 +7,14 @@ import ForgotPasswordMessage from './ForgotPassword/ForgotPasswordMessage';
 import Auth from './Auth';
 import ConfirmedEmailMessage from './Auth/ConfirmedEmailMessage';
 import ProfileView from './Profile/ProfileView';
-<<<<<<< HEAD
 import ErrorPage from './common/ErrorPage/ErrorPage';
 import Article from './Article/Article';
 import Ratings from './Rating/Ratings';
 import Articles from './Article/Articles';
 import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
-=======
 import ArticleCreate from './Article/ArticleCreate';
->>>>>>> feat: add ArticleCreate component
+import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 
 const Routes = () => (
   <Switch>
@@ -30,19 +28,18 @@ const Routes = () => (
       path="/users/:userId/confirm_email/:confirmationCode"
       component={ConfirmedEmailMessage}
     />
+    <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/profiles/:username" component={ProfileView} />
-<<<<<<< HEAD
     <Route exact path="/articles/:articleSlug" component={Article} />
     <Route exact path="/articles/:articleSlug/ratings" component={Ratings} />
     <Route exact path="/articles" component={Articles} />
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
     <Route path="*" component={ErrorPage} />
+    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
+    <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
+    <Route path="*" component={ErrorPage} />
   </Switch>
-=======
-    <Route exact path="/articles/create" component={ArticleCreate} />
-  </div>
->>>>>>> feat: add ArticleCreate component
 );
 
 export default Routes;

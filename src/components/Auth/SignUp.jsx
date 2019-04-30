@@ -90,7 +90,11 @@ export class SignUp extends Component {
 
   render() {
     const {
-      username, password, email, submitting, onFlip,
+      username,
+      password,
+      email,
+      submitting,
+      onFlip,
     } = this.props;
     const {
       emailError,

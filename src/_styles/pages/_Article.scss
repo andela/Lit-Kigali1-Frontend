@@ -45,7 +45,11 @@
 }
 .article-date {
   margin: 20px 0;
+<<<<<<< HEAD
   font-size: 0.8rem;
+=======
+  font-size: 0.6rem;
+>>>>>>> feat(article) CRUD article
   color: rgba(0, 0, 0, 0.3);
 }
 .article-side-actions {
@@ -63,6 +67,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+<<<<<<< HEAD
   .article-icon-right {
     font-size: 1.3rem;
     white-space: nowrap;
@@ -81,6 +86,8 @@
       margin-top: 1.5rem;
     }
   }
+=======
+>>>>>>> feat(article) CRUD article
   button {
     background-color: transparent;
   }
@@ -116,6 +123,10 @@
   }
 }
 .article-share {
+<<<<<<< HEAD
+=======
+  margin: 10px 0;
+>>>>>>> feat(article) CRUD article
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -125,10 +136,13 @@
   padding-right: 20px;
   button {
     background-color: transparent;
+<<<<<<< HEAD
     font-size: 1rem;
     i {
       color: #717171;
     }
+=======
+>>>>>>> feat(article) CRUD article
   }
 }
 .tagged {
@@ -137,11 +151,18 @@
   float: left;
   border-radius: 5px;
   color: grey;
+<<<<<<< HEAD
   font-size: 1rem;
   background: #e8eaf6;
   padding: 5px 10px;
   margin: 4px;
   font-family: 'Roboto-Light';
+=======
+  font-size: 10px;
+  background: #e8eaf6;
+  padding: 4px 7px;
+  margin: 4px;
+>>>>>>> feat(article) CRUD article
 }
 .tagged:hover {
   color: #e8eaf6;
@@ -150,7 +171,10 @@
 @media screen and (max-width: $tablet-width) {
   .article-side-actions {
     position: static;
+<<<<<<< HEAD
     display: flex;
+=======
+>>>>>>> feat(article) CRUD article
     flex-direction: row;
     align-content: center;
     height: auto;
@@ -161,6 +185,7 @@
     span {
       white-space: nowrap;
       margin-right: 30px;
+<<<<<<< HEAD
       margin-top: 20px;
     }
     .article-icon-right {
@@ -168,6 +193,14 @@
     }
     * {
       margin-right: 10px;
+=======
+    }
+    .article-icon {
+      margin-top: 0;
+    }
+    * {
+      margin-right: 20px;
+>>>>>>> feat(article) CRUD article
       display: inline-flex;
       align-items: center;
       i {
@@ -175,7 +208,11 @@
       }
     }
     button:nth-child(4) {
+<<<<<<< HEAD
       margin-top: -2px;
+=======
+      margin-top: -5px;
+>>>>>>> feat(article) CRUD article
       margin-right: 10px;
     }
     button:nth-child(5) {

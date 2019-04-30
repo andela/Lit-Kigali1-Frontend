@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Input = ({
-  type, classes, onChange, placeholder, value, name,
+  type,
+  classes,
+  onChange,
+  placeholder,
+  value,
+  name,
+  dataTest,
 }) => (
   <input
     name={name}
@@ -11,6 +17,7 @@ const Input = ({
     className={classes}
     onChange={onChange}
     placeholder={placeholder}
+    data-test={dataTest}
   />
 );
 
@@ -21,6 +28,7 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string,
+  dataTest: PropTypes.string,
 };
 
 Input.defaultProps = {
@@ -29,6 +37,7 @@ Input.defaultProps = {
   classes: 'input',
   placeholder: '',
   value: '',
+  dataTest: '',
 };
 
 export default Input;

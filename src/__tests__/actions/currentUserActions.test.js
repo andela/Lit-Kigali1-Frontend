@@ -1,4 +1,4 @@
-import configureStore from 'redux-mock-store'; // ES6 modules
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import 'isomorphic-fetch';
@@ -235,15 +235,19 @@ describe('currentUserActions', () => {
         });
       const expectedActions = [
         {
-          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          type: 'SET_CURRENT_USER_DELETING_ARTICLE',
           payload: true,
         },
         {
-          type: DELETE_CURRENT_USER_ARTICLE,
-          payload,
+          type: 'DELETE_CURRENT_USER_ARTICLE',
+          payload:
+        {
+          articleSlug: 'article-slug',
+          message: 'Article deleted successfully',
+        },
         },
         {
-          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          type: 'SET_CURRENT_USER_DELETING_ARTICLE',
           payload: false,
         },
       ];
