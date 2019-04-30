@@ -221,7 +221,6 @@ describe('<Article />', () => {
       mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
       expect(dispatch).toHaveBeenCalled();
     });
-
     test('should call likeArticle action', () => {
       const articleSlug = 'article-slug';
       const dispatch = jest.fn();

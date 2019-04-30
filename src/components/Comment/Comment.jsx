@@ -16,13 +16,13 @@ export class Comment extends Component {
   addComment = () => {
     const { body, articleSlug, onSubmitComment } = this.props;
     onSubmitComment(body, articleSlug);
-  }
+  };
 
   onChange = (e) => {
     const { onCommentInput } = this.props;
     onCommentInput({ body: e.target.value });
     e.preventDefault();
-  }
+  };
 
   displayComments = () => {
     const {
@@ -50,22 +50,20 @@ export class Comment extends Component {
       );
     }
     const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    return (
-      newList.map(comment => (
-        <CommentRender
-          commentList={commentList}
-          currentUser={currentUser}
-          onDeleteComment={onDeleteComment}
-          articleSlug={articleSlug}
-          comment={comment}
-          key={comment.id}
-          enterPress={this.onEnterPress}
-          updateComment={this.onEditComment}
-          inputHandler={onUpdateCommentInput}
-        />
-      ))
-    );
-  }
+    return newList.map(comment => (
+      <CommentRender
+        commentList={commentList}
+        currentUser={currentUser}
+        onDeleteComment={onDeleteComment}
+        articleSlug={articleSlug}
+        comment={comment}
+        key={comment.id}
+        enterPress={this.onEnterPress}
+        updateComment={this.onEditComment}
+        inputHandler={onUpdateCommentInput}
+      />
+    ));
+  };
 
   onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -82,12 +80,12 @@ export class Comment extends Component {
       func(id);
       e.preventDefault();
     }
-  }
+  };
 
   onEditComment = (id) => {
     const { articleSlug, updateBody, onUpdateComment } = this.props;
     onUpdateComment(id, articleSlug, updateBody);
-  }
+  };
 
   render() {
     const { body } = this.props;
@@ -135,15 +133,9 @@ Comment.defaultProps = {
 
 export const mapStateToProps = ({
   comment: {
-    body,
-    commentList,
-    updateBody,
-    fetching,
+    body, commentList, updateBody, fetching,
   },
-  currentUser: {
-    profile,
-    isLoggedIn,
-  },
+  currentUser: { profile, isLoggedIn },
 }) => ({
   body,
   currentUser: profile,

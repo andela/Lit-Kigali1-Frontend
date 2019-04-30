@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Textarea from 'react-textarea-autosize';
 import { connect } from 'react-redux';
@@ -11,7 +12,51 @@ export class CommentRender extends React.Component {
     isEdit: false,
   };
 
-  commentForm = (id) => {
+  commentBox = () => {
+    const { isEdit } = this.state;
+    const {
+      comment, currentUser, onDeleteComment, articleSlug,
+    } = this.props;
+    return (
+      <div key={comment.id} className="comment-box">
+        <div className="comment-header">
+          <Link className="author-name" to={`../profiles/${comment.author.username}`}>
+            <img
+              src={comment.author.image ? comment.author.image : avatar}
+              alt=""
+              className="profile-avatar"
+            />
+            {comment.author.username}
+          </Link>
+          {comment.userId === currentUser.id && (
+            <span className="control-btn">
+              <Button
+                classes="my-article-delete"
+                onClick={() => onDeleteComment(comment.id, articleSlug)}
+              >
+                <i className="fa fa-trash" />
+              </Button>
+              <Button classes="my-comment-update" onClick={() => this.onEditComment(comment.body)}>
+                <i className="fa fa-edit" />
+              </Button>
+            </span>
+          )}
+        </div>
+        <div
+          onDoubleClick={() => comment.userId === currentUser.id && this.onEditComment(comment.body)
+          }
+        >
+          {isEdit ? this.commentForm(comment.body, comment.id) : comment.body}
+          <span className="comment-time">
+            {comment.version === 'edited' && ` (${comment.version})`}
+          </span>
+        </div>
+        <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
+      </div>
+    );
+  };
+
+  commentForm = (oldBody, id) => {
     const { updateComment, enterPress, updateBody } = this.props;
     return (
       <form>
@@ -20,7 +65,10 @@ export class CommentRender extends React.Component {
           placeholder="Update your comment..."
           type="text"
           value={updateBody}
-          onKeyDown={(e) => { enterPress(e, updateComment, id); this.closeCommentInput(e); }}
+          onKeyDown={(e) => {
+            enterPress(e, updateComment, id);
+            this.closeCommentInput(e);
+          }}
           onBlur={this.onFocusOut}
           onChange={this.onChange}
           autoFocus
@@ -35,13 +83,13 @@ export class CommentRender extends React.Component {
       isEdit: true,
     });
     inputHandler(body);
-  }
+  };
 
   onFocusOut = () => {
     this.setState({
       isEdit: false,
     });
-  }
+  };
 
   closeCommentInput = (e) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -52,55 +100,57 @@ export class CommentRender extends React.Component {
       this.onFocusOut();
       e.preventDefault();
     }
-  }
+  };
 
   onChange = (e) => {
     const { inputHandler } = this.props;
     inputHandler(e.target.value);
-  }
+  };
 
   render() {
     const { isEdit } = this.state;
     const {
-      comment,
-      currentUser,
-      onDeleteComment,
-      articleSlug,
+      comment, currentUser, onDeleteComment, articleSlug,
     } = this.props;
     return (
       <div key={comment.id} className="comment-box">
         <div className="comment-header">
           <a className="author-name" href={`../profiles/${comment.author.username}`}>
-            <img src={comment.author.image ? comment.author.image : avatar} alt="" className="profile-avatar" />
+            <img
+              src={comment.author.image ? comment.author.image : avatar}
+              alt=""
+              className="profile-avatar"
+            />
             {comment.author.username}
           </a>
-          {(comment.userId === currentUser.id) && (
-          <span className="control-btn">
-            <Button
-              classes="my-article-delete"
-              data-el="delete-btn"
-              onClick={() => onDeleteComment(comment.id, articleSlug)}
-            >
-              <i className="fa fa-trash" />
-            </Button>
-            <Button
-              data-el="edit-btn"
-              classes="my-comment-update"
-              onClick={() => this.onEditComment(comment.body)}
-            >
-              <i className="fa fa-edit" />
-            </Button>
-          </span>
+          {comment.userId === currentUser.id && (
+            <span className="control-btn">
+              <Button
+                classes="my-article-delete"
+                data-el="delete-btn"
+                onClick={() => onDeleteComment(comment.id, articleSlug)}
+              >
+                <i className="fa fa-trash" />
+              </Button>
+              <Button
+                data-el="edit-btn"
+                classes="my-comment-update"
+                onClick={() => this.onEditComment(comment.body)}
+              >
+                <i className="fa fa-edit" />
+              </Button>
+            </span>
           )}
         </div>
         <div
-          onDoubleClick={
-          () => comment.userId === currentUser.id && this.onEditComment(comment.body)
+          onDoubleClick={() => comment.userId === currentUser.id && this.onEditComment(comment.body)
           }
           data-el="comment-container"
         >
-          { isEdit ? this.commentForm(comment.id) : comment.body }
-          <span className="comment-time">{comment.version === 'edited' && ` (${comment.version})`}</span>
+          {isEdit ? this.commentForm(comment.id) : comment.body}
+          <span className="comment-time">
+            {comment.version === 'edited' && ` (${comment.version})`}
+          </span>
         </div>
         <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
       </div>
@@ -119,9 +169,7 @@ CommentRender.propTypes = {
   updateBody: PropTypes.string.isRequired,
 };
 
-export const mapStateToProps = ({
-  comment: { updateBody },
-}) => ({
+export const mapStateToProps = ({ comment: { updateBody } }) => ({
   updateBody,
 });
 

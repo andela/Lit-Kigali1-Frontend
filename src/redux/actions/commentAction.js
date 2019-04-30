@@ -103,11 +103,12 @@ export const deleteComment = (id, articleSlug) => (dispatch) => {
   dispatch(deletingComment());
   return fetchAPI(`/articles/${articleSlug}/comments/${id}`, {
     method: 'DELETE',
-  }).then((data) => {
-    dispatch(deleteCommentSuccess(data));
-    dispatch(fetchAllComments(articleSlug));
-    return data;
   })
+    .then((data) => {
+      dispatch(deleteCommentSuccess(data));
+      dispatch(fetchAllComments(articleSlug));
+      return data;
+    })
     .catch((err) => {
       dispatch(deleteCommentFailure(err));
       return err;
