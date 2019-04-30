@@ -241,7 +241,7 @@ export const updateArticle = (slug, article) => (dispatch) => {
       article,
     },
   })
-  .then((data) => {
+    .then((data) => {
       dispatch(submitArticleFormSuccess(data));
       return data;
     })

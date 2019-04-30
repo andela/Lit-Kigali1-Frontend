@@ -88,6 +88,39 @@ export class Comment extends Component {
     }
   };
 
+  commentForm = () => {
+    const { body } = this.props;
+    return (
+      <form>
+        <Textarea
+          className="comment-textarea new"
+          placeholder="Add your comment..."
+          type="text"
+          value={body}
+          onChange={this.onChange}
+          onKeyDown={e => this.onEnterPress(e, this.addComment)}
+        />
+      </form>
+    );
+  };
+
+  onEnterPress = (e, func, id) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      if (!e.target.value.trim()) {
+        e.preventDefault();
+        return;
+      }
+      const { isLoggedIn, history } = this.props;
+      if (!isLoggedIn) {
+        e.preventDefault();
+        history.push('/auth');
+        return;
+      }
+      func(id);
+      e.preventDefault();
+    }
+  };
+
   onEditComment = (id) => {
     const { articleSlug, updateBody, onUpdateComment } = this.props;
     onUpdateComment(id, articleSlug, updateBody);

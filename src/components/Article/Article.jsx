@@ -210,7 +210,7 @@ export class Article extends Component {
                     data-name="rate-btn"
                     className={`article-icon-right hover-primary margin-top ${
                       singleArticle.rated ? 'rated' : ''
-                      }`}
+                    }`}
                     role="presentation"
                     data-url={`/articles/${singleArticle.slug}/ratings`}
                     onClick={this.navigateToRatings}
