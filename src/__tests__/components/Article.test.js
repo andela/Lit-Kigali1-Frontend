@@ -4,10 +4,30 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import Article, { mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
-import { articleDataDraft } from '../../__mocks__/dummyData';
+import { articleDataDraft, articleData } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
+const props = {
+  loading: true,
+  singleArticle: articleData,
+  article: articleData,
+  currentUser: {
+    username: 'username',
+  },
+  getArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  rateArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  onLikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  onDislikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  nextPath: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  match: {
+    params: {
+      articleSlug: 'article-slug',
+    },
+  },
+  history: { push: jest.fn() },
+  isLoggedIn: true,
+};
 
 const mockStore = configureMockStore([thunk]);
 let store = mockStore(initialState);
@@ -218,6 +238,14 @@ describe('<Article />', () => {
     test('should dislike an article', () => {
       wrapper.find('Article').find('button[data-value="dislike"]').simulate('click');
       expect(wrapper.find('Article').props().nextPath).toBeDefined();
+    });
+
+    test('should call navigateToArticles instance function', () => {
+      wrapper
+        .find('span[className="tagged"]')
+        .at(1)
+        .simulate('click');
+      expect(props.history.push).toHaveBeenCalled();
     });
   });
 });
