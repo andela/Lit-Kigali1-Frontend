@@ -7,6 +7,7 @@ import ArticleCard from './ArticleCard';
 import SearchInput from '../common/Input/SearchInput';
 import Pagination from '../../components/common/Pagination';
 
+const allowedParams = ['title', 'author', 'tag'];
 export class Articles extends Component {
   state = {
     filterBy: '',
@@ -16,10 +17,9 @@ export class Articles extends Component {
   componentDidMount() {
     const { location } = this.props;
     const obj = qs.parse(location.search);
-    const filterBy = Object.keys(obj)[1];
-    const words = obj[Object.keys(obj)[1]];
-    this.setState({ words, filterBy });
-    this.filterArticles();
+    const filterBy = Object.keys(obj).find(val => allowedParams.indexOf(val) !== -1);
+    const words = obj[filterBy] || '';
+    this.setState({ words, filterBy }, () => this.filterArticles());
   }
 
   redirectTo = () => {
@@ -27,6 +27,7 @@ export class Articles extends Component {
     const { filterBy, words } = this.state;
     const parsed = qs.parse(location.search);
     let url = `/articles?page=${parsed.page || 1}`;
+    console.log(parsed, 'pppp');
     if (words) {
       url = `${url}&${filterBy || 'title'}=${words}`;
     }
