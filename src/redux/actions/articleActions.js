@@ -1,5 +1,6 @@
 import * as articleTypes from '../actions-types/articleTypes';
 import fetchAPI from '../../helpers/fetchAPI';
+import { fetchAllComments } from './commentAction';
 
 export const clearArticleForm = () => ({
   type: articleTypes.CLEAR_ARTICLE_FORM,
@@ -69,19 +70,6 @@ export const fetchingArticleFailure = payload => ({
   payload,
 });
 
-export const fetchArticle = slug => (dispatch) => {
-  dispatch(fetchingArticle(true));
-  return fetchAPI(`/articles/${slug}`)
-    .then((data) => {
-      dispatch(fetchingArticleSuccess(data.article));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(fetchingArticleFailure(err.message));
-      return err;
-    });
-};
-
 export const setLikes = payload => ({
   type: articleTypes.SET_LIKES,
   payload,
@@ -103,6 +91,22 @@ export const fetchDislikes = articleSlug => dispatch => fetchAPI(`/articles/${ar
     dispatch(setDislikes(data));
   })
   .catch(err => err);
+
+export const fetchArticle = slug => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI(`/articles/${slug}`)
+    .then((data) => {
+      dispatch(fetchingArticleSuccess(data.article));
+      dispatch(fetchLikes(data.article.slug));
+      dispatch(fetchDislikes(data.article.slug));
+      dispatch(fetchAllComments(slug));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingArticleFailure(err.message));
+      return err;
+    });
+};
 
 export const fetchingAllArticleSuccess = payload => ({
   type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,

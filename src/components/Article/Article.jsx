@@ -12,6 +12,7 @@ import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRender
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
+import Comment from '../Comment/Comment';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
@@ -159,7 +160,11 @@ export class Article extends Component {
 
   render() {
     const {
-      singleArticle, liked, disliked, likeCount, dislikeCount,
+      singleArticle,
+      liked, disliked,
+      likeCount,
+      dislikeCount,
+      history,
     } = this.props;
     return (
       <section className="main-content">
@@ -289,6 +294,7 @@ export class Article extends Component {
             </div>
             {this.renderTags()}
           </div>
+          <Comment articleSlug={singleArticle.slug} history={history} />
         </div>
         <a className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
@@ -326,10 +332,10 @@ export const mapDispatchToProps = dispatch => ({
 
 Article.propTypes = {
   singleArticle: PropTypes.object,
-  match: PropTypes.any.isRequired,
+  match: PropTypes.any,
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
   liked: PropTypes.bool,
   disliked: PropTypes.bool,
   likeCount: PropTypes.number,
@@ -346,6 +352,8 @@ Article.defaultProps = {
   disliked: false,
   likeCount: 0,
   dislikeCount: 0,
+  match: { params: {} },
+  history: { push: () => '' },
 };
 
 export default connect(
