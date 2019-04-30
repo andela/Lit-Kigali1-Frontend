@@ -228,5 +228,15 @@ describe('<Login />', () => {
       expect(errorContainer.length).toEqual(1);
       expect(errorContainer.text()).toEqual('');
     });
+
+    test('should call handleError and redirect to `/`', () => {
+      const isLoggedIn = true;
+      const dataTestValue = 'form-errors';
+      const newProps = { ...props, nextPath: '/' };
+      const component = shallow(<Login {...newProps} isLoggedIn={isLoggedIn} />);
+      const errorContainer = component.find(`[data-test='${dataTestValue}']`);
+      expect(errorContainer.length).toEqual(1);
+      expect(errorContainer.text()).toEqual('');
+    });
   });
 });

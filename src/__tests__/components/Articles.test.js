@@ -1,11 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import {
-  Articles,
-  mapStateToProps,
-  mapDispatchToProps
-} from '../../components/Article/Articles';
+import { Articles, mapStateToProps, mapDispatchToProps } from '../../components/Article/Articles';
 import { articleData } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState';
 
@@ -14,20 +10,18 @@ const props = {
   loading: true,
   articles: [articleData],
   currentUser: {
-    username: 'username'
+    username: 'username',
   },
-  getArticles: jest
-    .fn()
-    .mockImplementation(() => Promise.resolve({ status: 200 })),
+  getArticles: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   match: {
     params: {
-      articleSlug: 'article-slug'
-    }
+      articleSlug: 'article-slug',
+    },
   },
   history: { push: jest.fn() },
   location: {
-    search: '?page=1'
-  }
+    search: '?page=1',
+  },
 };
 
 describe('<Articles />', () => {
@@ -81,9 +75,15 @@ describe('<Articles />', () => {
   });
 
   describe('actions creators', () => {
-    test('should call getArticle action', () => {
+    test('should call getArticles action without arguments', () => {
       const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).getArticles(1);
+      mapDispatchToProps(dispatch).getArticles();
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call getArticles action', () => {
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).getArticles({ page: 1 });
       expect(dispatch).toHaveBeenCalled();
     });
   });

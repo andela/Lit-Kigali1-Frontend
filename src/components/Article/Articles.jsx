@@ -9,25 +9,26 @@ import Pagination from '../../components/common/Pagination';
 
 export class Articles extends Component {
   state = {
-    filterBy: 'title',
+    filterBy: '',
     words: '',
   };
 
   componentDidMount() {
     const { location } = this.props;
     const obj = qs.parse(location.search);
-    const filterBy = Object.keys(obj)[0];
-    const words = obj[Object.keys(obj)[0]];
+    const filterBy = Object.keys(obj)[1];
+    const words = obj[Object.keys(obj)[1]];
     this.setState({ words, filterBy });
     this.filterArticles();
   }
 
   redirectTo = () => {
-    const { history } = this.props;
+    const { history, location } = this.props;
     const { filterBy, words } = this.state;
-    let url = '/articles';
+    const parsed = qs.parse(location.search);
+    let url = `/articles?page=${parsed.page || 1}`;
     if (words) {
-      url = `${url}/?${filterBy || 'title'}=${words}`;
+      url = `${url}&${filterBy || 'title'}=${words}`;
     }
     history.push(url);
   };
@@ -55,6 +56,7 @@ export class Articles extends Component {
 
   onSelectFilter = (e) => {
     const { filterBy } = e.target.dataset;
+    console.log(filterBy, 'pp');
     this.setState({ filterBy }, () => this.filterArticles());
   };
 
@@ -133,6 +135,8 @@ export const mapStateToProps = ({
   currentUser: { profile },
 }) => ({
   loading,
+  page,
+  pages,
   articles: articlesList,
   submitting,
   currentUser: profile,

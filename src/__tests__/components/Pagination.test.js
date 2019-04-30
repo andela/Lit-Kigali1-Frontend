@@ -46,6 +46,12 @@ describe('<Pagination />', () => {
     wrapper = mount(<Pagination {...props} />);
     expect(wrapper.props().currentPage).toEqual(11);
   });
+
+  test('should render the <Pagination />', () => {
+    props = { ...props, totalPages: 4 };
+    wrapper = mount(<Pagination {...props} />);
+    expect(wrapper.props().totalPages).toEqual(4);
+  });
 });
 
 describe('when clicking on navigate button', () => {

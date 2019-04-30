@@ -96,6 +96,15 @@ describe('articleActions', () => {
       };
       expect(articleActions.setDislikes(payload)).toEqual(expectedAction);
     });
+
+    test('should dispatch `SET_ARTICLE_EDITOR`', () => {
+      const payload = 'EDITOR';
+      const expectedAction = {
+        type: articleTypes.SET_ARTICLE_EDITOR,
+        payload,
+      };
+      expect(articleActions.updateEditorState(payload)).toEqual(expectedAction);
+    });
   });
 
   describe('asynchronous actions', () => {
