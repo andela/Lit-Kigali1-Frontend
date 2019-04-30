@@ -293,7 +293,7 @@ export class Article extends Component {
             {this.renderTags()}
           </div>
         </div>
-        <a className="go-top-btn" href="/#">
+        <a className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
         </a>
       </section>
