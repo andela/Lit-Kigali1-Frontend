@@ -7,6 +7,7 @@ const props = {
     search: '?token=jfmvnvvmvmvncvmcmnvcmmvm',
   },
   getCurrentUser: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  getArticles: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
 
 describe('<Home />', () => {
@@ -19,6 +20,12 @@ describe('<Home />', () => {
     test('should call getCurrentUser action', () => {
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).getCurrentUser();
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call getArticles action', () => {
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).getArticles();
       expect(dispatch).toHaveBeenCalled();
     });
   });

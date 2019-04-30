@@ -169,6 +169,24 @@ const articleReducer = (state = initialState, { type, payload }) => {
         ...state,
         payload,
       };
+    case articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS:
+      return {
+        ...state,
+        feed: {
+          ...payload,
+          articles: [...state.feed.articles, ...payload.articles],
+        },
+        loading: false,
+        success: true,
+      };
+    case articleTypes.FETCHING_ALL_ARTICLE_HOME_FAILURE:
+      return {
+        ...state,
+        feed: initialState.feed,
+        loading: false,
+        success: false,
+        message: payload,
+      };
     default:
       return state;
   }

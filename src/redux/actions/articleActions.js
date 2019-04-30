@@ -241,12 +241,36 @@ export const updateArticle = (slug, article) => (dispatch) => {
       article,
     },
   })
-    .then((data) => {
+  .then((data) => {
       dispatch(submitArticleFormSuccess(data));
       return data;
     })
     .catch((err) => {
       dispatch(submitArticleFormFailure(err.message));
+      return err;
+    });
+};
+
+export const fetchingAllArticleHomeSuccess = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS,
+  payload,
+});
+
+export const fetchingAllArticleHomeFailure = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_HOME_FAILURE,
+  payload,
+});
+
+export const fetchArticlesHome = ({ page } = {}) => (dispatch) => {
+  dispatch(fetchingArticle(true));
+
+  return fetchAPI(`/articles?page=${page}`)
+    .then((data) => {
+      dispatch(fetchingAllArticleHomeSuccess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingAllArticleHomeFailure(err.message));
       return err;
     });
 };

@@ -1,49 +1,172 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
+import { Slide } from 'react-slideshow-image';
 import { fetchCurrentUser } from '../../redux/actions/currentUserActions';
+import ArticleCard from '../Article/ArticleCard';
+import { fetchArticlesHome } from '../../redux/actions/articleActions';
 
+const defaultImage = 'https://picsum.photos/200/300?grayscale';
+const slideProperties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  arrows: true,
+};
 export class Home extends Component {
+  state = {
+    page: 1,
+  };
+
   componentWillMount() {
-    const { getCurrentUser, location } = this.props;
+    const {
+      location,
+      feed: { page, pages },
+    } = this.props;
     const parsed = queryString.parse(location.search);
+    const { getCurrentUser } = this.props;
 
     if (parsed.token) {
       localStorage.setItem('token', parsed.token);
       window.location.href = '/';
     }
     getCurrentUser();
+    this.getAllArticles();
+
+    window.onscroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop
+        === document.documentElement.offsetHeight
+      ) {
+        if (pages > page) {
+          this.setState({ page: page + 1 }, () => this.getAllArticles());
+          console.log('Nooo');
+        }
+        console.log('olivier');
+      }
+    };
   }
+
+  getAllArticles = () => {
+    const { page } = this.state;
+    const { getArticles } = this.props;
+    getArticles({ page });
+  };
+
+  renderSlideShow = () => {
+    const {
+      feed: { articles },
+    } = this.props;
+    const articlesList = articles.slice(0, 5);
+    // const defaultStyles = {
+    //   background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    // url('${articles[0] ? articles[0].cover || defaultImage : defaultImage}');`,
+    // };
+    return (
+      <Slide {...slideProperties}>
+        {articlesList.map(feed => (
+          <div key={feed.slug} className="slide-block">
+            <div
+              style={{
+                background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${feed.cover
+                  || defaultImage}")`,
+              }}
+            >
+              <h1>{feed.title}</h1>
+              <span className="author">{`${feed.author.firstName} ${feed.author.lastName}`}</span>
+              <span className="views">
+                {feed.viewsCount}
+                <i className="fa fa-eye" />
+              </span>
+              <span>{feed.readingTime}</span>
+            </div>
+          </div>
+        ))}
+      </Slide>
+    );
+    return (
+      <div className="slide-area">
+        <div className="slides">
+          {articlesList.map(feed => (
+            <div key={feed.slug} className="slide-block content-center">
+              <img src={feed.cover || defaultImage} alt="" className="slide-image" />
+              <div className="centered is-column">
+                <h1>{feed.title}</h1>
+                <div className="viewed-content is-row">
+                  <span>{feed.viewsCount}</span>
+                  <i className="fa fa-eye" />
+                </div>
+                <p>{feed.readingTime}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  renderArticles = () => {
+    const {
+      feed: { articles },
+      history,
+    } = this.props;
+    return articles.map(article => (
+      <div className="col-6" key={article.slug}>
+        <ArticleCard
+          className="medium"
+          history={history}
+          url={`/articles/${article.slug}`}
+          article={article}
+        />
+      </div>
+    ));
+  };
 
   render() {
     return (
-      <div className="main-content">
-        <div className="container is-column content-center">
-          <h1 style={{ background: 'gray', color: 'white' }}>Home Component</h1>
-          <div className="align-center color-primary">
-            <Link className="title-1 color-primary" to="/profiles/olivier">
-              Go to -&gt;
-              <span className="color-green">Profile</span>
-            </Link>
-          </div>
+      <section className="main-content">
+        {this.renderSlideShow()}
+        <div styles={{ clear: 'both;' }} />
+        <div className="container">
+          <div className="main-article-container row">{this.renderArticles()}</div>
         </div>
-      </div>
+        <a className="go-top-btn content-center" href="#">
+          <i className="fa fa-angle-up" />
+        </a>
+      </section>
     );
   }
 }
 
+export const mapStateToProps = ({ article: { feed } }) => ({
+  feed,
+});
+
 export const mapDispatchToProps = dispatch => ({
   getCurrentUser: () => dispatch(fetchCurrentUser()),
+  getArticles: payload => dispatch(fetchArticlesHome(payload)),
 });
 
 Home.propTypes = {
+  feed: PropTypes.object,
   getCurrentUser: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  getArticles: PropTypes.func.isRequired,
+  history: PropTypes.object,
+};
+
+Home.defaultProps = {
+  feed: {
+    page: 1,
+    pages: 1,
+    articles: [],
+  },
+  history: {},
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Home);
