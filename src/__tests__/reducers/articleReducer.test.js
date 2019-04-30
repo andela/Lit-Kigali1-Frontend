@@ -106,13 +106,15 @@ describe('articleReducer', () => {
   });
 
   it('should handle `FETCHING_ALL_ARTICLE_SUCCESS`', () => {
-    const payload = [articleData];
+    const articles = [articleData];
     const expectedState = {
       type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
-      payload,
+      payload: {
+        articles,
+      },
     };
     expect(reducer({}, expectedState)).toEqual({
-      articlesList: payload,
+      articlesList: articles,
       loading: false,
       success: true,
     });
@@ -206,6 +208,7 @@ describe('articleReducer', () => {
       error: 'Dislike Article Failed',
     });
   });
+
   it('should handle `SUBMIT_ARTICLE_TAG`', () => {
     const initialState = {
       loading: true,
@@ -267,6 +270,7 @@ describe('articleReducer', () => {
       articlesList: [],
     });
   });
+
   it('should handle `SET_ARTICLE_EDITOR`', () => {
     const initialState = {
       loading: true,
@@ -298,6 +302,7 @@ describe('articleReducer', () => {
       articlesList: [],
     });
   });
+
   it('should handle `SET_EDIT_ARTICLE`', () => {
     const initialState = {
       loading: true,

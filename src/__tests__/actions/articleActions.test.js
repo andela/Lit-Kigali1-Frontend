@@ -123,7 +123,6 @@ describe('articleActions', () => {
       };
       expect(articleActions.updateEditorState(payload)).toEqual(expectedAction);
     });
-
   });
 
   describe('asynchronous actions', () => {
