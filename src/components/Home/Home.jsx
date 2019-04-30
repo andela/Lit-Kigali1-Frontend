@@ -42,9 +42,7 @@ export class Home extends Component {
       ) {
         if (pages > page) {
           this.setState({ page: page + 1 }, () => this.getAllArticles());
-          console.log('Nooo');
         }
-        console.log('olivier');
       }
     };
   }
@@ -60,12 +58,8 @@ export class Home extends Component {
       feed: { articles },
     } = this.props;
     const articlesList = articles.slice(0, 5);
-    // const defaultStyles = {
-    //   background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    // url('${articles[0] ? articles[0].cover || defaultImage : defaultImage}');`,
-    // };
     return (
-      <Slide {...slideProperties}>
+      <Slide {...slideProperties} className="slide-area">
         {articlesList.map(feed => (
           <div key={feed.slug} className="slide-block">
             <div
@@ -74,13 +68,15 @@ export class Home extends Component {
                   || defaultImage}")`,
               }}
             >
-              <h1>{feed.title}</h1>
-              <span className="author">{`${feed.author.firstName} ${feed.author.lastName}`}</span>
-              <span className="views">
-                {feed.viewsCount}
-                <i className="fa fa-eye" />
-              </span>
-              <span>{feed.readingTime}</span>
+              <div>
+                <h1>{feed.title}</h1>
+                <span className="author">{`${feed.author.firstName} ${feed.author.lastName}`}</span>
+                <span className="views">
+                  {feed.viewsCount}
+                  <i className="fa fa-eye" />
+                </span>
+                <span>{feed.readingTime}</span>
+              </div>
             </div>
           </div>
         ))}
