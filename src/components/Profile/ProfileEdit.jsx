@@ -23,16 +23,18 @@ export class ProfileEdit extends Component {
   };
 
   showToast = (status, message) => {
-    this.setState({
-      showToast: true,
-      status,
-      message,
-    }, () => {
+    this.setState(
+      {
+        showToast: true,
+        status,
+        message,
+      },
+      () => {
         setTimeout(() => {
           this.setState({ showToast: false, status: 'success', message: '' });
         }, 5000);
-    });
-    
+      },
+    );
   };
 
   onImageDrop = (files) => {
