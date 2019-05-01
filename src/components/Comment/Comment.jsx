@@ -156,6 +156,10 @@ Comment.defaultProps = {
   fetching: false,
 };
 
+Comment.defaultProps = {
+  currentUser: {},
+};
+
 export const mapStateToProps = ({
   comment: {
     body, commentList, updateBody, fetching,

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Textarea from 'react-textarea-autosize';
 import { connect } from 'react-redux';
