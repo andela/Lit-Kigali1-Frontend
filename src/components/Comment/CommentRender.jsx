@@ -45,6 +45,7 @@ export class CommentRender extends React.Component {
         <div
           onDoubleClick={() => comment.userId === currentUser.id && this.onEditComment(comment.body)
           }
+          data-el="comment-container"
         >
           {isEdit ? this.commentForm(comment.body, comment.id) : comment.body}
           <span className="comment-time">
@@ -56,7 +57,7 @@ export class CommentRender extends React.Component {
     );
   };
 
-  commentForm = (oldBody, id) => {
+  commentForm = (id) => {
     const { updateComment, enterPress, updateBody } = this.props;
     return (
       <form>
