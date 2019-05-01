@@ -236,4 +236,17 @@ module.exports = {
       ],
     },
   ],
+  draftJsContentState: {
+    blocks: [
+      {
+        key: 'bok6r',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis erat sit amet nunc condimentum interdum. Morbi elementum lectus quis mauris interdum finibus. Quisque eleifend sapien molestie ex accumsan, eget placerat erat convallis. Nullam porttitor, elit sit amet porta ultricies, tortor ipsum efficitur tortor, vitae sagittis mauris leo et orci. Nullam mi turpis, tempus ac tincidunt vel, pulvinar sit amet turpis. Nullam commodo imperdiet blandit. Pellentesque laoreet pulvinar vestibulum. Sed molestie et lorem quis elementum. Phasellus condimentum turpis in leo accumsan, sed egestas urna pretium. Aliquam ac sapien vestibulum, tristique dolor sit amet, euismod sem. Donec risus odio, pretium porttitor tincidunt ut, mattis quis urna. Vivamus risus velit, cursus sed vulputate ut, sagittis nec urna. Donec ullamcorper, nisi a mollis porta, lacus augue iaculis tellus, a iaculis lectus ex non neque. Aliquam fringilla dui non pulvinar tempor. Duis nec facilisis purus, a faucibus nisl.',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      }],
+    entityMap: {},
+  },
 };
