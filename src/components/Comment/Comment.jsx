@@ -11,7 +11,7 @@ import {
 } from '../../redux/actions/commentAction';
 import CommentRender from './CommentRender';
 
-class Comment extends Component {
+export class Comment extends Component {
   addComment = () => {
     const { body, articleSlug, onSubmitComment } = this.props;
     onSubmitComment(body, articleSlug);
@@ -63,6 +63,7 @@ class Comment extends Component {
           value={body}
           onChange={this.onChange}
           onKeyDown={e => this.onEnterPress(e, this.addComment)}
+          data-el="comment-input"
         />
       </form>
     );
@@ -108,13 +109,17 @@ Comment.propTypes = {
   onSubmitComment: PropTypes.func.isRequired,
   articleSlug: PropTypes.string.isRequired,
   commentList: PropTypes.array.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
   onDeleteComment: PropTypes.func.isRequired,
   onUpdateComment: PropTypes.func.isRequired,
   updateBody: PropTypes.string.isRequired,
   onUpdateCommentInput: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.any.isRequired,
+};
+
+Comment.defaultProps = {
+  currentUser: {},
 };
 
 export const mapStateToProps = ({
@@ -134,7 +139,7 @@ export const mapStateToProps = ({
 export const mapDispatchToProps = dispatch => ({
   onCommentInput: ({ body }) => dispatch(handleCommentInput({ body })),
   onSubmitComment: (comment, articleSlug) => dispatch(submitComment(comment, articleSlug)),
-  onDeleteComment: (id, articleSlug) => { dispatch(deleteComment(id, articleSlug)); },
+  onDeleteComment: (id, articleSlug) => dispatch(deleteComment(id, articleSlug)),
   onUpdateComment: (id, articleSlug, body) => dispatch(updateComment(id, articleSlug, body)),
   onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
 });

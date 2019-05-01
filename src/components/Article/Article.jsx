@@ -301,9 +301,9 @@ export class Article extends Component {
           </div>
           <Comment articleSlug={singleArticle.slug} history={history} />
         </div>
-        <a className="go-top-btn" href="##">
+        <button className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
-        </a>
+        </button>
       </section>
     );
   }
