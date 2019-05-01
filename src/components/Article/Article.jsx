@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
+import ContentLoader from 'react-content-loader';
 import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
@@ -46,7 +46,36 @@ export class Article extends Component {
         />
       );
     }
-    return new HtmlToReact().parse(body);
+    return (
+      <ContentLoader
+        height={200}
+        width={400}
+        speed={2}
+        primaryColor="#f3f3f3"
+        secondaryColor="#ecebeb"
+      >
+        <rect x="75" y="0" rx="3" ry="3" width="250" height="6" />
+        <rect x="0" y="20" rx="3" ry="3" width="350" height="3" />
+        <rect x="0" y="30" rx="3" ry="3" width="380" height="3" />
+        <rect x="0" y="40" rx="3" ry="3" width="201" height="3" />
+        <rect x="-2" y="50" rx="3" ry="3" width="350" height="3" />
+        <rect x="-13" y="60" rx="3" ry="3" width="380" height="3" />
+        <rect x="-3" y="70" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="80" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="90" rx="3" ry="3" width="380" height="3" />
+        <rect x="-10" y="100" rx="3" ry="3" width="380" height="3" />
+        <rect x="0" y="110" rx="3" ry="3" width="350" height="3" />
+        <rect x="0" y="120" rx="3" ry="3" width="350" height="3" />
+        <rect x="0" y="130" rx="3" ry="3" width="380" height="3" />
+        <rect x="0" y="140" rx="3" ry="3" width="201" height="3" />
+        <rect x="-2" y="150" rx="3" ry="3" width="350" height="3" />
+        <rect x="-13" y="160" rx="3" ry="3" width="380" height="3" />
+        <rect x="-3" y="170" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="180" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="190" rx="3" ry="3" width="380" height="3" />
+        <rect x="-10" y="200" rx="3" ry="3" width="380" height="3" />
+      </ContentLoader>
+    );
   };
 
   renderDate = () => {
@@ -79,23 +108,6 @@ export class Article extends Component {
             </span>
           ))}
         </div>
-      </div>
-    );
-  };
-
-  renderCover = () => {
-    const {
-      singleArticle: { cover },
-    } = this.props;
-    if (!cover) return '';
-    return (
-      <div className="col-12">
-        <div
-          className="article-image"
-          style={{
-            backgroundImage: `url("${cover}")`,
-          }}
-        />
       </div>
     );
   };

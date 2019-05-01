@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import { PropTypes } from 'prop-types';
+import ContentLoader from 'react-content-loader';
 import {
   handleCommentInput,
   submitComment,
@@ -30,46 +31,43 @@ export class Comment extends Component {
       onDeleteComment,
       articleSlug,
       onUpdateCommentInput,
+      fetching,
     } = this.props;
-    if (commentList.length) {
-      const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (!commentList.length && fetching) {
       return (
-        newList.map(comment => (
-          <CommentRender
-            commentList={commentList}
-            currentUser={currentUser}
-            onDeleteComment={onDeleteComment}
-            articleSlug={articleSlug}
-            comment={comment}
-            key={comment.id}
-            enterPress={this.onEnterPress}
-            updateComment={this.onEditComment}
-            inputHandler={onUpdateCommentInput}
-          />
-        ))
+        <ContentLoader
+          height={160}
+          width={400}
+          speed={2}
+          primaryColor="#f3f3f3"
+          secondaryColor="#ecebeb"
+        >
+          <rect x="0" y="80" rx="3" ry="3" width="350" height="6" />
+          <rect x="0" y="95" rx="3" ry="3" width="380" height="6" />
+          <rect x="0" y="110" rx="3" ry="3" width="201" height="6" />
+          <circle cx="22" cy="50" r="21" />
+        </ContentLoader>
       );
     }
-    return '';
-  }
-
-  commentForm = () => {
-    const { body } = this.props;
+    const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     return (
-      <form>
-        <Textarea
-          className="comment-textarea new"
-          placeholder="Add your comment..."
-          type="text"
-          value={body}
-          onChange={this.onChange}
-          onKeyDown={e => this.onEnterPress(e, this.addComment)}
-          data-el="comment-input"
+      newList.map(comment => (
+        <CommentRender
+          commentList={commentList}
+          currentUser={currentUser}
+          onDeleteComment={onDeleteComment}
+          articleSlug={articleSlug}
+          comment={comment}
+          key={comment.id}
+          enterPress={this.onEnterPress}
+          updateComment={this.onEditComment}
+          inputHandler={onUpdateCommentInput}
         />
-      </form>
+      ))
     );
   }
 
-  onEnterPress = (e, fun, id) => {
+  onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       if (!e.target.value.trim()) {
         e.preventDefault();
@@ -81,7 +79,7 @@ export class Comment extends Component {
         history.push('/auth');
         return;
       }
-      fun(id);
+      func(id);
       e.preventDefault();
     }
   }
@@ -92,10 +90,21 @@ export class Comment extends Component {
   }
 
   render() {
+    const { body } = this.props;
     return (
       <div className="article-comment">
         <div className="article-comment__center">
-          {this.commentForm()}
+          <form>
+            <Textarea
+              className="comment-textarea new"
+              placeholder="Add your comment..."
+              type="text"
+              value={body}
+              onChange={this.onChange}
+              onKeyDown={e => this.onEnterPress(e, this.addComment)}
+              data-el="comment-input"
+            />
+          </form>
           {this.displayComments()}
         </div>
       </div>
@@ -116,14 +125,21 @@ Comment.propTypes = {
   onUpdateCommentInput: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.any.isRequired,
+  fetching: PropTypes.bool,
 };
 
 Comment.defaultProps = {
   currentUser: {},
+  fetching: false,
 };
 
 export const mapStateToProps = ({
-  comment: { body, commentList, updateBody },
+  comment: {
+    body,
+    commentList,
+    updateBody,
+    fetching,
+  },
   currentUser: {
     profile,
     isLoggedIn,
@@ -134,6 +150,7 @@ export const mapStateToProps = ({
   commentList,
   updateBody,
   isLoggedIn,
+  fetching,
 });
 
 export const mapDispatchToProps = dispatch => ({
