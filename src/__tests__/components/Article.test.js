@@ -15,6 +15,7 @@ describe('<Article />', () => {
   beforeEach(() => {
     wrapper = mount(<Provider store={store}><Article /></Provider>);
   });
+
   test('should render the <Article />', () => {
     wrapper = shallow(<Provider store={store}><Article /></Provider>);
     expect(wrapper).toMatchSnapshot();

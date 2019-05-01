@@ -12,6 +12,7 @@ describe('MediaBlockRender', () => {
     expect(component).toBeDefined();
     expect(editable).toBeFalsy();
   });
+
   test('should return null', () => {
     const block = {
       getType: () => '',
@@ -37,6 +38,7 @@ describe('Media', () => {
     const media = Media(props);
     expect(media).toEqual(<Image classes="article-img" src="image/hello.jpg" />);
   });
+
   test('should return a video component ', () => {
     const props = {
       contentState: {
@@ -52,6 +54,7 @@ describe('Media', () => {
     const media = Media(props);
     expect(media).toEqual(<Video classes="width-100" src="image/hello.mp4" />);
   });
+
   test('should return a video component ', () => {
     const props = {
       contentState: {

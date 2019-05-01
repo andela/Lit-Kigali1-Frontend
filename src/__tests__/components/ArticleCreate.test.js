@@ -134,6 +134,7 @@ describe('<ArticleCreate/>', () => {
       expect(prevState).toEqual(newState);
       done();
     });
+
     test('should add video', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state();
@@ -163,6 +164,7 @@ describe('<ArticleCreate/>', () => {
         files: [JSON.stringify(file)],
       },
     };
+
     test('should open image file input', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state().editorState;
@@ -258,6 +260,7 @@ describe('<ArticleCreate/>', () => {
     editBtn.simulate('click');
     expect(props.onUpdateArticle).toHaveBeenCalled();
   });
+
   test('should handle tag submit', () => {
     const event = {
       preventDefault: jest.fn(),

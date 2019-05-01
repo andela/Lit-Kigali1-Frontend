@@ -208,6 +208,7 @@ describe('articleReducer', () => {
       error: 'Dislike Article Failed',
     });
   });
+
   it('should handle `SUBMIT_ARTICLE_TAG`', () => {
     const initialState = {
       loading: true,
@@ -269,6 +270,7 @@ describe('articleReducer', () => {
       articlesList: [],
     });
   });
+
   it('should handle `SET_ARTICLE_EDITOR`', () => {
     const initialState = {
       loading: true,
@@ -300,6 +302,7 @@ describe('articleReducer', () => {
       articlesList: [],
     });
   });
+
   it('should handle `SET_EDIT_ARTICLE`', () => {
     const initialState = {
       loading: true,

@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types';
 import Button from '../common/Button/Button';
 import avatar from '../../assets/images/avatar.png';
 
-class CommentRender extends React.Component {
+export class CommentRender extends React.Component {
   state = {
     isEdit: false,
   };
@@ -30,11 +30,13 @@ class CommentRender extends React.Component {
           <span className="control-btn">
             <Button
               classes="my-article-delete"
+              data-el="delete-btn"
               onClick={() => onDeleteComment(comment.id, articleSlug)}
             >
               <i className="fa fa-trash" />
             </Button>
             <Button
+              data-el="edit-btn"
               classes="my-comment-update"
               onClick={() => this.onEditComment(comment.body)}
             >
@@ -43,11 +45,13 @@ class CommentRender extends React.Component {
           </span>
           )}
         </div>
-        <div onDoubleClick={
+        <div
+          onDoubleClick={
           () => comment.userId === currentUser.id && this.onEditComment(comment.body)
           }
+          data-el="comment-container"
         >
-          { isEdit ? this.commentForm(comment.body, comment.id) : comment.body }
+          { isEdit ? this.commentForm(comment.id) : comment.body }
           <span className="comment-time">{comment.version === 'edited' && ` (${comment.version})`}</span>
         </div>
         <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
@@ -55,7 +59,7 @@ class CommentRender extends React.Component {
     );
   }
 
-  commentForm = (oldBody, id) => {
+  commentForm = (id) => {
     const { updateComment, enterPress, updateBody } = this.props;
     return (
       <form>
