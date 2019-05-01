@@ -226,6 +226,7 @@ describe('articleActions', () => {
           type: articleTypes.FETCHING_ARTICLE_SUCCESS,
           payload: articleData,
         },
+        { type: 'FETCHING_COMMENTS' },
       ];
       return store.dispatch(articleActions.fetchArticle(articleSlug)).then((res) => {
         const actions = store.getActions();

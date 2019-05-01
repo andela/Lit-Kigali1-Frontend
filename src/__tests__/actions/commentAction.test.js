@@ -35,6 +35,7 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCHING_COMMENTS,
 } from '../../redux/actions-types/commentTypes';
 import { commentData } from '../../__mocks__/dummyData';
 
@@ -191,7 +192,8 @@ describe('Comment Action Test', () => {
       .reply(200, { status: 200, comments: commentData });
     return store.dispatch(fetchAllComments(fakeSlug)).then((res) => {
       const actions = store.getActions();
-      expect(actions[0].type).toEqual(FETCH_ALL_COMMENTS_SUCCESS);
+      expect(actions[0].type).toEqual(FETCHING_COMMENTS);
+      expect(actions[1].type).toEqual(FETCH_ALL_COMMENTS_SUCCESS);
       expect(res.comments).toEqual(commentData);
     });
   });
@@ -205,7 +207,8 @@ describe('Comment Action Test', () => {
       .reply(404, { status: 404, message: 'comments not found' });
     return store.dispatch(fetchAllComments(fakeSlug)).then((res) => {
       const actions = store.getActions();
-      expect(actions[0].type).toEqual(FETCH_ALL_COMMENTS_FAILURE);
+      expect(actions[0].type).toEqual(FETCHING_COMMENTS);
+      expect(actions[1].type).toEqual(FETCH_ALL_COMMENTS_FAILURE);
       expect(res.message).toEqual('comments not found');
     });
   });

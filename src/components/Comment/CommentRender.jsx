@@ -6,56 +6,12 @@ import { PropTypes } from 'prop-types';
 import Button from '../common/Button/Button';
 import avatar from '../../assets/images/avatar.png';
 
-class CommentRender extends React.Component {
+export class CommentRender extends React.Component {
   state = {
     isEdit: false,
   };
 
-  commentBox = () => {
-    const { isEdit } = this.state;
-    const {
-      comment,
-      currentUser,
-      onDeleteComment,
-      articleSlug,
-    } = this.props;
-    return (
-      <div key={comment.id} className="comment-box">
-        <div className="comment-header">
-          <a className="author-name" href={`../profiles/${comment.author.username}`}>
-            <img src={comment.author.image ? comment.author.image : avatar} alt="" className="profile-avatar" />
-            {comment.author.username}
-          </a>
-          {(comment.userId === currentUser.id) && (
-          <span className="control-btn">
-            <Button
-              classes="my-article-delete"
-              onClick={() => onDeleteComment(comment.id, articleSlug)}
-            >
-              <i className="fa fa-trash" />
-            </Button>
-            <Button
-              classes="my-comment-update"
-              onClick={() => this.onEditComment(comment.body)}
-            >
-              <i className="fa fa-edit" />
-            </Button>
-          </span>
-          )}
-        </div>
-        <div onDoubleClick={
-          () => comment.userId === currentUser.id && this.onEditComment(comment.body)
-          }
-        >
-          { isEdit ? this.commentForm(comment.body, comment.id) : comment.body }
-          <span className="comment-time">{comment.version === 'edited' && ` (${comment.version})`}</span>
-        </div>
-        <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
-      </div>
-    );
-  }
-
-  commentForm = (oldBody, id) => {
+  commentForm = (id) => {
     const { updateComment, enterPress, updateBody } = this.props;
     return (
       <form>
@@ -104,8 +60,50 @@ class CommentRender extends React.Component {
   }
 
   render() {
+    const { isEdit } = this.state;
+    const {
+      comment,
+      currentUser,
+      onDeleteComment,
+      articleSlug,
+    } = this.props;
     return (
-      this.commentBox()
+      <div key={comment.id} className="comment-box">
+        <div className="comment-header">
+          <a className="author-name" href={`../profiles/${comment.author.username}`}>
+            <img src={comment.author.image ? comment.author.image : avatar} alt="" className="profile-avatar" />
+            {comment.author.username}
+          </a>
+          {(comment.userId === currentUser.id) && (
+          <span className="control-btn">
+            <Button
+              classes="my-article-delete"
+              data-el="delete-btn"
+              onClick={() => onDeleteComment(comment.id, articleSlug)}
+            >
+              <i className="fa fa-trash" />
+            </Button>
+            <Button
+              data-el="edit-btn"
+              classes="my-comment-update"
+              onClick={() => this.onEditComment(comment.body)}
+            >
+              <i className="fa fa-edit" />
+            </Button>
+          </span>
+          )}
+        </div>
+        <div
+          onDoubleClick={
+          () => comment.userId === currentUser.id && this.onEditComment(comment.body)
+          }
+          data-el="comment-container"
+        >
+          { isEdit ? this.commentForm(comment.id) : comment.body }
+          <span className="comment-time">{comment.version === 'edited' && ` (${comment.version})`}</span>
+        </div>
+        <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
+      </div>
     );
   }
 }

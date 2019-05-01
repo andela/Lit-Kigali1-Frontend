@@ -16,7 +16,7 @@ module.exports = {
     'src/helpers/fetchAPI.js',
   ],
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.(js|jsx)?$': 'babel-jest',
   },
   setupFiles: ['./enzyme.config.js'],
   coverageThreshold: {

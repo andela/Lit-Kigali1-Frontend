@@ -1,12 +1,11 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
-import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
-import initialState from '../../redux/initialState';
-
+import Article, { mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
+import { articleDataDraft } from '../../__mocks__/dummyData';
+import initialState from '../../redux/initialState.json';
 
 let wrapper;
 const props = {
@@ -36,6 +35,7 @@ describe('<Article />', () => {
   beforeEach(() => {
     wrapper = mount(<Provider store={store}><Article /></Provider>);
   });
+
   test('should render the <Article />', () => {
     wrapper = shallow(<Provider store={store}><Article /></Provider>);
     expect(wrapper).toMatchSnapshot();
@@ -43,20 +43,6 @@ describe('<Article />', () => {
 
   test('should render <Article /> with tags', () => {
     expect(wrapper.find('Article').props().singleArticle.tagList).toBeDefined();
-  });
-
-  test('should render <Article /> with cover', () => {
-    props.article.cover = 'https://picsum.photos/200/300';
-    wrapper = mount(<Article {...props} />);
-    expect(wrapper.props().article.cover).toBeDefined();
-  });
-
-  test('should render <Article /> the Editor', () => {
-    const newProps = props;
-    newProps.article = articleDataDraft;
-    wrapper = mount(<Article {...newProps} />);
-    expect(wrapper.props().article.tagList).toBeDefined();
-    expect(wrapper.props().article.tagList).toBeDefined();
   });
 
   describe('should render different ratings', () => {

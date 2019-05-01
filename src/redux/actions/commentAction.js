@@ -12,6 +12,7 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCHING_COMMENTS,
 } from '../actions-types/commentTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
@@ -44,17 +45,24 @@ export const fetchAllCommentFailure = payload => ({
   payload,
 });
 
-export const fetchAllComments = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/comments`, {
-  method: 'GET',
-})
-  .then((data) => {
-    dispatch(fetchAllCommentSucess(data));
-    return data;
+export const fetchingComments = () => ({
+  type: FETCHING_COMMENTS,
+});
+
+export const fetchAllComments = articleSlug => (dispatch) => {
+  dispatch(fetchingComments());
+  return fetchAPI(`/articles/${articleSlug}/comments`, {
+    method: 'GET',
   })
-  .catch((err) => {
-    dispatch(fetchAllCommentFailure(err));
-    return err;
-  });
+    .then((data) => {
+      dispatch(fetchAllCommentSucess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchAllCommentFailure(err));
+      return err;
+    });
+};
 
 export const submitComment = (body, articleSlug) => (dispatch) => {
   dispatch(submitCommentForm());
