@@ -65,7 +65,24 @@ export class Comment extends Component {
     ));
   };
 
-  onEnterPress = (e, func, id) => {
+  commentForm = () => {
+    const { body } = this.props;
+    return (
+      <form>
+        <Textarea
+          className="comment-textarea new"
+          placeholder="Add your comment..."
+          type="text"
+          value={body}
+          onChange={this.onChange}
+          onKeyDown={e => this.onEnterPress(e, this.addComment)}
+          data-el="comment-input"
+        />
+      </form>
+    );
+  };
+
+  onEnterPress = (e, fun, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       if (!e.target.value.trim()) {
         e.preventDefault();
@@ -129,6 +146,10 @@ Comment.propTypes = {
 Comment.defaultProps = {
   currentUser: {},
   fetching: false,
+};
+
+Comment.defaultProps = {
+  currentUser: {},
 };
 
 export const mapStateToProps = ({
