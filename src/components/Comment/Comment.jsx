@@ -99,6 +99,7 @@ export class Comment extends Component {
           value={body}
           onChange={this.onChange}
           onKeyDown={e => this.onEnterPress(e, this.addComment)}
+          data-el="comment-input"
         />
       </form>
     );
@@ -170,6 +171,10 @@ Comment.propTypes = {
 Comment.defaultProps = {
   currentUser: {},
   fetching: false,
+};
+
+Comment.defaultProps = {
+  currentUser: {},
 };
 
 Comment.defaultProps = {
