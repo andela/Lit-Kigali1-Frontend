@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
 import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
 import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';

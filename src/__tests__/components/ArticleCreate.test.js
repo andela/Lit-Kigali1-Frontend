@@ -122,6 +122,7 @@ describe('<ArticleCreate/>', () => {
       },
     };
     mock(request, config);
+
     test('should open video input', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state().editorState;
@@ -134,6 +135,7 @@ describe('<ArticleCreate/>', () => {
       expect(prevState).toEqual(newState);
       done();
     });
+
     test('should add video', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state();
@@ -157,12 +159,14 @@ describe('<ArticleCreate/>', () => {
         post: (match, data) => data,
       },
     ];
+
     mock(request, config);
     const event = {
       target: {
         files: [JSON.stringify(file)],
       },
     };
+
     test('should open image file input', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state().editorState;
@@ -258,10 +262,12 @@ describe('<ArticleCreate/>', () => {
     editBtn.simulate('click');
     expect(props.onUpdateArticle).toHaveBeenCalled();
   });
+
   test('should handle tag submit', () => {
     const event = {
       preventDefault: jest.fn(),
     };
+
     const wrapper = mount(<ArticleCreate {...props} />);
     const instance = wrapper.instance();
     instance.handleTagSubmit(event);
@@ -282,6 +288,7 @@ describe('<ArticleCreate/>', () => {
 describe('mapDispatchToprops', () => {
   const mockStore = configureMockStore();
   const store = mockStore({});
+
   test('should dispatch onArticleFormInput', () => {
     const target = {
       name: 'title',
