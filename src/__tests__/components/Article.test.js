@@ -41,10 +41,13 @@ describe('<Article />', () => {
     );
   });
 
+<<<<<<< HEAD
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+=======
+>>>>>>> mend
   test('should render the <Article />', () => {
     wrapper = shallow(
       <Provider store={store}>

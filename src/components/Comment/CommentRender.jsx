@@ -57,7 +57,7 @@ export class CommentRender extends React.Component {
     );
   };
 
-  commentForm = (oldBody, id) => {
+  commentForm = (id) => {
     const { updateComment, enterPress, updateBody } = this.props;
     return (
       <form>
