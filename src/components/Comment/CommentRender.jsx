@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Textarea from 'react-textarea-autosize';
 import { connect } from 'react-redux';
@@ -23,10 +22,10 @@ class CommentRender extends React.Component {
     return (
       <div key={comment.id} className="comment-box">
         <div className="comment-header">
-          <Link className="author-name" to={`../profiles/${comment.author.username}`}>
+          <a className="author-name" href={`../profiles/${comment.author.username}`}>
             <img src={comment.author.image ? comment.author.image : avatar} alt="" className="profile-avatar" />
             {comment.author.username}
-          </Link>
+          </a>
           {(comment.userId === currentUser.id) && (
           <span className="control-btn">
             <Button
