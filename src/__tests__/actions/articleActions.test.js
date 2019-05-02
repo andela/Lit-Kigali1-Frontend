@@ -293,6 +293,36 @@ describe('articleActions', () => {
       });
     });
 
+    test('should dispatch fetchArticlesHome action - SUCCESS', () => {
+      const payload = {
+        page: 1,
+        pages: 1,
+        articlesCount: 1,
+        articles: [articleData],
+      };
+      nock(API_URL)
+        .get('/articles?page=1')
+        .reply(200, {
+          status: 200,
+          articlesCount: 1,
+          page: 1,
+          pages: 1,
+          articles: [articleData],
+        });
+      const expectedActions = [
+        {
+          payload: true,
+          type: 'FETCHING_ARTICLE',
+        },
+        {
+          payload,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticlesHome({ page: 1 })).then((res) => {
+        expect(res.status).toBe(200);
+      });
+    });
+
     test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
       const articleSlug = 'mock-article-slug';
       nock(API_URL)

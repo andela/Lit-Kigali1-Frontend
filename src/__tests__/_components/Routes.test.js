@@ -16,6 +16,11 @@ const props = {
   onInputChange: mockFn,
   history: { push: mockFn },
 };
+
+console.error = jest.fn();
+
+jest.mock('react-slideshow-image', () => ({ Slide: 'Slide' }));
+
 const mockStore = configureMockStore([thunk]);
 describe('<Routes />', () => {
   test('Should render the Routes', () => {

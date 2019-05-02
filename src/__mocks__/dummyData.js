@@ -17,6 +17,10 @@ module.exports = {
     status: 'published',
     readingTime: '1 min',
     tagList: ['test', 'article'],
+    author: {
+      firstName: 'Mugisha',
+      lasttName: 'Mugisha',
+    },
   },
   articleReducerState: {
     articles: [],

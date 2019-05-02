@@ -9,8 +9,8 @@ import { fetchArticlesHome } from '../../redux/actions/articleActions';
 
 const defaultImage = 'https://picsum.photos/200/300?grayscale';
 const slideProperties = {
-  duration: 5000,
-  transitionDuration: 500,
+  duration: 50000,
+  transitionDuration: 5000,
   infinite: true,
   indicators: true,
   arrows: true,
@@ -81,25 +81,6 @@ export class Home extends Component {
           </div>
         ))}
       </Slide>
-    );
-    return (
-      <div className="slide-area">
-        <div className="slides">
-          {articlesList.map(feed => (
-            <div key={feed.slug} className="slide-block content-center">
-              <img src={feed.cover || defaultImage} alt="" className="slide-image" />
-              <div className="centered is-column">
-                <h1>{feed.title}</h1>
-                <div className="viewed-content is-row">
-                  <span>{feed.viewsCount}</span>
-                  <i className="fa fa-eye" />
-                </div>
-                <p>{feed.readingTime}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     );
   };
 
