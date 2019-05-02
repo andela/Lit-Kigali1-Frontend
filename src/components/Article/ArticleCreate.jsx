@@ -204,10 +204,12 @@ export class ArticleCreate extends Component {
       },
     } = this.props;
     const description = getDescription(createArticle.body.blocks);
+    const cover = getCover(createArticle.body.entityMap);
     const article = {
       ...createArticle,
       body: JSON.stringify(createArticle.body),
       description,
+      cover,
     };
     onUpdateArticle(articleSlug, article);
   }

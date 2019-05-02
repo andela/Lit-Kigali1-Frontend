@@ -161,9 +161,9 @@ export class ArticlesCurrentUser extends Component {
             </div>
           </div>
         </div>
-        <a className="go-top-btn" href="#">
+        <button className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />
-        </a>
+        </button>
       </section>
     );
   }

@@ -6,6 +6,9 @@ import request from 'superagent';
 import mock from 'superagent-mock';
 import {
   convertToRaw,
+  convertFromRaw,
+  RichUtils,
+  EditorState,
 } from 'draft-js';
 import { ArticleCreate, mapDispatchToProps, mapStateToProps } from '../../components/Article/ArticleCreate';
 import {
@@ -14,6 +17,7 @@ import {
   article,
   file,
   urlValue,
+  draftJsContentState,
 } from '../../__mocks__/dummyData';
 import { article as newArticle, currentUser } from '../../redux/initialState.json';
 
@@ -134,6 +138,7 @@ describe('<ArticleCreate/>', () => {
       expect(prevState).toEqual(newState);
       done();
     });
+
     test('should add video', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state();
@@ -163,6 +168,7 @@ describe('<ArticleCreate/>', () => {
         files: [JSON.stringify(file)],
       },
     };
+
     test('should open image file input', (done) => {
       const wrapper = mount(<ArticleCreate {...props} />);
       const prevState = wrapper.state().editorState;
@@ -258,6 +264,7 @@ describe('<ArticleCreate/>', () => {
     editBtn.simulate('click');
     expect(props.onUpdateArticle).toHaveBeenCalled();
   });
+
   test('should handle tag submit', () => {
     const event = {
       preventDefault: jest.fn(),
@@ -276,6 +283,18 @@ describe('<ArticleCreate/>', () => {
     const { handleKeyCommand } = instance;
     const res = handleKeyCommand(command);
     expect(res).toEqual('not-handled');
+  });
+
+  test('should handle key command', () => {
+    RichUtils.handleKeyCommand = jest.fn().mockImplementation(
+      () => EditorState.createWithContent(convertFromRaw(draftJsContentState)),
+    );
+    const command = 'highlight';
+    const wrapper = mount(<ArticleCreate {...props} />);
+    const instance = wrapper.instance();
+    const { handleKeyCommand } = instance;
+    const res = handleKeyCommand(command);
+    expect(res).toEqual('handled');
   });
 });
 
