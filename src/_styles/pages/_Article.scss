@@ -221,7 +221,10 @@
 .comment-button {
   float: right;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> feat(like/dislike comment): add like and dislike icons
 .article-comment {
   .comment-box {
     margin-top: 1rem;
@@ -331,6 +334,15 @@
   font-weight: bold;
 }
 
+<<<<<<< HEAD
+=======
+.comment-user-action {
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+>>>>>>> feat(like/dislike comment): add like and dislike icons
 .comment-action {
   padding-left: 2px;
   padding-right: 5px;
@@ -344,12 +356,16 @@
 .comment-user-action i {
   font-size: 15px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> feat(like/dislike comment): add like and dislike icons
 .comment-action-count {
   margin-right: 20px;
   &:hover {
     color: $primary;
     cursor: pointer;
+<<<<<<< HEAD
     .comment-likers {
       display: block;
       text-align: center;
@@ -385,5 +401,7 @@
   }
   span {
     margin-top: 14px;
+=======
+>>>>>>> feat(like/dislike comment): add like and dislike icons
   }
 }
