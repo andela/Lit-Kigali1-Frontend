@@ -13,6 +13,7 @@ import Ratings from './Rating/Ratings';
 import Articles from './Article/Articles';
 import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
+import ProfileEdit from './Profile/ProfileEdit';
 
 const Routes = () => (
   <Switch>
@@ -33,6 +34,8 @@ const Routes = () => (
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
     <Route path="*" component={ErrorPage} />
+    <Route exact path="/profile" component={ProfileEdit} />
+    <Route path="/error" component={ErrorPage} />
   </Switch>
 );
 

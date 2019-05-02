@@ -7,8 +7,8 @@ import { fetchCurrentUser } from '../../redux/actions/currentUserActions';
 
 export class Home extends Component {
   componentWillMount() {
-    const parsed = queryString.parse(this.props.location.search);
-    const { getCurrentUser } = this.props;
+    const { getCurrentUser, location } = this.props;
+    const parsed = queryString.parse(location.search);
 
     if (parsed.token) {
       localStorage.setItem('token', parsed.token);
@@ -40,6 +40,7 @@ export const mapDispatchToProps = dispatch => ({
 
 Home.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default connect(
