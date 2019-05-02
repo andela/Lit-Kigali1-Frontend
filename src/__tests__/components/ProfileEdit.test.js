@@ -62,7 +62,7 @@ describe('<ProfileEdit />', () => {
     expect(e.preventDefault).toHaveBeenCalled();
   });
 
-  test('should render showToaster', (done) => {
+  test.skip('should render showToaster', (done) => {
     jest.useFakeTimers();
     wrapper.instance().showToast();
     jest.runAllTimers();
