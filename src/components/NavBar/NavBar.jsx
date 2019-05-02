@@ -29,33 +29,39 @@ export class NavBar extends Component {
     });
   };
 
-  renderLinks = parentClass => (
-    <ul className={parentClass}>
-      <li>
-        <Link to="/articles/create">New article</Link>
-      </li>
-      <li>
-        <Link to="/articles">Articles</Link>
-      </li>
-      <li>
-        <Link to="/my-articles">My Articles</Link>
-      </li>
-      <li className="separator" />
-      <li>
-        <Link to="/settings">Settings</Link>
-      </li>
-      <li>
-        <Link to="/dashboard">Dashboard</Link>
-      </li>
-      <li>
-        <Button classes="transparent signout-btn">Sign out</Button>
-      </li>
-    </ul>
-  );
+  renderLinks = (parentClass) => {
+    const { username } = this.props;
+    return (
+      <ul className={parentClass}>
+        <li>
+          <Link to="/articles/create">New article</Link>
+        </li>
+        <li>
+          <Link to="/articles">Articles</Link>
+        </li>
+        <li>
+          <Link to="/profile/:username/articles">My Articles</Link>
+        </li>
+        <li>
+          <Link to={`/profiles/${username}`}>My Profile</Link>
+        </li>
+        <li className="separator" />
+        <li>
+          <Link to="/settings">Settings</Link>
+        </li>
+        <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
+        <li>
+          <Button classes="transparent signout-btn">Sign out</Button>
+        </li>
+      </ul>
+    );
+  };
 
   render() {
     const { showMenu } = this.state;
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, image } = this.props;
     return (
       <nav className="top-navbar container">
         <div className="col-3-mob">
@@ -71,7 +77,7 @@ export class NavBar extends Component {
           <div className="nav-button navbar-dropdown is-desktop color-white">
             <Button onClick={this.showMenu} classes="transparent">
               {isLoggedIn ? (
-                <img src={userAvatar} className="top-navbar__avatar" alt="User logo" />
+                <img src={image || userAvatar} className="top-navbar__avatar" alt="User logo" />
               ) : (
                 ''
               )}
@@ -84,12 +90,27 @@ export class NavBar extends Component {
   }
 }
 
-NavBar.protoTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
+NavBar.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  username: PropTypes.string,
+  image: PropTypes.string,
 };
 
-export const mapStateToProps = ({ currentUser: { isLoggedIn } }) => ({
+NavBar.defaultProps = {
+  username: '',
+  image: '',
+  isLoggedIn: false,
+};
+
+export const mapStateToProps = ({
+  currentUser: {
+    isLoggedIn,
+    profile: { username, image },
+  },
+}) => ({
   isLoggedIn,
+  username,
+  image,
 });
 
 export default connect(mapStateToProps)(NavBar);

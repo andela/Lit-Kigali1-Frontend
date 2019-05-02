@@ -7,6 +7,10 @@ import {
   DELETE_CURRENT_USER_ARTICLE,
   SET_RATING_ARTICLE,
   SET_NEXT_PATH,
+  HANDLE_PROFILE_INPUT,
+  UPDATE_PROFILE_FAILURE,
+  UPDATE_PROFILE_SUCCESS,
+  SUBMIT_PROFILE_FORM,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -28,7 +32,7 @@ export const onUserActionFailure = message => ({
 });
 
 export const fetchCurrentUser = token => dispatch => fetchAPI('/user', { token })
-  .then(({ user, token }) => {
+  .then(({ user }) => {
     dispatch(setCurrentUser(user));
     return user;
   })
@@ -38,6 +42,31 @@ export const setUserFollowing = payload => ({
   type: SET_CURRENT_USER_FOLLOWING,
   payload,
 });
+
+export const profileInputHandler = ({ field, value }) => ({
+  type: HANDLE_PROFILE_INPUT,
+  payload: {
+    value,
+    field,
+  },
+});
+
+export const profileUpdateSuccess = ({ message, user }) => ({
+  type: UPDATE_PROFILE_SUCCESS,
+  payload: {
+    message,
+    user,
+  },
+});
+
+export const profileUpdateFailure = ({ message }) => ({
+  type: UPDATE_PROFILE_FAILURE,
+  payload: {
+    message,
+  },
+});
+
+export const submitProfileForm = () => ({ type: SUBMIT_PROFILE_FORM });
 
 export const onFollow = ({ username, method }) => (dispatch) => {
   dispatch(setUserFollowing(true));
@@ -104,3 +133,23 @@ export const setNextPath = payload => ({
   type: SET_NEXT_PATH,
   payload,
 });
+
+export const updateProfile = userData => (dispatch) => {
+  dispatch(submitProfileForm());
+  return fetchAPI('/user', {
+    method: 'PUT',
+    body: {
+      user: {
+        ...userData,
+      },
+    },
+  })
+    .then((data) => {
+      dispatch(profileUpdateSuccess(data));
+      return data;
+    })
+    .catch(({ message }) => {
+      dispatch(profileUpdateFailure({ message }));
+      return message;
+    });
+};

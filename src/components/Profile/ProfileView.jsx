@@ -10,6 +10,10 @@ import { onFollow } from '../../redux/actions/currentUserActions';
 import Button from '../common/Button/Button';
 
 export class ProfileView extends Component {
+  state = {
+    moreArticles: false,
+  };
+
   componentWillMount() {
     const {
       match: {
@@ -20,9 +24,40 @@ export class ProfileView extends Component {
     getUserProfile(username);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const {
+      match: { params },
+    } = this.props;
+    if (params.username !== nextProps.match.params.username) {
+      const { getUserProfile } = this.props;
+      getUserProfile(nextProps.match.params.username);
+    }
+    return true;
+  }
+
   renderArticles = () => {
-    const { profile } = this.props;
-    return profile.articles.map(article => <ArticleCard key={article.slug} article={article} />);
+    const { profile, history } = this.props;
+    const { moreArticles } = this.state;
+    if (moreArticles) {
+      return profile.articles.map(article => (
+        <ArticleCard
+          history={history}
+          url={`/articles/${article.slug}`}
+          key={article.slug}
+          article={article}
+        />
+      ));
+    }
+    return profile.articles
+      .slice(0, 5)
+      .map(article => (
+        <ArticleCard
+          history={history}
+          url={`/articles/${article.slug}`}
+          key={article.slug}
+          article={article}
+        />
+      ));
   };
 
   onFollowButton = () => {
@@ -65,8 +100,16 @@ export class ProfileView extends Component {
     );
   };
 
+  onMoreArticles = () => {
+    const { moreArticles } = this.state;
+    if (moreArticles) this.setState({ moreArticles: false });
+
+    this.setState({ moreArticles: true });
+  };
+
   render() {
     const { profile, loading } = this.props;
+    const { moreArticles } = this.state;
     if (loading) return <div />;
     return (
       <section className="main-content content-margin">
@@ -74,7 +117,7 @@ export class ProfileView extends Component {
           <div className="profile-view">
             <div className="profile-cover" style={{ backgroundImage: `url("${defaultCover}")` }}>
               <div className="profile-avatar-wrapper">
-                <img src={userAvatar} className="profile-avatar" alt="" />
+                <img src={profile.image || userAvatar} className="profile-avatar" alt="" />
                 <p>
                   {profile.firstName}
                   {' '}
@@ -102,7 +145,7 @@ export class ProfileView extends Component {
               <div className="col-3 content-right">{this.renderUserAction()}</div>
 
               <div className="profile-bio">
-                <div className="bio-header">Bio:</div>
+                {profile.bio ? <div className="bio-header">Bio:</div> : ''}
                 {profile.bio ? <div className="bio-text">{profile.bio}</div> : ''}
               </div>
             </div>
@@ -112,7 +155,9 @@ export class ProfileView extends Component {
                 <h3 className="profile-meta__text">ARTICLES</h3>
                 {this.renderArticles()}
                 <div className="col-12 content-right">
-                  <Button classes="transparent title-3">More Articles...</Button>
+                  <Button classes="transparent title-3" onClick={this.onMoreArticles}>
+                    {moreArticles ? 'Less Articles..' : 'More Articles...'}
+                  </Button>
                 </div>
               </div>
             </div>
@@ -131,12 +176,14 @@ ProfileView.propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   match: PropTypes.any,
   onFollowUser: PropTypes.func.isRequired,
+  history: PropTypes.object,
 };
 
 ProfileView.defaultProps = {
   match: { params: {} },
   loading: true,
   following: false,
+  history: {},
 };
 
 export const mapStateToProps = ({ user: { profile, loading }, currentUser }) => ({

@@ -24,6 +24,8 @@ module.exports = {
     isLoggedIn: localStorage.getItem('token') !== null,
     profile: {
       articles: [],
+      image: '',
+      username: '',
     },
     articles: [],
     favorites: [],
@@ -62,5 +64,12 @@ module.exports = {
       tagList: [],
     },
     articlesList: [],
+    ratings: [],
+    totalPages: 1,
+    currentPage: 1,
+    likes: [],
+    dislikes: [],
+    liked: false,
+    disliked: false,
   },
 };

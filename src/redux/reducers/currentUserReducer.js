@@ -43,6 +43,33 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         ...state,
         nextPath: payload,
       };
+    case types.HANDLE_PROFILE_INPUT:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          [payload.field]: payload.value,
+        },
+      };
+    case types.SUBMIT_PROFILE_FORM:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          ...payload.user,
+        },
+        loading: false,
+      };
+    case types.UPDATE_PROFILE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

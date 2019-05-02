@@ -17,6 +17,7 @@ import ErrorPage from './common/ErrorPage/ErrorPage';
 import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
 import Ratings from './Rating/Ratings';
+import ProfileEdit from './Profile/ProfileEdit';
 
 export const Routes = ({ isLoggedIn }) => (
   <Switch>
@@ -59,6 +60,7 @@ export const Routes = ({ isLoggedIn }) => (
     <Route exact path="/articles" component={Articles} />
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
+    <Route exact path="/profile" component={ProfileEdit} />
     <Route path="*" component={ErrorPage} />
   </Switch>
 );

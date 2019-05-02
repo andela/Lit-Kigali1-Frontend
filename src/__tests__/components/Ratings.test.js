@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import { Ratings, mapStateToProps, mapDispatchToProps } from '../../components/Rating/Ratings';
 import { ratingData } from '../../__mocks__/dummyData';
-import initialState from '../../redux/initialState.json';
+import initialState from '../../redux/initialState';
 
 let wrapper;
 const props = {

@@ -8,6 +8,10 @@ import {
   DELETE_CURRENT_USER_ARTICLE,
   SET_RATING_ARTICLE,
   SET_NEXT_PATH,
+  HANDLE_PROFILE_INPUT,
+  SUBMIT_PROFILE_FORM,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
@@ -110,5 +114,37 @@ describe('currentUserReducer', () => {
     expect(reducer({}, expectedState)).toEqual({
       nextPath: 'url',
     });
+  });
+
+  it('should handle `HANDLE_PROFILE_INPUT`', () => {
+    const expectedState = {
+      type: HANDLE_PROFILE_INPUT,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({ profile: { undefined } });
+  });
+
+  it('should handle `SUBMIT_PROFILE_FORM`', () => {
+    const expectedState = {
+      type: SUBMIT_PROFILE_FORM,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({ loading: true });
+  });
+
+  it('should handle `UPDATE_PROFILE_SUCCESS,` ', () => {
+    const expectedState = {
+      type: UPDATE_PROFILE_SUCCESS,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({ profile: {}, message: undefined, loading: false });
+  });
+
+  it('should handle `UPDATE_PROFILE_FAILURE`', () => {
+    const expectedState = {
+      type: UPDATE_PROFILE_FAILURE,
+      loading: false,
+    };
+    expect(reducer({}, expectedState)).toEqual({ loading: false });
   });
 });
