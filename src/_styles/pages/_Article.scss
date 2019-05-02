@@ -304,5 +304,30 @@
     outline: none;
     border-color: $primary;
     border-width: 2px;
+
+.comment-user-action {
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.comment-action {
+  padding-left: 2px;
+  padding-right: 5px;
+  size: 2rem;
+  height: 100%;
+  &:hover {
+    color: $primary;
+  }
+}
+
+.comment-user-action i {
+  font-size: 15px;
+}
+.comment-action-count {
+  margin-right: 20px;
+  &:hover {
+    color: $primary;
+    cursor: pointer;
   }
 }

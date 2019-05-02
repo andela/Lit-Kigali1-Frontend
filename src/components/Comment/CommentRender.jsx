@@ -32,11 +32,16 @@ export class CommentRender extends React.Component {
             <span className="control-btn">
               <Button
                 classes="my-article-delete"
+                data-el="delete-btn"
                 onClick={() => onDeleteComment(comment.id, articleSlug)}
               >
                 <i className="fa fa-trash" />
               </Button>
-              <Button classes="my-comment-update" onClick={() => this.onEditComment(comment.body)}>
+              <Button
+                data-el="edit-btn"
+                classes="my-comment-update"
+                onClick={() => this.onEditComment(comment.body)}
+              >
                 <i className="fa fa-edit" />
               </Button>
             </span>
@@ -53,6 +58,16 @@ export class CommentRender extends React.Component {
           </span>
         </div>
         <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
+        <div className="comment-user-action">
+          <button className="comment-action">
+            <i className="fa fa-thumbs-o-up" title="Like" />
+          </button>
+          <span className="comment-action-count">15</span>
+          <button className="comment-action">
+            <i className="fa fa-thumbs-down" title="Dislike" />
+          </button>
+          <span className="comment-action-count">5</span>
+        </div>
       </div>
     );
   };

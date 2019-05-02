@@ -232,7 +232,10 @@ export class Article extends Component {
                       data-value="like"
                       onClick={this.onLikeArticleClicked}
                     >
-                      <i className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`} />
+                      <i
+                        className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`}
+                        title="Like"
+                      />
                     </button>
                   </span>
                   <span className="article-icon-right margin-top">
@@ -251,6 +254,7 @@ export class Article extends Component {
                     >
                       <i
                         className={`fa fa-thumbs-${disliked ? '' : 'o-'}down article-icon-right`}
+                        title="Dislike"
                       />
                     </button>
                   </span>
