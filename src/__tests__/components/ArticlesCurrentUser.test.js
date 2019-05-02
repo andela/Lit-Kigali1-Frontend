@@ -100,7 +100,10 @@ describe('<ArticlesCurrentUser />', () => {
     test('should call clodeModal', () => {
       wrapper.find('ArticlesCurrentUser').setState({ modalActive: true, article: articleData });
       wrapper.update();
-      wrapper.find('Button[data-name="no-btn"]').simulate('click');
+      wrapper
+        .find('DeleteModal')
+        .find('Button[data-name="no-btn"]')
+        .simulate('click');
       expect(wrapper.find('ArticlesCurrentUser').state().modalActive).toBeFalsy();
     });
   });

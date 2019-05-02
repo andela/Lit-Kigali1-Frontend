@@ -75,7 +75,7 @@ ErrorPage.propTypes = {
 };
 
 ErrorPage.defaultProps = {
-  type: '500',
+  type: '404',
   history: {},
 };
 

@@ -6,6 +6,7 @@ import moment from 'moment';
 import { onUserDeleteArticle } from '../../redux/actions';
 import Toast from '../common/Toast/Toast';
 import Button from '../common/Button/Button';
+import DeleteModal from '../common/Modal/DeleteModal';
 
 export class ArticlesCurrentUser extends Component {
   state = {
@@ -67,25 +68,13 @@ export class ArticlesCurrentUser extends Component {
     const { deletingArticle } = this.props;
     if (!modalActive || !article) return '';
     return (
-      <div className="my-article-modal active">
-        <div className="my-article-modal__wrap">
-          <div className="my-article-modal__title color-primary">{`"${article.title}"`}</div>
-          <div className="my-article-modal__title">Do you want to delete?</div>
-          <div className="my-article-modal__actions">
-            <Button
-              data-slug={article.slug}
-              data-name="yes-btn"
-              classes={`primary ${deletingArticle ? 'loading' : ''}`}
-              onClick={this.onDeleteArticle}
-            >
-              Yes
-            </Button>
-            <Button data-name="no-btn" classes="primary" onClick={this.closeModal}>
-              No
-            </Button>
-          </div>
-        </div>
-      </div>
+      <DeleteModal
+        onDelete={this.onDeleteArticle}
+        closeModal={this.closeModal}
+        title={article.title}
+        deleting={deletingArticle}
+        dataEl={article.slug}
+      />
     );
   };
 
@@ -123,10 +112,15 @@ export class ArticlesCurrentUser extends Component {
     return <Toast show={showToast} type={deleteStatus} message={deleteMessage} />;
   };
 
-  render() {
+  countArticlesStatus = (status) => {
     const {
-      articleStatus,
-    } = this.state;
+      currentUser: { articles },
+    } = this.props;
+    return articles.filter(article => status.indexOf(article.status) !== -1).length;
+  };
+
+  render() {
+    const { articleStatus } = this.state;
     return (
       <section className="main-content">
         <div className="container">
@@ -153,6 +147,7 @@ export class ArticlesCurrentUser extends Component {
                   onClick={this.toggleArticleStatus}
                 >
                   Draft
+                  {` (${this.countArticlesStatus(['draft', 'unpublished'])})`}
                 </span>
                 <span
                   data-status="published"
@@ -161,6 +156,7 @@ export class ArticlesCurrentUser extends Component {
                   onClick={this.toggleArticleStatus}
                 >
                   Published
+                  {` (${this.countArticlesStatus(['published'])})`}
                 </span>
               </div>
               <div className="my-articles row">
