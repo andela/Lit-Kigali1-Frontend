@@ -12,14 +12,6 @@ import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRender
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
-import {
-  Editor, EditorState, convertFromRaw, CompositeDecorator,
-} from 'draft-js';
-import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { fetchArticle } from '../../redux/actions/articleActions';
-import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
-import addLinkPlugin from '../../helpers/editorPlugins/addLink';
-import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
@@ -172,28 +164,6 @@ export class Article extends Component {
     const {
       singleArticle, liked, disliked, likeCount, dislikeCount,
     } = this.props;
-  }
-
-  renderCover = () => {
-    const {
-      singleArticle: { cover },
-    } = this.props;
-
-    if (!cover) return '';
-    return (
-      <div className="col-12">
-        <div
-          className="article-image"
-          style={{
-            backgroundImage: `url("${cover}")`,
-          }}
-        />
-      </div>
-    );
-  };
-
-  render() {
-    const { singleArticle } = this.props;
     return (
       <section className="main-content">
         <div className="container content-margin">
@@ -256,12 +226,6 @@ export class Article extends Component {
                       />
                     </button>
                   </span>
-                  <button className="article-icon-right hover-primary margin-top">
-                    <i className="fa fa-thumbs-up" />
-                  </button>
-                  <button className="article-icon-right hover-primary margin-top">
-                    <i className="fa fa-thumbs-down article-icon-right" />
-                  </button>
                   <button className="article-icon-right hover-primary margin-top">
                     <i
                       className="fa fa-bookmark-o article-icon-right"
@@ -329,7 +293,7 @@ export class Article extends Component {
             {this.renderTags()}
           </div>
         </div>
-        <a className="go-top-btn" href="/#">
+        <a className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
         </a>
       </section>

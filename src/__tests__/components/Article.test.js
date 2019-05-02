@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
 import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
 import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
@@ -190,7 +189,6 @@ describe('<Article />', () => {
       wrapper.find('button[data-value="dislike"]').simulate('click');
       expect(props.nextPath).toHaveBeenCalled();
     });
-
     test('should render <Article /> with cover', () => {
       props.singleArticle.cover = 'https://picsum.photos/200/300';
       wrapper = mount(<Article {...props} />);

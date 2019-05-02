@@ -73,7 +73,7 @@ export const fetchArticle = slug => (dispatch) => {
   dispatch(fetchingArticle(true));
   return fetchAPI(`/articles/${slug}`)
     .then((data) => {
-      dispatch(submitArticleFormSuccess(data));
+      dispatch(fetchingArticleSuccess(data.article));
       return data;
     })
     .catch((err) => {

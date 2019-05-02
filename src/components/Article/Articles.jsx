@@ -8,8 +8,11 @@ import Pagination from '../common/Pagination';
 
 export class Articles extends Component {
   componentDidMount() {
-    const { getArticles } = this.props;
-    getArticles();
+    const {
+      getArticles, location,
+    } = this.props;
+    const parsed = queryString.parse(location.search);
+    getArticles({ page: parsed.page });
   }
 
   renderArticles = () => {
@@ -25,6 +28,9 @@ export class Articles extends Component {
   };
 
   render() {
+    const {
+      history, page, pages,
+    } = this.props;
     return (
       <section className="main-content">
         <div className="container">
@@ -52,39 +58,14 @@ export class Articles extends Component {
               </form>
 
               <h3>ARTICLES</h3>
-              {articles.map(article => (
-                <ArticleCard
-                  history={history}
-                  url={`/articles/${article.slug}`}
-                  key={article.slug}
-                  article={article}
-                />
-              ))}
-              <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
               {this.renderArticles()}
-              <div className="pagination">
-                <span>First</span>
-                <span>
-                  <i className="fa fa-angle-left" />
-                </span>
-                <ul className="pages">
-                  <li className="page current">1</li>
-                  <li className="page">2</li>
-                  <li className="page">3</li>
-                  <li className="page">4</li>
-                  <li className="page">5</li>
-                </ul>
-                <span>
-                  <i className="fa fa-angle-right" />
-                </span>
-                <span>Last</span>
-              </div>
+              <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
             </div>
           </div>
         </div>
-        <a className="go-top-btn" href="#">
+        <button className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />
-        </a>
+        </button>
       </section>
     );
   }
@@ -92,12 +73,12 @@ export class Articles extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading, articleList, submitting, page, pages,
+    loading, articlesList, submitting, page, pages,
   },
   currentUser: { profile },
 }) => ({
   loading,
-  articles: articleList,
+  articles: articlesList,
   page,
   pages,
   submitting,
@@ -105,17 +86,23 @@ export const mapStateToProps = ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  getArticles: () => dispatch(fetchArticles()),
+  getArticles: payload => dispatch(fetchArticles(payload)),
 });
 
 Articles.propTypes = {
   articles: PropTypes.array,
   getArticles: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  page: PropTypes.number,
+  pages: PropTypes.number,
+  location: PropTypes.object,
 };
 
 Articles.defaultProps = {
   articles: [],
+  page: 1,
+  pages: 1,
+  location: {},
 };
 
 export default connect(

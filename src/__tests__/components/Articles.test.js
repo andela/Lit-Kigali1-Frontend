@@ -51,7 +51,7 @@ describe('<Articles />', () => {
   describe('actions creators', () => {
     test('should call getArticle action', () => {
       const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).getArticles(1);
+      mapDispatchToProps(dispatch).getArticles({ page: 1 });
       expect(dispatch).toHaveBeenCalled();
     });
   });
