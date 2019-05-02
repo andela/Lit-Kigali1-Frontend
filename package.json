@@ -4,7 +4,7 @@
   "description": "Authors Haven Front End",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --runInBand",
     "test:watch": "npm run test -- --watch",
     "test:coveralls": "npm run test && npm run coveralls",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
