@@ -40,28 +40,27 @@ export class CommentRender extends React.Component {
             />
             {comment.author.username}
           </Link>
-          {(comment.userId === currentUser.id) && (
-          <span className="control-btn">
-            <Button
-              classes="my-article-delete"
-              data-el="delete-btn"
-              onClick={() => onDeleteComment(comment.id, articleSlug)}
-            >
-              <i className="fa fa-trash" />
-            </Button>
-            <Button
-              data-el="edit-btn"
-              classes="my-comment-update"
-              onClick={() => this.onEditComment(comment.body)}
-            >
-              <i className="fa fa-edit" />
-            </Button>
-          </span>
+          {comment.userId === currentUser.id && (
+            <span className="control-btn">
+              <Button
+                classes="my-article-delete"
+                data-el="delete-btn"
+                onClick={() => onDeleteComment(comment.id, articleSlug)}
+              >
+                <i className="fa fa-trash" />
+              </Button>
+              <Button
+                data-el="edit-btn"
+                classes="my-comment-update"
+                onClick={() => this.onEditComment(comment.body)}
+              >
+                <i className="fa fa-edit" />
+              </Button>
+            </span>
           )}
         </div>
         <div
-          onDoubleClick={
-          () => comment.userId === currentUser.id && this.onEditComment(comment.body)
+          onDoubleClick={() => comment.userId === currentUser.id && this.onEditComment(comment.body)
           }
           data-el="comment-container"
         >

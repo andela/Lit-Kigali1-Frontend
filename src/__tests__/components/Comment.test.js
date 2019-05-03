@@ -25,6 +25,7 @@ const props = {
   fetching: true,
   onLikeComment: jest.fn(),
   onDislikeComment: jest.fn(),
+  onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(initialState);
@@ -219,6 +220,13 @@ describe('<Comment />', () => {
       const commentId = 'fake-id';
       const { onDislikeComment } = mapDispatchToProps(dispatch);
       onDislikeComment(articleSlug, commentId);
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should dispatch onFetchHistory', () => {
+      const articleSlug = 'article-slug';
+      const id = 'd43bedc3-2abd-4237-96d2-289716dfd151';
+      mapDispatchToProps(dispatch).onFetchHistory(articleSlug, id);
       expect(dispatch).toHaveBeenCalled();
     });
   });

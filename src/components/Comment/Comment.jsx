@@ -11,6 +11,7 @@ import {
   setUpdateCommentBody,
   commentLike,
   commentDislike,
+  fetchHistory,
 } from '../../redux/actions/commentAction';
 import CommentRender from './CommentRender';
 
@@ -36,6 +37,7 @@ export class Comment extends Component {
       fetching,
       onLikeComment,
       onDislikeComment,
+      onFetchHistory,
     } = this.props;
     if (!commentList.length && fetching) {
       return (
@@ -67,6 +69,7 @@ export class Comment extends Component {
         inputHandler={onUpdateCommentInput}
         onLikeComment={onLikeComment}
         onDislikeComment={onDislikeComment}
+        onFetchHistory={onFetchHistory}
       />
     ));
   };
@@ -166,19 +169,12 @@ Comment.propTypes = {
   fetching: PropTypes.bool,
   onLikeComment: PropTypes.func.isRequired,
   onDislikeComment: PropTypes.func.isRequired,
+  onFetchHistory: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {
   currentUser: {},
   fetching: false,
-};
-
-Comment.defaultProps = {
-  currentUser: {},
-};
-
-Comment.defaultProps = {
-  currentUser: {},
 };
 
 export const mapStateToProps = ({
@@ -203,6 +199,7 @@ export const mapDispatchToProps = dispatch => ({
   onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
   onLikeComment: (articleSlug, commentId) => dispatch(commentLike(articleSlug, commentId)),
   onDislikeComment: (articleSlug, commentId) => dispatch(commentDislike(articleSlug, commentId)),
+  onFetchHistory: (articleSlug, id) => dispatch(fetchHistory(articleSlug, id)),
 });
 export default connect(
   mapStateToProps,
