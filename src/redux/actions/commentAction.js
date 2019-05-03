@@ -13,6 +13,12 @@ import {
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
   FETCHING_COMMENTS,
+  FETCH_COMMENT_LIKES_SUCCESS,
+  FETCH_COMMENT_LIKES_FAILURE,
+  FETCH_COMMENT_DISLIKES_SUCCESS,
+  FETCH_COMMENT_DISLIKES_FAILURE,
+  COMMENT_LIKES_FAILURE,
+  COMMENT_DISLIKES_FAILURE,
 } from '../actions-types/commentTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
@@ -154,3 +160,73 @@ export const updateComment = (id, articleSlug, body) => (dispatch) => {
       return err;
     });
 };
+
+export const fetchCommentLikesSuccess = payload => ({
+  type: FETCH_COMMENT_LIKES_SUCCESS,
+  payload,
+});
+export const fetchCommentLikesFailure = payload => ({
+  type: FETCH_COMMENT_LIKES_FAILURE,
+  payload,
+});
+
+export const fetchCommentLikes = (articleSlug, commentId) => dispatch => fetchAPI(`/articles/${articleSlug}/comments/${commentId}/like`, {
+  method: 'GET',
+})
+  .then((data) => {
+    dispatch(fetchCommentLikesSuccess(data));
+  })
+  .catch((err) => {
+    dispatch(fetchCommentLikesFailure(err));
+  });
+
+export const fetchCommentDislikesSuccess = payload => ({
+  type: FETCH_COMMENT_DISLIKES_SUCCESS,
+  payload,
+});
+export const fetchCommentDislikesFailure = payload => ({
+  type: FETCH_COMMENT_DISLIKES_FAILURE,
+  payload,
+});
+
+export const fetchCommentDislikes = (articleSlug, commentId) => dispatch => fetchAPI(`/articles/${articleSlug}/comments/${commentId}/dislike`, {
+  method: 'GET',
+})
+  .then((data) => {
+    dispatch(fetchCommentDislikesSuccess(data));
+  })
+  .catch((err) => {
+    dispatch(fetchCommentDislikesFailure(err));
+  });
+
+export const commentLikeFailure = payload => ({
+  type: COMMENT_LIKES_FAILURE,
+  payload,
+});
+
+export const commentLike = (articleSlug, commentId) => dispatch => fetchAPI(`/articles/${articleSlug}/comments/${commentId}/like`, {
+  method: 'POST',
+})
+  .then(() => {
+    dispatch(fetchCommentLikes(articleSlug, commentId));
+    dispatch(fetchCommentDislikes(articleSlug, commentId));
+  })
+  .catch((err) => {
+    dispatch(commentLikeFailure(err));
+  });
+
+export const commentDislikeFailure = payload => ({
+  type: COMMENT_DISLIKES_FAILURE,
+  payload,
+});
+
+export const commentDislike = (articleSlug, commentId) => dispatch => fetchAPI(`/articles/${articleSlug}/comments/${commentId}/dislike`, {
+  method: 'POST',
+})
+  .then(() => {
+    dispatch(fetchCommentDislikes(articleSlug, commentId));
+    dispatch(fetchCommentLikes(articleSlug, commentId));
+  })
+  .catch((err) => {
+    dispatch(commentDislikeFailure(err));
+  });

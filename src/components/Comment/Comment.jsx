@@ -9,6 +9,8 @@ import {
   deleteComment,
   updateComment,
   setUpdateCommentBody,
+  commentLike,
+  commentDislike,
 } from '../../redux/actions/commentAction';
 import CommentRender from './CommentRender';
 
@@ -32,6 +34,8 @@ export class Comment extends Component {
       articleSlug,
       onUpdateCommentInput,
       fetching,
+      onLikeComment,
+      onDislikeComment,
     } = this.props;
     if (!commentList.length && fetching) {
       return (
@@ -61,6 +65,8 @@ export class Comment extends Component {
         enterPress={this.onEnterPress}
         updateComment={this.onEditComment}
         inputHandler={onUpdateCommentInput}
+        onLikeComment={onLikeComment}
+        onDislikeComment={onDislikeComment}
       />
     ));
   };
@@ -82,7 +88,7 @@ export class Comment extends Component {
     );
   };
 
-  onEnterPress = (e, fun, id) => {
+  onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       if (!e.target.value.trim()) {
         e.preventDefault();
@@ -141,6 +147,8 @@ Comment.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.any.isRequired,
   fetching: PropTypes.bool,
+  onLikeComment: PropTypes.func.isRequired,
+  onDislikeComment: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {
@@ -168,6 +176,8 @@ export const mapDispatchToProps = dispatch => ({
   onDeleteComment: (id, articleSlug) => dispatch(deleteComment(id, articleSlug)),
   onUpdateComment: (id, articleSlug, body) => dispatch(updateComment(id, articleSlug, body)),
   onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
+  onLikeComment: (articleSlug, commentId) => dispatch(commentLike(articleSlug, commentId)),
+  onDislikeComment: (articleSlug, commentId) => dispatch(commentDislike(articleSlug, commentId)),
 });
 export default connect(
   mapStateToProps,
