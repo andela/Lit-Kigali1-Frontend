@@ -37,7 +37,6 @@ export class Comment extends Component {
       onLikeComment,
       onDislikeComment,
     } = this.props;
-<<<<<<< HEAD
     if (!commentList.length && fetching) {
       return (
         <ContentLoader
@@ -70,25 +69,6 @@ export class Comment extends Component {
         onDislikeComment={onDislikeComment}
       />
     ));
-=======
-    if (commentList.length) {
-      const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      return newList.map(comment => (
-        <CommentRender
-          commentList={commentList}
-          currentUser={currentUser}
-          onDeleteComment={onDeleteComment}
-          articleSlug={articleSlug}
-          comment={comment}
-          key={comment.id}
-          enterPress={this.onEnterPress}
-          updateComment={this.onEditComment}
-          inputHandler={onUpdateCommentInput}
-        />
-      ));
-    }
-    return '';
->>>>>>> feat(like/dislike comment): add like and dislike icons
   };
 
   commentForm = () => {
@@ -181,13 +161,9 @@ Comment.defaultProps = {
 };
 
 export const mapStateToProps = ({
-<<<<<<< HEAD
   comment: {
     body, commentList, updateBody, fetching,
   },
-=======
-  comment: { body, commentList, updateBody },
->>>>>>> feat(like/dislike comment): add like and dislike icons
   currentUser: { profile, isLoggedIn },
 }) => ({
   body,
