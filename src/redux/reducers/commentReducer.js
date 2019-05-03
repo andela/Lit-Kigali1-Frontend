@@ -13,6 +13,8 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCH_COMMENT_HISTORY_SUCCESS,
+  FETCH_COMMENT_HISTORY_FAILURE,
 } from '../actions-types';
 
 import { comment as initialState } from '../initialState.json';
@@ -102,6 +104,16 @@ const commentReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         updateBody: payload,
+      };
+    case FETCH_COMMENT_HISTORY_SUCCESS:
+      return {
+        ...state,
+        originalComment: payload.editedComment,
+      };
+    case FETCH_COMMENT_HISTORY_FAILURE:
+      return {
+        ...state,
+        message: payload.message,
       };
     default:
       return state;

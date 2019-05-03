@@ -12,6 +12,8 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCH_COMMENT_HISTORY_FAILURE,
+  FETCH_COMMENT_HISTORY_SUCCESS,
 } from '../actions-types/commentTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
@@ -41,6 +43,16 @@ export const fetchAllCommentSucess = payload => ({
 
 export const fetchAllCommentFailure = payload => ({
   type: FETCH_ALL_COMMENTS_FAILURE,
+  payload,
+});
+
+export const fetchCommentHistorySuccess = payload => ({
+  type: FETCH_COMMENT_HISTORY_SUCCESS,
+  payload,
+});
+
+export const fetchCommentHistoryFailure = payload => ({
+  type: FETCH_COMMENT_HISTORY_FAILURE,
   payload,
 });
 
@@ -95,11 +107,12 @@ export const deleteComment = (id, articleSlug) => (dispatch) => {
   dispatch(deletingComment());
   return fetchAPI(`/articles/${articleSlug}/comments/${id}`, {
     method: 'DELETE',
-  }).then((data) => {
-    dispatch(deleteCommentSuccess(data));
-    dispatch(fetchAllComments(articleSlug));
-    return data;
   })
+    .then((data) => {
+      dispatch(deleteCommentSuccess(data));
+      dispatch(fetchAllComments(articleSlug));
+      return data;
+    })
     .catch((err) => {
       dispatch(deleteCommentFailure(err));
       return err;
@@ -145,3 +158,17 @@ export const updateComment = (id, articleSlug, body) => (dispatch) => {
       return err;
     });
 };
+
+export const fetchHistory = (articleSlug, commentId) => dispatch => fetchAPI(`/articles/${articleSlug}/comments/${commentId}/edited`, {
+  method: 'GET',
+})
+  .then((data) => {
+    console.log(data);
+    dispatch(fetchCommentHistorySuccess(data));
+    return data;
+  })
+  .catch((err) => {
+    console.log(err);
+    dispatch(fetchCommentHistoryFailure(err));
+    return err;
+  });

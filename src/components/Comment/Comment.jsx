@@ -8,6 +8,7 @@ import {
   deleteComment,
   updateComment,
   setUpdateCommentBody,
+  fetchHistory,
 } from '../../redux/actions/commentAction';
 import CommentRender from './CommentRender';
 
@@ -15,13 +16,13 @@ export class Comment extends Component {
   addComment = () => {
     const { body, articleSlug, onSubmitComment } = this.props;
     onSubmitComment(body, articleSlug);
-  }
+  };
 
   onChange = (e) => {
     const { onCommentInput } = this.props;
     onCommentInput({ body: e.target.value });
     e.preventDefault();
-  }
+  };
 
   displayComments = () => {
     const {
@@ -30,27 +31,27 @@ export class Comment extends Component {
       onDeleteComment,
       articleSlug,
       onUpdateCommentInput,
+      onFetchHistory,
     } = this.props;
     if (commentList.length) {
       const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      return (
-        newList.map(comment => (
-          <CommentRender
-            commentList={commentList}
-            currentUser={currentUser}
-            onDeleteComment={onDeleteComment}
-            articleSlug={articleSlug}
-            comment={comment}
-            key={comment.id}
-            enterPress={this.onEnterPress}
-            updateComment={this.onEditComment}
-            inputHandler={onUpdateCommentInput}
-          />
-        ))
-      );
+      return newList.map(comment => (
+        <CommentRender
+          commentList={commentList}
+          currentUser={currentUser}
+          onDeleteComment={onDeleteComment}
+          articleSlug={articleSlug}
+          comment={comment}
+          key={comment.id}
+          enterPress={this.onEnterPress}
+          updateComment={this.onEditComment}
+          inputHandler={onUpdateCommentInput}
+          onFetchHistory={onFetchHistory}
+        />
+      ));
     }
     return '';
-  }
+  };
 
   commentForm = () => {
     const { body } = this.props;
@@ -67,7 +68,7 @@ export class Comment extends Component {
         />
       </form>
     );
-  }
+  };
 
   onEnterPress = (e, fun, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -84,12 +85,12 @@ export class Comment extends Component {
       fun(id);
       e.preventDefault();
     }
-  }
+  };
 
   onEditComment = (id) => {
     const { articleSlug, updateBody, onUpdateComment } = this.props;
     onUpdateComment(id, articleSlug, updateBody);
-  }
+  };
 
   render() {
     return (
@@ -116,6 +117,7 @@ Comment.propTypes = {
   onUpdateCommentInput: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.any.isRequired,
+  onFetchHistory: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {
@@ -124,10 +126,7 @@ Comment.defaultProps = {
 
 export const mapStateToProps = ({
   comment: { body, commentList, updateBody },
-  currentUser: {
-    profile,
-    isLoggedIn,
-  },
+  currentUser: { profile, isLoggedIn },
 }) => ({
   body,
   currentUser: profile,
@@ -142,6 +141,7 @@ export const mapDispatchToProps = dispatch => ({
   onDeleteComment: (id, articleSlug) => dispatch(deleteComment(id, articleSlug)),
   onUpdateComment: (id, articleSlug, body) => dispatch(updateComment(id, articleSlug, body)),
   onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
+  onFetchHistory: (articleSlug, id) => dispatch(fetchHistory(articleSlug, id)),
 });
 export default connect(
   mapStateToProps,

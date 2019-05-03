@@ -55,7 +55,7 @@
       "title": "",
       "body": "",
       "tagList": [],
-      "slug":""
+      "slug": ""
     },
     "createArticle": {
       "title": "",
@@ -79,6 +79,7 @@
     "deleting": false,
     "updating": false,
     "success": false,
-    "commentList": []
+    "commentList": [],
+    "originalComment": {}
   }
 }

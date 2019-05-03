@@ -217,11 +217,13 @@ export const updateArticle = (slug, article) => (dispatch) => {
     body: {
       article,
     },
-  }).then((data) => {
-    dispatch(submitArticleFormSuccess(data));
-    return data;
-  }).catch((err) => {
-    dispatch(submitArticleFormFailure(err.message));
-    return err;
-  });
+  })
+    .then((data) => {
+      dispatch(submitArticleFormSuccess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(submitArticleFormFailure(err.message));
+      return err;
+    });
 };

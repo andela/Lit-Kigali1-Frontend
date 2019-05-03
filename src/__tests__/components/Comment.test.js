@@ -22,6 +22,7 @@ const props = {
   history: {
     push: jest.fn(),
   },
+  onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(initialState);
@@ -34,17 +35,24 @@ describe('<Comment />', () => {
 
   test('should display comments', () => {
     const newProps = { ...props, commentList: commentData };
-    const wrapper = mount(<Provider store={store}><Comment {...newProps} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...newProps} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { displayComments } = comment.instance();
     const comments = displayComments();
     expect(comments.length).toEqual(3);
   });
 
-
   test('should update comment', () => {
     const fakeId = 'fake-id';
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { onEditComment } = comment.instance();
     onEditComment(fakeId);
@@ -52,7 +60,11 @@ describe('<Comment />', () => {
   });
 
   test('should add comment', () => {
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { addComment } = comment.instance();
     addComment();
@@ -66,7 +78,11 @@ describe('<Comment />', () => {
         value: ' ',
       },
     };
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { onChange } = comment.instance();
     onChange(event);
@@ -81,7 +97,11 @@ describe('<Comment />', () => {
         value: ' ',
       },
     };
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const mockFn = jest.spyOn(comment.instance(), 'onEnterPress');
     const commentInput = comment.find('textarea');
@@ -101,7 +121,11 @@ describe('<Comment />', () => {
 
     test('should prevent default onEnterPress', () => {
       const fakeId = 'fake-id';
-      const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <Comment {...props} />
+        </Provider>,
+      );
       const comment = wrapper.find('Comment');
       const { onEnterPress } = comment.instance();
       onEnterPress(event, jest.fn(), fakeId);
@@ -112,7 +136,11 @@ describe('<Comment />', () => {
       const mockFn = jest.fn();
       event.target.value = 'hello';
       const fakeId = 'fake-id';
-      const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <Comment {...props} />
+        </Provider>,
+      );
       const comment = wrapper.find('Comment');
       const { onEnterPress } = comment.instance();
       onEnterPress(event, mockFn, fakeId);
@@ -125,7 +153,11 @@ describe('<Comment />', () => {
       event.target.value = 'hello';
       const fakeId = 'fake-id';
       const newProps = { ...props, isLoggedIn: true };
-      const wrapper = mount(<Provider store={store}><Comment {...newProps} /></Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <Comment {...newProps} />
+        </Provider>,
+      );
       const comment = wrapper.find('Comment');
       const { onEnterPress } = comment.instance();
       onEnterPress(event, mockFn, fakeId);
@@ -169,6 +201,13 @@ describe('<Comment />', () => {
       const body = 'fake-body';
       const { onCommentInput } = mapDispatchToProps(dispatch);
       onCommentInput({ body });
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should dispatch onFetchHistory', () => {
+      const articleSlug = 'article-slug';
+      const id = 'd43bedc3-2abd-4237-96d2-289716dfd151';
+      mapDispatchToProps(dispatch).onFetchHistory(articleSlug, id);
       expect(dispatch).toHaveBeenCalled();
     });
   });
