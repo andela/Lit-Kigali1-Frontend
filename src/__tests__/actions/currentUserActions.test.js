@@ -245,15 +245,19 @@ describe('currentUserActions', () => {
         });
       const expectedActions = [
         {
-          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          type: 'SET_CURRENT_USER_DELETING_ARTICLE',
           payload: true,
         },
         {
-          type: DELETE_CURRENT_USER_ARTICLE,
-          payload,
+          type: 'DELETE_CURRENT_USER_ARTICLE',
+          payload:
+        {
+          articleSlug: 'article-slug',
+          message: 'Article deleted successfully',
+        },
         },
         {
-          type: SET_CURRENT_USER_DELETING_ARTICLE,
+          type: 'SET_CURRENT_USER_DELETING_ARTICLE',
           payload: false,
         },
       ];

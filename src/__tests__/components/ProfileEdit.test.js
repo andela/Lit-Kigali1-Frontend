@@ -2,12 +2,15 @@ import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import 'babel-polyfill';
+import mock from 'superagent-mock';
+import request from 'superagent';
 import {
   ProfileEdit,
   mapStateToProps,
   mapDispatchToProps,
 } from '../../components/Profile/ProfileEdit';
 import initialState from '../../redux/initialState.json';
+import { file, urlValue } from '../../__mocks__/dummyData';
 
 let wrapper;
 const props = {
@@ -20,6 +23,7 @@ const props = {
   handleInput: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   onImageDrop: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
+const API_URL = process.env.UPLOAD_URL;
 describe('<ProfileEdit />', () => {
   beforeEach(() => {
     wrapper = mount(<ProfileEdit {...props} />);
@@ -103,5 +107,35 @@ describe('action creators', () => {
     const dispatch = jest.fn();
     mapDispatchToProps(dispatch).handleInput(payload);
     expect(dispatch).toHaveBeenCalled();
+  });
+
+  test('should call handleInput onImageDrop', () => {
+    const config = [
+      {
+        pattern: API_URL,
+        fixtures: () => ({
+          body: { secure_url: urlValue },
+        }),
+        post: (match, data) => data,
+      },
+    ];
+    mock(request, config);
+    const { onImageDrop } = wrapper.instance();
+    onImageDrop([JSON.stringify(file)]);
+    expect(wrapper.props().handleInput).toHaveBeenCalled();
+  });
+
+  test('should call handleInput onImageDrop', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'showToast');
+    const config = [
+      {
+        pattern: API_URL,
+        post: (match, data) => data,
+      },
+    ];
+    mock(request, config);
+    const { onImageDrop } = wrapper.instance();
+    onImageDrop([JSON.stringify(file)]);
+    expect(spy).toHaveBeenCalled();
   });
 });

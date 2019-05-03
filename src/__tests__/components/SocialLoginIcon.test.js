@@ -14,6 +14,7 @@ describe('<Login />', () => {
       <SocialLoginIcon id="id" alt="alt" href="href" icon="icon" dataTest={dataTest} />,
     );
   });
+
   test('should render a div', () => {
     const div = component.find(`[data-test='${dataTest.div}']`);
     expect(div.length).toEqual(1);

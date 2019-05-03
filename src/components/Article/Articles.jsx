@@ -4,18 +4,32 @@ import queryString from 'query-string';
 import { PropTypes } from 'prop-types';
 import { fetchArticles } from '../../redux/actions/articleActions';
 import ArticleCard from './ArticleCard';
-import Pagination from '../../components/common/Pagination';
+import Pagination from '../common/Pagination';
 
 export class Articles extends Component {
   componentDidMount() {
-    const { getArticles } = this.props;
-    const parsed = queryString.parse(this.props.location.search);
+    const {
+      getArticles, location,
+    } = this.props;
+    const parsed = queryString.parse(location.search);
     getArticles({ page: parsed.page });
   }
 
+  renderArticles = () => {
+    const { articles, history } = this.props;
+    return articles.map(article => (
+      <ArticleCard
+        history={history}
+        url={`/articles/${article.slug}`}
+        key={article.slug}
+        article={article}
+      />
+    ));
+  };
+
   render() {
     const {
-      articles, history, page, pages,
+      history, page, pages,
     } = this.props;
     return (
       <section className="main-content">
@@ -44,21 +58,14 @@ export class Articles extends Component {
               </form>
 
               <h3>ARTICLES</h3>
-              {articles.map(article => (
-                <ArticleCard
-                  history={history}
-                  url={`/articles/${article.slug}`}
-                  key={article.slug}
-                  article={article}
-                />
-              ))}
+              {this.renderArticles()}
               <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
             </div>
           </div>
         </div>
-        <a className="go-top-btn" href="#">
+        <button className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />
-        </a>
+        </button>
       </section>
     );
   }
@@ -66,12 +73,12 @@ export class Articles extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading, articles, submitting, page, pages,
+    loading, articlesList, submitting, page, pages,
   },
   currentUser: { profile },
 }) => ({
   loading,
-  articles,
+  articles: articlesList,
   page,
   pages,
   submitting,
@@ -86,10 +93,16 @@ Articles.propTypes = {
   articles: PropTypes.array,
   getArticles: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  page: PropTypes.number,
+  pages: PropTypes.number,
+  location: PropTypes.object,
 };
 
 Articles.defaultProps = {
   articles: [],
+  page: 1,
+  pages: 1,
+  location: {},
 };
 
 export default connect(

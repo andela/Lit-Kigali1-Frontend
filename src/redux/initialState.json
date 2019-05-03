@@ -52,18 +52,23 @@
     "loadingRatings": true,
     "submitting": false,
     "success": true,
-    "article": {
+    "singleArticle": {
       "title": "",
       "body": "",
       "tagList": []
     },
-    "articles": [],
+    "createArticle": {
+      "title": "",
+      "body": "",
+      "tagList": []
+    },
     "ratings": [],
     "totalPages": 1,
     "currentPage": 1,
     "likes": [],
     "dislikes": [],
     "liked": false,
-    "disliked": false
+    "disliked": false,
+    "articlesList": []
   }
 }

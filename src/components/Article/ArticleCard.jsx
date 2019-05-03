@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-dom';
 import { PropTypes } from 'prop-types';
 
 class ArticleCard extends Component {
@@ -25,7 +24,7 @@ class ArticleCard extends Component {
         />
         <div className="article-card__content">
           <h3 className="article-card__content-title">{article.title}</h3>
-          <div className="article-card__content-text">{article.body}</div>
+          <div className="article-card__content-text">{article.description || article.body}</div>
           <div className="article-card__content-meta">
             <span>{article.readingTime}</span>
             <span>

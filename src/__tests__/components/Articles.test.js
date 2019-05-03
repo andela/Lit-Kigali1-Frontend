@@ -35,6 +35,7 @@ describe('<Articles />', () => {
 
   test('should render <Article /> with articles', () => {
     wrapper = mount(<Articles {...props} />);
+    wrapper.instance().renderArticles();
     expect(wrapper.props().articles).toBeDefined();
   });
 
@@ -51,7 +52,7 @@ describe('<Articles />', () => {
   describe('actions creators', () => {
     test('should call getArticle action', () => {
       const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).getArticles(1);
+      mapDispatchToProps(dispatch).getArticles({ page: 1 });
       expect(dispatch).toHaveBeenCalled();
     });
   });
