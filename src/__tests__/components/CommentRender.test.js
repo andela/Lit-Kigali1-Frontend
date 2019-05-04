@@ -3,19 +3,21 @@ import { mount, shallow } from 'enzyme';
 import { CommentRender } from '../../components/Comment/CommentRender';
 import { commentData } from '../../__mocks__/dummyData';
 
-
 const props = {
   articleSlug: '',
   comment: {
     ...commentData[0],
   },
-  currentUser: {
-  },
+  currentUser: {},
   onDeleteComment: jest.fn(),
   updateComment: jest.fn(),
   enterPress: jest.fn(),
   inputHandler: jest.fn(),
   updateBody: '',
+  fetchLikes: jest.fn(),
+  fetchDislikes: jest.fn(),
+  onLikeComment: jest.fn(),
+  onDislikeComment: jest.fn(),
 };
 
 describe('<CommentRender />', () => {
@@ -92,7 +94,6 @@ describe('<CommentRender />', () => {
     wrapper.find('textarea').simulate('keydown', event);
     expect(wrapper.props().enterPress).toHaveBeenCalled();
   });
-
 
   test('onClick of delete btn should call onDeleteComment', () => {
     const wrapper = mount(<CommentRender {...props} />);

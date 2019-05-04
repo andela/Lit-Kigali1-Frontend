@@ -22,6 +22,8 @@ const props = {
   history: {
     push: jest.fn(),
   },
+  onLikeComment: jest.fn(),
+  onDislikeComment: jest.fn(),
 };
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(initialState);
@@ -34,17 +36,24 @@ describe('<Comment />', () => {
 
   test('should display comments', () => {
     const newProps = { ...props, commentList: commentData };
-    const wrapper = mount(<Provider store={store}><Comment {...newProps} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...newProps} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { displayComments } = comment.instance();
     const comments = displayComments();
     expect(comments.length).toEqual(3);
   });
 
-
   test('should update comment', () => {
     const fakeId = 'fake-id';
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { onEditComment } = comment.instance();
     onEditComment(fakeId);
@@ -52,7 +61,11 @@ describe('<Comment />', () => {
   });
 
   test('should add comment', () => {
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { addComment } = comment.instance();
     addComment();
@@ -66,7 +79,11 @@ describe('<Comment />', () => {
         value: ' ',
       },
     };
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const { onChange } = comment.instance();
     onChange(event);
@@ -81,7 +98,11 @@ describe('<Comment />', () => {
         value: ' ',
       },
     };
-    const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+    const wrapper = mount(
+      <Provider store={store}>
+        <Comment {...props} />
+      </Provider>,
+    );
     const comment = wrapper.find('Comment');
     const mockFn = jest.spyOn(comment.instance(), 'onEnterPress');
     const commentInput = comment.find('textarea');
@@ -101,7 +122,11 @@ describe('<Comment />', () => {
 
     test('should prevent default onEnterPress', () => {
       const fakeId = 'fake-id';
-      const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <Comment {...props} />
+        </Provider>,
+      );
       const comment = wrapper.find('Comment');
       const { onEnterPress } = comment.instance();
       onEnterPress(event, jest.fn(), fakeId);
@@ -112,7 +137,11 @@ describe('<Comment />', () => {
       const mockFn = jest.fn();
       event.target.value = 'hello';
       const fakeId = 'fake-id';
-      const wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <Comment {...props} />
+        </Provider>,
+      );
       const comment = wrapper.find('Comment');
       const { onEnterPress } = comment.instance();
       onEnterPress(event, mockFn, fakeId);
@@ -125,7 +154,11 @@ describe('<Comment />', () => {
       event.target.value = 'hello';
       const fakeId = 'fake-id';
       const newProps = { ...props, isLoggedIn: true };
-      const wrapper = mount(<Provider store={store}><Comment {...newProps} /></Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <Comment {...newProps} />
+        </Provider>,
+      );
       const comment = wrapper.find('Comment');
       const { onEnterPress } = comment.instance();
       onEnterPress(event, mockFn, fakeId);
@@ -169,6 +202,22 @@ describe('<Comment />', () => {
       const body = 'fake-body';
       const { onCommentInput } = mapDispatchToProps(dispatch);
       onCommentInput({ body });
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should dispatch onLikeComment', () => {
+      const articleSlug = 'fake-slug';
+      const commentId = 'fake-id';
+      const { onLikeComment } = mapDispatchToProps(dispatch);
+      onLikeComment(articleSlug, commentId);
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should dispatch onDislikeComment', () => {
+      const articleSlug = 'fake-slug';
+      const commentId = 'fake-id';
+      const { onDislikeComment } = mapDispatchToProps(dispatch);
+      onDislikeComment(articleSlug, commentId);
       expect(dispatch).toHaveBeenCalled();
     });
   });
