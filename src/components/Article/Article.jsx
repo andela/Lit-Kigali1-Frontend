@@ -30,8 +30,6 @@ export class Article extends Component {
       },
       getArticle,
     } = this.props;
-
-    console.log(this.props);
     getArticle(articleSlug);
   }
 
