@@ -14,7 +14,11 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATE_COMMENT_FAILURE,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCH_COMMENT_LIKES_SUCCESS,
+  FETCH_COMMENT_DISLIKES_SUCCESS,
 } from '../../redux/actions-types/commentTypes';
+
+import { commentData } from '../../__mocks__/dummyData';
 
 import { comment as initialState } from '../../redux/initialState.json';
 
@@ -221,6 +225,40 @@ describe('commentReducer Test', () => {
     expect(res).toEqual({
       ...initialState,
       updateBody: action.payload,
+    });
+  });
+
+  test('should dispatch "FETCH_COMMENT_LIKES_SUCCESS"', () => {
+    const action = {
+      type: FETCH_COMMENT_LIKES_SUCCESS,
+      payload: {
+        comment: commentData[2].id,
+        likes: commentData[2].likes,
+      },
+    };
+    const newState = {
+      commentList: [...commentData],
+    };
+    const res = commentReducer(newState, action);
+    expect(res).toEqual({
+      commentList: [...newState.commentList],
+    });
+  });
+
+  test('should dispatch "FETCH_COMMENT_DISLIKES_SUCCESS"', () => {
+    const action = {
+      type: FETCH_COMMENT_DISLIKES_SUCCESS,
+      payload: {
+        comment: commentData[2].id,
+        dislikes: commentData[2].dislikes,
+      },
+    };
+    const newState = {
+      commentList: [...commentData],
+    };
+    const res = commentReducer(newState, action);
+    expect(res).toEqual({
+      commentList: [...newState.commentList],
     });
   });
 });

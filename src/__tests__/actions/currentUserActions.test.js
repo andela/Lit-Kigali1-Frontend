@@ -10,7 +10,6 @@ import {
   SET_USER_ACTION_SUCCESS,
   SET_USER_ACTION_FAILURE,
   SET_CURRENT_USER_DELETING_ARTICLE,
-  DELETE_CURRENT_USER_ARTICLE,
   SET_RATING_ARTICLE,
   SUBMIT_PROFILE_FORM,
   UPDATE_PROFILE_SUCCESS,
@@ -249,8 +248,11 @@ describe('currentUserActions', () => {
           payload: true,
         },
         {
-          type: DELETE_CURRENT_USER_ARTICLE,
-          payload,
+          type: 'DELETE_CURRENT_USER_ARTICLE',
+          payload: {
+            articleSlug: 'article-slug',
+            message: 'Article deleted successfully',
+          },
         },
         {
           type: SET_CURRENT_USER_DELETING_ARTICLE,

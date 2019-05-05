@@ -20,6 +20,10 @@ import {
   updatingCommentSuccess,
   setUpdateCommentBody,
   updateComment,
+  commentLike,
+  commentDislike,
+  fetchCommentLikes,
+  fetchCommentDislikes,
 } from '../../redux/actions/commentAction';
 import {
   HANDLE_COMMENT_INPUT,
@@ -36,6 +40,10 @@ import {
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
   FETCHING_COMMENTS,
+  FETCH_COMMENT_LIKES_SUCCESS,
+  FETCH_COMMENT_DISLIKES_SUCCESS,
+  COMMENT_LIKES_FAILURE,
+  COMMENT_DISLIKES_FAILURE,
 } from '../../redux/actions-types/commentTypes';
 import { commentData } from '../../__mocks__/dummyData';
 
@@ -302,6 +310,102 @@ describe('Comment Action Test', () => {
       expect(actions[0].type).toEqual(UPDATING_COMMENT);
       expect(actions[1].type).toEqual(UPDATE_COMMENT_FAILURE);
       expect(res.message).toEqual('comment not found');
+    });
+  });
+
+  test('Should like a comment', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'comment-id';
+    store = mockStore({});
+    nock(API_URL)
+      .post(`/articles/${articleSlug}/comments/${commentId}/like`)
+      .reply(201, { status: 201, message: 'Liked' });
+    return store.dispatch(commentLike(articleSlug, commentId)).then(() => {
+      expect(store.getActions()).toEqual([]);
+    });
+  });
+
+  test('Should not like a comment', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'comment-id';
+    store = mockStore({});
+    const expectedAction = [
+      {
+        type: COMMENT_LIKES_FAILURE,
+        payload: { status: 404, message: 'Comment not found' },
+      },
+    ];
+    nock(API_URL)
+      .post(`/articles/${articleSlug}/comments/${commentId}/like`)
+      .reply(404, { status: 404, message: 'Comment not found' });
+    return store.dispatch(commentLike(articleSlug, commentId)).then(() => {
+      expect(store.getActions()).toEqual(expectedAction);
+    });
+  });
+
+  test('Should dislike a comment', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'comment-id';
+    store = mockStore({});
+    nock(API_URL)
+      .post(`/articles/${articleSlug}/comments/${commentId}/dislike`)
+      .reply(201, { status: 201, message: 'Disliked' });
+    return store.dispatch(commentDislike(articleSlug, commentId)).then(() => {
+      expect(store.getActions()).toEqual([]);
+    });
+  });
+
+  test('Should not dislike a comment', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'comment-id';
+    store = mockStore({});
+    const expectedAction = [
+      {
+        type: COMMENT_DISLIKES_FAILURE,
+        payload: { status: 404, message: 'Comment not found' },
+      },
+    ];
+    nock(API_URL)
+      .post(`/articles/${articleSlug}/comments/${commentId}/dislike`)
+      .reply(404, { status: 404, message: 'Comment not found' });
+    return store.dispatch(commentDislike(articleSlug, commentId)).then(() => {
+      expect(store.getActions()).toEqual(expectedAction);
+    });
+  });
+
+  test('Should fetch likes', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'comment-id';
+    store = mockStore({});
+    const expectedAction = [
+      {
+        type: FETCH_COMMENT_LIKES_SUCCESS,
+        payload: { status: 201, message: 'likes' },
+      },
+    ];
+    nock(API_URL)
+      .get(`/articles/${articleSlug}/comments/${commentId}/like`)
+      .reply(201, { status: 201, message: 'likes' });
+    return store.dispatch(fetchCommentLikes(articleSlug, commentId)).then(() => {
+      expect(store.getActions()).toEqual(expectedAction);
+    });
+  });
+
+  test('Should fetch dislikes', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'comment-id';
+    store = mockStore({});
+    const expectedAction = [
+      {
+        type: FETCH_COMMENT_DISLIKES_SUCCESS,
+        payload: { status: 201, message: 'dislikes' },
+      },
+    ];
+    nock(API_URL)
+      .get(`/articles/${articleSlug}/comments/${commentId}/dislike`)
+      .reply(201, { status: 201, message: 'dislikes' });
+    return store.dispatch(fetchCommentDislikes(articleSlug, commentId)).then(() => {
+      expect(store.getActions()).toEqual(expectedAction);
     });
   });
 });

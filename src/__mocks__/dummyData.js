@@ -334,6 +334,22 @@ module.exports = {
       author: {
         username: 'Chris',
       },
+      likes: [
+        {
+          commentId: '78f444b5-1257-443b-af54-3f8faf9ae90u',
+          author: {
+            username: 'chris',
+          },
+        },
+      ],
+      dislikes: [
+        {
+          commentId: '78f444b5-1257-443b-af54-3f8faf9ae90u',
+          author: {
+            username: 'chris',
+          },
+        },
+      ],
     },
   ],
   draftJsContentState: {

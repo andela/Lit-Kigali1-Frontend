@@ -76,15 +76,18 @@ export class CommentRender extends React.Component {
         </div>
         <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
         <div className="comment-user-action">
-          <button className="comment-action" onClick={() => onLikeComment(articleSlug, comment.id)}>
+          <button
+            className="comment-action like-btn"
+            onClick={() => onLikeComment(articleSlug, comment.id)}
+          >
             <i className={`fa fa-thumbs-${comment.liked ? '' : 'o-'}up`} title="Like" />
           </button>
           <span className="comment-action-count">
             {comment.likesCount === 0 ? '' : comment.likesCount}
-            <div className="comment-likers">
+            <div className="comment-likers user-like">
               {comment.likes
                 ? comment.likes.map(like => (
-                  <div className="comment-likers-data">
+                  <div className="comment-likers-data" key={comment.likes.indexOf(like)}>
                     <img src={like.author.image || avatar} alt="" className="profile-avatar" />
                     <span>
                       {' '}
@@ -96,7 +99,7 @@ export class CommentRender extends React.Component {
             </div>
           </span>
           <button
-            className="comment-action"
+            className="comment-action dislike-btn"
             onClick={() => onDislikeComment(articleSlug, comment.id)}
           >
             <i className={`fa fa-thumbs-${comment.disliked ? '' : 'o-'}down`} title="Dislike" />
@@ -106,7 +109,7 @@ export class CommentRender extends React.Component {
             <div className="comment-likers">
               {comment.dislikes
                 ? comment.dislikes.map(dislike => (
-                  <div className="comment-likers-data">
+                  <div className="comment-likers-data" key={comment.dislikes.indexOf(dislike)}>
                     <img src={dislike.author.image || avatar} alt="" className="profile-avatar" />
                     <span>
                       {' '}
