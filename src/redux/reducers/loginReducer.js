@@ -8,7 +8,7 @@ import {
   SOCIAL_AUTH_SUBMIT,
   SOCIAL_AUTH_SUCCESS,
 } from '../actions-types';
-import { login as initialState } from '../initialState.json';
+import { login as initialState } from '../initialState';
 
 const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {

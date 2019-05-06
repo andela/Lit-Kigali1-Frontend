@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
 import { PropTypes } from 'prop-types';
+import qs from 'query-string';
 import { fetchArticles } from '../../redux/actions/articleActions';
 import ArticleCard from './ArticleCard';
-import Pagination from '../common/Pagination';
+import SearchInput from '../common/Input/SearchInput';
+import Pagination from '../../components/common/Pagination';
 
+const allowedParams = ['title', 'author', 'tag'];
 export class Articles extends Component {
+  state = {
+    filterBy: '',
+    words: '',
+  };
+
   componentDidMount() {
-    const {
-      getArticles, location,
-    } = this.props;
-    const parsed = queryString.parse(location.search);
-    getArticles({ page: parsed.page });
+    const { location } = this.props;
+    const obj = qs.parse(location.search);
+    const filterBy = Object.keys(obj).find(val => allowedParams.indexOf(val) !== -1);
+    const words = obj[filterBy] || '';
+    this.setState({ words, filterBy }, () => this.filterArticles());
   }
+
+  redirectTo = () => {
+    const { history, location } = this.props;
+    const { filterBy, words } = this.state;
+    const parsed = qs.parse(location.search);
+    let url = `/articles?page=${parsed.page || 1}`;
+    if (words) {
+      url = `${url}&${filterBy || 'title'}=${words}`;
+    }
+    history.push(url);
+  };
+
+  filterArticles = () => {
+    const { filterBy, words } = this.state;
+    const { getArticles, location } = this.props;
+    const parsed = qs.parse(location.search);
+
+    this.redirectTo();
+    getArticles({ filterBy, words, page: parsed.page });
+  };
 
   renderArticles = () => {
     const { articles, history } = this.props;
@@ -27,10 +54,18 @@ export class Articles extends Component {
     ));
   };
 
+  onSelectFilter = (e) => {
+    const { filterBy } = e.target.dataset;
+    this.setState({ filterBy }, () => this.filterArticles());
+  };
+
+  onSearch = (words) => {
+    this.setState({ words }, () => this.filterArticles());
+  };
+
   render() {
-    const {
-      history, page, pages,
-    } = this.props;
+    const { filterBy, words } = this.state;
+    const { history, page, pages } = this.props;
     return (
       <section className="main-content">
         <div className="container">
@@ -39,21 +74,42 @@ export class Articles extends Component {
             <div className="col-10 mt-10">
               <form action="">
                 <div className="input">
-                  <input type="text" placeholder="Search for ..." />
+                  <SearchInput
+                    type="text"
+                    value={words}
+                    placeholder="Search for ..."
+                    onChange={this.onSearch}
+                  />
                 </div>
 
                 <div className="articles-filter">
-                  <input type="checkbox" id="articles" className="filter-by" />
-                  <label htmlFor="articles">Articles</label>
-
-                  <input type="checkbox" id="author" className="filter-by" />
-                  <label htmlFor="author">Author</label>
-
-                  <input type="checkbox" id="tag" className="filter-by" />
-                  <label htmlFor="tag">Tag</label>
-
-                  <input type="checkbox" id="favorited" className="filter-by" />
-                  <label htmlFor="favorited">Favorited</label>
+                  <span
+                    data-el="span-title"
+                    role="presentation"
+                    className={`filter-by ${filterBy === 'title' ? 'active' : ''}`}
+                    data-filter-by="title"
+                    onClick={this.onSelectFilter}
+                  >
+                    Article
+                  </span>
+                  <span
+                    data-el="span-author"
+                    role="presentation"
+                    className={`filter-by ${filterBy === 'author' ? 'active' : ''}`}
+                    data-filter-by="author"
+                    onClick={this.onSelectFilter}
+                  >
+                    Author
+                  </span>
+                  <span
+                    data-el="span-tag"
+                    role="presentation"
+                    className={`filter-by ${filterBy === 'tag' ? 'active' : ''}`}
+                    data-filter-by="tag"
+                    onClick={this.onSelectFilter}
+                  >
+                    Tag
+                  </span>
                 </div>
               </form>
 
@@ -73,14 +129,14 @@ export class Articles extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading, articlesList, submitting, page, pages,
+    loading, articlesList, page, pages, submitting,
   },
   currentUser: { profile },
 }) => ({
   loading,
-  articles: articlesList,
   page,
   pages,
+  articles: articlesList,
   submitting,
   currentUser: profile,
 });
@@ -90,19 +146,19 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 Articles.propTypes = {
+  location: PropTypes.object,
   articles: PropTypes.array,
   getArticles: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   page: PropTypes.number,
   pages: PropTypes.number,
-  location: PropTypes.object,
 };
 
 Articles.defaultProps = {
+  location: { params: {} },
   articles: [],
   page: 1,
   pages: 1,
-  location: {},
 };
 
 export default connect(

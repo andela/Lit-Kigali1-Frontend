@@ -15,7 +15,7 @@ import {
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
-import { currentUser as initialState } from '../../redux/initialState.json';
+import { currentUser as initialState } from '../../redux/initialState';
 
 describe('currentUserReducer', () => {
   it('should return the initial `state`', () => {
@@ -86,13 +86,13 @@ describe('currentUserReducer', () => {
       reducer(
         {
           ...initialState,
-          profile: { ...initialState.profile, articles: [{ slug: 'article-slug' }] },
+          profile: { articles: [{ slug: 'article-slug' }] },
         },
         expectedState,
       ),
     ).toEqual({
       ...initialState,
-      message: expectedState.payload.message,
+      profile: { articles: [{ slug: 'article-slug' }] },
     });
   });
 

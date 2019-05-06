@@ -1,4 +1,4 @@
-@import '../base/variables';
+@import "../base/variables";
 .article-text {
   min-height: 650px;
   outline: none;
@@ -95,7 +95,7 @@
   margin-left: 13.3vw;
   @media screen and (max-width: 768px) {
     margin-left: 15vw;
-    }
+  }
 }
 .tags {
   span {
@@ -114,7 +114,7 @@
   }
   span:after {
     position: absolute;
-    content: '×';
+    content: "×";
     padding: 2px 5px;
     margin-left: 3px;
     font-size: 11px;

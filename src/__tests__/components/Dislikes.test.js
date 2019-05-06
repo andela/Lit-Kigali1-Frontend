@@ -1,8 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import { Dislikes, mapDispatchToProps } from '../../components/Dislikes/Dislikes';
+import { Dislikes, mapDispatchToProps, mapStateToProps } from '../../components/Dislikes/Dislikes';
 import { dislikeData } from '../../__mocks__/dummyData';
+import initialState from '../../redux/initialState';
 
 let wrapper;
 const props = {
@@ -37,6 +38,14 @@ describe('<Dislikes />', () => {
     wrapper = mount(<Dislikes {...newProps} />);
     expect(wrapper.props().dislikes.length).toBe(0);
     expect(props.history.push).toHaveBeenCalled();
+  });
+
+  describe('reducers', () => {
+    test('should initialize the component state', () => {
+      const state = mapStateToProps(initialState);
+      expect(state).toHaveProperty('article');
+      expect(state).toHaveProperty('dislikes');
+    });
   });
 
   describe('actions creators', () => {

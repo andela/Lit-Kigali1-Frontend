@@ -9,7 +9,7 @@ import {
   mapStateToProps,
   mapDispatchToProps,
 } from '../../components/Profile/ProfileEdit';
-import initialState from '../../redux/initialState.json';
+import initialState from '../../redux/initialState';
 import { file, urlValue } from '../../__mocks__/dummyData';
 
 let wrapper;

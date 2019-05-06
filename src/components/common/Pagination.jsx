@@ -67,6 +67,9 @@ export class Pagination extends Component {
       }
       iconNumber++;
     }
+    if (totalPages < 5) {
+      return parent;
+    }
     if (currentPage === 1) {
       return parent.slice(currentPage - 1, currentPage + 4);
     }

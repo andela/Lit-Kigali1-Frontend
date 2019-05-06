@@ -259,11 +259,64 @@ describe('articleActions', () => {
     });
 
     test('should dispatch fetchArticles action - SUCCESS', () => {
+      expect.assertions(2);
+      const payload = {
+        page: 1,
+        pages: 1,
+        articlesCount: 1,
+        articlesList: [articleData],
+      };
       nock(API_URL)
-        .get('/articles?page=1')
-        .reply(200, { status: 200, articles: [articleData] });
-      return store.dispatch(articleActions.fetchArticles(1)).then((res) => {
+        .get('/articles?page=1&title=words')
+        .reply(200, {
+          status: 200,
+          page: 1,
+          pages: 1,
+          articlesCount: 1,
+          articles: [articleData],
+        });
+      const expectedActions = [
+        {
+          type: articleTypes.FETCHING_ARTICLE,
+          payload: true,
+        },
+        {
+          type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
+          payload,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticles({ words: 'words' })).then((res) => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(200);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}`)
+        .reply(200, { status: 200, article: articleData });
+      return store.dispatch(articleActions.fetchAndUpdateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(200);
+        expect(res.article).toEqual(articleData);
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.SET_EDIT_ARTICLE);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      return store.dispatch(articleActions.fetchAndUpdateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(404);
+        expect(res.message).toEqual('Article not found');
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.FETCHING_ARTICLE_FAILURE);
       });
     });
 

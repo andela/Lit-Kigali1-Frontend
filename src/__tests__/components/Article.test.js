@@ -2,7 +2,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { Article, mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
 import { articleData, articleDataDraft } from '../../__mocks__/dummyData';
-import initialState from '../../redux/initialState.json';
+import initialState from '../../redux/initialState';
 
 let wrapper;
 const props = {
@@ -51,6 +51,20 @@ describe('<Article />', () => {
     newProps.singleArticle.cover = undefined;
     const articleWrapper = mount(<Article {...newProps} />);
     expect(articleWrapper.props().singleArticle.cover).toBeUndefined();
+  });
+
+  test('should render <Article /> the Editor', () => {
+    const newProps = props;
+    newProps.article = articleDataDraft;
+    wrapper = mount(<Article {...newProps} />);
+    expect(wrapper.props().article.tagList).toBeDefined();
+    expect(wrapper.props().article.tagList).toBeDefined();
+  });
+
+  test('should render <Article /> with cover', () => {
+    props.article.cover = 'https://picsum.photos/200/300';
+    wrapper = mount(<Article {...props} />);
+    expect(wrapper.props().article.cover).toBeDefined();
   });
 
   test('should render <Article /> the Editor', () => {
@@ -112,7 +126,6 @@ describe('<Article />', () => {
       expect(props.history.push).toHaveBeenCalled();
     });
   });
-
 
   describe('actions creators', () => {
     test('should call getArticle action', () => {
@@ -218,7 +231,6 @@ describe('<Article />', () => {
       test('should initialize the component state', () => {
         const state = mapStateToProps(initialState);
         expect(state).toHaveProperty('loading');
-        expect(state).toHaveProperty('singleArticle');
         expect(state).toHaveProperty('submitting');
         expect(state).toHaveProperty('currentUser');
       });

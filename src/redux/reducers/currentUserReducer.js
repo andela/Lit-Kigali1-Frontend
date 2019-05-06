@@ -1,5 +1,5 @@
 import * as types from '../actions-types/currentUserTypes';
-import { currentUser as initialState } from '../initialState.json';
+import { currentUser as initialState } from '../initialState';
 
 const currentUserReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -32,15 +32,6 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         deletingArticle: payload,
-      };
-    case types.DELETE_CURRENT_USER_ARTICLE:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          articles: state.profile.articles.filter(article => article.slug !== payload.articleSlug),
-        },
-        message: payload.message,
       };
     case types.SET_RATING_ARTICLE:
       return {

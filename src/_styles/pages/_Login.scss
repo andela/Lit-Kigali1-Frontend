@@ -42,15 +42,16 @@
   .errors {
     color: red;
     font-size: 12px;
-    padding-right:50px;
+    padding-right: 50px;
     position: absolute;
-    right:0;
+    right: 0;
     @media screen and (max-width: 768px) {
-     margin-top: 25px;
+      margin-top: 25px;
     }
+  }
 }
-}
-.flipBack,.flip {
+.flipBack,
+.flip {
   height: 528px;
   width: 457px;
   transition: transform 1s ease-in-out;
@@ -78,11 +79,11 @@
 .errors {
   color: red;
   font-size: 12px;
-  padding-right:50px;
+  padding-right: 50px;
   position: absolute;
-  right:0;
+  right: 0;
   @media screen and (max-width: 768px) {
-   margin-top: 25px;
+    margin-top: 25px;
   }
 }
 

@@ -8,7 +8,7 @@ import {
   mapDispatchToProps,
 } from '../../components/Article/ArticlesCurrentUser';
 import { articleData } from '../../__mocks__/dummyData';
-import initialState from '../../redux/initialState.json';
+import initialState from '../../redux/initialState';
 
 let wrapper;
 const props = {
@@ -100,7 +100,10 @@ describe('<ArticlesCurrentUser />', () => {
     test('should call clodeModal', () => {
       wrapper.find('ArticlesCurrentUser').setState({ modalActive: true, article: articleData });
       wrapper.update();
-      wrapper.find('Button[data-name="no-btn"]').simulate('click');
+      wrapper
+        .find('DeleteModal')
+        .find('Button[data-name="no-btn"]')
+        .simulate('click');
       expect(wrapper.find('ArticlesCurrentUser').state().modalActive).toBeFalsy();
     });
   });

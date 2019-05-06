@@ -7,7 +7,7 @@ import {
   EMAIL_VERIFICATION_ERROR,
   EMAIL_VERIFICATION_SUCCESS,
 } from '../actions-types';
-import { signUp as initialState } from '../initialState.json';
+import { signUp as initialState } from '../initialState';
 
 const signupReducer = (state = initialState, { type, payload }) => {
   switch (type) {

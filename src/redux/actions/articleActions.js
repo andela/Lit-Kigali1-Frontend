@@ -104,7 +104,6 @@ export const fetchDislikes = articleSlug => dispatch => fetchAPI(`/articles/${ar
   })
   .catch(err => err);
 
-
 export const fetchingAllArticleSuccess = payload => ({
   type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
   payload,
@@ -115,15 +114,67 @@ export const fetchingAllArticleFailure = payload => ({
   payload,
 });
 
-export const fetchArticles = ({ page = 1 }) => (dispatch) => {
+export const fetchArticles = ({ words, filterBy, page = 1 } = {}) => (dispatch) => {
   dispatch(fetchingArticle(true));
-  return fetchAPI(`/articles?page=${page}`)
+  let url = `/articles?page=${page}`;
+  if (words) {
+    url = `${url}&${filterBy || 'title'}=${words}`;
+  }
+  return fetchAPI(url)
     .then((data) => {
-      dispatch(fetchingAllArticleSuccess({ ...data, status: undefined }));
+      dispatch(
+        fetchingAllArticleSuccess({
+          page: data.page,
+          pages: data.pages,
+          articlesList: data.articles,
+          articlesCount: data.articlesCount,
+        }),
+      );
       return data;
     })
     .catch((err) => {
       dispatch(fetchingAllArticleFailure(err.message));
+      return err;
+    });
+};
+
+export const updateEditorState = payload => ({
+  type: articleTypes.SET_ARTICLE_EDITOR,
+  payload,
+});
+
+export const setEditArticle = payload => ({
+  type: articleTypes.SET_EDIT_ARTICLE,
+  payload,
+});
+
+export const fetchAndUpdateArticle = slug => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI(`/articles/${slug}`)
+    .then((data) => {
+      dispatch(setEditArticle(data.article));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingArticleFailure(err.message));
+      return err;
+    });
+};
+
+export const updateArticle = (slug, article) => (dispatch) => {
+  dispatch(submitArticleForm({ submitting: true }));
+  return fetchAPI(`/articles/${slug}`, {
+    method: 'PUT',
+    body: {
+      article,
+    },
+  })
+    .then((data) => {
+      dispatch(submitArticleFormSuccess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(submitArticleFormFailure(err.message));
       return err;
     });
 };
@@ -184,41 +235,3 @@ export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${a
   .catch((err) => {
     dispatch(dislikeArticlefailure(err));
   });
-export const updateEditorState = payload => ({
-  type: articleTypes.SET_ARTICLE_EDITOR,
-  payload,
-});
-
-export const setEditArticle = payload => ({
-  type: articleTypes.SET_EDIT_ARTICLE,
-  payload,
-});
-
-export const fetchAndUpdateArticle = slug => (dispatch) => {
-  dispatch(fetchingArticle(true));
-  return fetchAPI(`/articles/${slug}`)
-    .then((data) => {
-      dispatch(setEditArticle(data.article));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(fetchingArticleFailure(err.message));
-      return err;
-    });
-};
-
-export const updateArticle = (slug, article) => (dispatch) => {
-  dispatch(submitArticleForm({ submitting: true }));
-  return fetchAPI(`/articles/${slug}`, {
-    method: 'PUT',
-    body: {
-      article,
-    },
-  }).then((data) => {
-    dispatch(submitArticleFormSuccess(data));
-    return data;
-  }).catch((err) => {
-    dispatch(submitArticleFormFailure(err.message));
-    return err;
-  });
-};

@@ -1,5 +1,5 @@
 import * as articleTypes from '../actions-types/articleTypes';
-import { article as initialState } from '../initialState.json';
+import { article as initialState } from '../initialState';
 
 const articleReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -7,7 +7,6 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
-
     case articleTypes.SET_ARTICLE_FORM_INPUT:
       return {
         ...state,
@@ -18,6 +17,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
         errors: [],
         message: '',
       };
+
     case articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS:
       return {
         ...state,
@@ -157,6 +157,13 @@ const articleReducer = (state = initialState, { type, payload }) => {
           tagList: payload.tagList,
         },
       };
+
+    case articleTypes.SET_SEARCHING_ARTICLE:
+      return {
+        ...state,
+        searching: payload,
+      };
+
     default:
       return state;
   }

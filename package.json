@@ -32,11 +32,12 @@
   "dependencies": {
     "axios": "^0.18.0",
     "coveralls": "^3.0.3",
-    "dotenv-webpack": "^1.7.0",
     "draft-js": "^0.10.5",
     "draft-js-plugins-editor": "^2.1.1",
+    "draftjs-to-html": "^0.8.4",
     "html-to-react": "^1.3.4",
     "moment": "^2.24.0",
+    "dotenv-webpack": "^1.7.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.5.0",
     "react": "^16.8.5",

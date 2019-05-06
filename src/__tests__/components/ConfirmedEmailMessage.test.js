@@ -5,7 +5,7 @@ import {
   mapDispatchToProps,
   ConfirmedEmailMessage,
 } from '../../components/Auth/ConfirmedEmailMessage';
-import initialState from '../../redux/initialState.json';
+import initialState from '../../redux/initialState';
 
 let wrapper;
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Button from '../common/Button/Button';
 import logoWhite from '../../assets/images/logo-white.png';
 import userAvatar from '../../assets/images/avatar.png';
@@ -40,7 +40,7 @@ export class NavBar extends Component {
           <Link to="/articles">Articles</Link>
         </li>
         <li>
-          <Link to="/profile/:username/articles">My Articles</Link>
+          <Link to="/my-articles">My Articles</Link>
         </li>
         <li>
           <Link to={`/profiles/${username}`}>My Profile</Link>
@@ -61,7 +61,7 @@ export class NavBar extends Component {
 
   render() {
     const { showMenu } = this.state;
-    const { image } = this.props;
+    const { isLoggedIn, image } = this.props;
     return (
       <nav className="top-navbar container">
         <div className="col-3-mob">
@@ -76,7 +76,11 @@ export class NavBar extends Component {
           </div>
           <div className="nav-button navbar-dropdown is-desktop color-white">
             <Button onClick={this.showMenu} classes="transparent">
-              <img src={image || userAvatar} className="top-navbar__avatar" alt="User logo" />
+              {isLoggedIn ? (
+                <img src={image || userAvatar} className="top-navbar__avatar" alt="User logo" />
+              ) : (
+                ''
+              )}
             </Button>
             {this.renderLinks('dropdown')}
           </div>
@@ -87,13 +91,15 @@ export class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-  username: propTypes.string,
-  image: propTypes.string,
+  isLoggedIn: PropTypes.bool,
+  username: PropTypes.string,
+  image: PropTypes.string,
 };
 
 NavBar.defaultProps = {
-  username: undefined,
-  image: undefined,
+  username: '',
+  image: '',
+  isLoggedIn: false,
 };
 
 export const mapStateToProps = ({

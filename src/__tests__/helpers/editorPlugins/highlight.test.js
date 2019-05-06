@@ -4,7 +4,11 @@ import highlight from '../../../helpers/editorPlugins/highlight';
 const res = highlight();
 describe('Highlight text', () => {
   test('should return highlight property equal to yellow', () => {
-    const { customStyleMap: { HIGHLIGHT: { background } } } = res;
+    const {
+      customStyleMap: {
+        HIGHLIGHT: { background },
+      },
+    } = res;
     expect(background).toEqual('#ffff00');
   });
 

@@ -15,10 +15,7 @@ import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserA
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
-  constructor() {
-    super();
-    this.decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
-  }
+  decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
 
   componentDidMount() {
     const {

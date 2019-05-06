@@ -1,6 +1,5 @@
-import { EditorState, KeyBindingUtil } from 'draft-js';
+import { EditorState } from 'draft-js';
 import addLinkPlugin from '../../../helpers/editorPlugins/addLink';
-
 
 describe('addLinkPlugin', () => {
   const editorState = EditorState.createEmpty();
@@ -10,7 +9,6 @@ describe('addLinkPlugin', () => {
     const { handleKeyCommand } = addLinkPlugin;
     expect(handleKeyCommand(command, editorState, { setEditorState })).toEqual('not-handled');
   });
-
   test('should handle key command', () => {
     const { handleKeyCommand } = addLinkPlugin;
     const command = 'add-link';
@@ -36,7 +34,6 @@ describe('addLinkPlugin', () => {
     const addLink = keyBindingFn(event, { getEditorState });
     expect(addLink).toEqual(undefined);
   });
-
   test('should return undefined', () => {
     const { keyBindingFn } = addLinkPlugin;
     const event = {
@@ -55,28 +52,5 @@ describe('addLinkPlugin', () => {
     };
     const addLink = keyBindingFn(event, { getEditorState });
     expect(addLink).toEqual(undefined);
-  });
-
-  test('should return add-link', () => {
-    KeyBindingUtil.hasCommandModifier = jest.fn().mockImplementation(
-      () => true,
-    );
-    const { keyBindingFn } = addLinkPlugin;
-    const event = {
-      which: 75,
-    };
-    const getEditorState = () => {
-      const getSelection = () => {
-        const isCollapsed = () => false;
-        return {
-          isCollapsed,
-        };
-      };
-      return {
-        getSelection,
-      };
-    };
-    const addLink = keyBindingFn(event, { getEditorState });
-    expect(addLink).toEqual('add-link');
   });
 });
