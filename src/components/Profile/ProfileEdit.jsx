@@ -46,9 +46,11 @@ export class ProfileEdit extends Component {
       .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       .field('file', file)
       .end((err, response) => {
-        if (err) this.showToast('error', 'Something Went Wrong');
-
-        if (response.body.secure_url !== '') handleInput({ field: 'image', value: response.body.secure_url });
+        if (response.body.secure_url !== '') {
+          handleInput({ field: 'image', value: response.body.secure_url });
+        } else {
+          this.showToast('error', 'Something Went Wrong');
+        }
       });
   };
 
@@ -80,8 +82,11 @@ export class ProfileEdit extends Component {
       image,
       username,
     }).then(({ status }) => {
-      if (status === 200) this.showToast('success', 'Updated Successfully');
-      this.showToast('error', 'Profile Edit Failed');
+      if (status === 200) {
+        this.showToast('success', 'Updated Successfully');
+      } else {
+        this.showToast('error', 'Profile Edit Failed');
+      }
     });
     e.preventDefault();
   };
@@ -91,7 +96,7 @@ export class ProfileEdit extends Component {
     getUserProfile(currentUser.profile.username);
 
     const { showToast, status, message } = this.state;
-
+    const birthDate = Date.parse(currentUser.profile.birthDate);
     return (
       <section className="main-content content-margin">
         <div className="container">
@@ -159,7 +164,7 @@ export class ProfileEdit extends Component {
                 <div className="single-input">
                   <DatePicker
                     nanme="birthDate"
-                    selected={currentUser.profile.birthDate}
+                    selected={birthDate}
                     onChange={this.handleDate}
                     placeholderText="Birth Date"
                     peekNextMonth

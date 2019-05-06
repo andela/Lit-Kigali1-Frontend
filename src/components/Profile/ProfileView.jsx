@@ -102,9 +102,11 @@ export class ProfileView extends Component {
 
   onMoreArticles = () => {
     const { moreArticles } = this.state;
-    if (moreArticles) this.setState({ moreArticles: false });
-
-    this.setState({ moreArticles: true });
+    if (moreArticles) {
+      this.setState({ moreArticles: false });
+    } else {
+      this.setState({ moreArticles: true });
+    }
   };
 
   render() {
@@ -155,8 +157,8 @@ export class ProfileView extends Component {
                 <h3 className="profile-meta__text">ARTICLES</h3>
                 {this.renderArticles()}
                 <div className="col-12 content-right">
-                  <Button classes="transparent title-3" onClick={this.onMoreArticles}>
-                    {moreArticles ? 'Less Articles..' : 'More Articles...'}
+                  <Button classes="transparent title-3 moreArticles" onClick={this.onMoreArticles}>
+                    {moreArticles ? 'Less Articles...' : 'More Articles...'}
                   </Button>
                 </div>
               </div>

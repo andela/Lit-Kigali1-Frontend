@@ -18,7 +18,7 @@ const props = {
     profile: {},
     message: 'some message',
   },
-  saveData: jest.fn().mockImplementation(() => Promise.resolve({ status: 201 })),
+  saveData: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   getUserProfile: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   handleInput: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   onImageDrop: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
@@ -64,6 +64,25 @@ describe('<ProfileEdit />', () => {
     wrapper.instance().save(e);
     expect(props.saveData).toHaveBeenCalled();
     expect(e.preventDefault).toHaveBeenCalled();
+  });
+
+  test('should save', () => {
+    const newProps = {
+      ...props,
+      saveData: jest.fn().mockImplementation(() => Promise.resolve({ status: 404 })),
+    };
+    wrapper.setProps(newProps);
+    const e = { preventDefault: jest.fn() };
+    wrapper.instance().save(e);
+    expect(props.saveData).toHaveBeenCalled();
+    expect(e.preventDefault).toHaveBeenCalled();
+  });
+
+  test.skip('should render showToaster', (done) => {
+    jest.useFakeTimers();
+    wrapper.instance().showToast();
+    jest.runAllTimers();
+    done();
   });
 });
 
@@ -123,6 +142,9 @@ describe('action creators', () => {
     const config = [
       {
         pattern: API_URL,
+        fixtures: () => ({
+          body: { secure_url: '' },
+        }),
         post: (match, data) => data,
       },
     ];
