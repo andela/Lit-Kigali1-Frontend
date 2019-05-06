@@ -111,9 +111,13 @@ describe('articleReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
+<<<<<<< HEAD
       articles: payload,
       loading: false,
       success: true,
+=======
+      articles,
+>>>>>>> feat(tags): rebase develop
     });
   });
 

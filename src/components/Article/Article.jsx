@@ -100,6 +100,28 @@ export class Article extends Component {
     rateArticle({ articleSlug: slug, rate: value });
   };
 
+  navigateToArticles = (e) => {
+    const { history } = this.props;
+    history.push(`/articles?page1&tag=${e.target.dataset.value}`);
+  };
+
+  renderTags = () => {
+    const {
+      singleArticle: { tagList },
+    } = this.props;
+    return (
+      <div className="row">
+        <div className="col-12 content-center">
+          {tagList.map(tag => (
+            <span key={tag} className="tagged" data-value={tag} onClick={this.navigateToArticles}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   renderCover = () => {
     const {
       singleArticle: { cover },
@@ -156,38 +178,7 @@ export class Article extends Component {
     }
     e.preventDefault();
   };
-
-  SocialShare = (on) => {
-    const {
-      onShare,
-      article: { slug },
-    } = this.props;
-
-    onShare({ on, articleSlug: slug });
-  };
   
-  navigateToArticles = e => {
-    const { history } = this.props;
-    history.push(`/articles?page1&tag=${e.target.dataset.value}`);
-  };
-
-  renderTags = () => {
-    const {
-      article: { tagList },
-    } = this.props;
-    return (
-      <div className="row">
-        <div className="col-12 content-center">
-          {tagList.map(tag => (
-            <span key={tag} className="tagged" data-value={tag} onClick={this.navigateToArticles}>
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   render() {
     const {
       singleArticle,
