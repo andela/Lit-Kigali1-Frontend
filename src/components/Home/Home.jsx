@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import { Slide } from 'react-slideshow-image';
+import { Link } from 'react-router-dom';
 import { fetchCurrentUser } from '../../redux/actions/currentUserActions';
 import ArticleCard from '../Article/ArticleCard';
-import { fetchArticlesHome } from '../../redux/actions/articleActions';
+import { fetchArticlesHome, fetchRecommendedArticle } from '../../redux/actions/articleActions';
 
 const defaultImage = 'https://picsum.photos/200/300?grayscale';
 const slideProperties = {
@@ -31,6 +32,7 @@ export class Home extends Component {
     }
     getCurrentUser();
     this.getAllArticles();
+    this.getRecommendsArticles();
 
     window.onscroll = () => {
       if (
@@ -53,11 +55,23 @@ export class Home extends Component {
     getArticles({ page });
   };
 
+  getRecommendsArticles = () => {
+    const { getRecommends } = this.props;
+    getRecommends();
+  };
+
   renderSlideShow = () => {
     const {
       feed: { articles },
+      recommends,
+      isLoggedIn,
     } = this.props;
-    const articlesList = articles.slice(0, 5);
+    let articlesList = [];
+    if (isLoggedIn) {
+      articlesList = recommends;
+    } else {
+      articlesList = articles.slice(0, 6);
+    }
     return (
       <Slide {...slideProperties} className="slide-area">
         {articlesList.map(feed => (
@@ -69,8 +83,16 @@ export class Home extends Component {
               }}
             >
               <div>
-                <h1>{feed.title}</h1>
-                <span className="author">{`${feed.author.firstName} ${feed.author.lastName}`}</span>
+                <h1>
+                  <Link to={`/articles/${feed.slug}`} className="color-white">
+                    {feed.title}
+                  </Link>
+                </h1>
+                <Link to={`/profiles/${feed.author.username}`} className="color-white">
+                  <span className="author">
+                    {`${feed.author.firstName} ${feed.author.lastName}`}
+                  </span>
+                </Link>
                 <span className="views">
                   {feed.viewsCount}
                   <i className="fa fa-eye" />
@@ -81,25 +103,6 @@ export class Home extends Component {
           </div>
         ))}
       </Slide>
-    );
-    return (
-      <div className="slide-area">
-        <div className="slides">
-          {articlesList.map(feed => (
-            <div key={feed.slug} className="slide-block content-center">
-              <img src={feed.cover || defaultImage} alt="" className="slide-image" />
-              <div className="centered is-column">
-                <h1>{feed.title}</h1>
-                <div className="viewed-content is-row">
-                  <span>{feed.viewsCount}</span>
-                  <i className="fa fa-eye" />
-                </div>
-                <p>{feed.readingTime}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     );
   };
 
@@ -128,7 +131,7 @@ export class Home extends Component {
         <div className="container">
           <div className="main-article-container row">{this.renderArticles()}</div>
         </div>
-        <a className="go-top-btn content-center" href="#">
+        <a className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />
         </a>
       </section>
@@ -136,13 +139,19 @@ export class Home extends Component {
   }
 }
 
-export const mapStateToProps = ({ article: { feed } }) => ({
+export const mapStateToProps = ({
+  article: { feed, recommends },
+  currentUser: { isLoggedIn },
+}) => ({
   feed,
+  recommends,
+  isLoggedIn,
 });
 
 export const mapDispatchToProps = dispatch => ({
   getCurrentUser: () => dispatch(fetchCurrentUser()),
   getArticles: payload => dispatch(fetchArticlesHome(payload)),
+  getRecommends: () => dispatch(fetchRecommendedArticle()),
 });
 
 Home.propTypes = {
@@ -150,6 +159,7 @@ Home.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   getArticles: PropTypes.func.isRequired,
+  getRecommends: PropTypes.func.isRequired,
   history: PropTypes.object,
 };
 
@@ -160,6 +170,7 @@ Home.defaultProps = {
     articles: [],
   },
   history: {},
+  recommends: [],
 };
 
 export default connect(

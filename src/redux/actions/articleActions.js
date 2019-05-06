@@ -274,3 +274,23 @@ export const fetchArticlesHome = ({ page } = {}) => (dispatch) => {
       return err;
     });
 };
+
+export const fetchingRecommendedAllArticleFailure = payload => ({
+  type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_FAILURE,
+  payload,
+});
+
+export const fetchingRecommendedAllArticleSuccess = payload => ({
+  type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const fetchRecommendedArticle = () => dispatch => fetchAPI('/articles/feed', { method: 'GET' })
+  .then((data) => {
+    dispatch(fetchingRecommendedAllArticleSuccess(data.articles));
+    return data;
+  })
+  .catch((err) => {
+    dispatch(fetchingRecommendedAllArticleFailure(err.message));
+    return err;
+  });

@@ -187,6 +187,16 @@ const articleReducer = (state = initialState, { type, payload }) => {
         success: false,
         message: payload,
       };
+    case articleTypes.FETCHING_RECOMMENDED_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        recommends: [...payload],
+      };
+    case articleTypes.FETCHING_RECOMMENDED_ARTICLE_FAILURE:
+      return {
+        ...state,
+        recommends: [],
+      };
     default:
       return state;
   }

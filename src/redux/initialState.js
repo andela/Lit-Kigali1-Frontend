@@ -82,5 +82,6 @@ module.exports = {
       page: 0,
       pages: 0,
     },
+    recommends: [],
   },
 };

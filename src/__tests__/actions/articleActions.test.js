@@ -323,6 +323,17 @@ describe('articleActions', () => {
       });
     });
 
+    test('should dispatch fetchRecommendedArticles action - SUCCESS', () => {
+      nock(API_URL)
+        .get('/articles/feed')
+        .reply(200, {
+          articles: [articleData],
+        });
+      return store.dispatch(articleActions.fetchRecommendedArticle()).then((res) => {
+        expect(res.articles[0]).toEqual(articleData);
+      });
+    });
+
     test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
       const articleSlug = 'mock-article-slug';
       nock(API_URL)

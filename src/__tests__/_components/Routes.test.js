@@ -42,6 +42,7 @@ describe('<Routes />', () => {
         </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
+      expect(component.find('Home').props().recommends).toBeDefined();
     });
 
     it('should show redirect to `/` for `/auth`', () => {

@@ -361,6 +361,19 @@ describe('articleReducer', () => {
     });
   });
 
+  it('should handle `FETCHING_ALL_ARTICLE_HOME_SUCCESS`', () => {
+    const payload = articleData;
+    const expectedState = {
+      type: articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      feed: payload,
+      loading: false,
+      success: true,
+    });
+  });
+
   it('should handle `SUBMIT_ARTICLE_TAG`', () => {
     const initialState = {
       loading: true,
