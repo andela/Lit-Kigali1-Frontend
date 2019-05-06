@@ -4,7 +4,11 @@ import highlight from '../../../helpers/editorPlugins/highlight';
 const res = highlight();
 describe('Highlight text', () => {
   test('should return highlight property equal to yellow', () => {
-    const { customStyleMap: { HIGHLIGHT: { background } } } = res;
+    const {
+      customStyleMap: {
+        HIGHLIGHT: { background },
+      },
+    } = res;
     expect(background).toEqual('#ffff00');
   });
 
@@ -26,7 +30,7 @@ describe('Highlight text', () => {
   test('should return undefined for handleKeyCommand(', () => {
     const command = '';
     const editorState = EditorState.createEmpty();
-    const setEditorState = '';
+    const setEditorState = jest.fn();
     const res1 = res.handleKeyCommand(command, editorState, { setEditorState });
     expect(res1).toBeUndefined();
   });

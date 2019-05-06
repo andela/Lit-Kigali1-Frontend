@@ -21,9 +21,9 @@
   &.show {
     visibility: visible;
     -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s,
-      fadeout 0.5s 2.5s;
+      fadeout 0.5s 4s, keepout 2.5s 4s;
     animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s,
-      fadeout 0.5s 4.5s;
+      fadeout 0.5s 4s, keepout 2.5s 4s;
     overflow: hidden;
     &.error {
       background-color: $red;
@@ -33,6 +33,9 @@
     }
     &.success {
       background-color: $green;
+    }
+    &.hidden {
+      opacity: 0;
     }
   }
   .icon {
@@ -148,6 +151,28 @@
   }
   to {
     top: -100px;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes keepout {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: -200px;
+    opacity: 0;
+  }
+}
+
+@keyframes keepout {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: -200px;
     opacity: 0;
   }
 }

@@ -18,6 +18,7 @@ import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
 import Ratings from './Rating/Ratings';
 import ProfileEdit from './Profile/ProfileEdit';
+import ArticleCreate from './Article/ArticleCreate';
 
 export const Routes = ({ isLoggedIn }) => (
   <Switch>
@@ -47,6 +48,7 @@ export const Routes = ({ isLoggedIn }) => (
       path="/users/:userId/confirm_email/:confirmationCode"
       component={ConfirmedEmailMessage}
     />
+    <Route exact path="/articles/create" component={ArticleCreate} />
     <Route exact path="/profiles/:username" component={ProfileView} />
     <Route exact path="/articles" component={Articles} />
     <Route exact path="/articles/:articleSlug" component={Article} />
@@ -61,6 +63,8 @@ export const Routes = ({ isLoggedIn }) => (
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
     <Route exact path="/profile" component={ProfileEdit} />
+    <Route exact path="/my-articles" component={ArticlesCurrentUser} />
+    <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
     <Route path="*" component={ErrorPage} />
   </Switch>
 );

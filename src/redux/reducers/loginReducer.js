@@ -13,7 +13,7 @@ import { login as initialState } from '../initialState';
 const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_LOGIN:
-      return { ...initialState };
+      return initialState;
     case SUBMIT_LOGIN_FORM:
       return { ...state, submitting: true };
     case LOGIN_FAILURE:

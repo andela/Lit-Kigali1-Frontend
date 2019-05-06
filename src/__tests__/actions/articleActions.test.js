@@ -97,6 +97,24 @@ describe('articleActions', () => {
       expect(articleActions.setDislikes(payload)).toEqual(expectedAction);
     });
 
+    test('should dispatch `addTag`', () => {
+      const payload = 'tag';
+      const expectedAction = {
+        type: articleTypes.SUBMIT_ARTICLE_TAG,
+        payload,
+      };
+      expect(articleActions.addTag(payload)).toEqual(expectedAction);
+    });
+
+    test('should dispatch `REMOVE_ARTICLE_TAG`', () => {
+      const payload = 'tag';
+      const expectedAction = {
+        type: articleTypes.REMOVE_ARTICLE_TAG,
+        payload,
+      };
+      expect(articleActions.removeTag(payload)).toEqual(expectedAction);
+    });
+
     test('should dispatch `SET_ARTICLE_EDITOR`', () => {
       const payload = 'EDITOR';
       const expectedAction = {
@@ -116,7 +134,7 @@ describe('articleActions', () => {
     });
 
     test('should dispatch submitArticle action - FAILED', () => {
-      expect.assertions(2);
+      expect.assertions(3);
       const payload = { article: articleData };
       nock(API_URL)
         .post('/articles', { article: articleData })
@@ -128,18 +146,22 @@ describe('articleActions', () => {
         },
         {
           type: articleTypes.SUBMIT_ARTICLE_FORM_FAILURE,
-          payload: { message: 'Unauthorized access', status: 401 },
+          payload: {
+            status: 401,
+            message: 'Unauthorized access',
+          },
         },
       ];
       return store.dispatch(articleActions.submitArticle(payload)).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(401);
+        expect(res.message).toBe(expectedActions[1].payload.message);
       });
     });
 
     test('should dispatch submitArticle action - SUCCESS', () => {
-      expect.assertions(2);
+      expect.assertions(3);
       const payload = { article: articleData };
       nock(API_URL)
         .post('/articles', { article: articleData })
@@ -151,13 +173,17 @@ describe('articleActions', () => {
         },
         {
           type: articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS,
-          payload: { status: 200, article: articleData },
+          payload: {
+            article: articleData,
+            status: 200,
+          },
         },
       ];
       return store.dispatch(articleActions.submitArticle(payload)).then((res) => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
         expect(res.status).toBe(200);
+        expect(res.article).toEqual(expectedActions[1].payload.article);
       });
     });
 
@@ -294,35 +320,29 @@ describe('articleActions', () => {
       });
     });
 
-    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
-      const articleSlug = 'mock-article-slug';
-      nock(API_URL)
-        .put(`/articles/${articleSlug}`)
-        .reply(200, { status: 200, article: articleData });
-      return store.dispatch(articleActions.updateArticle(articleSlug)).then((res) => {
-        const actions = store.getActions();
-        expect(res.status).toBe(200);
-        expect(res.article).toEqual(articleData);
-        expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
-        expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS);
-      });
-    });
-
-    test('should dispatch fetchAndUpdateArticle - FAILURE', () => {
-      const articleSlug = 'mock-article-slug';
-      nock(API_URL)
-        .put(`/articles/${articleSlug}`)
-        .reply(404, { status: 404, message: 'article not found' });
-      return store.dispatch(articleActions.updateArticle(articleSlug)).then((res) => {
-        const actions = store.getActions();
-        expect(res.status).toBe(404);
-        expect(res.message).toEqual('article not found');
-        expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
-        expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_FAILURE);
-      });
-    });
-
     test('should dispatch ratings action - FAILURE', () => {
+      expect.assertions(1);
+      const articleSlug = 'article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/rating`)
+        .reply(404, { status: 404 });
+      const expectedActions = [
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: true,
+        },
+        {
+          type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+          payload: false,
+        },
+      ];
+      return store.dispatch(articleActions.fetchArticleRatings({ articleSlug })).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch fetchArticles action - FAILURE', () => {
       expect.assertions(1);
       const articleSlug = 'article-slug';
       nock(API_URL)
@@ -463,6 +483,62 @@ describe('articleActions', () => {
       return store.dispatch(articleActions.dislikeArticle(articleSlug)).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual([]);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}`)
+        .reply(200, { status: 200, article: articleData });
+      return store.dispatch(articleActions.fetchAndUpdateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(200);
+        expect(res.article).toEqual(articleData);
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.SET_EDIT_ARTICLE);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .get(`/articles/${articleSlug}`)
+        .reply(404, { status: 404, message: 'Article not found' });
+      return store.dispatch(articleActions.fetchAndUpdateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(404);
+        expect(res.message).toEqual('Article not found');
+        expect(actions[0].type).toEqual(articleTypes.FETCHING_ARTICLE);
+        expect(actions[1].type).toEqual(articleTypes.FETCHING_ARTICLE_FAILURE);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - SUCCESS', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .put(`/articles/${articleSlug}`)
+        .reply(200, { status: 200, article: articleData });
+      return store.dispatch(articleActions.updateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(200);
+        expect(res.article).toEqual(articleData);
+        expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
+        expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS);
+      });
+    });
+
+    test('should dispatch fetchAndUpdateArticle - FAILURE', () => {
+      const articleSlug = 'mock-article-slug';
+      nock(API_URL)
+        .put(`/articles/${articleSlug}`)
+        .reply(404, { status: 404, message: 'article not found' });
+      return store.dispatch(articleActions.updateArticle(articleSlug)).then((res) => {
+        const actions = store.getActions();
+        expect(res.status).toBe(404);
+        expect(res.message).toEqual('article not found');
+        expect(actions[0].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM);
+        expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_FAILURE);
       });
     });
   });

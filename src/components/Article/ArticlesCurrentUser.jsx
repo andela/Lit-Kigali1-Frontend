@@ -13,9 +13,9 @@ export class ArticlesCurrentUser extends Component {
     articleStatus: 'unpublished',
     modalActive: false,
     showToast: false,
+    articleIndex: 0,
     deleteStatus: 'success',
     deleteMessage: '',
-    article: '',
   };
 
   renderDate = date => `Published On: ${moment(date).format('LLLL')}`;
@@ -165,9 +165,9 @@ export class ArticlesCurrentUser extends Component {
             </div>
           </div>
         </div>
-        <a className="go-top-btn" href="#">
+        <button className="go-top-btn" href="#">
           <i className="fa fa-angle-up" />
-        </a>
+        </button>
       </section>
     );
   }
@@ -175,13 +175,14 @@ export class ArticlesCurrentUser extends Component {
 
 export const mapStateToProps = ({
   currentUser: {
-    message, following, profile, deletingArticle,
+    message, following, profile, deletingArticle, articles,
   },
 }) => ({
   message,
   deletingArticle,
   currentUser: profile,
   following,
+  articles,
 });
 
 export const mapDispatchToProps = dispatch => ({

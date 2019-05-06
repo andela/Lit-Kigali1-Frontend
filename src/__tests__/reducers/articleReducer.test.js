@@ -2,11 +2,11 @@ import reducer from '../../redux/reducers/articleReducer';
 import * as articleTypes from '../../redux/actions-types/articleTypes';
 import { articleData, draftjsBody, jsonFormat } from '../../__mocks__/dummyData';
 
-import store from '../../redux/store';
+import { article as initialState } from '../../redux/initialState';
 
-describe('currentUserReducer', () => {
+describe('articleReducer', () => {
   it('should return the initial `state`', () => {
-    expect(reducer(undefined, {})).toEqual(store.getState().article);
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle `CLEAR_ARTICLE_FORM`', () => {
@@ -106,13 +106,15 @@ describe('currentUserReducer', () => {
   });
 
   it('should handle `FETCHING_ALL_ARTICLE_SUCCESS`', () => {
-    const payload = { articlesList: [articleData] };
+    const articles = [articleData];
     const expectedState = {
       type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
-      payload,
+      payload: {
+        articles,
+      },
     };
     expect(reducer({}, expectedState)).toEqual({
-      ...payload,
+      articlesList: articles,
       loading: false,
       success: true,
     });
@@ -125,10 +127,85 @@ describe('currentUserReducer', () => {
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      articles: [],
+      articlesList: [],
       loading: false,
       success: false,
       message: payload,
+    });
+  });
+
+  it('should handle `SET_ARTICLE_RATE`', () => {
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_RATE,
+      payload: articleData,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      singleArticle: articleData,
+    });
+  });
+
+  it('should handle `SET_ARTICLE_RATINGS_LOADING`', () => {
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_RATINGS_LOADING,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      loadingRatings: true,
+    });
+  });
+
+  it('should handle `SET_ARTICLE_RATINGS`', () => {
+    const expectedState = {
+      type: articleTypes.SET_ARTICLE_RATINGS,
+      payload: { ratings: [], article: {} },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      ratings: [],
+      singleArticle: {},
+    });
+  });
+
+  it('should handle `SET_LIKES`', () => {
+    const expectedState = {
+      type: articleTypes.SET_LIKES,
+      payload: { likes: [], count: 1, liked: true },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      likes: [],
+      likeCount: 1,
+      liked: true,
+    });
+  });
+
+  it('should handle `SET_DISLIKES`', () => {
+    const expectedState = {
+      type: articleTypes.SET_DISLIKES,
+      payload: { dislikes: [], count: 1, disliked: true },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      dislikes: [],
+      dislikeCount: 1,
+      disliked: true,
+    });
+  });
+
+  it('should handle `LIKE_ARTICLE_FAILURE`', () => {
+    const expectedState = {
+      type: articleTypes.LIKE_ARTICLE_FAILURE,
+      payload: 'Like Article Failed',
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      error: 'Like Article Failed',
+    });
+  });
+
+  it('should handle `DISLIKE_ARTICLE_FAILURE`', () => {
+    const expectedState = {
+      type: articleTypes.DISLIKE_ARTICLE_FAILURE,
+      payload: 'Dislike Article Failed',
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      error: 'Dislike Article Failed',
     });
   });
 
@@ -193,6 +270,7 @@ describe('currentUserReducer', () => {
       articlesList: [],
     });
   });
+
   it('should handle `SET_ARTICLE_EDITOR`', () => {
     const initialState = {
       loading: true,
@@ -224,6 +302,7 @@ describe('currentUserReducer', () => {
       articlesList: [],
     });
   });
+
   it('should handle `SET_EDIT_ARTICLE`', () => {
     const initialState = {
       loading: true,

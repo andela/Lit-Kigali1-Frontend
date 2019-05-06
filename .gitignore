@@ -2,9 +2,12 @@ node_modules
 package-lock.json
 coverage
 yarn.lock
-src/__tests__/_components/__snapshots__
-src/__tests__/components/__snapshots__
-src/__tests__/components/common/__snapshots__
+src/__tests__/_components/__snapshots__/*
+
+src/__tests__/components/__snapshots__/*
+
+src/__tests__/components/common/__snapshots__/*
+
 .env
 .vscode
 yarn-error.log

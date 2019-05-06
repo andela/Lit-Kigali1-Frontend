@@ -23,6 +23,7 @@ const props = {
 };
 
 const mockStore = configureMockStore();
+window.location.href = '';
 
 describe('<Login />', () => {
   test('should render the <Login />', () => {

@@ -35,6 +35,7 @@ describe('<Articles />', () => {
 
   test('should render <Article /> with articles', () => {
     wrapper = mount(<Articles {...props} />);
+    wrapper.instance().renderArticles();
     expect(wrapper.props().articles).toBeDefined();
   });
 

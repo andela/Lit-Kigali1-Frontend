@@ -7,7 +7,6 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
-
     case articleTypes.SET_ARTICLE_FORM_INPUT:
       return {
         ...state,
@@ -18,6 +17,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
         errors: [],
         message: '',
       };
+
     case articleTypes.SUBMIT_ARTICLE_FORM_SUCCESS:
       return {
         ...state,
@@ -64,17 +64,63 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.FETCHING_ALL_ARTICLE_SUCCESS:
       return {
         ...state,
-        ...payload,
+        articlesList: payload.articles,
         loading: false,
         success: true,
       };
     case articleTypes.FETCHING_ALL_ARTICLE_FAILURE:
       return {
         ...state,
-        articles: [],
+        articlesList: [],
         loading: false,
         success: false,
         message: payload,
+      };
+    case articleTypes.SET_ARTICLE_RATE:
+      return {
+        ...state,
+        singleArticle: {
+          ...state.singleArticle,
+          ...payload,
+        },
+      };
+    case articleTypes.SET_ARTICLE_RATINGS_LOADING:
+      return {
+        ...state,
+        loadingRatings: payload,
+      };
+    case articleTypes.SET_ARTICLE_RATINGS:
+      return {
+        ...state,
+        ratings: payload.ratings,
+        singleArticle: {
+          ...state.article,
+          ...payload.article,
+        },
+      };
+    case articleTypes.SET_LIKES:
+      return {
+        ...state,
+        likes: payload.likes,
+        likeCount: payload.count,
+        liked: payload.liked,
+      };
+    case articleTypes.SET_DISLIKES:
+      return {
+        ...state,
+        dislikes: payload.dislikes,
+        dislikeCount: payload.count,
+        disliked: payload.disliked,
+      };
+    case articleTypes.LIKE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        error: payload,
+      };
+    case articleTypes.DISLIKE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        error: payload,
       };
     case articleTypes.SUBMIT_ARTICLE_TAG:
       return {
@@ -111,11 +157,13 @@ const articleReducer = (state = initialState, { type, payload }) => {
           tagList: payload.tagList,
         },
       };
+
     case articleTypes.SET_SEARCHING_ARTICLE:
       return {
         ...state,
         searching: payload,
       };
+
     default:
       return state;
   }

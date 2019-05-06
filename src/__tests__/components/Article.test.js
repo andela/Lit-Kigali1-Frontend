@@ -7,7 +7,7 @@ import initialState from '../../redux/initialState';
 let wrapper;
 const props = {
   loading: true,
-  article: articleData,
+  singleArticle: articleData,
   currentUser: {
     username: 'username',
   },
@@ -36,6 +36,28 @@ describe('<Article />', () => {
 
   test('should render <Article /> with tags', () => {
     wrapper = mount(<Article {...props} />);
+    expect(wrapper.props().singleArticle.tagList).toBeDefined();
+  });
+
+  test('should render <Article /> with cover', () => {
+    const newProps = props;
+    newProps.singleArticle.cover = 'https://picsum.photos/200/300';
+    wrapper = mount(<Article {...newProps} />);
+    expect(wrapper.props().singleArticle.cover).toBeDefined();
+  });
+
+  test('should render <Article /> without cover', () => {
+    const newProps = props;
+    newProps.singleArticle.cover = undefined;
+    const articleWrapper = mount(<Article {...newProps} />);
+    expect(articleWrapper.props().singleArticle.cover).toBeUndefined();
+  });
+
+  test('should render <Article /> the Editor', () => {
+    const newProps = props;
+    newProps.article = articleDataDraft;
+    wrapper = mount(<Article {...newProps} />);
+    expect(wrapper.props().article.tagList).toBeDefined();
     expect(wrapper.props().article.tagList).toBeDefined();
   });
 
@@ -55,33 +77,33 @@ describe('<Article />', () => {
 
   describe('should render different ratings', () => {
     test('should render <Article /> rated equals to 1', () => {
-      props.article.rated = 1;
+      props.singleArticle.rated = 1;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(1);
+      expect(wrapper.props().singleArticle.rated).toBe(1);
     });
 
     test('should render <Article /> rated equals to 2', () => {
-      props.article.rated = 2;
+      props.singleArticle.rated = 2;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(2);
+      expect(wrapper.props().singleArticle.rated).toBe(2);
     });
 
     test('should render <Article /> rated equals to 3', () => {
-      props.article.rated = 3;
+      props.singleArticle.rated = 3;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(3);
+      expect(wrapper.props().singleArticle.rated).toBe(3);
     });
 
     test('should render <Article /> rated equals to 4', () => {
-      props.article.rated = 4;
+      props.singleArticle.rated = 4;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(4);
+      expect(wrapper.props().singleArticle.rated).toBe(4);
     });
 
     test('should render <Article /> rated equals to 5', () => {
-      props.article.rated = 5;
+      props.singleArticle.rated = 5;
       wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().article.rated).toBe(5);
+      expect(wrapper.props().singleArticle.rated).toBe(5);
     });
   });
 
@@ -102,16 +124,6 @@ describe('<Article />', () => {
     test('should call onSelectedRating method instance', () => {
       wrapper.find('span[data-name="rate-btn"]').simulate('click');
       expect(props.history.push).toHaveBeenCalled();
-    });
-  });
-
-  describe('reducers', () => {
-    test('should initialize the component state', () => {
-      const state = mapStateToProps(initialState);
-      expect(state).toHaveProperty('loading');
-      expect(state).toHaveProperty('article');
-      expect(state).toHaveProperty('submitting');
-      expect(state).toHaveProperty('currentUser');
     });
   });
 
@@ -189,6 +201,55 @@ describe('<Article />', () => {
     test('should dislike an article', () => {
       wrapper.find('button[data-value="dislike"]').simulate('click');
       expect(props.nextPath).toHaveBeenCalled();
+    });
+    test('should render <Article /> with cover', () => {
+      props.singleArticle.cover = 'https://picsum.photos/200/300';
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().singleArticle.cover).toBeDefined();
+    });
+
+    test('should render <Article /> the Editor', () => {
+      const newProps = props;
+      newProps.singleArticle = articleDataDraft;
+      wrapper = mount(<Article {...newProps} />);
+      expect(wrapper.props().singleArticle.tagList).toBeDefined();
+    });
+
+    test('should render <Article /> with cover', () => {
+      props.singleArticle.cover = 'https://picsum.photos/200/300';
+      wrapper = mount(<Article {...props} />);
+      expect(wrapper.props().singleArticle.cover).toBeDefined();
+    });
+
+    test('should render <Article /> the Editor', () => {
+      const newProps = { ...props, singleArticle: articleDataDraft };
+      wrapper = mount(<Article {...newProps} />);
+      expect(wrapper.props().singleArticle.tagList).toBeDefined();
+    });
+
+    describe('reducers', () => {
+      test('should initialize the component state', () => {
+        const state = mapStateToProps(initialState);
+        expect(state).toHaveProperty('loading');
+        expect(state).toHaveProperty('submitting');
+        expect(state).toHaveProperty('currentUser');
+      });
+    });
+
+    describe('actions creators', () => {
+      test('should call getArticle action', () => {
+        const articleSlug = 'article-slug';
+        const dispatch = jest.fn();
+        mapDispatchToProps(dispatch).getArticle(articleSlug);
+        expect(dispatch).toHaveBeenCalled();
+      });
+
+      test('should call rateArticle action', () => {
+        const articleSlug = 'article-slug';
+        const dispatch = jest.fn();
+        mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
+        expect(dispatch).toHaveBeenCalled();
+      });
     });
   });
 });
