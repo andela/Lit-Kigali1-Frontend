@@ -29,7 +29,7 @@ export class Articles extends Component {
 
   render() {
     const {
-      articles, history, page, pages,
+      history, page, pages,
     } = this.props;
     return (
       <section className="main-content">
@@ -58,14 +58,7 @@ export class Articles extends Component {
               </form>
 
               <h3>ARTICLES</h3>
-              {articles.map(article => (
-                <ArticleCard
-                  history={history}
-                  url={`/articles/${article.slug}`}
-                  key={article.slug}
-                  article={article}
-                />
-              ))}
+              {this.renderArticles()}
               <Pagination totalPages={pages} currentPage={page} history={history} url="/articles" />
             </div>
           </div>

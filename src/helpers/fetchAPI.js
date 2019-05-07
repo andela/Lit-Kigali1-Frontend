@@ -18,7 +18,6 @@ const fetchAPI = (endpoint, config) => new Promise((resolve, reject) => {
     ...defaultOptions,
     ...config,
   };
-    // Converts a given json body to string
   if (options.body) {
     options.body = JSON.stringify(options.body);
   }

@@ -46,7 +46,6 @@
 .article-date {
   margin: 20px 0;
   font-size: 0.8rem;
-  font-size: 0.6rem;
   color: rgba(0, 0, 0, 0.3);
 }
 .article-side-actions {
@@ -103,7 +102,6 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  // align-items: right;
 }
 .rating-wrapper {
   display: flex;
@@ -117,7 +115,6 @@
   }
 }
 .article-share {
-  margin: 10px 0;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -144,10 +141,6 @@
   padding: 5px 10px;
   margin: 4px;
   font-family: 'Roboto-Light';
-  font-size: 10px;
-  background: #e8eaf6;
-  padding: 4px 7px;
-  margin: 4px;
 }
 .tagged:hover {
   color: #e8eaf6;
@@ -174,12 +167,6 @@
     }
     * {
       margin-right: 10px;
-    }
-    .article-icon {
-      margin-top: 0;
-    }
-    * {
-      margin-right: 20px;
       display: inline-flex;
       align-items: center;
       i {
@@ -188,7 +175,6 @@
     }
     button:nth-child(4) {
       margin-top: -2px;
-      margin-top: -5px;
       margin-right: 10px;
     }
     button:nth-child(5) {
@@ -238,12 +224,14 @@
 
       .tooltip {
         visibility: hidden;
-        min-width: 120px;
+        overflow: scroll;
+        min-width: 150px;
+        max-height: 100px;
         background-color: black;
         color: #fff;
         text-align: center;
         border-radius: 6px;
-        padding: 3px 0px;
+        padding: 3px 6px;
         position: absolute;
         z-index: 1;
         bottom: 100%;

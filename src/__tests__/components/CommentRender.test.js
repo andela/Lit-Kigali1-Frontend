@@ -1,21 +1,24 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
+import { resolve } from 'uri-js';
 import { CommentRender } from '../../components/Comment/CommentRender';
 import { commentData } from '../../__mocks__/dummyData';
-
 
 const props = {
   articleSlug: '',
   comment: {
     ...commentData[0],
   },
-  currentUser: {
-  },
+  currentUser: {},
   onDeleteComment: jest.fn(),
   updateComment: jest.fn(),
   enterPress: jest.fn(),
   inputHandler: jest.fn(),
   updateBody: '',
+  originalComment: {
+    commentId: '7470cfce-111b-4124-9eb8-1f96b98acffc',
+  },
+  onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
 
 describe('<CommentRender />', () => {
@@ -93,7 +96,6 @@ describe('<CommentRender />', () => {
     expect(wrapper.props().enterPress).toHaveBeenCalled();
   });
 
-
   test('onClick of delete btn should call onDeleteComment', () => {
     const wrapper = mount(<CommentRender {...props} />);
     wrapper.setProps({
@@ -138,6 +140,20 @@ describe('<CommentRender />', () => {
     });
     const spy = jest.spyOn(wrapper.instance(), 'onEditComment');
     wrapper.find('[data-el="comment-container"]').simulate('doubleclick');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  test('onClick of edited button should call originalComment', () => {
+    const wrapper = mount(<CommentRender {...props} />);
+    wrapper.setProps({
+      articleSlug: 'fake-slug',
+      comment: {
+        ...commentData[0],
+        userId: 'fake-id',
+      },
+    });
+    const spy = jest.spyOn(wrapper.instance(), 'originalComment');
+    wrapper.find('button').simulate('click');
     expect(spy).toHaveBeenCalled();
   });
 });

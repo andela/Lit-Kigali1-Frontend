@@ -6,6 +6,9 @@ import request from 'superagent';
 import mock from 'superagent-mock';
 import {
   convertToRaw,
+  convertFromRaw,
+  RichUtils,
+  EditorState,
 } from 'draft-js';
 import { ArticleCreate, mapDispatchToProps, mapStateToProps } from '../../components/Article/ArticleCreate';
 import {
@@ -14,6 +17,7 @@ import {
   article,
   file,
   urlValue,
+  draftJsContentState,
 } from '../../__mocks__/dummyData';
 import { article as newArticle, currentUser } from '../../redux/initialState.json';
 
@@ -279,6 +283,18 @@ describe('<ArticleCreate/>', () => {
     const { handleKeyCommand } = instance;
     const res = handleKeyCommand(command);
     expect(res).toEqual('not-handled');
+  });
+
+  test('should handle key command', () => {
+    RichUtils.handleKeyCommand = jest.fn().mockImplementation(
+      () => EditorState.createWithContent(convertFromRaw(draftJsContentState)),
+    );
+    const command = 'highlight';
+    const wrapper = mount(<ArticleCreate {...props} />);
+    const instance = wrapper.instance();
+    const { handleKeyCommand } = instance;
+    const res = handleKeyCommand(command);
+    expect(res).toEqual('handled');
   });
 });
 

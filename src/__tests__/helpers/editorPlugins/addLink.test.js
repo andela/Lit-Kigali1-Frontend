@@ -1,4 +1,4 @@
-import { EditorState } from 'draft-js';
+import { EditorState, KeyBindingUtil } from 'draft-js';
 import addLinkPlugin from '../../../helpers/editorPlugins/addLink';
 
 
@@ -56,5 +56,28 @@ describe('addLinkPlugin', () => {
     };
     const addLink = keyBindingFn(event, { getEditorState });
     expect(addLink).toEqual(undefined);
+  });
+
+  test('should return add-link', () => {
+    KeyBindingUtil.hasCommandModifier = jest.fn().mockImplementation(
+      () => true,
+    );
+    const { keyBindingFn } = addLinkPlugin;
+    const event = {
+      which: 75,
+    };
+    const getEditorState = () => {
+      const getSelection = () => {
+        const isCollapsed = () => false;
+        return {
+          isCollapsed,
+        };
+      };
+      return {
+        getSelection,
+      };
+    };
+    const addLink = keyBindingFn(event, { getEditorState });
+    expect(addLink).toEqual('add-link');
   });
 });

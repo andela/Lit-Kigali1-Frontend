@@ -14,6 +14,8 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATE_COMMENT_FAILURE,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCH_COMMENT_HISTORY_SUCCESS,
+  FETCH_COMMENT_HISTORY_FAILURE,
 } from '../../redux/actions-types/commentTypes';
 
 import { comment as initialState } from '../../redux/initialState.json';
@@ -222,5 +224,32 @@ describe('commentReducer Test', () => {
       ...initialState,
       updateBody: action.payload,
     });
+  });
+
+  test('should dispatch "FETCH_COMMENT_HISTORY_SUCCESS"', () => {
+    const payload = {
+      editedComment: {
+        commentId: '1231234',
+        body: 'asasfdasdf',
+      },
+    };
+    const action = {
+      type: FETCH_COMMENT_HISTORY_SUCCESS,
+      payload,
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual({ ...initialState, originalComment: payload.editedComment });
+  });
+
+  test('should dispatch "FETCH_COMMENT_HISTORY_FAILURE"', () => {
+    const payload = {
+      message: 'some error message',
+    };
+    const action = {
+      type: FETCH_COMMENT_HISTORY_FAILURE,
+      payload,
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual({ ...initialState, message: payload.message });
   });
 });

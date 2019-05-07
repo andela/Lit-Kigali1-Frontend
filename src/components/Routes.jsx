@@ -13,6 +13,7 @@ import Ratings from './Rating/Ratings';
 import Articles from './Article/Articles';
 import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
+import ProfileEdit from './Profile/ProfileEdit';
 import ArticleCreate from './Article/ArticleCreate';
 import ArticlesCurrentUser from './Article/ArticlesCurrentUser';
 
@@ -35,6 +36,8 @@ const Routes = () => (
     <Route exact path="/articles" component={Articles} />
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
+    <Route exact path="/profile" component={ProfileEdit} />
+    <Route path="/error" component={ErrorPage} />
     <Route exact path="/my-articles" component={ArticlesCurrentUser} />
     <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
     <Route path="*" component={ErrorPage} />

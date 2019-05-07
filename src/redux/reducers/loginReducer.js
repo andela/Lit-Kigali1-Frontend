@@ -10,7 +10,6 @@ import {
 } from '../actions-types';
 import { login as initialState } from '../initialState.json';
 
-
 const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_LOGIN:

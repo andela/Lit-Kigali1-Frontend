@@ -58,9 +58,7 @@ export class CommentRender extends Component {
           >
             {comment.version === 'edited' && ` (${comment.version})`}
             <span className="tooltip">
-              <h3>
-                <i>{originalComment.commentId === comment.id && originalComment.body}</i>
-              </h3>
+              <h4>{originalComment.commentId === comment.id && originalComment.body}</h4>
               {moment().fromNow()}
             </span>
           </button>
