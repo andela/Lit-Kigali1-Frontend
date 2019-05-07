@@ -107,6 +107,7 @@ describe('<Article />', () => {
         </Provider>,
       );
     });
+
     test('should call onSelectedRating method instance', () => {
       wrapper.find('button[data-value="5"]').simulate('click');
       expect(wrapper.find('Article').props().rateArticle).toBeDefined();
