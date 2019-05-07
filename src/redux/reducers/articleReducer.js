@@ -64,7 +64,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.FETCHING_ALL_ARTICLE_SUCCESS:
       return {
         ...state,
-        articlesList: payload.articles,
+        articlesList: payload.articlesList,
         loading: false,
         success: true,
       };
@@ -157,13 +157,31 @@ const articleReducer = (state = initialState, { type, payload }) => {
           tagList: payload.tagList,
         },
       };
-
     case articleTypes.SET_SEARCHING_ARTICLE:
       return {
         ...state,
         searching: payload,
       };
-
+    case articleTypes.BOOKMARK_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        message: payload.message,
+      };
+    case articleTypes.BOOKMARK_ARTICLE_FAILURE:
+      return {
+        ...state,
+        message: payload.message,
+      };
+    case articleTypes.REMOVE_BOOKMARK_SUCCESS:
+      return {
+        ...state,
+        message: payload.message,
+      };
+    case articleTypes.REMOVE_BOOKMARK_FAILURE:
+      return {
+        ...state,
+        message: payload.message,
+      };
     default:
       return state;
   }

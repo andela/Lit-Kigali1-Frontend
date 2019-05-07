@@ -4,6 +4,7 @@ import addLinkPlugin from '../../../helpers/editorPlugins/addLink';
 describe('addLinkPlugin', () => {
   const editorState = EditorState.createEmpty();
   const setEditorState = jest.fn();
+
   test('should not handle key command', () => {
     const command = 'not-add-link';
     const { handleKeyCommand } = addLinkPlugin;
