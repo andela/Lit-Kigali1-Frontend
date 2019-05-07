@@ -7,15 +7,28 @@ import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
+import {
+  fetchArticle,
+  likeArticle,
+  dislikeArticle,
+  bookmark,
+  unBookmark,
+} from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
+import Toast from '../common/Toast/Toast';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
   decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
+
+  state = {
+    toasted: false,
+    message: '',
+    status: 'success',
+  };
 
   componentDidMount() {
     const {
@@ -157,13 +170,45 @@ export class Article extends Component {
     );
   };
 
+  toast = (message, status) => {
+    this.setState(
+      {
+        toasted: true,
+        message,
+        status,
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            toasted: false,
+            message: '',
+            status: 'success',
+          });
+        }, 5000);
+      },
+    );
+  };
+
+  bookmarkOrRemoveIt = () => {
+    const {
+      singleArticle: { slug },
+      onBookmark,
+      onUnBookmark,
+    } = this.props;
+
+    return console.log(onBookmark(slug)) || console.log(onUnBookmark(slug));
+    // return onBookmark(slug) || onUnBookmark(slug);
+  };
+
   render() {
     const {
       singleArticle, liked, disliked, likeCount, dislikeCount,
     } = this.props;
+    const { toasted, message, status } = this.state;
     return (
       <section className="main-content">
         <div className="container content-margin">
+          <Toast show={toasted} type={status} message={message} />
           <br />
           <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
@@ -223,7 +268,10 @@ export class Article extends Component {
                       />
                     </button>
                   </span>
-                  <button className="article-icon-right hover-primary margin-top">
+                  <button
+                    className="article-icon-right hover-primary margin-top"
+                    onClick={() => this.bookmarkOrRemoveIt()}
+                  >
                     <i
                       className="fa fa-bookmark-o article-icon-right"
                       title="bookmark this article"
@@ -290,7 +338,7 @@ export class Article extends Component {
             {this.renderTags()}
           </div>
         </div>
-        <a className="go-top-btn" href="">
+        <a className="go-top-btn" href="##">
           <i className="fa fa-angle-up" />
         </a>
       </section>
@@ -322,6 +370,8 @@ export const mapDispatchToProps = dispatch => ({
   onLikeArticle: articleSlug => dispatch(likeArticle(articleSlug)),
   onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
   nextPath: url => dispatch(setNextPath(url)),
+  onBookmark: articleSlug => dispatch(bookmark(articleSlug)),
+  onUnBookmark: articleSlug => dispatch(unBookmark(articleSlug)),
 });
 
 Article.propTypes = {
@@ -338,6 +388,8 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
+  onBookmark: PropTypes.func.isRequired,
+  onUnBookmark: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {

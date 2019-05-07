@@ -25,6 +25,26 @@ export const submitArticleFormFailure = payload => ({
   payload,
 });
 
+export const bookmarked = payload => ({
+  type: articleTypes.BOOKMARK_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const notBookmarked = payload => ({
+  type: articleTypes.BOOKMARK_ARTICLE_FAILURE,
+  payload,
+});
+
+export const removeBookmark = payload => ({
+  type: articleTypes.REMOVE_BOOKMARK_SUCCESS,
+  payload,
+});
+
+export const bookmarkNotRemoved = payload => ({
+  type: articleTypes.REMOVE_BOOKMARK_FAILURE,
+  payload,
+});
+
 export const submitArticle = ({ article }) => (dispatch) => {
   dispatch(submitArticleForm({ submitting: true }));
   return fetchAPI('/articles', {
@@ -234,4 +254,20 @@ export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${a
   })
   .catch((err) => {
     dispatch(dislikeArticlefailure(err));
+  });
+
+export const bookmark = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/bookmark`, { method: 'POST' })
+  .then(() => {
+    dispatch(bookmarked(articleSlug));
+  })
+  .catch((err) => {
+    dispatch(notBookmarked(err));
+  });
+
+export const unBookmark = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/bookmark`, { method: 'delete' })
+  .then(() => {
+    dispatch(removeBookmark(articleSlug));
+  })
+  .catch((err) => {
+    dispatch(bookmarkNotRemoved(err));
   });
