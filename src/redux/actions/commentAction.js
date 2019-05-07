@@ -243,12 +243,10 @@ export const fetchHistory = (articleSlug, commentId) => dispatch => fetchAPI(`/a
   method: 'GET',
 })
   .then((data) => {
-    console.log(data);
     dispatch(fetchCommentHistorySuccess(data));
     return data;
   })
   .catch((err) => {
-    console.log(err);
     dispatch(fetchCommentHistoryFailure(err));
     return err;
   });

@@ -241,12 +241,14 @@
 
       .tooltip {
         visibility: hidden;
-        min-width: 120px;
+        overflow: scroll;
+        min-width: 150px;
+        max-height: 100px;
         background-color: black;
         color: #fff;
         text-align: center;
         border-radius: 6px;
-        padding: 3px 0px;
+        padding: 3px 6px;
         position: absolute;
         z-index: 1;
         bottom: 100%;

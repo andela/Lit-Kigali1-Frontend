@@ -24,6 +24,7 @@ import {
   commentDislike,
   fetchCommentLikes,
   fetchCommentDislikes,
+  fetchHistory,
 } from '../../redux/actions/commentAction';
 import {
   HANDLE_COMMENT_INPUT,
@@ -44,6 +45,8 @@ import {
   FETCH_COMMENT_DISLIKES_SUCCESS,
   COMMENT_LIKES_FAILURE,
   COMMENT_DISLIKES_FAILURE,
+  FETCH_COMMENT_HISTORY_SUCCESS,
+  FETCH_COMMENT_HISTORY_FAILURE,
 } from '../../redux/actions-types/commentTypes';
 import { commentData } from '../../__mocks__/dummyData';
 
@@ -404,6 +407,34 @@ describe('Comment Action Test', () => {
       .reply(201, { status: 201, message: 'dislikes' });
     return store.dispatch(fetchCommentDislikes(articleSlug, commentId)).then(() => {
       expect(store.getActions()).toEqual(expectedAction);
+    });
+  });
+
+  test('should fetch comment history', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'fake-comment-id';
+    store = mockStore({});
+    nock(API_URL)
+      .get(`/articles/${articleSlug}/comments/${commentId}/edited`)
+      .reply(200, { status: 200, editedComment: {} });
+    return store.dispatch(fetchHistory(articleSlug, commentId)).then((res) => {
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(FETCH_COMMENT_HISTORY_SUCCESS);
+      expect(res.status).toEqual(200);
+    });
+  });
+
+  test('should not fetch comment history', () => {
+    const articleSlug = 'fake-slug';
+    const commentId = 'fake-comment-id';
+    store = mockStore({});
+    nock(API_URL)
+      .get(`/articles/${articleSlug}/comments/${commentId}/edited`)
+      .reply(404, { status: 404, message: '' });
+    return store.dispatch(fetchHistory(articleSlug, commentId)).then((res) => {
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(FETCH_COMMENT_HISTORY_FAILURE);
+      expect(res.status).toEqual(404);
     });
   });
 });

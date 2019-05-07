@@ -27,7 +27,7 @@ export class CommentRender extends React.Component {
   commentBox = () => {
     const { isEdit } = this.state;
     const {
-      comment, currentUser, onDeleteComment, articleSlug,
+      comment, currentUser, onDeleteComment, articleSlug, originalComment,
     } = this.props;
     return (
       <div key={comment.id} className="comment-box">
@@ -65,13 +65,27 @@ export class CommentRender extends React.Component {
           data-el="comment-container"
         >
           {isEdit ? this.commentForm(comment.body, comment.id) : comment.body}
-          <span className="comment-time">
+          <button
+            data-el="edited"
+            className="comment-time tooltip ed-btn"
+            onClick={() => this.onOriginalComment(articleSlug, comment.id)}
+          >
             {comment.version === 'edited' && ` (${comment.version})`}
-          </span>
+            <span className="tooltip">
+              <h4>{originalComment.commentId === comment.id && originalComment.body}</h4>
+              {moment().fromNow()}
+            </span>
+          </button>
         </div>
+        <span />
         <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
       </div>
     );
+  };
+
+  onOriginalComment = (art, id) => {
+    const { onFetchHistory } = this.props;
+    onFetchHistory(art, id);
   };
 
   commentForm = (id) => {
@@ -242,10 +256,13 @@ CommentRender.propTypes = {
   fetchDislikes: PropTypes.func.isRequired,
   onLikeComment: PropTypes.func.isRequired,
   onDislikeComment: PropTypes.func.isRequired,
+  onFetchHistory: PropTypes.func.isRequired,
+  originalComment: PropTypes.object.isRequired,
 };
 
-export const mapStateToProps = ({ comment: { updateBody } }) => ({
+export const mapStateToProps = ({ comment: { updateBody, originalComment } }) => ({
   updateBody,
+  originalComment,
 });
 
 export const mapDispatchToProps = dispatch => ({

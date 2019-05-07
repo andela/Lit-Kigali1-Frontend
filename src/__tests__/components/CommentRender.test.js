@@ -7,6 +7,7 @@ const props = {
   articleSlug: '',
   comment: {
     ...commentData[0],
+    id: 'fake-id',
   },
   currentUser: {},
   onDeleteComment: jest.fn(),
@@ -18,6 +19,10 @@ const props = {
   fetchDislikes: jest.fn(),
   onLikeComment: jest.fn(),
   onDislikeComment: jest.fn(),
+  originalComment: {
+    commentId: 'fake-id',
+  },
+  onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
 
 describe('<CommentRender />', () => {

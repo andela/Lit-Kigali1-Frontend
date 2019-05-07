@@ -87,13 +87,13 @@ describe('currentUserReducer', () => {
       reducer(
         {
           ...initialState,
-          profile: { articles: [{ slug: 'article-slug' }] },
+          profile: { ...initialState.profile, articles: [{ slug: 'article-slug' }] },
         },
         expectedState,
       ),
     ).toEqual({
       ...initialState,
-      profile: { articles: [{ slug: 'article-slug' }] },
+      message: expectedState.payload.message,
     });
   });
 

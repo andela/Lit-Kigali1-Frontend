@@ -26,6 +26,9 @@ const props = {
   onLikeComment: jest.fn(),
   onDislikeComment: jest.fn(),
   onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  originalComment: {
+    commentId: '7470cfce-111b-4124-9eb8-1f96b98acffc',
+  },
 };
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(initialState);

@@ -74,23 +74,6 @@ export class Comment extends Component {
     ));
   };
 
-  onEnterPress = (e, func, id) => {
-    if (e.keyCode === 13 && e.shiftKey === false) {
-      if (!e.target.value.trim()) {
-        e.preventDefault();
-        return;
-      }
-      const { isLoggedIn, history } = this.props;
-      if (!isLoggedIn) {
-        e.preventDefault();
-        history.push('/auth');
-        return;
-      }
-      func(id);
-      e.preventDefault();
-    }
-  };
-
   commentForm = () => {
     const { body } = this.props;
     return (
