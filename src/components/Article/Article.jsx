@@ -122,23 +122,6 @@ export class Article extends Component {
     );
   };
 
-  renderCover = () => {
-    const {
-      singleArticle: { cover },
-    } = this.props;
-    if (!cover) return '';
-    return (
-      <div className="col-12">
-        <div
-          className="article-image"
-          style={{
-            backgroundImage: `url("${cover}")`,
-          }}
-        />
-      </div>
-    );
-  };
-
   navigateToRatings = (e) => {
     const { url } = e.target.dataset;
     const { history } = this.props;

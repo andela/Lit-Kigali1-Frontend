@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import { articleData } from '../../__mocks__/dummyData';
-import { Home, mapStateToProps, mapDispatchToProps } from '../../components/Home/Home';
+import { Home, mapDispatchToProps } from '../../components/Home/Home';
 
 const props = {
   location: {
@@ -29,6 +29,7 @@ const props = {
     arrows: true,
   },
   getAllArticles: jest.fn(),
+  onscroll: jest.fn(),
 };
 
 console.error = jest.fn();
@@ -66,16 +67,6 @@ describe('<Home />', () => {
     expect(wrapper.find('Home').props().recommends).toBeDefined();
   });
 
-  // test('should render <Article /> with articles', () => {
-  //   const wrapper = mount(
-  //     <Router>
-  //       <Home {...props} />
-  //     </Router>,
-  //   );
-  //   wrapper.find('Home').simulate('scroll');
-  //   expect(wrapper.find('Home').props().feed).toBeDefined();
-  // });
-
   describe('actions creators', () => {
     test('should call getCurrentUser action', () => {
       const dispatch = jest.fn();
@@ -94,5 +85,42 @@ describe('<Home />', () => {
       mapDispatchToProps(dispatch).getRecommends();
       expect(dispatch).toHaveBeenCalled();
     });
+  });
+});
+
+describe('Home articles', () => {
+  const map = {};
+  let component;
+  let instance;
+  beforeEach(() => {
+    document.addEventListener = jest.fn((event, cb) => {
+      map[event] = cb;
+    });
+    component = shallow(<Home {...props} />);
+    instance = component.instance();
+    jest.spyOn(instance, 'handleScroll');
+    jest.spyOn(instance, 'getAllArticles');
+  });
+
+  afterEach(() => {
+    instance.handleScroll.mockClear();
+    instance.getAllArticles.mockClear();
+  });
+
+  test('get all articles', () => {
+    const { page } = component.state();
+    map.scroll();
+    expect(instance.handleScroll).toBeCalled();
+    expect(component.state().page).toEqual(page);
+    expect(instance.getAllArticles).not.toBeCalled();
+  });
+
+  test('get all articles on scroll', () => {
+    const { page } = component.state();
+
+    window.innerHeight = 0;
+    map.scroll();
+    expect(instance.handleScroll).toBeCalled();
+    expect(component.state().page).toEqual(page + 1);
   });
 });

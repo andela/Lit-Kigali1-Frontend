@@ -34,20 +34,22 @@ export class Home extends Component {
     this.getAllArticles();
     this.getRecommendsArticles();
 
-    window.onscroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop
-        === document.documentElement.offsetHeight
-      ) {
-        const {
-          feed: { page, pages },
-        } = this.props;
-        if (pages > page) {
-          this.setState({ page: page + 1 }, () => this.getAllArticles());
-        }
-      }
-    };
+    document.addEventListener('scroll', () => this.handleScroll(), true);
   }
+
+  handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop
+      === document.documentElement.offsetHeight
+    ) {
+      const {
+        feed: { page, pages },
+      } = this.props;
+      if (pages > page) {
+        this.setState({ page: page + 1 }, () => this.getAllArticles());
+      }
+    }
+  };
 
   getAllArticles = () => {
     const { page } = this.state;
