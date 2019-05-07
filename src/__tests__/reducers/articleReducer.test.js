@@ -361,16 +361,55 @@ describe('articleReducer', () => {
     });
   });
 
-  it('should handle `FETCHING_ALL_ARTICLE_HOME_SUCCESS`', () => {
-    const payload = articleData;
+  // it('should handle `FETCHING_ALL_ARTICLE_HOME_SUCCESS`', () => {
+  //   const payload = articleData;
+  //   const expectedState = {
+  //     type: articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS,
+  //     payload,
+  //   };
+  //   expect(reducer({}, expectedState)).toEqual({
+  //     feed: payload,
+  //     loading: false,
+  //     success: true,
+  //   });
+  // });
+
+  it('should handle `FETCHING_RECOMMENDED_ARTICLE_SUCCESS`', () => {
     const expectedState = {
-      type: articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS,
+      type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_SUCCESS,
+      payload: [articleData],
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      recommends: [articleData],
+    });
+  });
+
+  it('should handle `FETCHING_RECOMMENDED_ARTICLE_FAILURE`', () => {
+    const expectedState = {
+      type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_FAILURE,
+      payload: [],
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      recommends: [],
+    });
+  });
+
+  it('should handle `FETCHING_ALL_ARTICLE_HOME_FAILURE`', () => {
+    const payload = 'FAILURE';
+    const expectedState = {
+      type: articleTypes.FETCHING_ALL_ARTICLE_HOME_FAILURE,
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      feed: payload,
+      feed: {
+        articles: [],
+        articlesCount: 0,
+        page: 0,
+        pages: 0,
+      },
       loading: false,
-      success: true,
+      success: false,
+      message: payload,
     });
   });
 

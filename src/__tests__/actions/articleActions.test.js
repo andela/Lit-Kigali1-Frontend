@@ -294,12 +294,6 @@ describe('articleActions', () => {
     });
 
     test('should dispatch fetchArticlesHome action - SUCCESS', () => {
-      const payload = {
-        page: 1,
-        pages: 1,
-        articlesCount: 1,
-        articles: [articleData],
-      };
       nock(API_URL)
         .get('/articles?page=1')
         .reply(200, {
@@ -309,28 +303,30 @@ describe('articleActions', () => {
           pages: 1,
           articles: [articleData],
         });
-      const expectedActions = [
-        {
-          payload: true,
-          type: 'FETCHING_ARTICLE',
-        },
-        {
-          payload,
-        },
-      ];
       return store.dispatch(articleActions.fetchArticlesHome({ page: 1 })).then((res) => {
         expect(res.status).toBe(200);
       });
     });
 
     test('should dispatch fetchRecommendedArticles action - SUCCESS', () => {
+      const payload = [articleData];
+
       nock(API_URL)
         .get('/articles/feed')
         .reply(200, {
+          status: 200,
           articles: [articleData],
+          message: 'success',
         });
+      const expectedActions = [
+        {
+          type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_SUCCESS,
+          payload,
+        },
+      ];
       return store.dispatch(articleActions.fetchRecommendedArticle()).then((res) => {
-        expect(res.articles[0]).toEqual(articleData);
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
       });
     });
 
