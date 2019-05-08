@@ -45,7 +45,7 @@
 }
 .article-date {
   margin: 20px 0;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: rgba(0, 0, 0, 0.3);
 }
 .article-side-actions {
@@ -74,6 +74,15 @@
       color: #e2c14a;
       a,
       i {
+        color: #e2c14a;
+      }
+    }
+    &.margin-top {
+      margin-top: 1.5rem;
+  .article-icon {
+    &.rated {
+      color: #e2c14a;
+      a {
         color: #e2c14a;
       }
     }
@@ -115,6 +124,7 @@
   }
 }
 .article-share {
+  margin: 10px 0;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -125,9 +135,6 @@
   button {
     background-color: transparent;
     font-size: 1rem;
-    i {
-      color: #717171;
-    }
   }
 }
 .tagged {

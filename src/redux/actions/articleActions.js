@@ -1,5 +1,9 @@
+import dotenv from 'dotenv';
 import * as articleTypes from '../actions-types/articleTypes';
 import fetchAPI from '../../helpers/fetchAPI';
+
+dotenv.config();
+const { API_URL } = process.env;
 
 export const clearArticleForm = () => ({
   type: articleTypes.CLEAR_ARTICLE_FORM,
@@ -57,6 +61,10 @@ export const fetchingArticle = payload => ({
   payload,
 });
 
+export const shareSocial = payload => ({
+  type: articleTypes.SHARE_SOCIAL_SUCCESS,
+  payload,
+});
 /* Fetching article actions and thunk */
 
 export const fetchingArticleSuccess = payload => ({
@@ -161,24 +169,6 @@ export const fetchAndUpdateArticle = slug => (dispatch) => {
     });
 };
 
-export const updateArticle = (slug, article) => (dispatch) => {
-  dispatch(submitArticleForm({ submitting: true }));
-  return fetchAPI(`/articles/${slug}`, {
-    method: 'PUT',
-    body: {
-      article,
-    },
-  })
-    .then((data) => {
-      dispatch(submitArticleFormSuccess(data));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(submitArticleFormFailure(err.message));
-      return err;
-    });
-};
-
 export const setArticleRate = payload => ({
   type: articleTypes.SET_ARTICLE_RATE,
   payload,
@@ -235,3 +225,26 @@ export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${a
   .catch((err) => {
     dispatch(dislikeArticlefailure(err));
   });
+
+export const share = ({ on, articleSlug }) => (dispatch) => {
+  dispatch(shareSocial(on));
+  return window.open(`${API_URL}/articles/${articleSlug}/share/${on}`);
+};
+
+export const updateArticle = (slug, article) => (dispatch) => {
+  dispatch(submitArticleForm({ submitting: true }));
+  return fetchAPI(`/articles/${slug}`, {
+    method: 'PUT',
+    body: {
+      article,
+    },
+  })
+    .then((data) => {
+      dispatch(submitArticleFormSuccess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(submitArticleFormFailure(err.message));
+      return err;
+    });
+};

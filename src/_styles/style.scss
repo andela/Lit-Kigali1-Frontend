@@ -1,27 +1,27 @@
-@import "base/global";
-@import "base/colors";
-@import "base/global";
-@import "base/form";
-@import "base/typography";
+@import 'base/global';
+@import 'base/colors';
+@import 'base/global';
+@import 'base/form';
+@import 'base/typography';
 
 /* Layout */
-@import "layout/grid-layout";
-@import "layout/NavBar";
+@import 'layout/grid-layout';
+@import 'layout/NavBar';
 
 /* Cards */
-@import "cards/ArticleCard";
+@import 'cards/ArticleCard';
 
 /* Components */
-@import "components/FiveStars";
-@import "components/Toast";
-@import "components/RatingCard";
+@import 'components/FiveStars';
+@import 'components/Toast';
+@import 'components/RatingCard';
 
 /* Pages */
-@import "pages/Login";
-@import "pages/Profile";
-@import "pages/ArticleCreate";
-@import "pages/Article";
-@import "pages/Articles";
-@import "pages/ArticlesCurrentUser";
-@import "pages/ErrorPage";
-@import "pages/Ratings";
+@import 'pages/Login';
+@import 'pages/Profile';
+@import 'pages/ErrorPage';
+@import 'pages/Article';
+@import 'pages/Ratings';
+@import 'pages/Article';
+@import 'pages/Articles';
+@import 'pages/ArticlesCurrentUser';

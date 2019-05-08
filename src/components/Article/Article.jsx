@@ -7,7 +7,12 @@ import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
+import {
+  fetchArticle,
+  likeArticle,
+  dislikeArticle,
+  share,
+} from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
@@ -139,22 +144,13 @@ export class Article extends Component {
     e.preventDefault();
   };
 
-  renderCover = () => {
+  SocialShare = (on) => {
     const {
-      singleArticle: { cover },
+      onShare,
+      article: { slug },
     } = this.props;
 
-    if (!cover) return '';
-    return (
-      <div className="col-12">
-        <div
-          className="article-image"
-          style={{
-            backgroundImage: `url("${cover}")`,
-          }}
-        />
-      </div>
-    );
+    onShare({ on, articleSlug: slug });
   };
 
   render() {
@@ -232,16 +228,25 @@ export class Article extends Component {
                 </div>
                 <div className="article-share">
                   <p>Share this article</p>
-                  <button className="article-icon hover-primary">
+                  <button
+                    id="fb"
+                    className="article-icon hover-primary"
+                    onClick={() => this.SocialShare('facebook')}
+                  >
                     <i className="fa fa-facebook-square" title="Share via Facebook" />
                   </button>
-                  <button className="article-icon hover-primary">
+                  <button
+                    id="tw"
+                    className="article-icon hover-primary"
+                    onClick={() => this.SocialShare('twitter')}
+                  >
                     <i className="fa fa-twitter-square" title="Share via Twitter" />
                   </button>
-                  <button className="article-icon hover-primary">
-                    <i className="fa fa-linkedin-square" title="Share via LinkedIn" />
-                  </button>
-                  <button className="article-icon hover-primary">
+                  <button
+                    id="e"
+                    className="article-icon hover-primary"
+                    onClick={() => this.SocialShare('email')}
+                  >
                     <i className="fa fa-envelope" title="Share via Mail " />
                   </button>
                 </div>
@@ -290,7 +295,7 @@ export class Article extends Component {
             {this.renderTags()}
           </div>
         </div>
-        <a className="go-top-btn" href="">
+        <a className="go-top-btn" href="##">
           <i className="fa fa-angle-up" />
         </a>
       </section>
@@ -319,6 +324,7 @@ export const mapStateToProps = ({
 export const mapDispatchToProps = dispatch => ({
   getArticle: articleSlug => dispatch(fetchArticle(articleSlug)),
   rateArticle: payload => dispatch(onUserRateArticle(payload)),
+  onShare: payload => dispatch(share(payload)),
   onLikeArticle: articleSlug => dispatch(likeArticle(articleSlug)),
   onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
   nextPath: url => dispatch(setNextPath(url)),
@@ -330,6 +336,7 @@ Article.propTypes = {
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  onShare: PropTypes.func.isRequired,
   liked: PropTypes.bool,
   disliked: PropTypes.bool,
   likeCount: PropTypes.number,
@@ -338,6 +345,7 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
+  article: PropTypes.object,
 };
 
 Article.defaultProps = {
@@ -346,6 +354,7 @@ Article.defaultProps = {
   disliked: false,
   likeCount: 0,
   dislikeCount: 0,
+  article: {},
 };
 
 export default connect(

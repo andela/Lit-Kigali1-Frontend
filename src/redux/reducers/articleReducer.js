@@ -64,6 +64,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.FETCHING_ALL_ARTICLE_SUCCESS:
       return {
         ...state,
+        articles: payload,
         articlesList: payload.articles,
         loading: false,
         success: true,
@@ -164,6 +165,11 @@ const articleReducer = (state = initialState, { type, payload }) => {
         searching: payload,
       };
 
+    case articleTypes.SHARE_SOCIAL_SUCCESS:
+      return {
+        ...state,
+        payload,
+      };
     default:
       return state;
   }

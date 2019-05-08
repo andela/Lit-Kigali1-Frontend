@@ -16,6 +16,7 @@ const props = {
   onLikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   onDislikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   nextPath: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
+  onShare: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
   match: {
     params: {
       articleSlug: 'article-slug',
@@ -124,6 +125,36 @@ describe('<Article />', () => {
     test('should call onSelectedRating method instance', () => {
       wrapper.find('span[data-name="rate-btn"]').simulate('click');
       expect(props.history.push).toHaveBeenCalled();
+    });
+  });
+
+  describe('when clicking on share icon', () => {
+    beforeEach(() => {
+      wrapper = mount(<Article {...props} />);
+    });
+
+    test('should call on socialShare', () => {
+      wrapper.find('button[id="tw"]').simulate('click');
+      expect(props.onShare).toHaveBeenCalled();
+    });
+
+    test('should call on socialShare', () => {
+      wrapper.find('button[id="fb"]').simulate('click');
+      expect(props.onShare).toHaveBeenCalled();
+    });
+
+    test('should call on socialShare', () => {
+      wrapper.find('button[id="e"]').simulate('click');
+      expect(props.onShare).toHaveBeenCalled();
+    });
+  });
+
+  describe('reducers', () => {
+    test('should initialize the component state', () => {
+      const state = mapStateToProps(initialState);
+      expect(state).toHaveProperty('loading');
+      expect(state).toHaveProperty('submitting');
+      expect(state).toHaveProperty('currentUser');
     });
   });
 
@@ -248,6 +279,15 @@ describe('<Article />', () => {
         const articleSlug = 'article-slug';
         const dispatch = jest.fn();
         mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
+        expect(dispatch).toHaveBeenCalled();
+      });
+      test('should call onShare action', () => {
+        const payload = {
+          on: 'facebook',
+          articleSlug: 'slug',
+        };
+        const dispatch = jest.fn();
+        mapDispatchToProps(dispatch).onShare(payload);
         expect(dispatch).toHaveBeenCalled();
       });
     });
