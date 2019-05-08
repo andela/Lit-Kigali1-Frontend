@@ -110,7 +110,7 @@ describe('articleReducer', () => {
     const expectedState = {
       type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
       payload: {
-        articles,
+        articlesList: articles,
       },
     };
     expect(reducer({}, expectedState)).toEqual({
@@ -343,6 +343,50 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       searching: true,
+    });
+  });
+
+  it('should handle `BOOKMARK_ARTICLE_SUCCESS`', () => {
+    const payload = { message: 'message' };
+    const expectedState = {
+      type: articleTypes.BOOKMARK_ARTICLE_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      message: 'message',
+    });
+  });
+
+  it('should handle `BOOKMARK_ARTICLE_FAILURE`', () => {
+    const payload = { message: 'message' };
+    const expectedState = {
+      type: articleTypes.BOOKMARK_ARTICLE_FAILURE,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      message: 'message',
+    });
+  });
+
+  it('should handle `REMOVE_BOOKMARK_SUCCESS`', () => {
+    const payload = { message: 'message' };
+    const expectedState = {
+      type: articleTypes.REMOVE_BOOKMARK_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      message: 'message',
+    });
+  });
+
+  it('should handle `REMOVE_BOOKMARK_FAILURE`', () => {
+    const payload = { message: 'message' };
+    const expectedState = {
+      type: articleTypes.REMOVE_BOOKMARK_FAILURE,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      message: 'message',
     });
   });
 });

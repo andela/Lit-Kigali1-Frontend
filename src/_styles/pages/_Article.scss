@@ -279,3 +279,24 @@
     color: $primary;
   }
 }
+
+.bookmark {
+  height: 50px;
+  width: 100%;
+  background-color: $primary-light;
+  margin-bottom: 2px;
+  padding: 17px 10px;
+  &:hover {
+    border-left: solid $primary 0.1em;
+    span:after {
+      position: inherit;
+      content: 'x';
+      font-size: 15px;
+      font-weight: bolder;
+      margin-block-end: 2px;
+    }
+  }
+  .close {
+    background: $primary-light;
+  }
+}

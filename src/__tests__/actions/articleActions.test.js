@@ -541,5 +541,101 @@ describe('articleActions', () => {
         expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_FAILURE);
       });
     });
+
+    test('should dispatch bookmark -SUCCESS', () => {
+      const articleSLug = 'some-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSLug}/bookmark`)
+        .reply(201, {
+          status: 201,
+          message: 'some-slug is bookmarked',
+        });
+
+      const expectedActions = [
+        {
+          type: articleTypes.BOOKMARK_ARTICLE_SUCCESS,
+          payload: {
+            message: 'some-slug is bookmarked',
+            status: 201,
+          },
+        },
+      ];
+      return store.dispatch(articleActions.bookmark(articleSLug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch bookmark -FAILURE', () => {
+      const articleSLug = 'some-slug';
+      nock(API_URL)
+        .post(`/articles/${articleSLug}/bookmark`)
+        .reply(404, {
+          status: 404,
+          message: 'some-slug is not bookmarked',
+        });
+
+      const expectedActions = [
+        {
+          type: articleTypes.BOOKMARK_ARTICLE_FAILURE,
+          payload: {
+            message: 'some-slug is not bookmarked',
+            status: 404,
+          },
+        },
+      ];
+      return store.dispatch(articleActions.bookmark(articleSLug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch unBookmark -SUCCESS', () => {
+      const articleSLug = 'some-slug';
+      nock(API_URL)
+        .delete(`/articles/${articleSLug}/bookmark`)
+        .reply(200, {
+          status: 200,
+          message: 'some-slug was removed from bookmarks',
+        });
+
+      const expectedActions = [
+        {
+          type: articleTypes.REMOVE_BOOKMARK_SUCCESS,
+          payload: {
+            message: 'some-slug was removed from bookmarks',
+            status: 200,
+          },
+        },
+      ];
+      return store.dispatch(articleActions.unBookmark(articleSLug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch unBookmark -FAILURE', () => {
+      const articleSLug = 'some-slug';
+      nock(API_URL)
+        .delete(`/articles/${articleSLug}/bookmark`)
+        .reply(404, {
+          status: 404,
+          message: 'some-slug was not removed from bookmarks',
+        });
+
+      const expectedActions = [
+        {
+          type: articleTypes.REMOVE_BOOKMARK_FAILURE,
+          payload: {
+            message: 'some-slug was not removed from bookmarks',
+            status: 404,
+          },
+        },
+      ];
+      return store.dispatch(articleActions.unBookmark(articleSLug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
   });
 });
