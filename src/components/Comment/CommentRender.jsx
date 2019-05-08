@@ -123,6 +123,13 @@ export class CommentRender extends React.Component {
           <span className="comment-time">
             {comment.version === 'edited' && ` (${comment.version})`}
           </span>
+          {comment.highlightedText && (
+          <div className="box">
+            <a className="hightlightedText" href={`#${comment.anchorKey}`}>{`"${comment.highlightedText}"`}</a>
+          </div>
+          )}
+          { isEdit ? this.commentForm(comment.id) : comment.body }
+          <span className="comment-time">{comment.version === 'edited' && ` (${comment.version})`}</span>
         </div>
         <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
         <div className="comment-user-action">

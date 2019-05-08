@@ -243,6 +243,7 @@ export const updateArticle = (slug, article) => (dispatch) => {
   })
   .then((data) => {
       dispatch(submitArticleFormSuccess(data));
+      dispatch(fetchArticle(data.article.slug));
       return data;
     })
     .catch((err) => {

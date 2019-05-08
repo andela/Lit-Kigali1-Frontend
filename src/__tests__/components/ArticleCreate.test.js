@@ -5,12 +5,13 @@ import 'isomorphic-fetch';
 import request from 'superagent';
 import mock from 'superagent-mock';
 import {
-  convertToRaw,
-  convertFromRaw,
-  RichUtils,
-  EditorState,
+  convertToRaw, convertFromRaw, RichUtils, EditorState,
 } from 'draft-js';
-import { ArticleCreate, mapDispatchToProps, mapStateToProps } from '../../components/Article/ArticleCreate';
+import {
+  ArticleCreate,
+  mapDispatchToProps,
+  mapStateToProps,
+} from '../../components/Article/ArticleCreate';
 import {
   draftjsBody,
   entityMap1,
@@ -18,8 +19,12 @@ import {
   file,
   urlValue,
   draftJsContentState,
+  articleDataDraft,
 } from '../../__mocks__/dummyData';
-import { article as newArticle, currentUser } from '../../redux/initialState.json';
+import {
+  article as newArticle,
+  currentUser,
+} from '../../redux/initialState.json';
 
 const API_URL = process.env.UPLOAD_URL;
 
@@ -33,12 +38,16 @@ describe('<ArticleCreate/>', () => {
     history: {
       push: jest.fn(),
     },
-    getArticle: jest.fn(),
+    getArticle: jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({
+        status: 200,
+        article: { body: articleDataDraft.body },
+      })),
     onUpdateArticle: jest.fn(),
     isLoggedIn: true,
     match: {
-      params: {
-      },
+      params: {},
     },
     createArticle: {
       body: {
@@ -131,8 +140,7 @@ describe('<ArticleCreate/>', () => {
       const prevState = wrapper.state().editorState;
       const videoBtn = wrapper.find('[data-el="video-btn"]');
       videoBtn.simulate('click');
-      wrapper.find('[data-el="video-input"]')
-        .simulate('change', event);
+      wrapper.find('[data-el="video-input"]').simulate('change', event);
       wrapper.find('[data-el="video-input"]');
       const newState = wrapper.state().editorState;
       expect(prevState).toEqual(newState);
@@ -146,7 +154,10 @@ describe('<ArticleCreate/>', () => {
       return instance.addVideo(event).then(() => {
         const newState = wrapper.state();
         expect(prevState).not.toEqual(newState);
-        expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('video');
+        expect(
+          convertToRaw(newState.editorState.getCurrentContent()).entityMap[0]
+            .type,
+        ).toEqual('video');
         done();
       });
     });
@@ -174,8 +185,7 @@ describe('<ArticleCreate/>', () => {
       const prevState = wrapper.state().editorState;
       const imageBtn = wrapper.find('[data-el="image-btn"]');
       imageBtn.simulate('click');
-      wrapper.find('[data-el="image-input"]')
-        .simulate('change', event);
+      wrapper.find('[data-el="image-input"]').simulate('change', event);
       wrapper.update();
       const newState = wrapper.state().editorState;
       expect(wrapper).toMatchSnapshot();
@@ -190,12 +200,14 @@ describe('<ArticleCreate/>', () => {
       return instance.addImage(event).then(() => {
         const newState = wrapper.state();
         expect(prevState).not.toEqual(newState);
-        expect(convertToRaw(newState.editorState.getCurrentContent()).entityMap[0].type).toEqual('image');
+        expect(
+          convertToRaw(newState.editorState.getCurrentContent()).entityMap[0]
+            .type,
+        ).toEqual('image');
         done();
       });
     });
   });
-
 
   test('should add bold', () => {
     const wrapper = mount(<ArticleCreate {...props} />);
@@ -286,9 +298,9 @@ describe('<ArticleCreate/>', () => {
   });
 
   test('should handle key command', () => {
-    RichUtils.handleKeyCommand = jest.fn().mockImplementation(
-      () => EditorState.createWithContent(convertFromRaw(draftJsContentState)),
-    );
+    RichUtils.handleKeyCommand = jest
+      .fn()
+      .mockImplementation(() => EditorState.createWithContent(convertFromRaw(draftJsContentState)));
     const command = 'highlight';
     const wrapper = mount(<ArticleCreate {...props} />);
     const instance = wrapper.instance();

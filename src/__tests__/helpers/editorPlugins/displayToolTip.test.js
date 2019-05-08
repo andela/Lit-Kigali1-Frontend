@@ -1,24 +1,24 @@
 import { EditorState, KeyBindingUtil } from 'draft-js';
-import addLinkPlugin from '../../../helpers/editorPlugins/addLink';
+import addToolTip from '../../../helpers/editorPlugins/displayToolTip';
 
 describe('addLinkPlugin', () => {
   const editorState = EditorState.createEmpty();
   const setEditorState = jest.fn();
 
   test('should not handle key command', () => {
-    const command = 'not-add-link';
-    const { handleKeyCommand } = addLinkPlugin;
+    const command = 'not-add-tool-tip';
+    const { handleKeyCommand } = addToolTip;
     expect(handleKeyCommand(command, editorState, { setEditorState })).toEqual('not-handled');
   });
 
   test('should handle key command', () => {
-    const { handleKeyCommand } = addLinkPlugin;
-    const command = 'add-link';
+    const { handleKeyCommand } = addToolTip;
+    const command = 'add-tool-tip';
     expect(handleKeyCommand(command, editorState, { setEditorState })).toEqual('handled');
   });
 
   test('should return undefined', () => {
-    const { keyBindingFn } = addLinkPlugin;
+    const { keyBindingFn } = addToolTip;
     const event = {
       which: 75,
     };
@@ -38,9 +38,9 @@ describe('addLinkPlugin', () => {
   });
 
   test('should return undefined', () => {
-    const { keyBindingFn } = addLinkPlugin;
+    const { keyBindingFn } = addToolTip;
     const event = {
-      which: 75,
+      which: 77,
     };
     const getEditorState = () => {
       const getSelection = () => {
@@ -59,9 +59,9 @@ describe('addLinkPlugin', () => {
 
   test('should return add-tool-tip', () => {
     KeyBindingUtil.hasCommandModifier = () => true;
-    const { keyBindingFn } = addLinkPlugin;
+    const { keyBindingFn } = addToolTip;
     const event = {
-      which: 75,
+      which: 77,
     };
     const getEditorState = () => {
       const getSelection = () => {
@@ -75,6 +75,6 @@ describe('addLinkPlugin', () => {
       };
     };
     const addLink = keyBindingFn(event, { getEditorState });
-    expect(addLink).toEqual('add-link');
+    expect(addLink).toEqual('add-tool-tip');
   });
 });

@@ -49,7 +49,10 @@ const articleReducer = (state = initialState, { type, payload }) => {
     case articleTypes.FETCHING_ARTICLE_SUCCESS:
       return {
         ...state,
-        singleArticle: payload,
+        singleArticle: {
+          ...payload,
+          body: JSON.parse(payload.body),
+        },
         loading: false,
         success: true,
       };

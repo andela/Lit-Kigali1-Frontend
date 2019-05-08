@@ -54,22 +54,21 @@ export class Comment extends Component {
       );
     }
     const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    return newList.map(comment => (
-      <CommentRender
-        commentList={commentList}
-        currentUser={currentUser}
-        onDeleteComment={onDeleteComment}
-        articleSlug={articleSlug}
-        comment={comment}
-        key={comment.id}
-        enterPress={this.onEnterPress}
-        updateComment={this.onEditComment}
-        inputHandler={onUpdateCommentInput}
-        onLikeComment={onLikeComment}
-        onDislikeComment={onDislikeComment}
-      />
-    ));
-  };
+    return (
+      newList.map(comment => (
+        <CommentRender
+          currentUser={currentUser}
+          onDeleteComment={onDeleteComment}
+          articleSlug={articleSlug}
+          comment={comment}
+          key={comment.id}
+          enterPress={this.onEnterPress}
+          updateComment={this.onEditComment}
+          inputHandler={onUpdateCommentInput}
+        />
+      ))
+    );
+  }
 
   onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -120,7 +119,7 @@ Comment.propTypes = {
   body: PropTypes.string.isRequired,
   onCommentInput: PropTypes.func.isRequired,
   onSubmitComment: PropTypes.func.isRequired,
-  articleSlug: PropTypes.string.isRequired,
+  articleSlug: PropTypes.string,
   commentList: PropTypes.array.isRequired,
   currentUser: PropTypes.object,
   onDeleteComment: PropTypes.func.isRequired,
@@ -137,6 +136,7 @@ Comment.propTypes = {
 Comment.defaultProps = {
   currentUser: {},
   fetching: false,
+  articleSlug: '',
 };
 
 Comment.defaultProps = {
