@@ -1,3 +1,4 @@
+@import "../base/variables";
 .article-view-title {
   font-size: 2rem;
   text-align: center;
@@ -240,7 +241,16 @@
     .box {
       padding: 5px;
       margin: 5px 0px;
-      border-radius: 0px;
+      padding: 0px 10px;
+      border-radius: 4px;
+      font-style: italic;
+      line-height: 1.2rem;
+      .hightlightedText {
+        background-color: $primary-light;
+        font-size: 12px;
+        border-radius: 10px;
+        color: $primary-dark;
+      }
     }
   }
   .article-comment__center {
@@ -285,17 +295,21 @@
   }
 }
 .hightlightedText {
-  background-color: yellow;
-  line-height: 1.5rem;
   .comment-trigger {
     position: absolute;
     right: 0;
     padding-right: 30px;
+    margin-right: 100px;
+    @media screen and (max-width: $tablet-width) {
+      margin-right: -10px;
+    }
   }
 }
 .comment-wrapper {
   width: 50%;
   position: absolute;
+  left:30%;
+  margin-top: 30px;
   border-radius: 15px;
   padding: 10px 0px 10px 10px;
   font-family: Roboto-light;
@@ -305,4 +319,15 @@
     border-color: $primary;
     border-width: 2px;
   }
+}
+.positioner {
+  color: red;
+  position: absolute;
+  margin-top: -65px;
+}
+.article-comment__obsolute {
+  position: absolute;
+  right: 0;
+  margin-right: 12%;
+  width: 30%;
 }

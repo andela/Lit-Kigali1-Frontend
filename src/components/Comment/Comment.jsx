@@ -53,7 +53,6 @@ export class Comment extends Component {
     return (
       newList.map(comment => (
         <CommentRender
-          commentList={commentList}
           currentUser={currentUser}
           onDeleteComment={onDeleteComment}
           articleSlug={articleSlug}
@@ -116,7 +115,7 @@ Comment.propTypes = {
   body: PropTypes.string.isRequired,
   onCommentInput: PropTypes.func.isRequired,
   onSubmitComment: PropTypes.func.isRequired,
-  articleSlug: PropTypes.string.isRequired,
+  articleSlug: PropTypes.string,
   commentList: PropTypes.array.isRequired,
   currentUser: PropTypes.object,
   onDeleteComment: PropTypes.func.isRequired,
@@ -131,6 +130,7 @@ Comment.propTypes = {
 Comment.defaultProps = {
   currentUser: {},
   fetching: false,
+  articleSlug: '',
 };
 
 export const mapStateToProps = ({

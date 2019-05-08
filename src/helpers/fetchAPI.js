@@ -25,7 +25,7 @@ const fetchAPI = (endpoint, config) => new Promise((resolve, reject) => {
   fetch(`${API_URL}${endpoint}`, options)
     .then(res => res.json() || {})
     .then((res) => {
-      if (res.status === 200 || res.status === 201) {
+      if (res.status === 200 || res.status === 201 || res.status === 304) {
         return resolve(res);
       }
       return reject(res);

@@ -14,6 +14,8 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATE_COMMENT_FAILURE,
   HANDLE_UPDATE_COMMENT_INPUT,
+  SET_HIGHLIGHTED_TEXT,
+  HANDLE_HIGHLIGHTED_COMMENT_INPUT,
 } from '../../redux/actions-types/commentTypes';
 
 import { comment as initialState } from '../../redux/initialState.json';
@@ -222,5 +224,42 @@ describe('commentReducer Test', () => {
       ...initialState,
       updateBody: action.payload,
     });
+  });
+
+  test('should dispatch "SET_HIGHLIGHTED_TEXT"', () => {
+    const action = {
+      type: SET_HIGHLIGHTED_TEXT,
+      payload: 'Nono I was mistaken',
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual({
+      ...initialState,
+      highlightedText: action.payload,
+    });
+  });
+
+  test('should dispatch "HANDLE_HIGHLIGHTED_COMMENT_INPUT"', () => {
+    const action = {
+      type: HANDLE_HIGHLIGHTED_COMMENT_INPUT,
+      payload: {
+        body: 'Nono I was mistaken',
+      },
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual({
+      ...initialState,
+      hbody: action.payload.body,
+    });
+  });
+
+  test('should dispatch "UNKNOWN_TYPE"', () => {
+    const action = {
+      type: 'UNKNOWN_TYPE',
+      payload: {
+        hbody: 'Nono I was mistaken',
+      },
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual(initialState);
   });
 });

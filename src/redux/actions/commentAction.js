@@ -13,11 +13,18 @@ import {
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
   FETCHING_COMMENTS,
+  SET_HIGHLIGHTED_TEXT,
+  HANDLE_HIGHLIGHTED_COMMENT_INPUT,
 } from '../actions-types/commentTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
 export const handleCommentInput = payload => ({
   type: HANDLE_COMMENT_INPUT,
+  payload,
+});
+
+export const handleHighlightedTextCommentInput = payload => ({
+  type: HANDLE_HIGHLIGHTED_COMMENT_INPUT,
   payload,
 });
 
@@ -71,6 +78,38 @@ export const submitComment = (body, articleSlug) => (dispatch) => {
     body: {
       comment: {
         body,
+      },
+    },
+  })
+    .then((data) => {
+      dispatch(addCommentSuccess(data));
+      dispatch(fetchAllComments(articleSlug));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(addCommentFailure(err));
+      return err;
+    });
+};
+
+export const submitCommentOnText = (
+  body,
+  articleSlug,
+  highlightedText,
+  startPoint,
+  endPoint,
+  anchorKey,
+) => (dispatch) => {
+  dispatch(submitCommentForm());
+  return fetchAPI(`/articles/${articleSlug}/comment-on-text`, {
+    method: 'POST',
+    body: {
+      comment: {
+        body,
+        highlightedText,
+        startPoint,
+        endPoint,
+        anchorKey,
       },
     },
   })
@@ -153,3 +192,8 @@ export const updateComment = (id, articleSlug, body) => (dispatch) => {
       return err;
     });
 };
+
+export const setHiglightedText = payload => ({
+  type: SET_HIGHLIGHTED_TEXT,
+  payload,
+});

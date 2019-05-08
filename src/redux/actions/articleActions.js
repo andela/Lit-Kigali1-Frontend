@@ -1,9 +1,7 @@
-import dotenv from 'dotenv';
 import * as articleTypes from '../actions-types/articleTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { fetchAllComments } from './commentAction';
 
-dotenv.config();
 const { API_URL } = process.env;
 
 export const clearArticleForm = () => ({
@@ -245,6 +243,7 @@ export const updateArticle = (slug, article) => (dispatch) => {
   })
     .then((data) => {
       dispatch(submitArticleFormSuccess(data));
+      dispatch(fetchArticle(data.article.slug));
       return data;
     })
     .catch((err) => {

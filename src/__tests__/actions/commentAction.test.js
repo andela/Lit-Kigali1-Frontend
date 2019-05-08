@@ -20,6 +20,7 @@ import {
   updatingCommentSuccess,
   setUpdateCommentBody,
   updateComment,
+  submitCommentOnText,
 } from '../../redux/actions/commentAction';
 import {
   HANDLE_COMMENT_INPUT,
@@ -302,6 +303,36 @@ describe('Comment Action Test', () => {
       expect(actions[0].type).toEqual(UPDATING_COMMENT);
       expect(actions[1].type).toEqual(UPDATE_COMMENT_FAILURE);
       expect(res.message).toEqual('comment not found');
+    });
+  });
+
+  test('should add comment on hightlightedText', () => {
+    const fakeSlug = 'fake-slug';
+    const body = 'I like it';
+    store = mockStore({});
+    nock(API_URL)
+      .post(`/articles/${fakeSlug}/comment-on-text`)
+      .reply(201, { status: 201, comment: commentData[0] });
+    return store.dispatch(submitCommentOnText(body, fakeSlug)).then((res) => {
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(SUBMIT_COMMENT_FORM);
+      expect(actions[1].type).toEqual(ADD_COMMENT_SUCCESS);
+      expect(res.comment).toEqual(commentData[0]);
+    });
+  });
+
+  test('should not add on hightlightedText', () => {
+    const fakeSlug = 'fake-slug';
+    const body = 'I like it';
+    store = mockStore({});
+    nock(API_URL)
+      .post(`/articles/${fakeSlug}/comment-on-text`)
+      .reply(404, { status: 404, message: 'article not found' });
+    return store.dispatch(submitCommentOnText(body, fakeSlug)).then((res) => {
+      const actions = store.getActions();
+      expect(actions[0].type).toEqual(SUBMIT_COMMENT_FORM);
+      expect(actions[1].type).toEqual(ADD_COMMENT_FAILURE);
+      expect(res.message).toEqual('article not found');
     });
   });
 });
