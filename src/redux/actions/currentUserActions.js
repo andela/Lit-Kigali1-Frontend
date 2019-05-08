@@ -13,6 +13,8 @@ import {
   SUBMIT_PROFILE_FORM,
   SET_NOTIFICATION,
   SET_NOTIFICATION_FAILURE,
+  ENABLE_NOTIFICATION_SUCCESS,
+  ENABLE_NOTIFICATION_FAILURE,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -89,6 +91,16 @@ export const profileUpdateFailure = ({ message }) => ({
   payload: {
     message,
   },
+});
+
+export const changeStatusSuccess = payload => ({
+  type: ENABLE_NOTIFICATION_SUCCESS,
+  payload,
+});
+
+export const changeStatusFailure = payload => ({
+  type: ENABLE_NOTIFICATION_FAILURE,
+  payload,
 });
 
 export const submitProfileForm = () => ({ type: SUBMIT_PROFILE_FORM });
@@ -176,5 +188,18 @@ export const updateProfile = userData => (dispatch) => {
     .catch(({ message }) => {
       dispatch(profileUpdateFailure({ message }));
       return message;
+    });
+};
+
+export const changeNotificationStatus = () => (dispatch) => {
+  fetchAPI('/notifications/enable', { method: 'PUT' })
+    .then((data) => {
+      dispatch(changeStatusSuccess(data.notification));
+      console.log(data);
+      return data;
+    })
+    .catch((data) => {
+      dispatch(changeStatusFailure(data.message));
+      return data.message;
     });
 };

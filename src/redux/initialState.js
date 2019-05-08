@@ -33,6 +33,7 @@ module.exports = {
       notificationList: [],
       notificationsCount: 0,
       status: 'enabled',
+      message: '',
     },
   },
   signUp: {

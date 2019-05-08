@@ -79,6 +79,19 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
           notificationsCount: payload.notificationsCount,
         },
       };
+    case types.ENABLE_NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        notifications: {
+          status: 'disabled',
+        },
+        loading: false,
+      };
+    case types.ENABLE_NOTIFICATION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }
