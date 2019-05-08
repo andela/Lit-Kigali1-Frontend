@@ -6,6 +6,7 @@ import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
+import ContentLoader from 'react-content-loader';
 import {
   fetchArticle,
   likeArticle,
@@ -112,6 +113,23 @@ export class Article extends Component {
             </span>
           ))}
         </div>
+      </div>
+    );
+  };
+
+  renderCover = () => {
+    const {
+      singleArticle: { cover },
+    } = this.props;
+    if (!cover) return '';
+    return (
+      <div className="col-12">
+        <div
+          className="article-image"
+          style={{
+            backgroundImage: `url("${cover}")`,
+          }}
+        />
       </div>
     );
   };

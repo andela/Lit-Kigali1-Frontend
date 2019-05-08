@@ -8,26 +8,6 @@ import { articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
-const props = {
-  loading: true,
-  singleArticle: articleData,
-  currentUser: {
-    username: 'username',
-  },
-  getArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  rateArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  onLikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  onDislikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  nextPath: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  onShare: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  match: {
-    params: {
-      articleSlug: 'article-slug',
-    },
-  },
-  history: { push: jest.fn() },
-  isLoggedIn: true,
-};
 
 const mockStore = configureMockStore([thunk]);
 let store = mockStore(initialState);
@@ -107,6 +87,27 @@ describe('<Article />', () => {
     });
   });
 
+  describe('when clicking on share icon', () => {
+    beforeEach(() => {
+      wrapper = mount(<Provider store={store}><Article /></Provider>);
+    });
+
+    test('should call on socialShare', () => {
+      wrapper.find('button[id="tw"]').simulate('click');
+      expect(wrapper.find('Article').props().onShare).toBeDefined();
+    });
+
+    test('should call on socialShare', () => {
+      wrapper.find('button[id="fb"]').simulate('click');
+      expect(wrapper.find('Article').props().onShare).toBeDefined();
+    });
+
+    test('should call on socialShare', () => {
+      wrapper.find('button[id="e"]').simulate('click');
+      expect(wrapper.find('Article').props().onShare).toBeDefined();
+    });
+  });
+
   test('should render <Article /> with cover', () => {
     const state = initialState;
     state.article.singleArticle.cover = 'https://picsum.photos/200/300';
@@ -128,36 +129,6 @@ describe('<Article />', () => {
       const state = mapStateToProps(initialState);
       expect(state).toHaveProperty('loading');
       expect(state).toHaveProperty('singleArticle');
-      expect(state).toHaveProperty('submitting');
-      expect(state).toHaveProperty('currentUser');
-    });
-  });
-
-  describe('when clicking on share icon', () => {
-    beforeEach(() => {
-      wrapper = mount(<Article {...props} />);
-    });
-
-    test('should call on socialShare', () => {
-      wrapper.find('button[id="tw"]').simulate('click');
-      expect(props.onShare).toHaveBeenCalled();
-    });
-
-    test('should call on socialShare', () => {
-      wrapper.find('button[id="fb"]').simulate('click');
-      expect(props.onShare).toHaveBeenCalled();
-    });
-
-    test('should call on socialShare', () => {
-      wrapper.find('button[id="e"]').simulate('click');
-      expect(props.onShare).toHaveBeenCalled();
-    });
-  });
-
-  describe('reducers', () => {
-    test('should initialize the component state', () => {
-      const state = mapStateToProps(initialState);
-      expect(state).toHaveProperty('loading');
       expect(state).toHaveProperty('submitting');
       expect(state).toHaveProperty('currentUser');
     });
@@ -245,66 +216,8 @@ describe('<Article />', () => {
     });
 
     test('should dislike an article', () => {
-      wrapper.find('button[data-value="dislike"]').simulate('click');
-      expect(props.nextPath).toHaveBeenCalled();
-    });
-    test('should render <Article /> with cover', () => {
-      props.singleArticle.cover = 'https://picsum.photos/200/300';
-      wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().singleArticle.cover).toBeDefined();
-    });
-
-    test('should render <Article /> the Editor', () => {
-      const newProps = props;
-      newProps.singleArticle = articleDataDraft;
-      wrapper = mount(<Article {...newProps} />);
-      expect(wrapper.props().singleArticle.tagList).toBeDefined();
-    });
-
-    test('should render <Article /> with cover', () => {
-      props.singleArticle.cover = 'https://picsum.photos/200/300';
-      wrapper = mount(<Article {...props} />);
-      expect(wrapper.props().singleArticle.cover).toBeDefined();
-    });
-
-    test('should render <Article /> the Editor', () => {
-      const newProps = { ...props, singleArticle: articleDataDraft };
-      wrapper = mount(<Article {...newProps} />);
-      expect(wrapper.props().singleArticle.tagList).toBeDefined();
-    });
-
-    describe('reducers', () => {
-      test('should initialize the component state', () => {
-        const state = mapStateToProps(initialState);
-        expect(state).toHaveProperty('loading');
-        expect(state).toHaveProperty('submitting');
-        expect(state).toHaveProperty('currentUser');
-      });
-    });
-
-    describe('actions creators', () => {
-      test('should call getArticle action', () => {
-        const articleSlug = 'article-slug';
-        const dispatch = jest.fn();
-        mapDispatchToProps(dispatch).getArticle(articleSlug);
-        expect(dispatch).toHaveBeenCalled();
-      });
-
-      test('should call rateArticle action', () => {
-        const articleSlug = 'article-slug';
-        const dispatch = jest.fn();
-        mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
-        expect(dispatch).toHaveBeenCalled();
-      });
-      test('should call onShare action', () => {
-        const payload = {
-          on: 'facebook',
-          articleSlug: 'slug',
-        };
-        const dispatch = jest.fn();
-        mapDispatchToProps(dispatch).onShare(payload);
-        expect(dispatch).toHaveBeenCalled();
-      });
+      wrapper.find('Article').find('button[data-value="dislike"]').simulate('click');
+      expect(wrapper.find('Article').props().nextPath).toBeDefined();
     });
   });
 });
