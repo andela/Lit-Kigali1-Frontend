@@ -10,8 +10,8 @@ import initialState from '../../redux/initialState.json';
 let wrapper;
 const props = {
   loading: true,
-  singleArticle: articleData,
-  article: articleData,
+  singleArticle: articleDataDraft,
+  article: articleDataDraft,
   currentUser: {
     username: 'username',
   },
@@ -26,6 +26,7 @@ const props = {
     },
   },
   history: { push: jest.fn() },
+  navigateToArticles: jest.fn(),
   isLoggedIn: true,
 };
 
@@ -33,11 +34,23 @@ const mockStore = configureMockStore([thunk]);
 let store = mockStore(initialState);
 describe('<Article />', () => {
   beforeEach(() => {
-    wrapper = mount(<Provider store={store}><Article /></Provider>);
+    wrapper = mount(
+      <Provider store={store}>
+        <Article />
+      </Provider>,
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   test('should render the <Article />', () => {
-    wrapper = shallow(<Provider store={store}><Article /></Provider>);
+    wrapper = shallow(
+      <Provider store={store}>
+        <Article />
+      </Provider>,
+    );
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -50,7 +63,11 @@ describe('<Article />', () => {
       const state = initialState;
       state.article.singleArticle.rated = 1;
       store = mockStore(state);
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
       expect(wrapper.find('Article').props().singleArticle.rated).toBe(1);
     });
 
@@ -58,7 +75,11 @@ describe('<Article />', () => {
       const state = initialState;
       state.article.singleArticle.rated = 2;
       store = mockStore(state);
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
       expect(wrapper.find('Article').props().singleArticle.rated).toBe(2);
     });
 
@@ -66,7 +87,11 @@ describe('<Article />', () => {
       const state = initialState;
       state.article.singleArticle.rated = 3;
       store = mockStore(state);
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
       expect(wrapper.find('Article').props().singleArticle.rated).toBe(3);
     });
 
@@ -74,7 +99,11 @@ describe('<Article />', () => {
       const state = initialState;
       state.article.singleArticle.rated = 4;
       store = mockStore(state);
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
       expect(wrapper.find('Article').props().singleArticle.rated).toBe(4);
     });
 
@@ -82,14 +111,22 @@ describe('<Article />', () => {
       const state = initialState;
       state.article.singleArticle.rated = 5;
       store = mockStore(state);
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
       expect(wrapper.find('Article').props().singleArticle.rated).toBe(5);
     });
   });
 
   describe('when clicking on rateArticle', () => {
     beforeEach(() => {
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
     });
     test('should call onSelectedRating method instance', () => {
       wrapper.find('button[data-value="5"]').simulate('click');
@@ -101,7 +138,11 @@ describe('<Article />', () => {
     test('should call onSelectedRating method instance', () => {
       const state = { ...initialState, history: { push: jest.fn() } };
       store = mockStore(state);
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
       wrapper.find('span[data-name="rate-btn"]').simulate('click');
       expect(wrapper.find('Article').props().history.push).toBeDefined();
     });
@@ -109,7 +150,11 @@ describe('<Article />', () => {
 
   describe('when clicking on share icon', () => {
     beforeEach(() => {
-      wrapper = mount(<Provider store={store}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
     });
 
     test('should call on socialShare', () => {
@@ -132,7 +177,11 @@ describe('<Article />', () => {
     const state = initialState;
     state.article.singleArticle.cover = 'https://picsum.photos/200/300';
     store = mockStore(state);
-    wrapper = mount(<Provider store={store}><Article /></Provider>);
+    wrapper = mount(
+      <Provider store={store}>
+        <Article />
+      </Provider>,
+    );
     expect(wrapper.find('Article').props().singleArticle.cover).toBeDefined();
   });
 
@@ -140,7 +189,11 @@ describe('<Article />', () => {
     const state = initialState;
     state.article.singleArticle = articleDataDraft;
     store = mockStore(state);
-    wrapper = mount(<Provider store={store}><Article /></Provider>);
+    wrapper = mount(
+      <Provider store={store}>
+        <Article />
+      </Provider>,
+    );
     expect(wrapper.find('Article').props().singleArticle.tagList).toBeDefined();
   });
 
@@ -168,6 +221,7 @@ describe('<Article />', () => {
       mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
       expect(dispatch).toHaveBeenCalled();
     });
+
     test('should call likeArticle action', () => {
       const articleSlug = 'article-slug';
       const dispatch = jest.fn();
@@ -199,16 +253,26 @@ describe('<Article />', () => {
         },
       };
       const store1 = mockStore(state);
-      wrapper = mount(<Provider store={store1}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store1}>
+          <Article />
+        </Provider>,
+      );
     });
 
     test('should like an article', () => {
-      wrapper.find('Article').find('button[data-value="like"]').simulate('click');
+      wrapper
+        .find('Article')
+        .find('button[data-value="like"]')
+        .simulate('click');
       expect(wrapper.find('Article').props().onLikeArticle).toBeDefined();
     });
 
     test('should dislike an article', () => {
-      wrapper.find('Article').find('button[data-value="dislike"]').simulate('click');
+      wrapper
+        .find('Article')
+        .find('button[data-value="dislike"]')
+        .simulate('click');
       expect(wrapper.find('Article').props().onDislikeArticle).toBeDefined();
     });
   });
@@ -227,25 +291,27 @@ describe('<Article />', () => {
         },
       };
       const store2 = mockStore(state);
-      wrapper = mount(<Provider store={store2}><Article /></Provider>);
+      wrapper = mount(
+        <Provider store={store2}>
+          <Article />
+        </Provider>,
+      );
     });
 
     test('should like an article', () => {
-      wrapper.find('Article').find('button[data-value="like"]').simulate('click');
+      wrapper
+        .find('Article')
+        .find('button[data-value="like"]')
+        .simulate('click');
       expect(wrapper.find('Article').props().nextPath).toBeDefined();
     });
 
     test('should dislike an article', () => {
-      wrapper.find('Article').find('button[data-value="dislike"]').simulate('click');
-      expect(wrapper.find('Article').props().nextPath).toBeDefined();
-    });
-
-    test('should call navigateToArticles instance function', () => {
       wrapper
-        .find('span[className="tagged"]')
-        .at(1)
+        .find('Article')
+        .find('button[data-value="dislike"]')
         .simulate('click');
-      expect(props.history.push).toHaveBeenCalled();
+      expect(wrapper.find('Article').props().nextPath).toBeDefined();
     });
   });
 });

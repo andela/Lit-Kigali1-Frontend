@@ -65,6 +65,8 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         ...payload,
+        loading: false,
+        success: true,
       };
     case articleTypes.FETCHING_ALL_ARTICLE_FAILURE:
       return {

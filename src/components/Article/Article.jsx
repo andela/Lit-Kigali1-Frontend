@@ -178,14 +178,19 @@ export class Article extends Component {
     }
     e.preventDefault();
   };
-  
+
+  SocialShare = (on) => {
+    const {
+      onShare,
+      article: { slug },
+    } = this.props;
+
+    onShare({ on, articleSlug: slug });
+  };
+
   render() {
     const {
-      singleArticle,
-      liked, disliked,
-      likeCount,
-      dislikeCount,
-      history,
+      singleArticle, liked, disliked, likeCount, dislikeCount, history,
     } = this.props;
     return (
       <section className="main-content">

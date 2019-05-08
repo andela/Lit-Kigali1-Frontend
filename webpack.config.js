@@ -51,4 +51,7 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
   },
+  node: {
+    fs: 'empty',
+  },
 };

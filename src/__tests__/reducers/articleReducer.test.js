@@ -105,19 +105,15 @@ describe('articleReducer', () => {
   });
 
   it('should handle `FETCHING_ALL_ARTICLE_SUCCESS`', () => {
-    const payload = [articleData];
+    const payload = { articlesList: [articleData] };
     const expectedState = {
       type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-<<<<<<< HEAD
-      articles: payload,
+      ...payload,
       loading: false,
       success: true,
-=======
-      articles,
->>>>>>> feat(tags): rebase develop
     });
   });
 

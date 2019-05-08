@@ -45,7 +45,7 @@
 }
 .article-date {
   margin: 20px 0;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   color: rgba(0, 0, 0, 0.3);
 }
 .article-side-actions {
@@ -74,15 +74,6 @@
       color: #e2c14a;
       a,
       i {
-        color: #e2c14a;
-      }
-    }
-    &.margin-top {
-      margin-top: 1.5rem;
-  .article-icon {
-    &.rated {
-      color: #e2c14a;
-      a {
         color: #e2c14a;
       }
     }
@@ -124,7 +115,6 @@
   }
 }
 .article-share {
-  margin: 10px 0;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -135,6 +125,9 @@
   button {
     background-color: transparent;
     font-size: 1rem;
+    i {
+      color: #717171;
+    }
   }
 }
 .tagged {
@@ -244,6 +237,11 @@
       display: inline-block;
       width: 100%;
     }
+    .box {
+      padding: 5px;
+      margin: 5px 0px;
+      border-radius: 0px;
+    }
   }
   .article-comment__center {
     margin: auto;
@@ -266,4 +264,45 @@
     color: $primary;
   }
 }
-
+.tooltip {
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 6px;
+  position: absolute;
+  margin-top: -30px;
+  .higlight-btn {
+    background-color: black;
+  }
+  button {
+    background-color: black;
+    padding: 0;
+    i {
+      color: white;
+      font-size: 25px;
+    }
+  }
+}
+.hightlightedText {
+  background-color: yellow;
+  line-height: 1.5rem;
+  .comment-trigger {
+    position: absolute;
+    right: 0;
+    padding-right: 30px;
+  }
+}
+.comment-wrapper {
+  width: 50%;
+  position: absolute;
+  border-radius: 15px;
+  padding: 10px 0px 10px 10px;
+  font-family: Roboto-light;
+  resize: none;
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    border-width: 2px;
+  }
+}
