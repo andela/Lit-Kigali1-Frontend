@@ -105,13 +105,13 @@ describe('articleReducer', () => {
   });
 
   it('should handle `FETCHING_ALL_ARTICLE_SUCCESS`', () => {
-    const payload = [articleData];
+    const payload = { articlesList: [articleData] };
     const expectedState = {
       type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      articles: payload,
+      ...payload,
       loading: false,
       success: true,
     });

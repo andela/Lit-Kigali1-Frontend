@@ -10,6 +10,7 @@ describe('addLinkPlugin', () => {
     const { handleKeyCommand } = addLinkPlugin;
     expect(handleKeyCommand(command, editorState, { setEditorState })).toEqual('not-handled');
   });
+
   test('should handle key command', () => {
     const { handleKeyCommand } = addLinkPlugin;
     const command = 'add-link';
@@ -35,6 +36,7 @@ describe('addLinkPlugin', () => {
     const addLink = keyBindingFn(event, { getEditorState });
     expect(addLink).toEqual(undefined);
   });
+
   test('should return undefined', () => {
     const { keyBindingFn } = addLinkPlugin;
     const event = {

@@ -100,6 +100,11 @@ export class Article extends Component {
     rateArticle({ articleSlug: slug, rate: value });
   };
 
+  navigateToArticles = (e) => {
+    const { history } = this.props;
+    history.push(`/articles?page1&tag=${e.target.dataset.value}`);
+  };
+
   renderTags = () => {
     const {
       singleArticle: { tagList },
@@ -108,7 +113,7 @@ export class Article extends Component {
       <div className="row">
         <div className="col-12 content-center">
           {tagList.map(tag => (
-            <span key={tag} className="tagged">
+            <span key={tag} className="tagged" data-value={tag} onClick={this.navigateToArticles}>
               {tag}
             </span>
           ))}
@@ -185,11 +190,7 @@ export class Article extends Component {
 
   render() {
     const {
-      singleArticle,
-      liked, disliked,
-      likeCount,
-      dislikeCount,
-      history,
+      singleArticle, liked, disliked, likeCount, dislikeCount, history,
     } = this.props;
     return (
       <section className="main-content">
