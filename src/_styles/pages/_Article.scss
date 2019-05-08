@@ -193,3 +193,77 @@
 #modal-report:target {
   display: flex;
 }
+.comment-textarea {
+  border-radius: 15px;
+  padding: 10px 0px 10px 10px;
+  font-family: Roboto-light;
+  resize: none;
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    border-width: 2px;
+  }
+}
+.new {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.comment-button {
+  float: right;
+} 
+.article-comment {
+  .comment-box {
+    margin-top: 1rem;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    background-color:#fff;
+    border-radius: 0.3rem;
+    border:1px solid #d8dee2;
+    .control-btn {
+      float: right;
+    }
+    .comment-time {
+      padding-top: 5px;
+      font-size: 12px;
+      color: $input-border-color;
+    }
+    .author-name {
+      float: left;
+      font-weight: bold;
+      .profile-avatar {
+        width: 40px;
+        margin-right: 5px;
+        height: unset;
+        @media screen and (max-width: $tablet-width) {
+          height: unset;
+        }
+      }
+      margin-bottom: 10px;
+    }
+    .comment-header {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+  .article-comment__center {
+    margin: auto;
+    width: 60%;
+    font-family: Roboto-light;
+    @media screen and (max-width: $tablet-width) {
+      width: 90%;
+    }
+  }
+}
+.my-comment-update {
+  cursor: pointer;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  width: auto;
+  min-width: auto;
+  text-align: right;
+  &:hover {
+    color: $primary;
+  }
+}
+

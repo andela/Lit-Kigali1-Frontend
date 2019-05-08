@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Parser as HtmlToReact } from 'html-to-react';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
+import ContentLoader from 'react-content-loader';
 import {
   fetchArticle,
   likeArticle,
@@ -17,6 +17,7 @@ import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRender
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
+import Comment from '../Comment/Comment';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
@@ -50,7 +51,36 @@ export class Article extends Component {
         />
       );
     }
-    return new HtmlToReact().parse(body);
+    return (
+      <ContentLoader
+        height={200}
+        width={400}
+        speed={2}
+        primaryColor="#f3f3f3"
+        secondaryColor="#ecebeb"
+      >
+        <rect x="75" y="0" rx="3" ry="3" width="250" height="6" />
+        <rect x="0" y="20" rx="3" ry="3" width="350" height="3" />
+        <rect x="0" y="30" rx="3" ry="3" width="380" height="3" />
+        <rect x="0" y="40" rx="3" ry="3" width="201" height="3" />
+        <rect x="-2" y="50" rx="3" ry="3" width="350" height="3" />
+        <rect x="-13" y="60" rx="3" ry="3" width="380" height="3" />
+        <rect x="-3" y="70" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="80" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="90" rx="3" ry="3" width="380" height="3" />
+        <rect x="-10" y="100" rx="3" ry="3" width="380" height="3" />
+        <rect x="0" y="110" rx="3" ry="3" width="350" height="3" />
+        <rect x="0" y="120" rx="3" ry="3" width="350" height="3" />
+        <rect x="0" y="130" rx="3" ry="3" width="380" height="3" />
+        <rect x="0" y="140" rx="3" ry="3" width="201" height="3" />
+        <rect x="-2" y="150" rx="3" ry="3" width="350" height="3" />
+        <rect x="-13" y="160" rx="3" ry="3" width="380" height="3" />
+        <rect x="-3" y="170" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="180" rx="3" ry="3" width="380" height="3" />
+        <rect x="-7" y="190" rx="3" ry="3" width="380" height="3" />
+        <rect x="-10" y="200" rx="3" ry="3" width="380" height="3" />
+      </ContentLoader>
+    );
   };
 
   renderDate = () => {
@@ -155,7 +185,11 @@ export class Article extends Component {
 
   render() {
     const {
-      singleArticle, liked, disliked, likeCount, dislikeCount,
+      singleArticle,
+      liked, disliked,
+      likeCount,
+      dislikeCount,
+      history,
     } = this.props;
     return (
       <section className="main-content">
@@ -294,10 +328,11 @@ export class Article extends Component {
             </div>
             {this.renderTags()}
           </div>
+          <Comment articleSlug={singleArticle.slug} history={history} />
         </div>
-        <a className="go-top-btn" href="##">
+        <button className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
-        </a>
+        </button>
       </section>
     );
   }
@@ -332,11 +367,11 @@ export const mapDispatchToProps = dispatch => ({
 
 Article.propTypes = {
   singleArticle: PropTypes.object,
-  match: PropTypes.any.isRequired,
+  match: PropTypes.any,
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   onShare: PropTypes.func.isRequired,
+  history: PropTypes.object,
   liked: PropTypes.bool,
   disliked: PropTypes.bool,
   likeCount: PropTypes.number,
@@ -355,6 +390,8 @@ Article.defaultProps = {
   likeCount: 0,
   dislikeCount: 0,
   article: {},
+  match: { params: {} },
+  history: { push: () => '' },
 };
 
 export default connect(
