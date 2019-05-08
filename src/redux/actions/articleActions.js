@@ -25,6 +25,26 @@ export const submitArticleFormFailure = payload => ({
   payload,
 });
 
+export const bookmarked = payload => ({
+  type: articleTypes.BOOKMARK_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const notBookmarked = payload => ({
+  type: articleTypes.BOOKMARK_ARTICLE_FAILURE,
+  payload,
+});
+
+export const removeBookmark = payload => ({
+  type: articleTypes.REMOVE_BOOKMARK_SUCCESS,
+  payload,
+});
+
+export const bookmarkNotRemoved = payload => ({
+  type: articleTypes.REMOVE_BOOKMARK_FAILURE,
+  payload,
+});
+
 export const submitArticle = ({ article }) => (dispatch) => {
   dispatch(submitArticleForm({ submitting: true }));
   return fetchAPI('/articles', {
@@ -69,19 +89,6 @@ export const fetchingArticleFailure = payload => ({
   payload,
 });
 
-export const fetchArticle = slug => (dispatch) => {
-  dispatch(fetchingArticle(true));
-  return fetchAPI(`/articles/${slug}`)
-    .then((data) => {
-      dispatch(fetchingArticleSuccess(data.article));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(fetchingArticleFailure(err.message));
-      return err;
-    });
-};
-
 export const setLikes = payload => ({
   type: articleTypes.SET_LIKES,
   payload,
@@ -103,6 +110,21 @@ export const fetchDislikes = articleSlug => dispatch => fetchAPI(`/articles/${ar
     dispatch(setDislikes(data));
   })
   .catch(err => err);
+
+export const fetchArticle = slug => (dispatch) => {
+  dispatch(fetchingArticle(true));
+  return fetchAPI(`/articles/${slug}`)
+    .then((data) => {
+      dispatch(fetchingArticleSuccess(data.article));
+      dispatch(fetchLikes(data.article.slug));
+      dispatch(fetchDislikes(data.article.slug));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingArticleFailure(err.message));
+      return err;
+    });
+};
 
 export const fetchingAllArticleSuccess = payload => ({
   type: articleTypes.FETCHING_ALL_ARTICLE_SUCCESS,
@@ -234,4 +256,20 @@ export const dislikeArticle = articleSlug => dispatch => fetchAPI(`/articles/${a
   })
   .catch((err) => {
     dispatch(dislikeArticlefailure(err));
+  });
+
+export const bookmark = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/bookmark`, { method: 'POST' })
+  .then((message) => {
+    dispatch(bookmarked(message));
+  })
+  .catch((err) => {
+    dispatch(notBookmarked(err));
+  });
+
+export const unBookmark = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/bookmark`, { method: 'DELETE' })
+  .then((message) => {
+    dispatch(removeBookmark(message));
+  })
+  .catch((err) => {
+    dispatch(bookmarkNotRemoved(err));
   });

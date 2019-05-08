@@ -7,15 +7,29 @@ import {
   Editor, EditorState, convertFromRaw, CompositeDecorator,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
-import { fetchArticle, likeArticle, dislikeArticle } from '../../redux/actions/articleActions';
+import {
+  fetchArticle,
+  likeArticle,
+  dislikeArticle,
+  bookmark,
+  unBookmark,
+} from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
+import Toast from '../common/Toast/Toast';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
   decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
+
+  state = {
+    toasted: false,
+    message: '',
+    status: 'success',
+    bookmarked: false,
+  };
 
   componentDidMount() {
     const {
@@ -157,13 +171,54 @@ export class Article extends Component {
     );
   };
 
+  toast = (message, status) => {
+    this.setState(
+      {
+        toasted: true,
+        message,
+        status,
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            toasted: false,
+            message: '',
+            status: 'success',
+          });
+        }, 5000);
+      },
+    );
+  };
+
+  bookmarkOrRemoveIt = () => {
+    const {
+      singleArticle: { slug },
+      onBookmark,
+      message,
+      onUnBookmark,
+    } = this.props;
+    this.setState({ bookmarked: true });
+    this.toast('Bookmark Added', 'success');
+    onBookmark(slug);
+
+    if (message.includes('bookmarked')) {
+      this.setState({ bookmarked: false });
+      this.toast('Bookmark Removed', 'success');
+      onUnBookmark(slug);
+    }
+  };
+
   render() {
     const {
       singleArticle, liked, disliked, likeCount, dislikeCount,
     } = this.props;
+    const {
+      toasted, message, status, bookmarked,
+    } = this.state;
     return (
       <section className="main-content">
         <div className="container content-margin">
+          <Toast show={toasted} type={status} message={message} />
           <br />
           <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
@@ -223,9 +278,14 @@ export class Article extends Component {
                       />
                     </button>
                   </span>
-                  <button className="article-icon-right hover-primary margin-top">
+                  <button
+                    className="article-icon-right hover-primary margin-top"
+                    onClick={() => this.bookmarkOrRemoveIt()}
+                  >
                     <i
-                      className="fa fa-bookmark-o article-icon-right"
+                      className={`fa ${
+                        !bookmarked ? 'fa-bookmark-o' : 'fa-bookmark'
+                      } article-icon-right`}
                       title="bookmark this article"
                     />
                   </button>
@@ -290,7 +350,7 @@ export class Article extends Component {
             {this.renderTags()}
           </div>
         </div>
-        <a className="go-top-btn" href="">
+        <a className="go-top-btn" href="##">
           <i className="fa fa-angle-up" />
         </a>
       </section>
@@ -300,7 +360,14 @@ export class Article extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading, singleArticle, submitting, liked, disliked, likeCount, dislikeCount,
+    loading,
+    singleArticle,
+    submitting,
+    liked,
+    disliked,
+    likeCount,
+    dislikeCount,
+    message,
   },
   currentUser: { profile, rating, isLoggedIn },
 }) => ({
@@ -314,6 +381,7 @@ export const mapStateToProps = ({
   dislikeCount,
   currentUser: profile,
   isLoggedIn,
+  message,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -322,14 +390,16 @@ export const mapDispatchToProps = dispatch => ({
   onLikeArticle: articleSlug => dispatch(likeArticle(articleSlug)),
   onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
   nextPath: url => dispatch(setNextPath(url)),
+  onBookmark: articleSlug => dispatch(bookmark(articleSlug)),
+  onUnBookmark: articleSlug => dispatch(unBookmark(articleSlug)),
 });
 
 Article.propTypes = {
   singleArticle: PropTypes.object,
-  match: PropTypes.any.isRequired,
+  match: PropTypes.any,
   getArticle: PropTypes.func.isRequired,
   rateArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
   liked: PropTypes.bool,
   disliked: PropTypes.bool,
   likeCount: PropTypes.number,
@@ -338,6 +408,9 @@ Article.propTypes = {
   onDislikeArticle: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
+  onBookmark: PropTypes.func.isRequired,
+  message: PropTypes.string,
+  onUnBookmark: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
@@ -346,6 +419,9 @@ Article.defaultProps = {
   disliked: false,
   likeCount: 0,
   dislikeCount: 0,
+  match: { params: {} },
+  history: { push: () => '' },
+  message: '',
 };
 
 export default connect(
