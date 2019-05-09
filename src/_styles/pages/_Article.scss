@@ -246,9 +246,9 @@
       .profile-avatar {
         width: 40px;
         margin-right: 5px;
-        height: unset;
+        height: 35px;
         @media screen and (max-width: $tablet-width) {
-          height: unset;
+          height: 35px;
         }
       }
       margin-bottom: 10px;
@@ -325,6 +325,8 @@
     outline: none;
     border-color: $primary;
     border-width: 2px;
+  }
+}
 
 .comment-user-action {
   margin-top: 20px;
