@@ -17,7 +17,7 @@ export class NotificationCard extends Component {
             className="notification__avatar"
           />
           <span>{notification.notification}</span>
-          <span className="notification__time">{moment(notification.updatedAt).fromNow()}</span>
+          <span className="notification__time">{moment(notification.createdAt).fromNow()}</span>
         </a>
       </li>
     );

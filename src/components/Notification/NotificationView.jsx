@@ -1,37 +1,53 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import userAvatar from '../../assets/images/avatar.png';
+import { markAllAsRead, readNotification } from '../../redux/actions/currentUserActions';
 
 export class NotificationView extends Component {
+  onMarkAllAsReadClicked = (e) => {
+    const { onMarkAllAsRead } = this.props;
+    onMarkAllAsRead();
+    e.preventDefault();
+  };
+
   render() {
-    const { notificationList } = this.props;
-    console.log(notificationList);
+    const { notificationList, onReadNotification } = this.props;
     return (
       <section className="main-content content-margin">
         <div className="container">
           <div className="all-notification-header">
             <div className="all-notification__title">Your Notifications</div>
             <div className="all-notification__links">
-              <a href="#">Mark All as Read</a>
+              <button onClick={this.onMarkAllAsReadClicked}>Mark All as Read</button>
             </div>
           </div>
           <div className="all-notification">
-            <div className="all-notification__view notification-unread">
-              <a href="./articles-view.html">
-                <img src={userAvatar} alt="" className="all-notification__avatar" />
-                <span>Grace Kimotho posted a new article</span>
-              </a>
-              <span className="notification__time">2 days ago</span>
-            </div>
-            <div className="all-notification__view">
-              <a href="./articles-view.html">
-                <img src={userAvatar} alt="" className="all-notification__avatar" />
-                <span>Grace Kimotho posted a new article</span>
-              </a>
-              <span className="notification__time">2 days ago</span>
-            </div>
+            {notificationList.map(notification => (
+              <div
+                key={notificationList.indexOf(notification)}
+                className={
+                  notification.status === 'unread'
+                    ? 'all-notification__view notification-unread'
+                    : 'all-notification__view'
+                }
+              >
+                <a onClick={() => onReadNotification(notification.id)} href={notification.link}>
+                  <img
+                    src={notification.involved.image || userAvatar}
+                    alt=""
+                    className="all-notification__avatar"
+                  />
+                  <span>{notification.notification}</span>
+
+                  <span className="notification__time">
+                    {moment(notification.createdAt).fromNow()}
+                  </span>
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -41,12 +57,26 @@ export class NotificationView extends Component {
 
 NotificationView.propTypes = {
   notificationList: PropTypes.array,
+  onMarkAllAsRead: PropTypes.func.isRequired,
+  onReadNotification: PropTypes.func.isRequired,
 };
 
 NotificationView.defaultProps = {
   notificationList: [],
 };
 
-export const mapStateToProps = ({ notification: { notificationList } }) => ({ notificationList });
+export const mapStateToProps = ({
+  currentUser: {
+    notifications: { notificationList },
+  },
+}) => ({ notificationList });
 
-export default connect(null)(NotificationView);
+export const mapDispatchToProps = dispatch => ({
+  onReadNotification: id => dispatch(readNotification(id)),
+  onMarkAllAsRead: () => dispatch(markAllAsRead()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NotificationView);

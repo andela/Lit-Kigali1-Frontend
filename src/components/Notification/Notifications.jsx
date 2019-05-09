@@ -24,7 +24,7 @@ export class Notifications extends Component {
         )}
         {notifications.notificationList.length > 0 ? (
           notifications.notificationList
-            .slice(0, 8)
+            .slice(0, 10)
             .map(notification => (
               <NotificationCard
                 notification={notification}
@@ -39,7 +39,7 @@ export class Notifications extends Component {
         )}
         {notifications.notificationList.length > 0 ? (
           <li className="notification-footer">
-            <a href="./notification-view.html">See All</a>
+            <a href="/notifications">See All</a>
           </li>
         ) : (
           ''

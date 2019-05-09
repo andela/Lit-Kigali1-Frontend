@@ -79,6 +79,7 @@
   font-size: 14px;
   .all-notification__avatar {
     height: 50px;
+    width: 50px;
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -89,7 +90,7 @@
   }
   .all-notification__view {
     &:hover {
-      background-color: $primary-light;
+      background-color: #e8eaf6;
     }
     i {
       color: $primary;
@@ -118,7 +119,7 @@
     }
   }
   span {
-    padding-top: 10px;
+    padding-top: 5px;
   }
   .popup {
     display: none;
@@ -129,11 +130,12 @@
   width: 100%;
   margin-bottom: 10px;
   .all-notification__links {
-    a {
+    button {
       padding: 5px;
       color: $primary;
+      font-size: 15px;
     }
-    a:hover {
+    button:hover {
       color: $primary-dark;
     }
     float: right;
