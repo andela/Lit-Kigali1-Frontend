@@ -153,24 +153,6 @@ export class Article extends Component {
     e.preventDefault();
   };
 
-  renderCover = () => {
-    const {
-      singleArticle: { cover },
-    } = this.props;
-
-    if (!cover) return '';
-    return (
-      <div className="col-12">
-        <div
-          className="article-image"
-          style={{
-            backgroundImage: `url("${cover}")`,
-          }}
-        />
-      </div>
-    );
-  };
-
   toast = (message, status) => {
     this.setState(
       {
@@ -281,6 +263,7 @@ export class Article extends Component {
                   <button
                     className="article-icon-right hover-primary margin-top"
                     onClick={() => this.bookmarkOrRemoveIt()}
+                    id="book"
                   >
                     <i
                       className={`fa ${

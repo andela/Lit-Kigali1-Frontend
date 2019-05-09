@@ -19,7 +19,6 @@ import Dislikes from './Dislikes/Dislikes';
 import Ratings from './Rating/Ratings';
 import ProfileEdit from './Profile/ProfileEdit';
 import ArticleCreate from './Article/ArticleCreate';
-import Bookmarks from './Bookmarks/Bookmarks';
 
 export const Routes = ({ isLoggedIn }) => (
   <Switch>
@@ -66,7 +65,6 @@ export const Routes = ({ isLoggedIn }) => (
     <Route exact path="/profile" component={ProfileEdit} />
     <Route exact path="/my-articles" component={ArticlesCurrentUser} />
     <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
-    <Route exact path="/my-bookmarks" component={Bookmarks} />
     <Route path="*" component={ErrorPage} />
   </Switch>
 );

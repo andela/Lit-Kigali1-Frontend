@@ -43,9 +43,6 @@ export class NavBar extends Component {
           <Link to="/my-articles">My Articles</Link>
         </li>
         <li>
-          <Link to="/my-bookmarks">Bookmarks</Link>
-        </li>
-        <li>
           <Link to={`/profiles/${username}`}>My Profile</Link>
         </li>
         <li className="separator" />

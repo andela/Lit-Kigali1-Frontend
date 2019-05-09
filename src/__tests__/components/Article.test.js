@@ -147,6 +147,28 @@ describe('<Article />', () => {
     expect(wrapper.find('Article').props().singleArticle.tagList).toBeDefined();
   });
 
+  describe('should render bookmark or unbookmark', () => {
+    beforeEach(() => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+    });
+    test('should call bookmarkOrRemoveIt method instance', () => {
+      wrapper.find('button[id="book"]').simulate('click');
+      expect(wrapper.find('Article').props().onBookmark).toBeDefined();
+    });
+
+    test('should call bookmarkOrRemoveIt method for remove', () => {
+      wrapper.find('Article').props().message = 'some bookmarked';
+      wrapper.find('button[id="book"]').simulate('click');
+      wrapper.find('Article').setState({ bookmarked: false });
+      console.log(wrapper, '++++++');
+      // expect(wrapper.find(''))
+    });
+  });
+
   describe('reducers', () => {
     test('should initialize the component state', () => {
       const state = mapStateToProps(initialState);
@@ -190,6 +212,20 @@ describe('<Article />', () => {
       const url = 'article-slug';
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).nextPath({ url });
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call onBookamark', () => {
+      const articleSlug = 'some-slug';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).onBookmark({ articleSlug });
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call onBookmark', () => {
+      const articleSlug = 'some-slug';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).onUnBookmark({ articleSlug });
       expect(dispatch).toHaveBeenCalled();
     });
   });
