@@ -70,6 +70,15 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: false,
       };
+    case types.SET_NOTIFICATION:
+      return {
+        ...state,
+        notifications: {
+          ...state.notifications,
+          notificationList: payload.notifications,
+          notificationsCount: payload.notificationsCount,
+        },
+      };
     default:
       return state;
   }

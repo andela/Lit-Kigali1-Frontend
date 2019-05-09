@@ -33,9 +33,7 @@ export class LoginComponent extends Component {
   };
 
   handleError = () => {
-    const {
-      error, isLoggedIn, history, nextPath,
-    } = this.props;
+    const { error, isLoggedIn, nextPath } = this.props;
     if (error.message) {
       return error.message;
     }
@@ -43,7 +41,7 @@ export class LoginComponent extends Component {
       if (nextPath) {
         window.location.href = nextPath;
       } else {
-        history.push('/');
+        window.location.href = '/';
       }
     }
     return '';
