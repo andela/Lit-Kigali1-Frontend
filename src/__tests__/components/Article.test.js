@@ -161,11 +161,9 @@ describe('<Article />', () => {
     });
 
     test('should call bookmarkOrRemoveIt method for remove', () => {
-      wrapper.find('Article').props().message = 'some bookmarked';
       wrapper.find('button[id="book"]').simulate('click');
-      wrapper.find('Article').setState({ bookmarked: false });
-      console.log(wrapper, '++++++');
-      // expect(wrapper.find(''))
+      wrapper.find('Article').props().bookmarked = true;
+      expect(wrapper.find('Article').props().onUnBookmark).toBeDefined();
     });
   });
 

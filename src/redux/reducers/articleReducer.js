@@ -166,21 +166,37 @@ const articleReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         message: payload.message,
+        bookmarked: true,
       };
     case articleTypes.BOOKMARK_ARTICLE_FAILURE:
       return {
         ...state,
         message: payload.message,
+        bookmarked: false,
       };
     case articleTypes.REMOVE_BOOKMARK_SUCCESS:
       return {
         ...state,
         message: payload.message,
+        bookmarked: true,
       };
     case articleTypes.REMOVE_BOOKMARK_FAILURE:
       return {
         ...state,
         message: payload.message,
+        bookmarked: false,
+      };
+    case articleTypes.GET_BOOKMARKS_SUCCESS:
+      return {
+        ...state,
+        payload,
+        bookmarked: true,
+      };
+    case articleTypes.GET_BOOKMARKS_FAILURE:
+      return {
+        ...state,
+        message: payload.message,
+        bookmarked: false,
       };
     default:
       return state;

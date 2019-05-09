@@ -354,6 +354,7 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       message: 'message',
+      bookmarked: true,
     });
   });
 
@@ -365,6 +366,7 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       message: 'message',
+      bookmarked: false,
     });
   });
 
@@ -376,6 +378,7 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       message: 'message',
+      bookmarked: true,
     });
   });
 
@@ -387,6 +390,31 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       message: 'message',
+      bookmarked: false,
+    });
+  });
+
+  it('should handle `GET_BOOKMARKS_SUCCESS`', () => {
+    const payload = { message: 'message' };
+    const expectedState = {
+      type: articleTypes.GET_BOOKMARKS_SUCCESS,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      payload,
+      bookmarked: true,
+    });
+  });
+
+  it('should handle `GET_BOOKMARKS_FAILURE`', () => {
+    const payload = { message: 'message' };
+    const expectedState = {
+      type: articleTypes.GET_BOOKMARKS_FAILURE,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      message: payload.message,
+      bookmarked: false,
     });
   });
 });

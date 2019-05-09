@@ -637,5 +637,48 @@ describe('articleActions', () => {
         expect(actions).toEqual(expectedActions);
       });
     });
+
+    test('should dispatch getBookmark - SUCCESSS', () => {
+      const articleSLug = 'some-slug';
+      const payload = {
+        status: 200,
+        articleId: 'id',
+        userId: 'id',
+      };
+      nock(API_URL)
+        .get(`/articles/${articleSLug}/bookmark`)
+        .reply(200, { status: 200, articleId: 'id', userId: 'id' });
+      const expectedActions = [
+        {
+          type: articleTypes.GET_BOOKMARKS_SUCCESS,
+          payload,
+        },
+      ];
+      return store.dispatch(articleActions.getBookmark(articleSLug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('should dispatch getBookmark - FAILURE', () => {
+      const articleSlug = 'some-slug';
+      const payload = {
+        message: 'no articles',
+        status: 404,
+      };
+      nock(API_URL)
+        .get(`/articles/${articleSlug}/bookmark`)
+        .reply(404, { status: 404, message: 'no articles' });
+      const expectedActions = [
+        {
+          type: articleTypes.GET_BOOKMARKS_FAILURE,
+          payload,
+        },
+      ];
+      return store.dispatch(articleActions.getBookmark(articleSlug)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+    });
   });
 });

@@ -13,23 +13,16 @@ import {
   dislikeArticle,
   bookmark,
   unBookmark,
+  getBookmark,
 } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
 import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
-import Toast from '../common/Toast/Toast';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
   decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
-
-  state = {
-    toasted: false,
-    message: '',
-    status: 'success',
-    bookmarked: false,
-  };
 
   componentDidMount() {
     const {
@@ -37,8 +30,10 @@ export class Article extends Component {
         params: { articleSlug },
       },
       getArticle,
+      onGetBookmarks,
     } = this.props;
     getArticle(articleSlug);
+    onGetBookmarks(articleSlug);
   }
 
   renderBody = () => {
@@ -153,54 +148,34 @@ export class Article extends Component {
     e.preventDefault();
   };
 
-  toast = (message, status) => {
-    this.setState(
-      {
-        toasted: true,
-        message,
-        status,
-      },
-      () => {
-        setTimeout(() => {
-          this.setState({
-            toasted: false,
-            message: '',
-            status: 'success',
-          });
-        }, 5000);
-      },
-    );
-  };
-
-  bookmarkOrRemoveIt = () => {
+  bookmarkOrRemoveIt = (e) => {
     const {
       singleArticle: { slug },
       onBookmark,
-      message,
       onUnBookmark,
+      isLoggedIn,
+      history,
+      nextPath,
+      bookmarked,
     } = this.props;
-    this.setState({ bookmarked: true });
-    this.toast('Bookmark Added', 'success');
-    onBookmark(slug);
-
-    if (message.includes('bookmarked')) {
-      this.setState({ bookmarked: false });
-      this.toast('Bookmark Removed', 'success');
-      onUnBookmark(slug);
+    if (!isLoggedIn) {
+      nextPath(`/articles/${slug}`);
+      history.push('/auth');
     }
+
+    if (bookmarked === true) onUnBookmark(slug);
+    else onBookmark(slug);
+
+    e.preventDefault();
   };
 
   render() {
     const {
-      singleArticle, liked, disliked, likeCount, dislikeCount,
+      singleArticle, liked, disliked, likeCount, dislikeCount, bookmarked,
     } = this.props;
-    const {
-      toasted, message, status, bookmarked,
-    } = this.state;
     return (
       <section className="main-content">
         <div className="container content-margin">
-          <Toast show={toasted} type={status} message={message} />
           <br />
           <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
@@ -262,12 +237,12 @@ export class Article extends Component {
                   </span>
                   <button
                     className="article-icon-right hover-primary margin-top"
-                    onClick={() => this.bookmarkOrRemoveIt()}
+                    onClick={this.bookmarkOrRemoveIt}
                     id="book"
                   >
                     <i
                       className={`fa ${
-                        !bookmarked ? 'fa-bookmark-o' : 'fa-bookmark'
+                        bookmarked ? 'fa-bookmark' : 'fa-bookmark-o'
                       } article-icon-right`}
                       title="bookmark this article"
                     />
@@ -350,7 +325,7 @@ export const mapStateToProps = ({
     disliked,
     likeCount,
     dislikeCount,
-    message,
+    bookmarked,
   },
   currentUser: { profile, rating, isLoggedIn },
 }) => ({
@@ -364,7 +339,7 @@ export const mapStateToProps = ({
   dislikeCount,
   currentUser: profile,
   isLoggedIn,
-  message,
+  bookmarked,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -375,6 +350,7 @@ export const mapDispatchToProps = dispatch => ({
   nextPath: url => dispatch(setNextPath(url)),
   onBookmark: articleSlug => dispatch(bookmark(articleSlug)),
   onUnBookmark: articleSlug => dispatch(unBookmark(articleSlug)),
+  onGetBookmarks: articleSlug => dispatch(getBookmark(articleSlug)),
 });
 
 Article.propTypes = {
@@ -392,8 +368,9 @@ Article.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
   onBookmark: PropTypes.func.isRequired,
-  message: PropTypes.string,
   onUnBookmark: PropTypes.func.isRequired,
+  bookmarked: PropTypes.bool,
+  onGetBookmarks: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
@@ -404,7 +381,7 @@ Article.defaultProps = {
   dislikeCount: 0,
   match: { params: {} },
   history: { push: () => '' },
-  message: '',
+  bookmarked: false,
 };
 
 export default connect(

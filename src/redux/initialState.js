@@ -71,6 +71,6 @@ module.exports = {
     dislikes: [],
     liked: false,
     disliked: false,
-    bookmark: '',
+    bookmarked: false,
   },
 };
