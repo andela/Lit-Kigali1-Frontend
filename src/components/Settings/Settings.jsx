@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrentUser, changeNotificationStatus } from '../../redux/actions/currentUserActions';
 
-class Settings extends Component {
+export class Settings extends Component {
   state = {
     openTab: 0,
   };
@@ -11,7 +11,6 @@ class Settings extends Component {
   componentWillMount() {
     const { getCurrentUser } = this.props;
     getCurrentUser();
-    console.log(this.props);
   }
 
   switchTab = (index) => {
@@ -19,24 +18,13 @@ class Settings extends Component {
   };
 
   handleChange = (e) => {
-    //   const {
-    //     updatedUser,
-    //     profile: { allowNotifications },
-    //     loggedInUser: { username }
-    //   } = this.props;
-    //   updatedUser({
-    //     allowNotifications: !allowNotifications,
-    //     username
-    //   });
-
     const { onStatusChange } = this.props;
     onStatusChange();
-    e.preventDefault();
   };
 
   render() {
     const { openTab } = this.state;
-
+    const { notification } = this.props;
     return (
       <div className="settings-body">
         <div className="settings-container">
@@ -67,8 +55,8 @@ class Settings extends Component {
                     name="onoffswitch"
                     className="onoffswitch-checkbox"
                     id="myonoffswitch"
+                    checked={notification}
                     onChange={this.handleChange}
-                    checked={status === 'enabled'}
                   />
                   <label className="onoffswitch-label" htmlFor="myonoffswitch">
                     <span className="onoffswitch-inner" />
@@ -90,11 +78,9 @@ export const mapDispatchToProps = dispatch => ({
 
 export const mapStateToProps = ({
   currentUser: {
-    notifications: { status },
+    profile: { notification },
   },
-}) => ({
-  status,
-});
+}) => ({ notification });
 
 Settings.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,

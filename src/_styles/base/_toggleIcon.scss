@@ -24,7 +24,7 @@
     display: block;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid #999999;
+    border: 2px solid $primary-light2;
     border-radius: 20px;
 }
 .onoffswitch-inner {
@@ -44,7 +44,7 @@
        font-family: Roboto;;
         font-weight: bold;
         box-sizing: border-box;
-        content: "ENABLE";
+        content: "ENABLED";
         padding-left: 10px;
         background-color: $primary;
         color: #FFFFFF;
@@ -61,10 +61,10 @@
         font-family:Roboto;
         font-weight: bold;
         box-sizing: border-box;
-        content: "DISABLE";
+        content: "DISABLED";
         padding-right: 10px;
-        background-color: #EEEEEE;
-        color: #999999;
+        background-color: $primary-light;
+        color: $primary;
         text-align: right;
     }
 }
@@ -77,7 +77,7 @@
     top: 0;
     bottom: 0;
     right: 70px;
-    border: 2px solid #999999;
+    border: 2px solid $primary-light2;
     border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }
