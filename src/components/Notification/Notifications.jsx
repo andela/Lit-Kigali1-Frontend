@@ -17,7 +17,9 @@ export class Notifications extends Component {
       <ul className="dropdown top-navbar__notification">
         {notifications.notificationList.length > 0 ? (
           <li className="notification-header">
-            <button onClick={this.onMarkAllAsReadClicked}>Mark All as Read</button>
+            <button className="mark-all" onClick={this.onMarkAllAsReadClicked}>
+              Mark All as Read
+            </button>
           </li>
         ) : (
           ''

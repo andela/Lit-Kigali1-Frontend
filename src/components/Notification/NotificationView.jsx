@@ -21,7 +21,9 @@ export class NotificationView extends Component {
           <div className="all-notification-header">
             <div className="all-notification__title">Your Notifications</div>
             <div className="all-notification__links">
-              <button onClick={this.onMarkAllAsReadClicked}>Mark All as Read</button>
+              <button className="mark-all" onClick={this.onMarkAllAsReadClicked}>
+                Mark All as Read
+              </button>
             </div>
           </div>
           <div className="all-notification">

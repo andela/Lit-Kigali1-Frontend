@@ -236,17 +236,36 @@ module.exports = {
       ],
     },
   ],
-  draftJsContentState: {
-    blocks: [
+  notificationData: {
+    notificationList: [
       {
-        key: 'bok6r',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis erat sit amet nunc condimentum interdum. Morbi elementum lectus quis mauris interdum finibus. Quisque eleifend sapien molestie ex accumsan, eget placerat erat convallis. Nullam porttitor, elit sit amet porta ultricies, tortor ipsum efficitur tortor, vitae sagittis mauris leo et orci. Nullam mi turpis, tempus ac tincidunt vel, pulvinar sit amet turpis. Nullam commodo imperdiet blandit. Pellentesque laoreet pulvinar vestibulum. Sed molestie et lorem quis elementum. Phasellus condimentum turpis in leo accumsan, sed egestas urna pretium. Aliquam ac sapien vestibulum, tristique dolor sit amet, euismod sem. Donec risus odio, pretium porttitor tincidunt ut, mattis quis urna. Vivamus risus velit, cursus sed vulputate ut, sagittis nec urna. Donec ullamcorper, nisi a mollis porta, lacus augue iaculis tellus, a iaculis lectus ex non neque. Aliquam fringilla dui non pulvinar tempor. Duis nec facilisis purus, a faucibus nisl.',
-        type: 'unstyled',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      }],
-    entityMap: {},
+        id: '2fda976-77e4-4715-824c-add47da899c3',
+        userId: 'dfef16f9-11a7-4eae-9ba0-7038c6ccaa73',
+        involvedId: '4b134316-966b-47f8-bb47-2fb27a36b40c',
+        link: 'http://localhost:8080/articles/new-article-1',
+        notification: 'hello',
+        status: 'read',
+        createdAt: '2019-04-19T14:14:09.096Z',
+        involved: {
+          username: 'chris',
+          image: 'http://localhost:8080/articles/new-article-1',
+        },
+      },
+      {
+        id: '2fda976-77e4-4715-824c-add47da899c3',
+        userId: 'dfef16f9-11a7-4eae-9ba0-7038c6ccaa73',
+        involvedId: '4b134316-966b-47f8-bb47-2fb27a36b40c',
+        link: 'http://localhost:8080/articles/new-article-1',
+        notification: 'hello',
+        status: 'unread',
+        createdAt: '2019-04-19T14:14:09.096Z',
+        involved: {
+          username: 'chris',
+          image: '',
+        },
+      },
+    ],
+    notificationsCount: 0,
+    status: 'enabled',
   },
 };

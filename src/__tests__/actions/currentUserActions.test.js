@@ -14,6 +14,7 @@ import {
   SUBMIT_PROFILE_FORM,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
+  SET_NOTIFICATION,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED, SET_ARTICLE_RATE } from '../../redux/actions-types';
 
@@ -386,6 +387,22 @@ describe('currentUserActions', () => {
       return store.dispatch(currentUserActions.updateProfile(userData)).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedActions);
+      });
+    });
+
+    test('Should dispatch setNotifications', () => {
+      nock(API_URL)
+        .get('/notifications')
+        .reply(200, { status: 200, message: 'success' });
+      const expectedAction = [
+        {
+          type: SET_NOTIFICATION,
+          payload: { status: 200, message: 'success' },
+        },
+      ];
+      return store.dispatch(currentUserActions.fetchNotifications()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedAction);
       });
     });
   });
