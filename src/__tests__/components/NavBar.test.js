@@ -67,7 +67,7 @@ describe('<NavBar />', () => {
       expect(state).toEqual({
         isLoggedIn: false,
         username: '',
-        image: undefined,
+        image: '',
         notificationsCount: 0,
       });
     });
