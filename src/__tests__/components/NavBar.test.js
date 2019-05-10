@@ -59,6 +59,16 @@ describe('<NavBar />', () => {
       wrapper.instance().closeMenu();
       expect(wrapper.state().closeMenu).toBeFalsy();
     });
+
+    test('User with no image', () => {
+      const newProps = {
+        ...props,
+        image: '',
+        notificationsCount: 5,
+      };
+      wrapper.setProps(newProps);
+      expect(wrapper.state().closeMenu).toBeFalsy();
+    });
   });
 
   describe('reducers', () => {

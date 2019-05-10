@@ -22,6 +22,7 @@ const props = {
   history: {
     push: jest.fn(),
   },
+  fetching: true,
   onLikeComment: jest.fn(),
   onDislikeComment: jest.fn(),
 };

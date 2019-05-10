@@ -71,23 +71,6 @@ export class Comment extends Component {
     ));
   };
 
-  commentForm = () => {
-    const { body } = this.props;
-    return (
-      <form>
-        <Textarea
-          className="comment-textarea new"
-          placeholder="Add your comment..."
-          type="text"
-          value={body}
-          onChange={this.onChange}
-          onKeyDown={e => this.onEnterPress(e, this.addComment)}
-          data-el="comment-input"
-        />
-      </form>
-    );
-  };
-
   onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       if (!e.target.value.trim()) {
