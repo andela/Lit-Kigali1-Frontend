@@ -10,7 +10,7 @@ import {
   SOCIAL_AUTH_SUCCESS,
 } from '../actions-types';
 
-import { setCurrentUser } from './currentUserActions';
+import { setCurrentUser, fetchNotifications } from './currentUserActions';
 
 const API_URL = 'http://localhost:3000/api/v1';
 
@@ -36,6 +36,8 @@ export const loginUser = user => (dispatch) => {
       dispatch(setCurrentUser(data.user));
       dispatch(clearLogin());
       localStorage.setItem('token', data.user.token);
+      // dispatch(fetchNotifications(data.user.token));
+      // console.log(data.user.token);
       return data;
     })
     .catch((err) => {
@@ -60,9 +62,7 @@ export const validationResponse = (payload, type = INPUT_VALIDATION_FAILURE) => 
   payload,
 });
 
-export const validateCredentials = (
-  { username, password },
-) => dispatch => new Promise((resolve) => {
+export const validateCredentials = ({ username, password }) => dispatch => new Promise((resolve) => {
   if (username.length === 0 && password.length === 0) {
     const payload = {
       response: {

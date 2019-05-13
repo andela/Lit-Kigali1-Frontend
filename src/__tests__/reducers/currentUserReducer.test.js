@@ -12,6 +12,7 @@ import {
   SUBMIT_PROFILE_FORM,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
+  SET_NOTIFICATION,
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
@@ -146,5 +147,21 @@ describe('currentUserReducer', () => {
       loading: false,
     };
     expect(reducer({}, expectedState)).toEqual({ loading: false });
+  });
+
+  it('should handle `SET_NOTIFICATION`', () => {
+    const expectedState = {
+      type: SET_NOTIFICATION,
+      payload: {
+        notifications: [],
+        notificationsCount: 0,
+      },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      notifications: {
+        notificationList: [],
+        notificationsCount: 0,
+      },
+    });
   });
 });

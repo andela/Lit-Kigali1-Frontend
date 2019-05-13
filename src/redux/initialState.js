@@ -29,6 +29,11 @@ module.exports = {
     },
     articles: [],
     favorites: [],
+    notifications: {
+      notificationList: [],
+      notificationsCount: 0,
+      status: 'enabled',
+    },
   },
   signUp: {
     submitting: false,

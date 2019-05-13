@@ -334,6 +334,12 @@
   font-weight: bold;
 }
 
+.comment-user-action {
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
 .comment-action {
   padding-left: 2px;
   padding-right: 5px;
@@ -353,10 +359,42 @@
   &:hover {
     color: $primary;
     cursor: pointer;
+
     .comment-likers {
       display: block;
       text-align: center;
     }
+  }
+}
+
+.comment-likers {
+  display: none;
+  position: absolute;
+  max-height: 100px;
+  width: 200px;
+  background-color: white;
+  border: 1px;
+  margin-bottom: -115px;
+  overflow: scroll;
+  box-shadow: 2px 2px 2px 2px #ccc;
+}
+
+.comment-likers-data {
+  font-family: Roboto-light;
+  display: flex;
+  flex-direction: row;
+  height: 40%;
+  align-content: center;
+  &:hover {
+    background-color: lightgray;
+  }
+  img {
+    width: 40px;
+    margin: 5px 5px 5px 5px;
+    height: 40px;
+  }
+  span {
+    margin-top: 14px;
   }
 }
 

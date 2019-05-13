@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '../common/Button/Button';
 import logoWhite from '../../assets/images/logo-white.png';
 import userAvatar from '../../assets/images/avatar.png';
+import Notifications from '../Notification/Notifications';
 
 export class NavBar extends Component {
   state = {
@@ -61,7 +62,7 @@ export class NavBar extends Component {
 
   render() {
     const { showMenu } = this.state;
-    const { isLoggedIn, image } = this.props;
+    const { image, notificationsCount, isLoggedIn } = this.props;
     return (
       <nav className="top-navbar container">
         <div className="col-3-mob">
@@ -74,6 +75,18 @@ export class NavBar extends Component {
             <button className={`hamburger ${showMenu ? 'active' : ''}`} onClick={this.showMenu} />
             <div className={`hamburger-nav ${showMenu ? 'active' : ''}`}>{this.renderLinks()}</div>
           </div>
+          {isLoggedIn ? (
+            <button className="nav-button navbar-dropdown is-desktop color-white">
+              <i className="fa fa-bell fa-2x" aria-hidden="true" />
+              <span className={notificationsCount > 0 ? 'badge' : ''}>
+                {notificationsCount > 0 ? notificationsCount : ''}
+              </span>
+              <Notifications />
+            </button>
+          ) : (
+            ''
+          )}
+
           <div className="nav-button navbar-dropdown is-desktop color-white">
             <Button onClick={this.showMenu} classes="transparent">
               {isLoggedIn ? (
@@ -91,14 +104,16 @@ export class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-  isLoggedIn: PropTypes.bool,
   username: PropTypes.string,
   image: PropTypes.string,
+  notificationsCount: PropTypes.number,
+  isLoggedIn: PropTypes.bool,
 };
 
 NavBar.defaultProps = {
-  username: '',
-  image: '',
+  username: undefined,
+  image: undefined,
+  notificationsCount: 0,
   isLoggedIn: false,
 };
 
@@ -106,11 +121,13 @@ export const mapStateToProps = ({
   currentUser: {
     isLoggedIn,
     profile: { username, image },
+    notifications: { notificationsCount },
   },
 }) => ({
   isLoggedIn,
   username,
   image,
+  notificationsCount,
 });
 
 export default connect(mapStateToProps)(NavBar);

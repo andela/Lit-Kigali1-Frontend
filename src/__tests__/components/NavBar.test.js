@@ -5,6 +5,12 @@ import initialState from '../../redux/initialState';
 
 describe('<NavBar />', () => {
   let wrapper;
+  const props = {
+    isLoggedIn: true,
+    notificationsCount: 0,
+    username: 'chris',
+    image: 'image',
+  };
   beforeEach(() => {
     wrapper = shallow(<NavBar />);
   });
@@ -15,6 +21,16 @@ describe('<NavBar />', () => {
 
   test('should render the NavBar', () => {
     expect(wrapper.state().showMenu).toBeFalsy();
+  });
+
+  test('should render the NavBar', () => {
+    wrapper.setProps(props);
+    expect(wrapper.find('.fa-bell')).toBeDefined();
+  });
+
+  test('should render the NavBar', () => {
+    wrapper.setProps(props);
+    expect(wrapper.find('.badge')).toBeDefined();
   });
 
   describe('when clicking on the `hamburger button`', () => {
@@ -43,12 +59,27 @@ describe('<NavBar />', () => {
       wrapper.instance().closeMenu();
       expect(wrapper.state().closeMenu).toBeFalsy();
     });
+
+    test('User with no image', () => {
+      const newProps = {
+        ...props,
+        image: '',
+        notificationsCount: 5,
+      };
+      wrapper.setProps(newProps);
+      expect(wrapper.state().closeMenu).toBeFalsy();
+    });
   });
 
   describe('reducers', () => {
     test('should return `mapStateToProps`', () => {
       const state = mapStateToProps(initialState);
-      expect(state).toEqual({ isLoggedIn: false, username: '', image: '' });
+      expect(state).toEqual({
+        isLoggedIn: false,
+        username: '',
+        image: '',
+        notificationsCount: 0,
+      });
     });
   });
 });

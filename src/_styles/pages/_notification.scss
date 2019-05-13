@@ -1,0 +1,165 @@
+@import '../base/variables';
+.top-navbar__notification,
+.all-notification {
+  .all-notification__view,
+  li {
+    min-width: 350px;
+    a {
+      padding: 0px 4px;
+      span {
+        display: inline-block;
+        width: 80%;
+        @media screen and (max-width: 1200px) {
+          width: 70%;
+        }
+      }
+    }
+    border-bottom: solid;
+    border-color: #c4c4c4;
+    border-width: 1px;
+    text-align: left;
+    #notification-header:hover {
+      background-color: #fff;
+    }
+  }
+  .notification__avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    float: left;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+  .notification__time {
+    color: #c4c4c4;
+    padding-left: 5px;
+  }
+  .notification-unread {
+    background-color: #dde1f8;
+    .notification__time {
+      color: rgb(172, 172, 172);
+    }
+  }
+  .notification-footer {
+    text-align: center;
+  }
+}
+.top-navbar__notification {
+  margin-right: -10px;
+}
+.dropdown {
+  .notification-header:hover {
+    background-color: #fff;
+  }
+  .notification-header {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0px;
+    text-align: center;
+  }
+}
+.badge {
+  background-color: red;
+  padding: 5px;
+  border-radius: 25px;
+  font-size: 8px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+.all-notification {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  .all-notification__avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    float: left;
+    padding: 5px;
+  }
+  .all-notification__view {
+    &:hover {
+      background-color: #e8eaf6;
+    }
+    i {
+      color: $primary;
+      padding-left: 10px;
+      &:hover {
+        color: $primary-dark;
+        .popup {
+          display: inline-block;
+          position: absolute;
+          margin-top: 15px;
+          background-color: $primary-dark;
+          color: #fff;
+          border-radius: 5px;
+          padding: 5px;
+        }
+        .delete {
+          margin-left: -30px;
+        }
+        .envelope-read {
+          margin-left: -48px;
+        }
+        .envelope-unread {
+          margin-left: -58px;
+        }
+      }
+    }
+  }
+  span {
+    padding-top: 5px;
+  }
+  .popup {
+    display: none;
+  }
+}
+.all-notification-header {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 10px;
+  .all-notification__links {
+    button {
+      padding: 5px;
+      color: $primary;
+      font-size: 15px;
+    }
+    button:hover {
+      color: $primary-dark;
+    }
+    float: right;
+  }
+  .all-notification__title {
+    float: left;
+  }
+}
+@media screen and (max-width: 768px) {
+  .all-notification__view {
+    a {
+      display: inline-block;
+      margin-bottom: -20px;
+      width: 100%;
+      span {
+        width: 30%;
+      }
+    }
+    .notification__time {
+      margin-left: 50px;
+      font-size: 12px;
+    }
+    i {
+      padding-bottom: 5px;
+    }
+  }
+}

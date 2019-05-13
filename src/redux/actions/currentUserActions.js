@@ -11,6 +11,8 @@ import {
   UPDATE_PROFILE_FAILURE,
   UPDATE_PROFILE_SUCCESS,
   SUBMIT_PROFILE_FORM,
+  SET_NOTIFICATION,
+  SET_NOTIFICATION_FAILURE,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -31,9 +33,32 @@ export const onUserActionFailure = message => ({
   payload: message,
 });
 
+export const setNotification = payload => ({
+  type: SET_NOTIFICATION,
+  payload,
+});
+
+export const setNotificationError = payload => ({
+  type: SET_NOTIFICATION_FAILURE,
+  payload,
+});
+
+export const fetchNotifications = token => dispatch => fetchAPI('/notifications', { token })
+  .then((data) => {
+    dispatch(setNotification(data));
+  })
+  .catch((error) => {
+    dispatch(setNotificationError(error));
+  });
+
+export const readNotification = id => dispatch => fetchAPI(`/notifications/${id}`).then(() => dispatch(fetchNotifications()));
+
+export const markAllAsRead = () => dispatch => fetchAPI('/notifications', { method: 'PUT' }).then(() => dispatch(fetchNotifications()));
+
 export const fetchCurrentUser = token => dispatch => fetchAPI('/user', { token })
   .then(({ user }) => {
     dispatch(setCurrentUser(user));
+    dispatch(fetchNotifications());
     return user;
   })
   .catch(err => dispatch(onUserActionFailure(err.message)));
