@@ -122,6 +122,23 @@ export class Article extends Component {
     );
   };
 
+  renderCover = () => {
+    const {
+      singleArticle: { cover },
+    } = this.props;
+    if (!cover) return '';
+    return (
+      <div className="col-12">
+        <div
+          className="article-image"
+          style={{
+            backgroundImage: `url("${cover}")`,
+          }}
+        />
+      </div>
+    );
+  };
+
   navigateToRatings = (e) => {
     const { url } = e.target.dataset;
     const { history } = this.props;
@@ -193,7 +210,7 @@ export class Article extends Component {
                     data-name="rate-btn"
                     className={`article-icon-right hover-primary margin-top ${
                       singleArticle.rated ? 'rated' : ''
-                    }`}
+                      }`}
                     role="presentation"
                     data-url={`/articles/${singleArticle.slug}/ratings`}
                     onClick={this.navigateToRatings}

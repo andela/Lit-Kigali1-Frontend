@@ -107,7 +107,6 @@ describe('<Article />', () => {
         </Provider>,
       );
     });
-
     test('should call onSelectedRating method instance', () => {
       wrapper.find('button[data-value="5"]').simulate('click');
       expect(wrapper.find('Article').props().rateArticle).toBeDefined();
@@ -296,6 +295,15 @@ describe('<Article />', () => {
       wrapper
         .find('Article')
         .find('button[data-value="dislike"]')
+        .simulate('click');
+      expect(wrapper.find('Article').props().nextPath).toBeDefined();
+    });
+
+    test('should call navigateToArticles instance function', () => {
+      wrapper
+        .find('Article')
+        .find('span[className="tagged"]')
+        .at(1)
         .simulate('click');
       expect(wrapper.find('Article').props().nextPath).toBeDefined();
     });
