@@ -4,31 +4,10 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import Article, { mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
-import { articleDataDraft, articleData } from '../../__mocks__/dummyData';
+import { articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
-const props = {
-  loading: true,
-  singleArticle: articleDataDraft,
-  article: articleDataDraft,
-  currentUser: {
-    username: 'username',
-  },
-  getArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  rateArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  onLikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  onDislikeArticle: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  nextPath: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
-  match: {
-    params: {
-      articleSlug: 'article-slug',
-    },
-  },
-  history: { push: jest.fn() },
-  navigateToArticles: jest.fn(),
-  isLoggedIn: true,
-};
 
 const mockStore = configureMockStore([thunk]);
 let store = mockStore(initialState);
@@ -155,6 +134,13 @@ describe('<Article />', () => {
           <Article />
         </Provider>,
       );
+      jest.spyOn(console, 'error');
+      // Mocking JSDOM virtual console errors
+      console.error.mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      console.error.mockRestore();
     });
 
     test('should call on socialShare', () => {
@@ -221,7 +207,6 @@ describe('<Article />', () => {
       mapDispatchToProps(dispatch).rateArticle({ articleSlug, rate: 3 });
       expect(dispatch).toHaveBeenCalled();
     });
-
     test('should call likeArticle action', () => {
       const articleSlug = 'article-slug';
       const dispatch = jest.fn();

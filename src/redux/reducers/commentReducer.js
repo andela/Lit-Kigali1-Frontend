@@ -13,11 +13,15 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATING_COMMENT,
   HANDLE_UPDATE_COMMENT_INPUT,
+  FETCH_COMMENT_LIKES_SUCCESS,
+  FETCH_COMMENT_DISLIKES_SUCCESS,
 } from '../actions-types';
 
 import { comment as initialState } from '../initialState.json';
 
 const commentReducer = (state = initialState, { type, payload }) => {
+  const { commentList } = state;
+  let updatedList;
   switch (type) {
     case HANDLE_COMMENT_INPUT:
       return {
@@ -102,6 +106,44 @@ const commentReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         updateBody: payload,
+      };
+    case FETCH_COMMENT_LIKES_SUCCESS:
+      updatedList = commentList.map((comment) => {
+        for (let i = 0; i <= payload.likes.length; i += 1) {
+          if (comment.id === payload.comment) {
+            return {
+              ...comment,
+              likes: payload.likes,
+              likesCount: payload.counts,
+              liked: payload.liked,
+            };
+          }
+        }
+
+        return comment;
+      });
+      return {
+        ...state,
+        commentList: updatedList,
+      };
+    case FETCH_COMMENT_DISLIKES_SUCCESS:
+      updatedList = commentList.map((comment) => {
+        for (let i = 0; i <= payload.dislikes.length; i += 1) {
+          if (comment.id === payload.comment) {
+            return {
+              ...comment,
+              dislikes: payload.dislikes,
+              dislikesCount: payload.counts,
+              disliked: payload.disliked,
+            };
+          }
+        }
+
+        return comment;
+      });
+      return {
+        ...state,
+        commentList: updatedList,
       };
     default:
       return state;

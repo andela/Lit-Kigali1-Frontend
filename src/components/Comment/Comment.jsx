@@ -9,6 +9,8 @@ import {
   deleteComment,
   updateComment,
   setUpdateCommentBody,
+  commentLike,
+  commentDislike,
 } from '../../redux/actions/commentAction';
 import CommentRender from './CommentRender';
 
@@ -16,13 +18,13 @@ export class Comment extends Component {
   addComment = () => {
     const { body, articleSlug, onSubmitComment } = this.props;
     onSubmitComment(body, articleSlug);
-  }
+  };
 
   onChange = (e) => {
     const { onCommentInput } = this.props;
     onCommentInput({ body: e.target.value });
     e.preventDefault();
-  }
+  };
 
   displayComments = () => {
     const {
@@ -32,6 +34,8 @@ export class Comment extends Component {
       articleSlug,
       onUpdateCommentInput,
       fetching,
+      onLikeComment,
+      onDislikeComment,
     } = this.props;
     if (!commentList.length && fetching) {
       return (
@@ -50,22 +54,39 @@ export class Comment extends Component {
       );
     }
     const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return newList.map(comment => (
+      <CommentRender
+        commentList={commentList}
+        currentUser={currentUser}
+        onDeleteComment={onDeleteComment}
+        articleSlug={articleSlug}
+        comment={comment}
+        key={comment.id}
+        enterPress={this.onEnterPress}
+        updateComment={this.onEditComment}
+        inputHandler={onUpdateCommentInput}
+        onLikeComment={onLikeComment}
+        onDislikeComment={onDislikeComment}
+      />
+    ));
+  };
+
+  commentForm = () => {
+    const { body } = this.props;
     return (
-      newList.map(comment => (
-        <CommentRender
-          commentList={commentList}
-          currentUser={currentUser}
-          onDeleteComment={onDeleteComment}
-          articleSlug={articleSlug}
-          comment={comment}
-          key={comment.id}
-          enterPress={this.onEnterPress}
-          updateComment={this.onEditComment}
-          inputHandler={onUpdateCommentInput}
+      <form>
+        <Textarea
+          className="comment-textarea new"
+          placeholder="Add your comment..."
+          type="text"
+          value={body}
+          onChange={this.onChange}
+          onKeyDown={e => this.onEnterPress(e, this.addComment)}
+          data-el="comment-input"
         />
-      ))
+      </form>
     );
-  }
+  };
 
   onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -82,12 +103,12 @@ export class Comment extends Component {
       func(id);
       e.preventDefault();
     }
-  }
+  };
 
   onEditComment = (id) => {
     const { articleSlug, updateBody, onUpdateComment } = this.props;
     onUpdateComment(id, articleSlug, updateBody);
-  }
+  };
 
   render() {
     const { body } = this.props;
@@ -126,6 +147,8 @@ Comment.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.any.isRequired,
   fetching: PropTypes.bool,
+  onLikeComment: PropTypes.func.isRequired,
+  onDislikeComment: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {
@@ -135,15 +158,9 @@ Comment.defaultProps = {
 
 export const mapStateToProps = ({
   comment: {
-    body,
-    commentList,
-    updateBody,
-    fetching,
+    body, commentList, updateBody, fetching,
   },
-  currentUser: {
-    profile,
-    isLoggedIn,
-  },
+  currentUser: { profile, isLoggedIn },
 }) => ({
   body,
   currentUser: profile,
@@ -159,6 +176,8 @@ export const mapDispatchToProps = dispatch => ({
   onDeleteComment: (id, articleSlug) => dispatch(deleteComment(id, articleSlug)),
   onUpdateComment: (id, articleSlug, body) => dispatch(updateComment(id, articleSlug, body)),
   onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
+  onLikeComment: (articleSlug, commentId) => dispatch(commentLike(articleSlug, commentId)),
+  onDislikeComment: (articleSlug, commentId) => dispatch(commentDislike(articleSlug, commentId)),
 });
 export default connect(
   mapStateToProps,

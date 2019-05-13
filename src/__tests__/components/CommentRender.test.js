@@ -3,19 +3,21 @@ import { mount, shallow } from 'enzyme';
 import { CommentRender } from '../../components/Comment/CommentRender';
 import { commentData } from '../../__mocks__/dummyData';
 
-
 const props = {
   articleSlug: '',
   comment: {
     ...commentData[0],
   },
-  currentUser: {
-  },
+  currentUser: {},
   onDeleteComment: jest.fn(),
   updateComment: jest.fn(),
   enterPress: jest.fn(),
   inputHandler: jest.fn(),
   updateBody: '',
+  fetchLikes: jest.fn(),
+  fetchDislikes: jest.fn(),
+  onLikeComment: jest.fn(),
+  onDislikeComment: jest.fn(),
 };
 
 describe('<CommentRender />', () => {
@@ -93,7 +95,6 @@ describe('<CommentRender />', () => {
     expect(wrapper.props().enterPress).toHaveBeenCalled();
   });
 
-
   test('onClick of delete btn should call onDeleteComment', () => {
     const wrapper = mount(<CommentRender {...props} />);
     wrapper.setProps({
@@ -139,5 +140,37 @@ describe('<CommentRender />', () => {
     const spy = jest.spyOn(wrapper.instance(), 'onEditComment');
     wrapper.find('[data-el="comment-container"]').simulate('doubleclick');
     expect(spy).toHaveBeenCalled();
+  });
+
+  test('Should like a comment', () => {
+    const wrapper = mount(<CommentRender {...props} />);
+    wrapper.find('.like-btn').simulate('click');
+    expect(wrapper.props().onLikeComment).toHaveBeenCalled();
+  });
+
+  test('Should dislike a comment', () => {
+    const wrapper = mount(<CommentRender {...props} />);
+    wrapper.find('.dislike-btn').simulate('click');
+    expect(wrapper.props().onDislikeComment).toHaveBeenCalled();
+  });
+
+  test('Should display likes and dislikes', () => {
+    const newProps = {
+      ...props,
+      comment: {
+        ...commentData[0],
+        author: {
+          username: 'chris',
+          image: 'image',
+        },
+        version: 'edited',
+        likesCount: 0,
+        dislikesCount: 0,
+        liked: true,
+        disliked: true,
+      },
+    };
+    const comment = shallow(<CommentRender {...newProps} />);
+    expect(comment).toMatchSnapshot();
   });
 });
