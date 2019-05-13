@@ -330,6 +330,7 @@ describe('articleReducer', () => {
       },
       articlesList: [],
     };
+
     const expectedState = {
       type: articleTypes.SET_EDIT_ARTICLE,
       payload: {
@@ -358,6 +359,74 @@ describe('articleReducer', () => {
     };
     expect(reducer({}, expectedState)).toEqual({
       searching: true,
+    });
+  });
+
+  it('should handle `FETCHING_ALL_ARTICLE_HOME_SUCCESS`', () => {
+    const initialState = {
+      loading: false,
+      success: true,
+      feed: {
+        articles: [],
+        articlesCount: 0,
+        page: 0,
+        pages: 0,
+      },
+    };
+
+    const payload = {
+      articles: [articleData],
+    };
+    const expectedState = {
+      type: articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS,
+      payload,
+    };
+
+    expect(reducer(initialState, expectedState)).toEqual({
+      loading: false,
+      success: true,
+      feed: {
+        articles: [articleData],
+      },
+    });
+  });
+
+  it('should handle `FETCHING_RECOMMENDED_ARTICLE_SUCCESS`', () => {
+    const expectedState = {
+      type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_SUCCESS,
+      payload: [articleData],
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      recommends: [articleData],
+    });
+  });
+
+  it('should handle `FETCHING_RECOMMENDED_ARTICLE_FAILURE`', () => {
+    const expectedState = {
+      type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_FAILURE,
+      payload: [],
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      recommends: [],
+    });
+  });
+
+  it('should handle `FETCHING_ALL_ARTICLE_HOME_FAILURE`', () => {
+    const payload = 'FAILURE';
+    const expectedState = {
+      type: articleTypes.FETCHING_ALL_ARTICLE_HOME_FAILURE,
+      payload,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      feed: {
+        articles: [],
+        articlesCount: 0,
+        page: 0,
+        pages: 0,
+      },
+      loading: false,
+      success: false,
+      message: payload,
     });
   });
 

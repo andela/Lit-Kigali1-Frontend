@@ -298,5 +298,14 @@ describe('<Article />', () => {
         .simulate('click');
       expect(wrapper.find('Article').props().nextPath).toBeDefined();
     });
+
+    test('should call navigateToArticles instance function', () => {
+      wrapper
+        .find('Article')
+        .find('span[className="tagged"]')
+        .at(1)
+        .simulate('click');
+      expect(wrapper.find('Article').props().nextPath).toBeDefined();
+    });
   });
 });

@@ -16,6 +16,11 @@ const props = {
   onInputChange: mockFn,
   history: { push: mockFn },
 };
+
+console.error = jest.fn();
+
+jest.mock('react-slideshow-image', () => ({ Slide: 'Slide' }));
+
 const mockStore = configureMockStore([thunk]);
 describe('<Routes />', () => {
   test('Should render the Routes', () => {
@@ -37,6 +42,7 @@ describe('<Routes />', () => {
         </Provider>,
       );
       expect(component.find('Home')).toHaveLength(1);
+      expect(component.find('Home').props().recommends).toBeDefined();
     });
 
     it('should show redirect to `/` for `/auth`', () => {

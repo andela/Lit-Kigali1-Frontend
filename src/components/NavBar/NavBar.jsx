@@ -86,7 +86,6 @@ export class NavBar extends Component {
           ) : (
             ''
           )}
-
           <div className="nav-button navbar-dropdown is-desktop color-white">
             <Button onClick={this.showMenu} classes="transparent">
               {isLoggedIn ? (

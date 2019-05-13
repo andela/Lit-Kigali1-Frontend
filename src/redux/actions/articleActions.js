@@ -241,7 +241,7 @@ export const updateArticle = (slug, article) => (dispatch) => {
       article,
     },
   })
-    .then((data) => {
+  .then((data) => {
       dispatch(submitArticleFormSuccess(data));
       return data;
     })
@@ -250,3 +250,47 @@ export const updateArticle = (slug, article) => (dispatch) => {
       return err;
     });
 };
+
+export const fetchingAllArticleHomeSuccess = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_HOME_SUCCESS,
+  payload,
+});
+
+export const fetchingAllArticleHomeFailure = payload => ({
+  type: articleTypes.FETCHING_ALL_ARTICLE_HOME_FAILURE,
+  payload,
+});
+
+export const fetchArticlesHome = ({ page } = {}) => (dispatch) => {
+  dispatch(fetchingArticle(true));
+
+  return fetchAPI(`/articles?page=${page}`)
+    .then((data) => {
+      dispatch(fetchingAllArticleHomeSuccess(data));
+      return data;
+    })
+    .catch((err) => {
+      dispatch(fetchingAllArticleHomeFailure(err.message));
+      return err;
+    });
+};
+
+export const fetchingRecommendedAllArticleFailure = payload => ({
+  type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_FAILURE,
+  payload,
+});
+
+export const fetchingRecommendedAllArticleSuccess = payload => ({
+  type: articleTypes.FETCHING_RECOMMENDED_ARTICLE_SUCCESS,
+  payload,
+});
+
+export const fetchRecommendedArticle = () => dispatch => fetchAPI('/articles/feed', { method: 'GET' })
+  .then((data) => {
+    dispatch(fetchingRecommendedAllArticleSuccess(data.articles));
+    return data;
+  })
+  .catch((err) => {
+    dispatch(fetchingRecommendedAllArticleFailure(err.message));
+    return err;
+  });

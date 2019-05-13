@@ -76,5 +76,12 @@ module.exports = {
     dislikes: [],
     liked: false,
     disliked: false,
+    feed: {
+      articles: [],
+      articlesCount: 0,
+      page: 0,
+      pages: 0,
+    },
+    recommends: [],
   },
 };
