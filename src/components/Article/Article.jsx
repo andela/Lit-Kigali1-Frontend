@@ -526,7 +526,6 @@ Article.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
   article: PropTypes.object,
-  onSelect: PropTypes.func.isRequired,
   onHighlight: PropTypes.func.isRequired,
 };
 

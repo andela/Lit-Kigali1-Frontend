@@ -54,21 +54,21 @@ export class Comment extends Component {
       );
     }
     const newList = commentList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    return (
-      newList.map(comment => (
-        <CommentRender
-          currentUser={currentUser}
-          onDeleteComment={onDeleteComment}
-          articleSlug={articleSlug}
-          comment={comment}
-          key={comment.id}
-          enterPress={this.onEnterPress}
-          updateComment={this.onEditComment}
-          inputHandler={onUpdateCommentInput}
-        />
-      ))
-    );
-  }
+    return newList.map(comment => (
+      <CommentRender
+        currentUser={currentUser}
+        onDeleteComment={onDeleteComment}
+        articleSlug={articleSlug}
+        comment={comment}
+        key={comment.id}
+        enterPress={this.onEnterPress}
+        updateComment={this.onEditComment}
+        inputHandler={onUpdateCommentInput}
+        onLikeComment={onLikeComment}
+        onDislikeComment={onDislikeComment}
+      />
+    ));
+  };
 
   onEnterPress = (e, func, id) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
