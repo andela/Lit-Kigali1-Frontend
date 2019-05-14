@@ -1,5 +1,5 @@
 import { EditorState, KeyBindingUtil } from 'draft-js';
-import addToolTip from '../../../helpers/editorPlugins/displayToolTip';
+import addToolTip, { toolTipStrategy } from '../../../helpers/editorPlugins/displayToolTip';
 
 describe('addLinkPlugin', () => {
   const editorState = EditorState.createEmpty();
@@ -76,5 +76,21 @@ describe('addLinkPlugin', () => {
     };
     const addLink = keyBindingFn(event, { getEditorState });
     expect(addLink).toEqual('add-tool-tip');
+  });
+});
+
+describe('toolTipStrategy', () => {
+  test('toolTipStrategy', () => {
+    const contentState = {
+      getEntity: jest.fn().mockImplementation(() => ({
+        getType: jest.fn().mockImplementation(() => 'TOOLTIP'),
+      })),
+    };
+    const contentBlock = {
+      findEntityRanges: jest.fn().mockImplementation(() => jest.fn()),
+    };
+    const callback = jest.fn();
+    const res = toolTipStrategy(contentBlock, callback, contentState);
+    expect(res).toBeUndefined();
   });
 });

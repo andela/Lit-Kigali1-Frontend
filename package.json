@@ -32,11 +32,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "coveralls": "^3.0.3",
+    "dotenv": "^7.0.0",
     "dotenv-webpack": "^1.7.0",
     "draft-js": "^0.10.5",
     "draft-js-plugins-editor": "^2.1.1",
     "draftjs-to-html": "^0.8.4",
-    "dotenv": "^7.0.0",
     "draftjs-utils": "^0.9.4",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",

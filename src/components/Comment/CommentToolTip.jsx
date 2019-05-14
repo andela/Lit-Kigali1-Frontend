@@ -15,7 +15,7 @@ import {
 } from '../../redux/actions/articleActions';
 import styleHighlitedText from '../../helpers/styleHiglightedText';
 
-class CommentToolTip extends React.Component {
+export class CommentToolTip extends React.Component {
   state = {
     hasCommentBox: false,
     hasCommentButton: true,
@@ -119,12 +119,17 @@ CommentToolTip.propTypes = {
   contentState: PropTypes.any.isRequired,
   entityKey: PropTypes.any.isRequired,
   children: PropTypes.any.isRequired,
-  body: PropTypes.string.isRequired,
+  body: PropTypes.string,
   onSubmitComment: PropTypes.func.isRequired,
   onCommentInput: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool,
   onUpdateArticle: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
+};
+
+CommentToolTip.defaultProps = {
+  body: '',
+  isLoggedIn: false,
 };
 
 export const mapDispatchToProps = dispatch => ({

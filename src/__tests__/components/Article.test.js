@@ -3,14 +3,43 @@ import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import Article, { mapStateToProps, mapDispatchToProps } from '../../components/Article/Article';
+import {
+  EditorState,
+  convertFromRaw,
+} from 'draft-js';
+import Article, { mapStateToProps, mapDispatchToProps, Article as NonReduxArticle } from '../../components/Article/Article';
 import { articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
 let wrapper;
-
 const mockStore = configureMockStore([thunk]);
 let store = mockStore(initialState);
+
+const slug = 'fake-article-slug';
+const props = {
+  match: {
+    params: {
+      articleSlug: slug,
+    },
+  },
+  getArticle: jest
+    .fn()
+    .mockImplementation(() => Promise.resolve({
+      status: 200,
+      article: { body: articleDataDraft.body },
+    })),
+  rateArticle: jest.fn(),
+  onShare: jest.fn(),
+  onLikeArticle: jest.fn(),
+  onDislikeArticle: jest.fn(),
+  isLoggedIn: false,
+  nextPath: jest.fn(),
+  onHighlight: jest.fn(),
+  singleArticle: {
+    tagList: [],
+  },
+};
+
 describe('<Article />', () => {
   beforeEach(() => {
     wrapper = mount(
@@ -28,6 +57,15 @@ describe('<Article />', () => {
     wrapper = shallow(
       <Provider store={store}>
         <Article />
+      </Provider>,
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('should render the <Article />', () => {
+    wrapper = mount(
+      <Provider store={store}>
+        <NonReduxArticle {...props} />
       </Provider>,
     );
     expect(wrapper).toMatchSnapshot();
@@ -306,6 +344,106 @@ describe('<Article />', () => {
         .at(1)
         .simulate('click');
       expect(wrapper.find('Article').props().nextPath).toBeDefined();
+    });
+  });
+
+  describe('comment on highlightedText', () => {
+    test('should highlight', () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      const { highlight } = wrapper.find('Article').instance();
+      const draftFormatBody = convertFromRaw(JSON.parse(articleDataDraft.body));
+      const editorState = EditorState.createWithContent(draftFormatBody);
+      const selection = editorState.getSelection();
+      const newSelection = selection.merge({
+        anchorKey: 'crkve',
+        anchorOffset: 1,
+        focusKey: 'crkve',
+        focusOffset: 5,
+      });
+      const newEditorState = EditorState.forceSelection(editorState, newSelection);
+      highlight(newEditorState);
+      expect(wrapper.find('Article').state().editorFromState).toHaveProperty('_immutable');
+      expect(wrapper.find('Article').props().onHighlight).toBeDefined();
+    });
+
+    test('should not highlight', () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      const { highlight } = wrapper.find('Article').instance();
+      const draftFormatBody = convertFromRaw(JSON.parse(articleDataDraft.body));
+      const editorState = EditorState.createWithContent(draftFormatBody);
+      highlight(editorState);
+      expect(wrapper.find('Article').state().editorFromState).toHaveProperty('_immutable');
+    });
+
+    test('should call highlight', () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      const highlight = jest.spyOn(wrapper.find('Article').instance(), 'highlight');
+      const { onChange } = wrapper.find('Article').instance();
+      const draftFormatBody = convertFromRaw(JSON.parse(articleDataDraft.body));
+      const editorState = EditorState.createWithContent(draftFormatBody);
+      onChange(editorState);
+      expect(highlight).toHaveBeenCalled();
+    });
+
+    test('should not call highlight', () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      const highlight = jest.spyOn(wrapper.find('Article').instance(), 'highlight');
+      const { onChange } = wrapper.find('Article').instance();
+      const draftFormatBody = convertFromRaw(JSON.parse(articleDataDraft.body));
+      const editorState = EditorState.createWithContent(draftFormatBody);
+      const selection = editorState.getSelection();
+      const newSelection = selection.merge({
+        anchorKey: 'crkve',
+        anchorOffset: 1,
+        focusKey: 'crkvf',
+        focusOffset: 5,
+      });
+      const newEditorState = EditorState.forceSelection(editorState, newSelection);
+      onChange(newEditorState);
+      expect(highlight).not.toHaveBeenCalled();
+    });
+
+    test('should toggle Mode', () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      const { toggleMode } = wrapper.find('Article').instance();
+      toggleMode();
+      expect(wrapper.find('Article').state().isCommentingMode).toEqual(true);
+    });
+
+    test('should toggle Mode', () => {
+      const state = initialState;
+      state.article.singleArticle.body = JSON.parse(articleDataDraft.body);
+      store = mockStore(state);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      wrapper.find('Article').state().editorFromState = articleDataDraft;
+      wrapper.update();
+      const { renderBody } = wrapper.find('Article').instance();
+      const res = renderBody();
+      expect(res.props['data-test']).toEqual('article-text');
     });
   });
 });

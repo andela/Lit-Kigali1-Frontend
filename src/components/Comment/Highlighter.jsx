@@ -5,7 +5,7 @@ import HighlighterButton from '../../assets/images/highlighter-solid.svg';
 import Button from '../common/Button/Button';
 import CommentRender from './CommentRender';
 
-class Highlighter extends Component {
+export class Highlighter extends Component {
   state = {
     showComment: false,
   };
@@ -42,6 +42,12 @@ class Highlighter extends Component {
                 comment={comment}
                 articleSlug={articleSlug}
                 currentUser={currentUser}
+                onDeleteComment={this.changeState}
+                updateComment={this.changeState}
+                enterPress={this.changeState}
+                inputHandler={this.changeState}
+                onLikeComment={this.changeState}
+                onDislikeComment={this.changeState}
               />
             </div>
           )}

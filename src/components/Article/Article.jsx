@@ -51,16 +51,18 @@ export class Article extends Component {
       },
       getArticle,
     } = this.props;
-    getArticle(articleSlug).then(({ article }) => {
-      const editorObject = convertFromRaw(JSON.parse(article.body));
-      const editorState = EditorState.createWithContent(
-        editorObject,
-        this.decorator,
-      );
-      this.setState({
-        editorFromState: editorState,
+    if (articleSlug) {
+      getArticle(articleSlug).then(({ article }) => {
+        const editorObject = convertFromRaw(JSON.parse(article.body));
+        const editorState = EditorState.createWithContent(
+          editorObject,
+          this.decorator,
+        );
+        this.setState({
+          editorFromState: editorState,
+        });
       });
-    });
+    }
   }
 
   renderBody = () => {
@@ -80,10 +82,10 @@ export class Article extends Component {
           editorState={editorFromState}
           blockRendererFn={mediaBlockRenderer}
           plugins={[addLinkPlugin, addToolTip, addStyleHighlighter]}
-          handleKeyCommand={this.handleKeyCommand}
           customStyleMap={highlightPlugin.customStyleMap}
           onChange={this.onChange}
           readOnly={isCommentingMode}
+          data-test="article-text"
         />
       );
     }
@@ -238,16 +240,6 @@ export class Article extends Component {
       return;
     }
     this.highlight(editorState);
-  };
-
-  handleKeyCommand = (command) => {
-    const { editorFromState } = this.state;
-    const newState = RichUtils.handleKeyCommand(editorFromState, command);
-    if (newState) {
-      this.onChange(newState);
-      return 'handled';
-    }
-    return 'not-handled';
   };
 
   highlight = (editorState) => {
@@ -536,7 +528,10 @@ Article.defaultProps = {
   likeCount: 0,
   dislikeCount: 0,
   article: {},
-  match: { params: {} },
+  match: {
+    params: {
+    },
+  },
   history: { push: () => '' },
 };
 

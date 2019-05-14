@@ -372,7 +372,7 @@ describe('mapDispatchToprops', () => {
 });
 
 describe('mapDispatchToProps', () => {
-  test('', () => {
+  test('mapDispatchToProps', () => {
     const res = mapStateToProps({ article: newArticle, currentUser });
     expect(res).toHaveProperty('createArticle');
     expect(res).toHaveProperty('loading');
