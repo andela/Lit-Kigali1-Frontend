@@ -67,7 +67,8 @@ export class CommentRender extends React.Component {
           {isEdit ? this.commentForm(comment.body, comment.id) : comment.body}
           <button
             data-el="edited"
-            className="comment-time tooltip ed-btn"
+            id="ed-btn"
+            className="comment-time tooltip"
             onClick={() => this.onOriginalComment(articleSlug, comment.id)}
           >
             {comment.version === 'edited' && ` (${comment.version})`}

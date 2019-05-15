@@ -81,13 +81,20 @@ describe('currentUserReducer', () => {
   it('should handle `DELETE_CURRENT_USER_ARTICLE`', () => {
     const expectedState = {
       type: DELETE_CURRENT_USER_ARTICLE,
-      payload: { articleSlug: 'article-slug', index: 0, message: 'Deleteted successfully' },
+      payload: {
+        articleSlug: 'article-slug',
+        index: 0,
+        message: 'Deleteted successfully',
+      },
     };
     expect(
       reducer(
         {
           ...initialState,
-          profile: { ...initialState.profile, articles: [{ slug: 'article-slug' }] },
+          profile: {
+            ...initialState.profile,
+            articles: [{ slug: 'article-slug' }],
+          },
         },
         expectedState,
       ),
@@ -138,7 +145,11 @@ describe('currentUserReducer', () => {
       type: UPDATE_PROFILE_SUCCESS,
       payload: true,
     };
-    expect(reducer({}, expectedState)).toEqual({ profile: {}, message: undefined, loading: false });
+    expect(reducer({}, expectedState)).toEqual({
+      profile: {},
+      message: undefined,
+      loading: false,
+    });
   });
 
   it('should handle `UPDATE_PROFILE_FAILURE`', () => {

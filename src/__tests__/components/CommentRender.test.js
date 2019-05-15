@@ -19,8 +19,9 @@ const props = {
   fetchDislikes: jest.fn(),
   onLikeComment: jest.fn(),
   onDislikeComment: jest.fn(),
+  onOriginalComment: jest.fn(),
   originalComment: {
-    commentId: 'fake-id',
+    commentId: '7470cfce-111b-4124-9eb8-1f96b98acffc',
   },
   onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
@@ -177,5 +178,32 @@ describe('<CommentRender />', () => {
     };
     const comment = shallow(<CommentRender {...newProps} />);
     expect(comment).toMatchSnapshot();
+  });
+
+  test.skip('onClick of edited button should call originalComment', () => {
+    const newProps = {
+      ...props,
+      comment: {
+        ...commentData[0],
+        author: {
+          username: 'chris',
+          image: 'image',
+        },
+        version: 'edited',
+        likesCount: 0,
+        dislikesCount: 0,
+        liked: true,
+        disliked: true,
+      },
+    };
+    const book = shallow(<CommentRender {...newProps} />);
+    // const wrapper = mount(<CommentRender {...newProps} />);
+    book.setState({ isEdit: false });
+    // expect(book).toMatchSnapshot();
+    // expect(wrapper);
+    const spy = jest.spyOn(book.instance(), 'onOriginalComment');
+    book.find('#ed-btn').simulate('click');
+    expect(spy).toHaveBeenCalled();
+    console.log(book.debug());
   });
 });

@@ -276,7 +276,10 @@ describe('commentReducer Test', () => {
       payload,
     };
     const res = commentReducer(initialState, action);
-    expect(res).toEqual({ ...initialState, originalComment: payload.editedComment });
+    expect(res).toEqual({
+      ...initialState,
+      originalComment: payload.editedComment,
+    });
   });
 
   test('should dispatch "FETCH_COMMENT_HISTORY_FAILURE"', () => {
