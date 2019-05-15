@@ -5,7 +5,7 @@ import qs from 'query-string';
 import { fetchArticles } from '../../redux/actions/articleActions';
 import ArticleCard from './ArticleCard';
 import SearchInput from '../common/Input/SearchInput';
-import Pagination from "../common/Pagination";
+import Pagination from '../common/Pagination';
 
 const allowedParams = ['title', 'author', 'tag'];
 export class Articles extends Component {

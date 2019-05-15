@@ -141,7 +141,10 @@ export const setRatingArticle = payload => ({
 
 export const onUserRateArticle = ({ articleSlug, rate }) => (dispatch) => {
   dispatch(setRatingArticle(true));
-  return fetchAPI(`/articles/${articleSlug}/rating`, { method: 'POST', body: { rate } })
+  return fetchAPI(`/articles/${articleSlug}/rating`, {
+    method: 'POST',
+    body: { rate },
+  })
     .then(({ message, averageRate, rate: { rating } }) => {
       dispatch(setArticleRate({ rating: averageRate, rated: rating }));
       dispatch(setRatingArticle(false));

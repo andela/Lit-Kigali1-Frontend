@@ -20,7 +20,7 @@ const props = {
   onLikeComment: jest.fn(),
   onDislikeComment: jest.fn(),
   originalComment: {
-    commentId: 'fake-id',
+    commentId: '7470cfce-111b-4124-9eb8-1f96b98acffc',
   },
   onFetchHistory: jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })),
 };
@@ -177,5 +177,19 @@ describe('<CommentRender />', () => {
     };
     const comment = shallow(<CommentRender {...newProps} />);
     expect(comment).toMatchSnapshot();
+  });
+
+  test('onClick of edited button should call originalComment', () => {
+    const wrapper = mount(<CommentRender {...props} />);
+    wrapper.setProps({
+      articleSlug: 'fake-slug',
+      comment: {
+        ...commentData[0],
+        userId: 'fake-id',
+      },
+    });
+    const spy = jest.spyOn(wrapper.instance(), 'originalComment');
+    wrapper.find('button').simulate('click');
+    expect(spy).toHaveBeenCalled();
   });
 });
