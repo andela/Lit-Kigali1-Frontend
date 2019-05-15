@@ -69,11 +69,6 @@ export const Routes = ({ isLoggedIn }) => (
     <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
     <Route exact path="/notifications" component={NotificationView} />
     <Route exact path="/settings" component={Settings} />
-    <Route
-      exact
-      path="/settings"
-      render={props => (isLoggedIn ? <Settings {...props} /> : <Redirect to="/auth" />)}
-    />
     <Route path="*" component={ErrorPage} />
   </Switch>
 );

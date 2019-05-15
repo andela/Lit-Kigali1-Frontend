@@ -191,14 +191,12 @@ export const updateProfile = userData => (dispatch) => {
     });
 };
 
-export const changeNotificationStatus = () => (dispatch) => {
-  fetchAPI('/notifications/update', { method: 'PUT' })
-    .then((data) => {
-      dispatch(changeStatusSuccess(data.notification));
-      return data;
-    })
-    .catch((data) => {
-      dispatch(changeStatusFailure(data.message));
-      return data.message;
-    });
-};
+export const changeNotificationStatus = () => dispatch => fetchAPI('/notifications/update', { method: 'PUT' })
+  .then((data) => {
+    dispatch(changeStatusSuccess(data.notification));
+    return data;
+  })
+  .catch((data) => {
+    dispatch(changeStatusFailure(data.message));
+    return data.message;
+  });

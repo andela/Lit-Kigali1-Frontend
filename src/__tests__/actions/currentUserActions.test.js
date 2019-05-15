@@ -15,6 +15,8 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
   SET_NOTIFICATION,
+  UPDATE_NOTIFICATION_FAILURE,
+  UPDATE_NOTIFICATION_SUCCESS,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED, SET_ARTICLE_RATE } from '../../redux/actions-types';
 
@@ -401,6 +403,37 @@ describe('currentUserActions', () => {
         },
       ];
       return store.dispatch(currentUserActions.fetchNotifications()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedAction);
+      });
+    });
+
+    test('Should enable Notifications', () => {
+      nock(API_URL)
+        .put('/notifications/update')
+        .reply(200, { status: 200, message: 'success' });
+      const expectedAction = [
+        {
+          type: UPDATE_NOTIFICATION_SUCCESS,
+        },
+      ];
+      return store.dispatch(currentUserActions.changeNotificationStatus()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedAction);
+      });
+    });
+
+    test('Should enable Notifications failure', () => {
+      nock(API_URL)
+        .put('/notifications/update')
+        .reply(404, { status: 404, message: 'failed' });
+      const expectedAction = [
+        {
+          type: UPDATE_NOTIFICATION_FAILURE,
+          payload: 'failed',
+        },
+      ];
+      return store.dispatch(currentUserActions.changeNotificationStatus()).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedAction);
       });

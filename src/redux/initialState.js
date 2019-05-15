@@ -26,6 +26,7 @@ module.exports = {
       articles: [],
       image: '',
       username: '',
+      notification: true,
     },
     articles: [],
     favorites: [],
