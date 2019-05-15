@@ -15,6 +15,8 @@ import {
   SET_NOTIFICATION_FAILURE,
   UPDATE_NOTIFICATION_SUCCESS,
   UPDATE_NOTIFICATION_FAILURE,
+  FETCH_READING_STATISICS_SUCCESS,
+  FETCH_READING_STATISICS_FAILURE,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -45,6 +47,23 @@ export const setNotificationError = payload => ({
   payload,
 });
 
+export const fetchReadingStaticsSuccess = payload => ({
+  type: FETCH_READING_STATISICS_SUCCESS,
+  payload,
+});
+
+export const fetchReadingStaticsFailure = payload => ({
+  type: FETCH_READING_STATISICS_FAILURE,
+  payload,
+});
+
+export const fetchReadingStatics = () => dispatch => fetchAPI('/users/stats')
+  .then(({ readingStats }) => {
+    dispatch(fetchReadingStaticsSuccess(readingStats));
+  }).catch((err) => {
+    dispatch(fetchReadingStaticsFailure(err));
+  });
+
 export const fetchNotifications = token => dispatch => fetchAPI('/notifications', { token })
   .then((data) => {
     dispatch(setNotification(data));
@@ -60,6 +79,7 @@ export const markAllAsRead = () => dispatch => fetchAPI('/notifications', { meth
 export const fetchCurrentUser = token => dispatch => fetchAPI('/user', { token })
   .then(({ user }) => {
     dispatch(setCurrentUser(user));
+    dispatch(fetchReadingStatics());
     dispatch(fetchNotifications());
     return user;
   })

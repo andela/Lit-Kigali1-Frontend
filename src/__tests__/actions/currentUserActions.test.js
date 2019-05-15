@@ -17,6 +17,7 @@ import {
   SET_NOTIFICATION,
   UPDATE_NOTIFICATION_FAILURE,
   UPDATE_NOTIFICATION_SUCCESS,
+  FETCH_READING_STATISICS_SUCCESS,
 } from '../../redux/actions-types/currentUserTypes';
 import { SET_USER_FOLLOWED, SET_ARTICLE_RATE } from '../../redux/actions-types';
 
@@ -436,6 +437,17 @@ describe('currentUserActions', () => {
       return store.dispatch(currentUserActions.changeNotificationStatus()).then(() => {
         const actions = store.getActions();
         expect(actions).toEqual(expectedAction);
+      });
+    });
+
+    test('Should dispatch get all', () => {
+      nock(API_URL)
+        .get('/users/stats')
+        .reply(200, { status: 200, readingStats: 4 });
+      return store.dispatch(currentUserActions.fetchReadingStatics()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toEqual(FETCH_READING_STATISICS_SUCCESS);
+        expect(actions[0].payload).toEqual(4);
       });
     });
   });
