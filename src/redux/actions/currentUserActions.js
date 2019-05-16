@@ -11,6 +11,8 @@ import {
   UPDATE_PROFILE_FAILURE,
   UPDATE_PROFILE_SUCCESS,
   SUBMIT_PROFILE_FORM,
+  GET_BOOKMARKS_SUCCESS,
+  GET_BOOKMARKS_FAILURE,
 } from '../actions-types/currentUserTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 import { setUserFollow } from './userActions';
@@ -64,6 +66,16 @@ export const profileUpdateFailure = ({ message }) => ({
   payload: {
     message,
   },
+});
+
+export const gotBookmarks = payload => ({
+  type: GET_BOOKMARKS_SUCCESS,
+  payload,
+});
+
+export const didNotGetBookmarks = payload => ({
+  type: GET_BOOKMARKS_FAILURE,
+  payload,
 });
 
 export const submitProfileForm = () => ({ type: SUBMIT_PROFILE_FORM });
@@ -153,3 +165,13 @@ export const updateProfile = userData => (dispatch) => {
       return message;
     });
 };
+
+export const getBookmarks = () => dispatch => fetchAPI('/articles/bookmarks')
+  .then((data) => {
+    dispatch(gotBookmarks(data));
+    return data;
+  })
+  .catch((err) => {
+    dispatch(didNotGetBookmarks(err));
+    return err;
+  });

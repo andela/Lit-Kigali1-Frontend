@@ -70,6 +70,16 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: false,
       };
+    case types.GET_BOOKMARKS_SUCCESS:
+      return {
+        ...state,
+        bookmarkedArticles: [...payload.bookmarks],
+      };
+    case types.GET_BOOKMARKS_FAILURE:
+      return {
+        ...state,
+        message: payload.message,
+      };
     default:
       return state;
   }

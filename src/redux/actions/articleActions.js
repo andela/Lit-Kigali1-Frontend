@@ -45,13 +45,13 @@ export const bookmarkNotRemoved = payload => ({
   payload,
 });
 
-export const gotBookmarks = payload => ({
-  type: articleTypes.GET_BOOKMARKS_SUCCESS,
+export const gotBookmark = payload => ({
+  type: articleTypes.GET_BOOKMARK_SUCCESS,
   payload,
 });
 
-export const didNotGetBookmarks = payload => ({
-  type: articleTypes.GET_BOOKMARKS_FAILURE,
+export const didNotGetBookmark = payload => ({
+  type: articleTypes.GET_BOOKMARK_FAILURE,
   payload,
 });
 
@@ -290,10 +290,10 @@ export const unBookmark = articleSlug => dispatch => fetchAPI(`/articles/${artic
 
 export const getBookmark = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/bookmark`)
   .then((data) => {
-    dispatch(gotBookmarks(data));
+    dispatch(gotBookmark(data));
     return data;
   })
   .catch((err) => {
-    dispatch(didNotGetBookmarks(err));
+    dispatch(didNotGetBookmark(err));
     return err;
   });

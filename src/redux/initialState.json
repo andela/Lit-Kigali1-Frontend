@@ -27,7 +27,8 @@
       "articles": []
     },
     "articles": [],
-    "favorites": []
+    "favorites": [],
+    "bookmarkedArticles": []
   },
   "signUp": {
     "submitting": false,

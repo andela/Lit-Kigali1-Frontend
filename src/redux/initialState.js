@@ -29,6 +29,7 @@ module.exports = {
     },
     articles: [],
     favorites: [],
+    bookmarkedArticles: [],
   },
   signUp: {
     submitting: false,
