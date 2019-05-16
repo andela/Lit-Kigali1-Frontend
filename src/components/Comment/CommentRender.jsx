@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import Button from '../common/Button/Button';
 import avatar from '../../assets/images/avatar.png';
-import { fetchCommentLikes, fetchCommentDislikes } from '../../redux/actions/commentAction';
+import {
+  fetchCommentLikes,
+  fetchCommentDislikes,
+} from '../../redux/actions/commentAction';
 
 export class CommentRender extends React.Component {
   state = {
@@ -87,7 +90,10 @@ export class CommentRender extends React.Component {
     return (
       <div key={comment.id} className="comment-box">
         <div className="comment-header">
-          <a className="author-name" to={`../profiles/${comment.author.username}`}>
+          <a
+            className="author-name"
+            to={`../profiles/${comment.author.username}`}
+          >
             <img
               src={comment.author.image ? comment.author.image : avatar}
               alt=""
@@ -115,33 +121,52 @@ export class CommentRender extends React.Component {
           )}
         </div>
         <div
-          onDoubleClick={() => comment.userId === currentUser.id && this.onEditComment(comment.body)
+          onDoubleClick={() => comment.userId === currentUser.id
+            && this.onEditComment(comment.body)
           }
           data-el="comment-container"
         >
-          {isEdit ? this.commentForm(comment.body, comment.id) : comment.body}
+          {comment.highlightedText && (
+          <div className="box">
+            <a className="hightlightedText" href={`#${comment.anchorKey}`}>{`"${comment.highlightedText}"`}</a>
+          </div>
+          )}
+          {isEdit ? this.commentForm(comment.id) : comment.body}
           <span className="comment-time">
             {comment.version === 'edited' && ` (${comment.version})`}
           </span>
         </div>
-        <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
+        <div className="comment-time">
+          {moment(comment.createdAt).fromNow()}
+        </div>
         <div className="comment-user-action">
           <button
             className="comment-action like-btn"
             onClick={() => onLikeComment(articleSlug, comment.id)}
           >
-            <i className={`fa fa-thumbs-${comment.liked ? '' : 'o-'}up`} title="Like" />
+            <i
+              className={`fa fa-thumbs-${comment.liked ? '' : 'o-'}up`}
+              title="Like"
+            />
           </button>
           <span className="comment-action-count">
             {comment.likesCount === 0 ? '' : comment.likesCount}
             <div className="comment-likers user-like">
               {comment.likes
                 ? comment.likes.map(like => (
-                  <div className="comment-likers-data" key={comment.likes.indexOf(like)}>
-                    <img src={like.author.image || avatar} alt="" className="profile-avatar" />
+                  <div
+                    className="comment-likers-data"
+                    key={comment.likes.indexOf(like)}
+                  >
+                    <img
+                      src={like.author.image || avatar}
+                      alt=""
+                      className="profile-avatar"
+                    />
                     <span>
-                      {' '}
-                      <a href={`../profiles/${like.author.username}`}>{like.author.username}</a>
+                      <a href={`../profiles/${like.author.username}`}>
+                        {like.author.username}
+                      </a>
                     </span>
                   </div>
                 ))
@@ -152,15 +177,25 @@ export class CommentRender extends React.Component {
             className="comment-action dislike-btn"
             onClick={() => onDislikeComment(articleSlug, comment.id)}
           >
-            <i className={`fa fa-thumbs-${comment.disliked ? '' : 'o-'}down`} title="Dislike" />
+            <i
+              className={`fa fa-thumbs-${comment.disliked ? '' : 'o-'}down`}
+              title="Dislike"
+            />
           </button>
           <span className="comment-action-count">
             {comment.dislikesCount === 0 ? '' : comment.dislikesCount}
             <div className="comment-likers">
               {comment.dislikes
                 ? comment.dislikes.map(dislike => (
-                  <div className="comment-likers-data" key={comment.dislikes.indexOf(dislike)}>
-                    <img src={dislike.author.image || avatar} alt="" className="profile-avatar" />
+                  <div
+                    className="comment-likers-data"
+                    key={comment.dislikes.indexOf(dislike)}
+                  >
+                    <img
+                      src={dislike.author.image || avatar}
+                      alt=""
+                      className="profile-avatar"
+                    />
                     <span>
                       {' '}
                       <a href={`../profiles/${dislike.author.username}`}>
@@ -172,6 +207,7 @@ export class CommentRender extends React.Component {
                 : ''}
             </div>
           </span>
+          <span className="comment-time">{comment.version === 'edited' && ` (${comment.version})`}</span>
         </div>
       </div>
     );

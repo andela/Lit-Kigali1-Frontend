@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import {
-  Editor, EditorState, convertFromRaw, CompositeDecorator,
+  EditorState,
+  convertFromRaw,
+  CompositeDecorator,
+  RichUtils,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import ContentLoader from 'react-content-loader';
+import Editor from 'draft-js-plugins-editor';
+import { getSelectedBlocksList, getSelectionText } from 'draftjs-utils';
 import {
   fetchArticle,
   likeArticle,
@@ -16,12 +21,28 @@ import {
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
-import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
+import {
+  onUserRateArticle,
+  setNextPath,
+} from '../../redux/actions/currentUserActions';
 import Comment from '../Comment/Comment';
+import {
+  setHiglightedText,
+} from '../../redux/actions/commentAction';
+import addToolTip from '../../helpers/editorPlugins/displayToolTip';
+import getToolTip from '../../helpers/getToolTip';
+import addStyleHighlighter from '../../helpers/editorPlugins/addStyleHightlighter';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
-  decorator = new MultiDecorator([new CompositeDecorator(addLinkPlugin.decorators)]);
+  state = {
+    editorFromState: {},
+    isCommentingMode: false,
+  };
+
+  decorator = new MultiDecorator([
+    new CompositeDecorator(addStyleHighlighter.decorators),
+  ]);
 
   componentDidMount() {
     const {
@@ -30,24 +51,41 @@ export class Article extends Component {
       },
       getArticle,
     } = this.props;
-    getArticle(articleSlug);
+    if (articleSlug) {
+      getArticle(articleSlug).then(({ article }) => {
+        const editorObject = convertFromRaw(JSON.parse(article.body));
+        const editorState = EditorState.createWithContent(
+          editorObject,
+          this.decorator,
+        );
+        this.setState({
+          editorFromState: editorState,
+        });
+      });
+    }
   }
 
   renderBody = () => {
     const {
       singleArticle: { body },
     } = this.props;
-    if (body && body.match(/blocks/)) {
-      const editorObject = convertFromRaw(JSON.parse(body));
-      const editorState = EditorState.createWithContent(editorObject, this.decorator);
+    const { editorFromState, isCommentingMode } = this.state;
+    if (
+      body
+      && body.blocks
+      && Object.getOwnPropertyNames(editorFromState).length
+    ) {
       return (
         <Editor
           className="article-text"
           name="body"
-          editorState={editorState}
+          editorState={editorFromState}
           blockRendererFn={mediaBlockRenderer}
+          plugins={[addLinkPlugin, addToolTip, addStyleHighlighter]}
           customStyleMap={highlightPlugin.customStyleMap}
-          readOnly
+          onChange={this.onChange}
+          readOnly={isCommentingMode}
+          data-test="article-text"
         />
       );
     }
@@ -113,7 +151,13 @@ export class Article extends Component {
       <div className="row">
         <div className="col-12 content-center">
           {tagList.map(tag => (
-            <span key={tag} className="tagged" data-value={tag} onClick={this.navigateToArticles}>
+            <span
+              key={tag}
+              className="tagged"
+              data-value={tag}
+              onClick={this.navigateToArticles}
+              role="presentation"
+            >
               {tag}
             </span>
           ))}
@@ -188,9 +232,74 @@ export class Article extends Component {
     onShare({ on, articleSlug: slug });
   };
 
+  onChange = (editorState) => {
+    if (getSelectedBlocksList(editorState).size !== 1) {
+      this.setState({
+        editorFromState: EditorState.undo(editorState),
+      });
+      return;
+    }
+    this.highlight(editorState);
+  };
+
+  highlight = (editorState) => {
+    const { isCommentingMode } = this.state;
+    if (!getSelectionText(editorState) && !isCommentingMode) {
+      this.setState({
+        editorFromState: EditorState.undo(editorState),
+      });
+      return;
+    }
+    const {
+      onHighlight,
+      singleArticle: { slug },
+      history,
+    } = this.props;
+    const selectionState = editorState.getSelection();
+    const anchorKey = selectionState.getAnchorKey();
+    const currentContent = editorState.getCurrentContent();
+    const currentContentBlock = currentContent.getBlockForKey(anchorKey);
+    const start = selectionState.getStartOffset();
+    const end = selectionState.getEndOffset();
+    const getSelectedText = currentContentBlock.getText().slice(start, end);
+    if (getSelectedText.length) {
+      onHighlight(getSelectedText);
+    }
+    const highlighted = {
+      slug,
+      text: getSelectedText,
+      startPoint: start,
+      endPoint: end,
+    };
+    const { newEditorState, selectedText, entityKey } = getToolTip(
+      editorState,
+      this.toggleMode,
+      highlighted,
+      history,
+      anchorKey,
+    );
+    const newState = isCommentingMode
+      ? editorState
+      : RichUtils.toggleLink(newEditorState, selectedText, entityKey);
+    this.setState({
+      editorFromState: newState,
+    });
+  };
+
+  toggleMode = () => {
+    this.setState({
+      isCommentingMode: true,
+    });
+  };
+
   render() {
     const {
-      singleArticle, liked, disliked, likeCount, dislikeCount, history,
+      singleArticle,
+      liked,
+      disliked,
+      likeCount,
+      dislikeCount,
+      history,
     } = this.props;
     return (
       <section className="main-content">
@@ -210,13 +319,17 @@ export class Article extends Component {
                     data-name="rate-btn"
                     className={`article-icon-right hover-primary margin-top ${
                       singleArticle.rated ? 'rated' : ''
-                      }`}
+                    }`}
                     role="presentation"
                     data-url={`/articles/${singleArticle.slug}/ratings`}
                     onClick={this.navigateToRatings}
                   >
                     {singleArticle.rating}
-                    <i className={`fa fa-star${singleArticle.rated ? '' : '-o'} ml-5`} />
+                    <i
+                      className={`fa fa-star${
+                        singleArticle.rated ? '' : '-o'
+                      } ml-5`}
+                    />
                   </span>
                   <span className="article-icon-right margin-top">
                     <span
@@ -233,8 +346,9 @@ export class Article extends Component {
                       onClick={this.onLikeArticleClicked}
                     >
                       <i
-                        className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`}
-                        title="Like"
+                        className={`fa fa-thumbs-${
+                          liked ? '' : 'o-'
+                        }up article-icon-right`}
                       />
                     </button>
                   </span>
@@ -253,8 +367,9 @@ export class Article extends Component {
                       onClick={this.onDislikeArticleClicked}
                     >
                       <i
-                        className={`fa fa-thumbs-${disliked ? '' : 'o-'}down article-icon-right`}
-                        title="Dislike"
+                        className={`fa fa-thumbs-${
+                          disliked ? '' : 'o-'
+                        }down article-icon-right`}
                       />
                     </button>
                   </span>
@@ -272,14 +387,20 @@ export class Article extends Component {
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('facebook')}
                   >
-                    <i className="fa fa-facebook-square" title="Share via Facebook" />
+                    <i
+                      className="fa fa-facebook-square"
+                      title="Share via Facebook"
+                    />
                   </button>
                   <button
                     id="tw"
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('twitter')}
                   >
-                    <i className="fa fa-twitter-square" title="Share via Twitter" />
+                    <i
+                      className="fa fa-twitter-square"
+                      title="Share via Twitter"
+                    />
                   </button>
                   <button
                     id="e"
@@ -323,7 +444,7 @@ export class Article extends Component {
                     />
                   </div>
                 </div>
-                <div className="items-center">
+                <div className="items-center" id="hello">
                   <a href="#modal-report" className="hover-primary gray-icon">
                     <i className="fa fa-file mr-5 gray-icon" />
                     Report
@@ -345,9 +466,18 @@ export class Article extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading, singleArticle, submitting, liked, disliked, likeCount, dislikeCount,
+    loading,
+    singleArticle,
+    submitting,
+    liked,
+    disliked,
+    likeCount,
+    dislikeCount,
   },
   currentUser: { profile, rating, isLoggedIn },
+  comment: {
+    highlightArticle,
+  },
 }) => ({
   loading,
   rating,
@@ -359,6 +489,7 @@ export const mapStateToProps = ({
   dislikeCount,
   currentUser: profile,
   isLoggedIn,
+  highlightArticle,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -368,6 +499,7 @@ export const mapDispatchToProps = dispatch => ({
   onLikeArticle: articleSlug => dispatch(likeArticle(articleSlug)),
   onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
   nextPath: url => dispatch(setNextPath(url)),
+  onHighlight: text => dispatch(setHiglightedText(text)),
 });
 
 Article.propTypes = {
@@ -386,6 +518,7 @@ Article.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   nextPath: PropTypes.func.isRequired,
   article: PropTypes.object,
+  onHighlight: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
@@ -395,7 +528,10 @@ Article.defaultProps = {
   likeCount: 0,
   dislikeCount: 0,
   article: {},
-  match: { params: {} },
+  match: {
+    params: {
+    },
+  },
   history: { push: () => '' },
 };
 

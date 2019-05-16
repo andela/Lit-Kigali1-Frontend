@@ -1,6 +1,6 @@
 import reducer from '../../redux/reducers/articleReducer';
 import * as articleTypes from '../../redux/actions-types/articleTypes';
-import { articleData, draftjsBody, jsonFormat } from '../../__mocks__/dummyData';
+import { articleData, draftjsBody, jsonFormat, articleDataDraft } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
 
 describe('articleReducer', () => {
@@ -78,13 +78,16 @@ describe('articleReducer', () => {
   });
 
   it('should handle `FETCHING_ARTICLE_SUCCESS`', () => {
-    const payload = articleData;
+    const payload = articleDataDraft;
     const expectedState = {
       type: articleTypes.FETCHING_ARTICLE_SUCCESS,
       payload,
     };
     expect(reducer({}, expectedState)).toEqual({
-      singleArticle: payload,
+      singleArticle: {
+        ...payload,
+        body: JSON.parse(payload.body),
+      },
       loading: false,
       success: true,
     });

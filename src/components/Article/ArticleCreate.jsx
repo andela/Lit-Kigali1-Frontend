@@ -73,14 +73,12 @@ export class ArticleCreate extends Component {
       getArticle,
     } = this.props;
     if (articleSlug) {
-      getArticle(articleSlug);
-      this.setState({ isEdit: true });
-      setTimeout(() => {
-        const { createArticle: { body } } = this.props;
-        const newEditorState = convertFromRaw(body);
+      getArticle(articleSlug).then(({ article }) => {
+        const newEditorState = convertFromRaw(JSON.parse(article.body));
         const editor = EditorState.createWithContent(newEditorState);
         this.setState({ editorState: editor });
-      }, 1000);
+      });
+      this.setState({ isEdit: true });
     }
   }
 

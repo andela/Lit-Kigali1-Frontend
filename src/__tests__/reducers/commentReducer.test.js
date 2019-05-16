@@ -16,6 +16,8 @@ import {
   HANDLE_UPDATE_COMMENT_INPUT,
   FETCH_COMMENT_LIKES_SUCCESS,
   FETCH_COMMENT_DISLIKES_SUCCESS,
+  SET_HIGHLIGHTED_TEXT,
+  HANDLE_HIGHLIGHTED_COMMENT_INPUT,
 } from '../../redux/actions-types/commentTypes';
 
 import { commentData } from '../../__mocks__/dummyData';
@@ -260,5 +262,41 @@ describe('commentReducer Test', () => {
     expect(res).toEqual({
       commentList: [...newState.commentList],
     });
+  });
+  test('should dispatch "SET_HIGHLIGHTED_TEXT"', () => {
+    const action = {
+      type: SET_HIGHLIGHTED_TEXT,
+      payload: 'Nono I was mistaken',
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual({
+      ...initialState,
+      highlightedText: action.payload,
+    });
+  });
+
+  test('should dispatch "HANDLE_HIGHLIGHTED_COMMENT_INPUT"', () => {
+    const action = {
+      type: HANDLE_HIGHLIGHTED_COMMENT_INPUT,
+      payload: {
+        body: 'Nono I was mistaken',
+      },
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual({
+      ...initialState,
+      hbody: action.payload.body,
+    });
+  });
+
+  test('should dispatch "UNKNOWN_TYPE"', () => {
+    const action = {
+      type: 'UNKNOWN_TYPE',
+      payload: {
+        hbody: 'Nono I was mistaken',
+      },
+    };
+    const res = commentReducer(initialState, action);
+    expect(res).toEqual(initialState);
   });
 });

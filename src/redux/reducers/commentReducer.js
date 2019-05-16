@@ -15,6 +15,8 @@ import {
   HANDLE_UPDATE_COMMENT_INPUT,
   FETCH_COMMENT_LIKES_SUCCESS,
   FETCH_COMMENT_DISLIKES_SUCCESS,
+  SET_HIGHLIGHTED_TEXT,
+  HANDLE_HIGHLIGHTED_COMMENT_INPUT,
 } from '../actions-types';
 
 import { comment as initialState } from '../initialState.json';
@@ -144,6 +146,16 @@ const commentReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         commentList: updatedList,
+      };
+    case SET_HIGHLIGHTED_TEXT:
+      return {
+        ...state,
+        highlightedText: payload,
+      };
+    case HANDLE_HIGHLIGHTED_COMMENT_INPUT:
+      return {
+        ...state,
+        hbody: payload.body,
       };
     default:
       return state;
