@@ -79,6 +79,21 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
           notificationsCount: payload.notificationsCount,
         },
       };
+    case types.UPDATE_NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          notification: payload,
+        },
+
+        loading: false,
+      };
+    case types.UPDATE_NOTIFICATION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

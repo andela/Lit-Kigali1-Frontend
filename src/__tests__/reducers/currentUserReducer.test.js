@@ -13,6 +13,8 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
   SET_NOTIFICATION,
+  UPDATE_NOTIFICATION_FAILURE,
+  UPDATE_NOTIFICATION_SUCCESS,
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
@@ -163,5 +165,24 @@ describe('currentUserReducer', () => {
         notificationsCount: 0,
       },
     });
+  });
+
+  it('should handle `UPDATE_NOTIFICATION_SUCCESS,` ', () => {
+    const expectedState = {
+      type: UPDATE_NOTIFICATION_SUCCESS,
+      payload: true,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      profile: { notification: true },
+      loading: false,
+    });
+  });
+
+  it('should handle `UPDATE_NOTIFICATION_FAILURE`', () => {
+    const expectedState = {
+      type: UPDATE_NOTIFICATION_FAILURE,
+      loading: false,
+    };
+    expect(reducer({}, expectedState)).toEqual({ loading: false });
   });
 });

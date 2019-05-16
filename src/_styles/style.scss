@@ -1,8 +1,9 @@
-@import 'base/global';
-@import 'base/colors';
-@import 'base/global';
-@import 'base/form';
-@import 'base/typography';
+@import "base/global";
+@import "base/colors";
+@import "base/global";
+@import "base/form";
+@import "base/typography";
+@import "base/toggleIcon";
 
 /* Layout */
 @import 'layout/grid-layout';
@@ -28,3 +29,4 @@
 @import 'pages/ArticlesCurrentUser';
 @import 'pages/notification';
 @import 'pages/Home';
+@import "pages/settings"

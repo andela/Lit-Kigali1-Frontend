@@ -26,6 +26,7 @@ module.exports = {
       articles: [],
       image: '',
       username: '',
+      notification: true,
     },
     articles: [],
     favorites: [],
@@ -33,6 +34,7 @@ module.exports = {
       notificationList: [],
       notificationsCount: 0,
       status: 'enabled',
+      message: '',
     },
   },
   signUp: {

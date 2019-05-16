@@ -36,8 +36,6 @@ export const loginUser = user => (dispatch) => {
       dispatch(setCurrentUser(data.user));
       dispatch(clearLogin());
       localStorage.setItem('token', data.user.token);
-      // dispatch(fetchNotifications(data.user.token));
-      // console.log(data.user.token);
       return data;
     })
     .catch((err) => {
