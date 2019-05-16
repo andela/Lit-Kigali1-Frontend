@@ -181,29 +181,16 @@ describe('<CommentRender />', () => {
   });
 
   test.skip('onClick of edited button should call originalComment', () => {
-    const newProps = {
-      ...props,
+    const wrapper = mount(<CommentRender {...props} />);
+    wrapper.setProps({
+      articleSlug: 'fake-slug',
       comment: {
         ...commentData[0],
-        author: {
-          username: 'chris',
-          image: 'image',
-        },
-        version: 'edited',
-        likesCount: 0,
-        dislikesCount: 0,
-        liked: true,
-        disliked: true,
+        userId: 'fake-id',
       },
-    };
-    const book = shallow(<CommentRender {...newProps} />);
-    // const wrapper = mount(<CommentRender {...newProps} />);
-    book.setState({ isEdit: false });
-    // expect(book).toMatchSnapshot();
-    // expect(wrapper);
-    const spy = jest.spyOn(book.instance(), 'onOriginalComment');
-    book.find('#ed-btn').simulate('click');
+    });
+    const spy = jest.spyOn(wrapper.instance(), 'originalComment');
+    wrapper.find('button').simulate('click');
     expect(spy).toHaveBeenCalled();
-    console.log(book.debug());
   });
 });
