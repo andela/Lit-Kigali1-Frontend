@@ -569,4 +569,27 @@ describe('articleReducer', () => {
       searching: true,
     });
   });
+
+  it('should handle `REPORT_INPUT`', () => {
+    const expectedState = {
+      type: articleTypes.REPORT_INPUT,
+      payload: {
+        field: 'reason',
+        value: 'reason',
+      },
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      report: { reason: 'reason', valid: true },
+    });
+  });
+
+  it('should handle `REPORT_INPUT_INVALID`', () => {
+    const expectedState = {
+      type: articleTypes.REPORT_INPUT_INVALID,
+      payload: false,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      report: { valid: false },
+    });
+  });
 });

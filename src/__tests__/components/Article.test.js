@@ -265,6 +265,25 @@ describe('<Article />', () => {
       mapDispatchToProps(dispatch).nextPath({ url });
       expect(dispatch).toHaveBeenCalled();
     });
+
+    test('should call nextPath action', () => {
+      const field = 'field';
+      const value = 'value';
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).handleInput(field, value);
+      expect(dispatch).toHaveBeenCalled();
+    });
+
+    test('should call nextPath action', () => {
+      const articleSlug = 'fake-slug';
+      const report = {
+        reason: 'reason',
+        description: 'description',
+      };
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).onReportArticle(articleSlug, report);
+      expect(dispatch).toHaveBeenCalled();
+    });
   });
 
   describe('like and dislike an article when loggedIn', () => {
@@ -298,6 +317,14 @@ describe('<Article />', () => {
         .simulate('click');
       expect(wrapper.find('Article').props().onDislikeArticle).toBeDefined();
     });
+
+    test('should not report an article', () => {
+      wrapper
+        .find('Article')
+        .find('.report-btn')
+        .simulate('click');
+      expect(wrapper.find('Article').props().onReportArticle).toBeDefined();
+    });
   });
 
   describe('like and dislike an article when not loggedIn', () => {
@@ -311,6 +338,9 @@ describe('<Article />', () => {
           disliked: true,
           likeCount: 1,
           dislikeCount: 1,
+          report: {
+            reason: 'reason',
+          },
         },
       };
       const store2 = mockStore(state);
@@ -344,6 +374,25 @@ describe('<Article />', () => {
         .at(1)
         .simulate('click');
       expect(wrapper.find('Article').props().nextPath).toBeDefined();
+    });
+
+    test('should report an article', () => {
+      wrapper
+        .find('Article')
+        .find('.report-btn')
+        .simulate('click');
+      setTimeout(() => {
+        expect(wrapper.find('Article').props().onReportArticle).toBeDefined();
+      }, 5000);
+    });
+
+    test('should call handleInput on change', () => {
+      const event = { target: { name: 'description', value: 'description' } };
+      wrapper
+        .find('Article')
+        .find('.large-input')
+        .simulate('change', event);
+      expect(wrapper.find('Article').props().handleInput).toBeDefined();
     });
   });
 

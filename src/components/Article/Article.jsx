@@ -542,7 +542,7 @@ export class Article extends Component {
               </div>
             </div>
             <div className="modal__actions">
-              <button className="button primary" onClick={this.onReportSubmit}>
+              <button className="button primary report-btn" onClick={this.onReportSubmit}>
                 Submit
               </button>
               <a href="#" className="button primary">
