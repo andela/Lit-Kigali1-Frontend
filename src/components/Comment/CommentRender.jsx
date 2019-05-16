@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import Textarea from 'react-textarea-autosize';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import Button from '../common/Button/Button';
@@ -22,6 +23,71 @@ export class CommentRender extends React.Component {
     fetchLikes(articleSlug, id);
     fetchDislikes(articleSlug, id);
   }
+
+  commentBox = () => {
+    const { isEdit } = this.state;
+    const {
+      comment, currentUser, onDeleteComment, articleSlug, originalComment,
+    } = this.props;
+    return (
+      <div key={comment.id} className="comment-box">
+        <div className="comment-header">
+          <Link className="author-name" to={`../profiles/${comment.author.username}`}>
+            <img
+              src={comment.author.image ? comment.author.image : avatar}
+              alt=""
+              className="profile-avatar"
+            />
+            {comment.author.username}
+          </Link>
+          {comment.userId === currentUser.id && (
+            <span className="control-btn">
+              <Button
+                classes="my-article-delete"
+                data-el="delete-btn"
+                onClick={() => onDeleteComment(comment.id, articleSlug)}
+              >
+                <i className="fa fa-trash" />
+              </Button>
+              <Button
+                data-el="edit-btn"
+                classes="my-comment-update"
+                onClick={() => this.onEditComment(comment.body)}
+              >
+                <i className="fa fa-edit" />
+              </Button>
+            </span>
+          )}
+        </div>
+        <div
+          onDoubleClick={() => comment.userId === currentUser.id && this.onEditComment(comment.body)
+          }
+          data-el="comment-container"
+        >
+          {isEdit ? this.commentForm(comment.body, comment.id) : comment.body}
+          <button
+            data-el="edited"
+            id="ed-btn"
+            className="comment-time tooltip"
+            onClick={() => this.onOriginalComment(articleSlug, comment.id)}
+          >
+            {comment.version === 'edited' && ` (${comment.version})`}
+            <span className="tooltip">
+              <h4>{originalComment.commentId === comment.id && originalComment.body}</h4>
+              {moment().fromNow()}
+            </span>
+          </button>
+        </div>
+        <span />
+        <div className="comment-time">{moment(comment.createdAt).fromNow()}</div>
+      </div>
+    );
+  };
+
+  onOriginalComment = (art, id) => {
+    const { onFetchHistory } = this.props;
+    onFetchHistory(art, id);
+  };
 
   commentForm = (id) => {
     const { updateComment, enterPress, updateBody } = this.props;
@@ -191,10 +257,13 @@ CommentRender.propTypes = {
   fetchDislikes: PropTypes.func.isRequired,
   onLikeComment: PropTypes.func.isRequired,
   onDislikeComment: PropTypes.func.isRequired,
+  onFetchHistory: PropTypes.func.isRequired,
+  originalComment: PropTypes.object.isRequired,
 };
 
-export const mapStateToProps = ({ comment: { updateBody } }) => ({
+export const mapStateToProps = ({ comment: { updateBody, originalComment } }) => ({
   updateBody,
+  originalComment,
 });
 
 export const mapDispatchToProps = dispatch => ({

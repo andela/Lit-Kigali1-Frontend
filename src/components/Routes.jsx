@@ -64,6 +64,7 @@ export const Routes = ({ isLoggedIn }) => (
     <Route exact path="/articles/:articleSlug/likes" component={Likes} />
     <Route exact path="/articles/:articleSlug/dislikes" component={Dislikes} />
     <Route exact path="/profile" component={ProfileEdit} />
+    <Route path="/error" component={ErrorPage} />
     <Route exact path="/my-articles" component={ArticlesCurrentUser} />
     <Route exact path="/articles/:articleSlug/edit" component={ArticleCreate} />
     <Route exact path="/notifications" component={NotificationView} />

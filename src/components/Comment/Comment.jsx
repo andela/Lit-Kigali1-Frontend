@@ -11,6 +11,7 @@ import {
   setUpdateCommentBody,
   commentLike,
   commentDislike,
+  fetchHistory,
 } from '../../redux/actions/commentAction';
 import CommentRender from './CommentRender';
 
@@ -36,6 +37,7 @@ export class Comment extends Component {
       fetching,
       onLikeComment,
       onDislikeComment,
+      onFetchHistory,
     } = this.props;
     if (!commentList.length && fetching) {
       return (
@@ -67,8 +69,26 @@ export class Comment extends Component {
         inputHandler={onUpdateCommentInput}
         onLikeComment={onLikeComment}
         onDislikeComment={onDislikeComment}
+        onFetchHistory={onFetchHistory}
       />
     ));
+  };
+
+  commentForm = () => {
+    const { body } = this.props;
+    return (
+      <form>
+        <Textarea
+          className="comment-textarea new"
+          placeholder="Add your comment..."
+          type="text"
+          value={body}
+          onChange={this.onChange}
+          onKeyDown={e => this.onEnterPress(e, this.addComment)}
+          data-el="comment-input"
+        />
+      </form>
+    );
   };
 
   onEnterPress = (e, func, id) => {
@@ -132,15 +152,12 @@ Comment.propTypes = {
   fetching: PropTypes.bool,
   onLikeComment: PropTypes.func.isRequired,
   onDislikeComment: PropTypes.func.isRequired,
+  onFetchHistory: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {
   currentUser: {},
   fetching: false,
-};
-
-Comment.defaultProps = {
-  currentUser: {},
 };
 
 export const mapStateToProps = ({
@@ -165,6 +182,7 @@ export const mapDispatchToProps = dispatch => ({
   onUpdateCommentInput: value => dispatch(setUpdateCommentBody(value)),
   onLikeComment: (articleSlug, commentId) => dispatch(commentLike(articleSlug, commentId)),
   onDislikeComment: (articleSlug, commentId) => dispatch(commentDislike(articleSlug, commentId)),
+  onFetchHistory: (articleSlug, id) => dispatch(fetchHistory(articleSlug, id)),
 });
 export default connect(
   mapStateToProps,

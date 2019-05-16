@@ -22,9 +22,8 @@ export class Home extends Component {
   };
 
   componentWillMount() {
-    const { location } = this.props;
+    const { getCurrentUser, location } = this.props;
     const parsed = queryString.parse(location.search);
-    const { getCurrentUser } = this.props;
 
     if (parsed.token) {
       localStorage.setItem('token', parsed.token);
@@ -133,7 +132,7 @@ export class Home extends Component {
         <div className="container">
           <div className="main-article-container row">{this.renderArticles()}</div>
         </div>
-        <a className="go-top-btn" href="#">
+        <a className="go-top-btn" href="##">
           <i className="fa fa-angle-up" />
         </a>
       </section>
@@ -163,6 +162,8 @@ Home.propTypes = {
   getArticles: PropTypes.func.isRequired,
   getRecommends: PropTypes.func.isRequired,
   history: PropTypes.object,
+  recommends: PropTypes.array,
+  isLoggedIn: PropTypes.bool,
 };
 
 Home.defaultProps = {
@@ -173,6 +174,7 @@ Home.defaultProps = {
   },
   history: {},
   recommends: [],
+  isLoggedIn: false,
 };
 
 export default connect(

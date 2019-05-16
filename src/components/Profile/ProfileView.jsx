@@ -102,11 +102,9 @@ export class ProfileView extends Component {
 
   onMoreArticles = () => {
     const { moreArticles } = this.state;
-    if (moreArticles) {
-      this.setState({ moreArticles: false });
-    } else {
-      this.setState({ moreArticles: true });
-    }
+    if (moreArticles) this.setState({ moreArticles: false });
+
+    this.setState({ moreArticles: true });
   };
 
   render() {

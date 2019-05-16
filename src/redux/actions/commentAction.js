@@ -19,6 +19,8 @@ import {
   FETCH_COMMENT_DISLIKES_FAILURE,
   COMMENT_LIKES_FAILURE,
   COMMENT_DISLIKES_FAILURE,
+  FETCH_COMMENT_HISTORY_FAILURE,
+  FETCH_COMMENT_HISTORY_SUCCESS,
 } from '../actions-types/commentTypes';
 import fetchAPI from '../../helpers/fetchAPI';
 
@@ -55,20 +57,27 @@ export const fetchingComments = () => ({
   type: FETCHING_COMMENTS,
 });
 
-export const fetchAllComments = articleSlug => (dispatch) => {
-  dispatch(fetchingComments());
-  return fetchAPI(`/articles/${articleSlug}/comments`, {
-    method: 'GET',
+export const fetchCommentHistorySuccess = payload => ({
+  type: FETCH_COMMENT_HISTORY_SUCCESS,
+  payload,
+});
+
+export const fetchCommentHistoryFailure = payload => ({
+  type: FETCH_COMMENT_HISTORY_FAILURE,
+  payload,
+});
+
+export const fetchAllComments = articleSlug => dispatch => fetchAPI(`/articles/${articleSlug}/comments`, {
+  method: 'GET',
+})
+  .then((data) => {
+    dispatch(fetchAllCommentSucess(data));
+    return data;
   })
-    .then((data) => {
-      dispatch(fetchAllCommentSucess(data));
-      return data;
-    })
-    .catch((err) => {
-      dispatch(fetchAllCommentFailure(err));
-      return err;
-    });
-};
+  .catch((err) => {
+    dispatch(fetchAllCommentFailure(err));
+    return err;
+  });
 
 export const submitComment = (body, articleSlug) => (dispatch) => {
   dispatch(submitCommentForm());
@@ -229,4 +238,15 @@ export const commentDislike = (articleSlug, commentId) => dispatch => fetchAPI(`
   })
   .catch((err) => {
     dispatch(commentDislikeFailure(err));
+  });
+export const fetchHistory = (articleSlug, commentId) => dispatch => fetchAPI(`/articles/${articleSlug}/comments/${commentId}/edited`, {
+  method: 'GET',
+})
+  .then((data) => {
+    dispatch(fetchCommentHistorySuccess(data));
+    return data;
+  })
+  .catch((err) => {
+    dispatch(fetchCommentHistoryFailure(err));
+    return err;
   });

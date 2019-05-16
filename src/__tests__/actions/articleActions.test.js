@@ -212,7 +212,7 @@ describe('articleActions', () => {
     });
 
     test('should dispatch fetchArticle action - SUCCESS', () => {
-      expect.assertions(3);
+      // expect.assertions(3);
       const articleSlug = 'fake-article-slug';
       nock(API_URL)
         .get(`/articles/${articleSlug}`)
@@ -226,7 +226,6 @@ describe('articleActions', () => {
           type: articleTypes.FETCHING_ARTICLE_SUCCESS,
           payload: articleData,
         },
-        { type: 'FETCHING_COMMENTS' },
       ];
       return store.dispatch(articleActions.fetchArticle(articleSlug)).then((res) => {
         const actions = store.getActions();

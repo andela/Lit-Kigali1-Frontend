@@ -85,6 +85,7 @@
     "deleting": false,
     "updating": false,
     "success": false,
-    "commentList": []
+    "commentList": [],
+    "originalComment": {}
   }
 }
