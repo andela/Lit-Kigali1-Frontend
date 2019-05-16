@@ -17,6 +17,9 @@ import {
   likeArticle,
   dislikeArticle,
   share,
+  reportArticle,
+  reportInputHandler,
+  setReportValidToFalse,
 } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
@@ -32,6 +35,7 @@ import {
 import addToolTip from '../../helpers/editorPlugins/displayToolTip';
 import getToolTip from '../../helpers/getToolTip';
 import addStyleHighlighter from '../../helpers/editorPlugins/addStyleHightlighter';
+import Toast from '../common/Toast/Toast';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
@@ -43,6 +47,12 @@ export class Article extends Component {
   decorator = new MultiDecorator([
     new CompositeDecorator(addStyleHighlighter.decorators),
   ]);
+
+  state = {
+    showToast: false,
+    status: 'success',
+    message: '',
+  };
 
   componentDidMount() {
     const {
@@ -64,6 +74,21 @@ export class Article extends Component {
       });
     }
   }
+
+  showToast = (status, message) => {
+    this.setState(
+      {
+        showToast: true,
+        status,
+        message,
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({ showToast: false, status: 'success', message: '' });
+        }, 5000);
+      },
+    );
+  };
 
   renderBody = () => {
     const {
@@ -290,20 +315,40 @@ export class Article extends Component {
     this.setState({
       isCommentingMode: true,
     });
+  handleInput = (e) => {
+    const { handleInput } = this.props;
+    handleInput({ field: e.target.name, value: e.target.value });
+  };
+
+  onReportSubmit = (e) => {
+    const {
+      report: { reason, description },
+      singleArticle: { slug },
+      onReportArticle,
+      onInvalid,
+    } = this.props;
+    if (reason) {
+      onReportArticle(slug, { reason, description }).then((res) => {
+        window.location.href = '#';
+        this.showToast('success', res.message);
+      });
+    } else {
+      onInvalid(false);
+    }
+
+    e.preventDefault();
   };
 
   render() {
     const {
-      singleArticle,
-      liked,
-      disliked,
-      likeCount,
-      dislikeCount,
-      history,
+      singleArticle, liked, disliked, likeCount, dislikeCount, history, report,
     } = this.props;
+    const { showToast, status, message } = this.state;
+
     return (
       <section className="main-content">
         <div className="container content-margin">
+          <Toast show={showToast} type={status} message={message} />
           <br />
           <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
@@ -459,6 +504,53 @@ export class Article extends Component {
         <button className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
         </button>
+        <div id="modal-report" className="modal">
+          <div className="modal__wrap">
+            <div className="modal__title content-center">
+              <i className="fa fa-file mr-5 gray-icon" />
+              Report:
+              {`  ${singleArticle.title}`}
+            </div>
+            <div className="modal__content content-center items-center">
+              <div className="report-form">
+                <div className="small-input">
+                  <div className="single-input">
+                    <select
+                      style={!report.valid ? { color: 'red' } : { color: '#c4c4c4' }}
+                      name="reason"
+                      id="reason"
+                      onChange={this.handleInput}
+                    >
+                      <option value="">Select Reason</option>
+                      <option value="Plagiarism">Plagiarism</option>
+                      <option value="Harassment">Harassment</option>
+                      <option value="Rules Violation">Rules Violation</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="small-input">
+                  <div className="single-input">
+                    <textarea
+                      name="description"
+                      type="text"
+                      className="large-input"
+                      placeholder=" Description"
+                      onChange={this.handleInput}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal__actions">
+              <button className="button primary" onClick={this.onReportSubmit}>
+                Submit
+              </button>
+              <a href="#" className="button primary">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
@@ -466,13 +558,7 @@ export class Article extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading,
-    singleArticle,
-    submitting,
-    liked,
-    disliked,
-    likeCount,
-    dislikeCount,
+    loading, singleArticle, submitting, liked, disliked, likeCount, dislikeCount, report,
   },
   currentUser: { profile, rating, isLoggedIn },
   comment: {
@@ -490,6 +576,7 @@ export const mapStateToProps = ({
   currentUser: profile,
   isLoggedIn,
   highlightArticle,
+  report,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -500,6 +587,9 @@ export const mapDispatchToProps = dispatch => ({
   onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
   nextPath: url => dispatch(setNextPath(url)),
   onHighlight: text => dispatch(setHiglightedText(text)),
+  handleInput: ({ field, value }) => dispatch(reportInputHandler({ field, value })),
+  onReportArticle: (articleSlug, { reason, description }) => dispatch(reportArticle(articleSlug, { reason, description })),
+  onInvalid: value => dispatch(setReportValidToFalse(value)),
 });
 
 Article.propTypes = {
@@ -519,6 +609,10 @@ Article.propTypes = {
   nextPath: PropTypes.func.isRequired,
   article: PropTypes.object,
   onHighlight: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  report: PropTypes.object,
+  onReportArticle: PropTypes.func.isRequired,
+  onInvalid: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
@@ -533,6 +627,9 @@ Article.defaultProps = {
     },
   },
   history: { push: () => '' },
+  report: {
+    valid: true,
+  },
 };
 
 export default connect(
