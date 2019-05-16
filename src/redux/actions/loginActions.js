@@ -10,7 +10,7 @@ import {
   SOCIAL_AUTH_SUCCESS,
 } from '../actions-types';
 
-import { setCurrentUser, fetchNotifications } from './currentUserActions';
+import { setCurrentUser } from './currentUserActions';
 
 const API_URL = 'http://localhost:3000/api/v1';
 
