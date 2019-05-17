@@ -36,6 +36,7 @@ module.exports = {
       status: 'enabled',
       message: '',
     },
+    readingStat: 0,
   },
   signUp: {
     submitting: false,

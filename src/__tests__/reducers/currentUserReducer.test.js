@@ -15,6 +15,8 @@ import {
   SET_NOTIFICATION,
   UPDATE_NOTIFICATION_FAILURE,
   UPDATE_NOTIFICATION_SUCCESS,
+  FETCH_READING_STATISICS_SUCCESS,
+  FETCH_READING_STATISICS_FAILURE,
 } from '../../redux/actions-types/currentUserTypes';
 import { signupUser } from '../../__mocks__/dummyData';
 import store from '../../redux/store';
@@ -184,5 +186,24 @@ describe('currentUserReducer', () => {
       loading: false,
     };
     expect(reducer({}, expectedState)).toEqual({ loading: false });
+  });
+
+  it('should handle `FETCH_READING_STATISICS_SUCCESS`', () => {
+    const expectedState = {
+      type: FETCH_READING_STATISICS_SUCCESS,
+      payload: 34,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      readingStat: expectedState.payload,
+    });
+  });
+
+  it('should handle `FETCH_READING_STATISICS_SUCCESS`', () => {
+    const expectedState = {
+      type: FETCH_READING_STATISICS_FAILURE,
+    };
+    expect(reducer({}, expectedState)).toEqual({
+      success: false,
+    });
   });
 });

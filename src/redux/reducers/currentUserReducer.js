@@ -94,6 +94,16 @@ const currentUserReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: false,
       };
+    case types.FETCH_READING_STATISICS_SUCCESS:
+      return {
+        ...state,
+        readingStat: payload,
+      };
+    case types.FETCH_READING_STATISICS_FAILURE:
+      return {
+        ...state,
+        success: false,
+      };
     default:
       return state;
   }

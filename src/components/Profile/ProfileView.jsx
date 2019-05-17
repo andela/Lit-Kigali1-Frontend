@@ -110,19 +110,30 @@ export class ProfileView extends Component {
   };
 
   render() {
-    const { profile, loading } = this.props;
+    const {
+      profile,
+      loading,
+      readingStat,
+      currentUser,
+    } = this.props;
     const { moreArticles } = this.state;
     if (loading) return <div />;
     return (
       <section className="main-content content-margin">
         <div className="container">
           <div className="profile-view">
-            <div className="profile-cover" style={{ backgroundImage: `url("${defaultCover}")` }}>
+            <div
+              className="profile-cover"
+              style={{ backgroundImage: `url("${defaultCover}")` }}
+            >
               <div className="profile-avatar-wrapper">
-                <img src={profile.image || userAvatar} className="profile-avatar" alt="" />
+                <img
+                  src={profile.image || userAvatar}
+                  className="profile-avatar"
+                  alt=""
+                />
                 <p>
                   {profile.firstName}
-                  {' '}
                   {profile.lastName}
                 </p>
               </div>
@@ -132,24 +143,42 @@ export class ProfileView extends Component {
                 <div className="profile-meta">
                   <div>
                     <span className="profile-meta__text">Followers</span>
-                    <span className="profile-meta__count">{profile.followers}</span>
+                    <span className="profile-meta__count">
+                      {profile.followers}
+                    </span>
                   </div>
                   <div>
                     <span className="profile-meta__text">Following</span>
-                    <span className="profile-meta__count">{profile.followees}</span>
+                    <span className="profile-meta__count">
+                      {profile.followees}
+                    </span>
                   </div>
                   <div>
                     <span className="profile-meta__text">Articles</span>
-                    <span className="profile-meta__count">{profile.articles.length}</span>
+                    <span className="profile-meta__count">
+                      {profile.articles.length}
+                    </span>
                   </div>
+                  {currentUser.username === profile.username && (
+                    <div>
+                      <span className="profile-meta__text">Read</span>
+                      <span className="profile-meta__count">
+                        {readingStat}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="col-3 content-right">{this.renderUserAction()}</div>
-
-              <div className="profile-bio">
-                {profile.bio ? <div className="bio-header">Bio:</div> : ''}
-                {profile.bio ? <div className="bio-text">{profile.bio}</div> : ''}
+              <div className="col-3 content-right">
+                {this.renderUserAction()}
               </div>
+
+              {profile.bio && (
+              <div className="profile-bio">
+                <div className="bio-header">Bio:</div>
+                <div className="bio-text">{profile.bio}</div>
+              </div>
+              )}
             </div>
             <div className="row content-margin">
               <div className="col-1" />
@@ -157,7 +186,10 @@ export class ProfileView extends Component {
                 <h3 className="profile-meta__text">ARTICLES</h3>
                 {this.renderArticles()}
                 <div className="col-12 content-right">
-                  <Button classes="transparent title-3 moreArticles" onClick={this.onMoreArticles}>
+                  <Button
+                    classes="transparent title-3 moreArticles"
+                    onClick={this.onMoreArticles}
+                  >
                     {moreArticles ? 'Less Articles...' : 'More Articles...'}
                   </Button>
                 </div>
@@ -179,6 +211,7 @@ ProfileView.propTypes = {
   match: PropTypes.any,
   onFollowUser: PropTypes.func.isRequired,
   history: PropTypes.object,
+  readingStat: PropTypes.number,
 };
 
 ProfileView.defaultProps = {
@@ -186,6 +219,7 @@ ProfileView.defaultProps = {
   loading: true,
   following: false,
   history: {},
+  readingStat: 0,
 };
 
 export const mapStateToProps = ({ user: { profile, loading }, currentUser }) => ({
@@ -193,6 +227,7 @@ export const mapStateToProps = ({ user: { profile, loading }, currentUser }) => 
   profile,
   following: currentUser.following,
   currentUser: currentUser.profile,
+  readingStat: currentUser.readingStat,
 });
 
 export const mapDispatchToProps = dispatch => ({
