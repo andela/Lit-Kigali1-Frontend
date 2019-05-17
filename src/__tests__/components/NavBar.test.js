@@ -80,7 +80,7 @@ describe('<NavBar />', () => {
   describe('Logout`', () => {
     test('mocks and calls window.location.reload', () => {
       global.window = Object.create(window);
-      const url = '/auth';
+      const url = '/';
       Object.defineProperty(window, 'location', {
         value: {
           href: url,

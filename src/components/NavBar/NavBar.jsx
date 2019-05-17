@@ -32,7 +32,7 @@ export class NavBar extends Component {
 
   onLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/auth';
+    window.location.href = '/';
   };
 
   renderLinks = (parentClass) => {
