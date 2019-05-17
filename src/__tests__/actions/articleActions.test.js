@@ -579,5 +579,20 @@ describe('articleActions', () => {
         expect(actions[1].type).toEqual(articleTypes.SUBMIT_ARTICLE_FORM_FAILURE);
       });
     });
+
+    test('should report an article', () => {
+      const articleSlug = 'article-slug';
+      const report = {
+        reason: 'reason',
+        description: 'description',
+      };
+      nock(API_URL)
+        .post(`/articles/${articleSlug}/report`)
+        .reply(201, { status: 201, message: 'Article reported successfully' });
+
+      return store.dispatch(articleActions.reportArticle(articleSlug, report)).then((res) => {
+        expect(res.status).toBe(201);
+      });
+    });
   });
 });

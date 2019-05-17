@@ -241,7 +241,7 @@ export const updateArticle = (slug, article) => (dispatch) => {
       article,
     },
   })
-  .then((data) => {
+    .then((data) => {
       dispatch(submitArticleFormSuccess(data));
       dispatch(fetchArticle(data.article.slug));
       return data;
@@ -295,3 +295,20 @@ export const fetchRecommendedArticle = () => dispatch => fetchAPI('/articles/fee
     dispatch(fetchingRecommendedAllArticleFailure(err.message));
     return err;
   });
+
+export const reportArticle = (articleSlug, report) => () => fetchAPI(`/articles/${articleSlug}/report`, {
+  method: 'POST',
+  body: { report },
+})
+  .then(data => data)
+  .catch(err => err);
+
+export const reportInputHandler = payload => ({
+  type: articleTypes.REPORT_INPUT,
+  payload,
+});
+
+export const setReportValidToFalse = payload => ({
+  type: articleTypes.REPORT_INPUT_INVALID,
+  payload,
+});

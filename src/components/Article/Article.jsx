@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import {
-  EditorState,
-  convertFromRaw,
-  CompositeDecorator,
-  RichUtils,
+  EditorState, convertFromRaw, CompositeDecorator, RichUtils,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import ContentLoader from 'react-content-loader';
@@ -17,32 +14,32 @@ import {
   likeArticle,
   dislikeArticle,
   share,
+  reportArticle,
+  reportInputHandler,
+  setReportValidToFalse,
 } from '../../redux/actions/articleActions';
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
-import {
-  onUserRateArticle,
-  setNextPath,
-} from '../../redux/actions/currentUserActions';
+import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
 import Comment from '../Comment/Comment';
-import {
-  setHiglightedText,
-} from '../../redux/actions/commentAction';
+import { setHiglightedText } from '../../redux/actions/commentAction';
 import addToolTip from '../../helpers/editorPlugins/displayToolTip';
 import getToolTip from '../../helpers/getToolTip';
 import addStyleHighlighter from '../../helpers/editorPlugins/addStyleHightlighter';
+import Toast from '../common/Toast/Toast';
 
 const highlightPlugin = createHighlightPlugin();
 export class Article extends Component {
   state = {
     editorFromState: {},
     isCommentingMode: false,
+    showToast: false,
+    status: 'success',
+    message: '',
   };
 
-  decorator = new MultiDecorator([
-    new CompositeDecorator(addStyleHighlighter.decorators),
-  ]);
+  decorator = new MultiDecorator([new CompositeDecorator(addStyleHighlighter.decorators)]);
 
   componentDidMount() {
     const {
@@ -54,10 +51,7 @@ export class Article extends Component {
     if (articleSlug) {
       getArticle(articleSlug).then(({ article }) => {
         const editorObject = convertFromRaw(JSON.parse(article.body));
-        const editorState = EditorState.createWithContent(
-          editorObject,
-          this.decorator,
-        );
+        const editorState = EditorState.createWithContent(editorObject, this.decorator);
         this.setState({
           editorFromState: editorState,
         });
@@ -65,16 +59,27 @@ export class Article extends Component {
     }
   }
 
+  showToast = (status, message) => {
+    this.setState(
+      {
+        showToast: true,
+        status,
+        message,
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({ showToast: false, status: 'success', message: '' });
+        }, 5000);
+      },
+    );
+  };
+
   renderBody = () => {
     const {
       singleArticle: { body },
     } = this.props;
     const { editorFromState, isCommentingMode } = this.state;
-    if (
-      body
-      && body.blocks
-      && Object.getOwnPropertyNames(editorFromState).length
-    ) {
+    if (body && body.blocks && Object.getOwnPropertyNames(editorFromState).length) {
       return (
         <Editor
           className="article-text"
@@ -292,18 +297,40 @@ export class Article extends Component {
     });
   };
 
+  handleInput = (e) => {
+    const { handleInput } = this.props;
+    handleInput({ field: e.target.name, value: e.target.value });
+  };
+
+  onReportSubmit = (e) => {
+    const {
+      report: { reason, description },
+      singleArticle: { slug },
+      onReportArticle,
+      onInvalid,
+    } = this.props;
+    if (reason) {
+      onReportArticle(slug, { reason, description }).then((res) => {
+        window.location.href = '#';
+        this.showToast('success', res.message);
+      });
+    } else {
+      onInvalid(false);
+    }
+
+    e.preventDefault();
+  };
+
   render() {
     const {
-      singleArticle,
-      liked,
-      disliked,
-      likeCount,
-      dislikeCount,
-      history,
+      singleArticle, liked, disliked, likeCount, dislikeCount, history, report,
     } = this.props;
+    const { showToast, status, message } = this.state;
+
     return (
       <section className="main-content">
         <div className="container content-margin">
+          <Toast show={showToast} type={status} message={message} />
           <br />
           <h1 className="article-view-title">{singleArticle.title}</h1>
           <div className="row">
@@ -325,11 +352,7 @@ export class Article extends Component {
                     onClick={this.navigateToRatings}
                   >
                     {singleArticle.rating}
-                    <i
-                      className={`fa fa-star${
-                        singleArticle.rated ? '' : '-o'
-                      } ml-5`}
-                    />
+                    <i className={`fa fa-star${singleArticle.rated ? '' : '-o'} ml-5`} />
                   </span>
                   <span className="article-icon-right margin-top">
                     <span
@@ -345,11 +368,7 @@ export class Article extends Component {
                       data-value="like"
                       onClick={this.onLikeArticleClicked}
                     >
-                      <i
-                        className={`fa fa-thumbs-${
-                          liked ? '' : 'o-'
-                        }up article-icon-right`}
-                      />
+                      <i className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`} />
                     </button>
                   </span>
                   <span className="article-icon-right margin-top">
@@ -367,9 +386,7 @@ export class Article extends Component {
                       onClick={this.onDislikeArticleClicked}
                     >
                       <i
-                        className={`fa fa-thumbs-${
-                          disliked ? '' : 'o-'
-                        }down article-icon-right`}
+                        className={`fa fa-thumbs-${disliked ? '' : 'o-'}down article-icon-right`}
                       />
                     </button>
                   </span>
@@ -387,20 +404,14 @@ export class Article extends Component {
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('facebook')}
                   >
-                    <i
-                      className="fa fa-facebook-square"
-                      title="Share via Facebook"
-                    />
+                    <i className="fa fa-facebook-square" title="Share via Facebook" />
                   </button>
                   <button
                     id="tw"
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('twitter')}
                   >
-                    <i
-                      className="fa fa-twitter-square"
-                      title="Share via Twitter"
-                    />
+                    <i className="fa fa-twitter-square" title="Share via Twitter" />
                   </button>
                   <button
                     id="e"
@@ -459,6 +470,53 @@ export class Article extends Component {
         <button className="go-top-btn" href="">
           <i className="fa fa-angle-up" />
         </button>
+        <div id="modal-report" className="modal">
+          <div className="modal__wrap">
+            <div className="modal__title content-center">
+              <i className="fa fa-file mr-5 gray-icon" />
+              Report:
+              {`  ${singleArticle.title}`}
+            </div>
+            <div className="modal__content content-center items-center">
+              <div className="report-form">
+                <div className="small-input">
+                  <div className="single-input">
+                    <select
+                      style={!report.valid ? { color: 'red' } : { color: '#c4c4c4' }}
+                      name="reason"
+                      id="reason"
+                      onChange={this.handleInput}
+                    >
+                      <option value="">Select Reason</option>
+                      <option value="Plagiarism">Plagiarism</option>
+                      <option value="Harassment">Harassment</option>
+                      <option value="Rules Violation">Rules Violation</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="small-input">
+                  <div className="single-input">
+                    <textarea
+                      name="description"
+                      type="text"
+                      className="large-input"
+                      placeholder=" Description"
+                      onChange={this.handleInput}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal__actions">
+              <button className="button primary report-btn" onClick={this.onReportSubmit}>
+                Submit
+              </button>
+              <a href="#" className="button primary">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
@@ -466,18 +524,10 @@ export class Article extends Component {
 
 export const mapStateToProps = ({
   article: {
-    loading,
-    singleArticle,
-    submitting,
-    liked,
-    disliked,
-    likeCount,
-    dislikeCount,
+    loading, singleArticle, submitting, liked, disliked, likeCount, dislikeCount, report,
   },
   currentUser: { profile, rating, isLoggedIn },
-  comment: {
-    highlightArticle,
-  },
+  comment: { highlightArticle },
 }) => ({
   loading,
   rating,
@@ -490,6 +540,7 @@ export const mapStateToProps = ({
   currentUser: profile,
   isLoggedIn,
   highlightArticle,
+  report,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -500,6 +551,9 @@ export const mapDispatchToProps = dispatch => ({
   onDislikeArticle: articleSlug => dispatch(dislikeArticle(articleSlug)),
   nextPath: url => dispatch(setNextPath(url)),
   onHighlight: text => dispatch(setHiglightedText(text)),
+  handleInput: ({ field, value }) => dispatch(reportInputHandler({ field, value })),
+  onReportArticle: (articleSlug, { reason, description }) => dispatch(reportArticle(articleSlug, { reason, description })),
+  onInvalid: value => dispatch(setReportValidToFalse(value)),
 });
 
 Article.propTypes = {
@@ -519,6 +573,10 @@ Article.propTypes = {
   nextPath: PropTypes.func.isRequired,
   article: PropTypes.object,
   onHighlight: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  report: PropTypes.object,
+  onReportArticle: PropTypes.func.isRequired,
+  onInvalid: PropTypes.func.isRequired,
 };
 
 Article.defaultProps = {
@@ -529,10 +587,12 @@ Article.defaultProps = {
   dislikeCount: 0,
   article: {},
   match: {
-    params: {
-    },
+    params: {},
   },
   history: { push: () => '' },
+  report: {
+    valid: true,
+  },
 };
 
 export default connect(

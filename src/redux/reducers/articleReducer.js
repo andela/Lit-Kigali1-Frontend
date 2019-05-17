@@ -200,6 +200,23 @@ const articleReducer = (state = initialState, { type, payload }) => {
         ...state,
         recommends: [],
       };
+    case articleTypes.REPORT_INPUT:
+      return {
+        ...state,
+        report: {
+          ...state.report,
+          [payload.field]: payload.value,
+          valid: true,
+        },
+      };
+    case articleTypes.REPORT_INPUT_INVALID:
+      return {
+        ...state,
+        report: {
+          ...state.report,
+          valid: false,
+        },
+      };
     default:
       return state;
   }
