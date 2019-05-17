@@ -30,6 +30,11 @@ export class NavBar extends Component {
     });
   };
 
+  onLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  };
+
   renderLinks = (parentClass) => {
     const { username } = this.props;
     return (
@@ -46,6 +51,9 @@ export class NavBar extends Component {
         <li>
           <Link to={`/profiles/${username}`}>My Profile</Link>
         </li>
+        <li>
+          <Link to="/notifications">Notifications</Link>
+        </li>
         <li className="separator" />
         <li>
           <Link to="/settings">Settings</Link>
@@ -54,7 +62,9 @@ export class NavBar extends Component {
           <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
-          <Button classes="transparent signout-btn">Sign out</Button>
+          <Button classes="transparent signout-btn" id="signouBtn" onClick={this.onLogout}>
+            Sign out
+          </Button>
         </li>
       </ul>
     );
@@ -71,10 +81,16 @@ export class NavBar extends Component {
           </Link>
         </div>
         <div className="col-9-mob content-right color-white">
-          <div className="toggle-menu is-tablet">
-            <button className={`hamburger ${showMenu ? 'active' : ''}`} onClick={this.showMenu} />
-            <div className={`hamburger-nav ${showMenu ? 'active' : ''}`}>{this.renderLinks()}</div>
-          </div>
+          {isLoggedIn ? (
+            <div className="toggle-menu is-tablet">
+              <button className={`hamburger ${showMenu ? 'active' : ''}`} onClick={this.showMenu} />
+              <div className={`hamburger-nav ${showMenu ? 'active' : ''}`}>
+                {this.renderLinks()}
+              </div>
+            </div>
+          ) : (
+            ''
+          )}
           {isLoggedIn ? (
             <button className="nav-button navbar-dropdown is-desktop color-white">
               <i className="fa fa-bell fa-2x" aria-hidden="true" />
@@ -86,16 +102,18 @@ export class NavBar extends Component {
           ) : (
             ''
           )}
-          <div className="nav-button navbar-dropdown is-desktop color-white">
-            <Button onClick={this.showMenu} classes="transparent">
-              {isLoggedIn ? (
+          {isLoggedIn ? (
+            <div className="nav-button navbar-dropdown is-desktop color-white">
+              <Button onClick={this.showMenu} classes="transparent">
                 <img src={image || userAvatar} className="top-navbar__avatar" alt="User logo" />
-              ) : (
-                ''
-              )}
-            </Button>
-            {this.renderLinks('dropdown')}
-          </div>
+              </Button>
+              {this.renderLinks('dropdown')}
+            </div>
+          ) : (
+            <Link to="/auth" className="color-white">
+              Login
+            </Link>
+          )}
         </div>
       </nav>
     );
