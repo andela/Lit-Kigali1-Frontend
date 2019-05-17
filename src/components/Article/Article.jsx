@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import {
-  EditorState,
-  convertFromRaw,
-  CompositeDecorator,
-  RichUtils,
+  EditorState, convertFromRaw, CompositeDecorator, RichUtils,
 } from 'draft-js';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import ContentLoader from 'react-content-loader';
@@ -24,14 +21,9 @@ import {
 import { mediaBlockRenderer } from '../../helpers/editorPlugins/mediaBlockRenderer';
 import addLinkPlugin from '../../helpers/editorPlugins/addLink';
 import createHighlightPlugin from '../../helpers/editorPlugins/highlight';
-import {
-  onUserRateArticle,
-  setNextPath,
-} from '../../redux/actions/currentUserActions';
+import { onUserRateArticle, setNextPath } from '../../redux/actions/currentUserActions';
 import Comment from '../Comment/Comment';
-import {
-  setHiglightedText,
-} from '../../redux/actions/commentAction';
+import { setHiglightedText } from '../../redux/actions/commentAction';
 import addToolTip from '../../helpers/editorPlugins/displayToolTip';
 import getToolTip from '../../helpers/getToolTip';
 import addStyleHighlighter from '../../helpers/editorPlugins/addStyleHightlighter';
@@ -42,17 +34,12 @@ export class Article extends Component {
   state = {
     editorFromState: {},
     isCommentingMode: false,
-  };
-
-  decorator = new MultiDecorator([
-    new CompositeDecorator(addStyleHighlighter.decorators),
-  ]);
-
-  state = {
     showToast: false,
     status: 'success',
     message: '',
   };
+
+  decorator = new MultiDecorator([new CompositeDecorator(addStyleHighlighter.decorators)]);
 
   componentDidMount() {
     const {
@@ -64,10 +51,7 @@ export class Article extends Component {
     if (articleSlug) {
       getArticle(articleSlug).then(({ article }) => {
         const editorObject = convertFromRaw(JSON.parse(article.body));
-        const editorState = EditorState.createWithContent(
-          editorObject,
-          this.decorator,
-        );
+        const editorState = EditorState.createWithContent(editorObject, this.decorator);
         this.setState({
           editorFromState: editorState,
         });
@@ -95,11 +79,7 @@ export class Article extends Component {
       singleArticle: { body },
     } = this.props;
     const { editorFromState, isCommentingMode } = this.state;
-    if (
-      body
-      && body.blocks
-      && Object.getOwnPropertyNames(editorFromState).length
-    ) {
+    if (body && body.blocks && Object.getOwnPropertyNames(editorFromState).length) {
       return (
         <Editor
           className="article-text"
@@ -315,6 +295,8 @@ export class Article extends Component {
     this.setState({
       isCommentingMode: true,
     });
+  };
+
   handleInput = (e) => {
     const { handleInput } = this.props;
     handleInput({ field: e.target.name, value: e.target.value });
@@ -370,11 +352,7 @@ export class Article extends Component {
                     onClick={this.navigateToRatings}
                   >
                     {singleArticle.rating}
-                    <i
-                      className={`fa fa-star${
-                        singleArticle.rated ? '' : '-o'
-                      } ml-5`}
-                    />
+                    <i className={`fa fa-star${singleArticle.rated ? '' : '-o'} ml-5`} />
                   </span>
                   <span className="article-icon-right margin-top">
                     <span
@@ -390,11 +368,7 @@ export class Article extends Component {
                       data-value="like"
                       onClick={this.onLikeArticleClicked}
                     >
-                      <i
-                        className={`fa fa-thumbs-${
-                          liked ? '' : 'o-'
-                        }up article-icon-right`}
-                      />
+                      <i className={`fa fa-thumbs-${liked ? '' : 'o-'}up article-icon-right`} />
                     </button>
                   </span>
                   <span className="article-icon-right margin-top">
@@ -412,9 +386,7 @@ export class Article extends Component {
                       onClick={this.onDislikeArticleClicked}
                     >
                       <i
-                        className={`fa fa-thumbs-${
-                          disliked ? '' : 'o-'
-                        }down article-icon-right`}
+                        className={`fa fa-thumbs-${disliked ? '' : 'o-'}down article-icon-right`}
                       />
                     </button>
                   </span>
@@ -432,20 +404,14 @@ export class Article extends Component {
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('facebook')}
                   >
-                    <i
-                      className="fa fa-facebook-square"
-                      title="Share via Facebook"
-                    />
+                    <i className="fa fa-facebook-square" title="Share via Facebook" />
                   </button>
                   <button
                     id="tw"
                     className="article-icon hover-primary"
                     onClick={() => this.SocialShare('twitter')}
                   >
-                    <i
-                      className="fa fa-twitter-square"
-                      title="Share via Twitter"
-                    />
+                    <i className="fa fa-twitter-square" title="Share via Twitter" />
                   </button>
                   <button
                     id="e"
@@ -561,9 +527,7 @@ export const mapStateToProps = ({
     loading, singleArticle, submitting, liked, disliked, likeCount, dislikeCount, report,
   },
   currentUser: { profile, rating, isLoggedIn },
-  comment: {
-    highlightArticle,
-  },
+  comment: { highlightArticle },
 }) => ({
   loading,
   rating,
@@ -623,8 +587,7 @@ Article.defaultProps = {
   dislikeCount: 0,
   article: {},
   match: {
-    params: {
-    },
+    params: {},
   },
   history: { push: () => '' },
   report: {

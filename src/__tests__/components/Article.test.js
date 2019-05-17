@@ -3,11 +3,12 @@ import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import {
-  EditorState,
-  convertFromRaw,
-} from 'draft-js';
-import Article, { mapStateToProps, mapDispatchToProps, Article as NonReduxArticle } from '../../components/Article/Article';
+import { EditorState, convertFromRaw } from 'draft-js';
+import Article, {
+  mapStateToProps,
+  mapDispatchToProps,
+  Article as NonReduxArticle,
+} from '../../components/Article/Article';
 import { articleDataDraft } from '../../__mocks__/dummyData';
 import initialState from '../../redux/initialState.json';
 
@@ -22,12 +23,10 @@ const props = {
       articleSlug: slug,
     },
   },
-  getArticle: jest
-    .fn()
-    .mockImplementation(() => Promise.resolve({
-      status: 200,
-      article: { body: articleDataDraft.body },
-    })),
+  getArticle: jest.fn().mockImplementation(() => Promise.resolve({
+    status: 200,
+    article: { body: articleDataDraft.body },
+  })),
   rateArticle: jest.fn(),
   onShare: jest.fn(),
   onLikeArticle: jest.fn(),
@@ -38,6 +37,9 @@ const props = {
   singleArticle: {
     tagList: [],
   },
+  handleInput: jest.fn(),
+  onReportArticle: jest.fn(),
+  onInvalid: jest.fn(),
 };
 
 describe('<Article />', () => {
@@ -493,6 +495,23 @@ describe('<Article />', () => {
       const { renderBody } = wrapper.find('Article').instance();
       const res = renderBody();
       expect(res.props['data-test']).toEqual('article-text');
+    });
+
+    test('should render showToaster', (done) => {
+      jest.useFakeTimers();
+      const state = initialState;
+      store = mockStore(state);
+      wrapper = mount(
+        <Provider store={store}>
+          <Article />
+        </Provider>,
+      );
+      wrapper
+        .find('Article')
+        .instance()
+        .showToast();
+      jest.runAllTimers();
+      done();
     });
   });
 });
